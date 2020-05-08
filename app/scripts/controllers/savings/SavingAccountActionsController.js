@@ -20,6 +20,9 @@
             var submitStatus = [];
            scope.holdAmount = false;
            scope.showReasonForBlock = false;
+           scope.showReasonForBlockDebitCredit = false;
+           scope.blockNarrationTypes = [];
+           scope.transactionsPerPage = 15;
 
             rootScope.RequestEntities = function(entity,status,productId){
                 resourceFactory.entityDatatableChecksResource.getAll({limit:-1},function (response) {
@@ -252,10 +255,14 @@
                     break;
                 case "freeze":
                 scope.showBlock = true;
-                scope.showReasonForBlock = true;
+                scope.showReasonForBlockDebitCredit = true;
                 resourceFactory.savingsResource.get({accountId: routeParams.id, associations: 'all'
                                        }, function (data) {
                  scope.savingsDetails = data;
+                 scope.blockNarrationTypes = data.blockNarrationOptions;
+                 scope.blockNarration = data.blockNarration;
+                 scope.blockNarrationHistoryData = data.blockNarrationHistoryData;
+                 scope.showPNDHistory = data.blockNarrationHistoryData != null;
                  console.log(data);
                     if(!data.subStatus.block){
                      if(data.subStatus.blockDebit ){
@@ -507,31 +514,39 @@
                 if(scope.action == "freeze"){
                      if (permission == "BLOCKDEBIT_SAVINGSACCOUNT") {
                                 console.log(permission, "1");
-                                  var reasonForBlock = this.formData.reasonForBlock;
-                                  this.formData = {}
-                                  this.formData.reasonForBlock = reasonForBlock
+                                  this.formData = {
+                                    narrationId: this.formData.narrationId,
+                                    reasonForBlock : this.formData.reasonForBlock,
+                                    pndComment : this.formData.reasonForBlock
+                                  }
                                   scope.action = "blockDebit";
                        }
                      if (permission == "UNBLOCKDEBIT_SAVINGSACCOUNT"){
                       console.log(permission, "2");
-                                      var reasonForBlock = this.formData.reasonForBlock;
-                                                                        this.formData = {}
-                                                                        this.formData.reasonForBlock = reasonForBlock
+                                      this.formData = {
+                                        narrationId: this.formData.narrationId,
+                                        reasonForBlock : this.formData.reasonForBlock,
+                                        pndComment : this.formData.reasonForBlock
+                                      }
                                       scope.action = "unblockDebit";
                      }
                      if (permission == "BLOCKCREDIT_SAVINGSACCOUNT") {
                       console.log(permission, "3");
-                                                       var reasonForBlock = this.formData.reasonForBlock;
-                                                                                         this.formData = {}
-                                                                                         this.formData.reasonForBlock = reasonForBlock
-                                                       scope.action = "blockCredit";
-                                            }
+                                       this.formData = {
+                                          narrationId: this.formData.narrationId,
+                                          reasonForBlock : this.formData.reasonForBlock,
+                                          pndComment : this.formData.reasonForBlock
+                                       }
+                                        scope.action = "blockCredit";
+                      }
                      if (permission == "UNBLOCKCREDIT_SAVINGSACCOUNT"){
                       console.log(permission, "4");
-                                                           var reasonForBlock = this.formData.reasonForBlock;
-                                                                                             this.formData = {}
-                                                                                             this.formData.reasonForBlock = reasonForBlock
-                                                           scope.action = "unblockCredit";
+                                         this.formData = {
+                                            narrationId: this.formData.narrationId,
+                                            reasonForBlock : this.formData.reasonForBlock,
+                                            pndComment : this.formData.reasonForBlock
+                                         }
+                                         scope.action = "unblockCredit";
                      }
 
 
@@ -539,8 +554,7 @@
                 var params = {command: scope.action, accountId : scope.accountId};
 
                  resourceFactory.savingsResource.save(params, this.formData, function (data) {
-                 console.log(data);
-                                        location.path('/viewsavingaccount/' + data.savingsId);
+                    location.path('/viewsavingaccount/' + data.savingsId);
                  });
            }
 
