@@ -18,6 +18,7 @@
             scope.tf = "HH:mm";
             var submitStatus = [];
            scope.holdAmount = false;
+           scope.showReasonForBlock = false;
 
             rootScope.RequestEntities = function(entity,status,productId){
                 resourceFactory.entityDatatableChecksResource.getAll({limit:-1},function (response) {
@@ -334,6 +335,7 @@
                        scope.modelName = 'transactionDate';
                        scope.showDateField = true;
                        scope.showNoteField = false;
+                       scope.showReasonForBlock = true;
                        scope.isTransaction = true;
                        scope.transactionAmountField = true;
                        scope.showPaymentDetails = false;
@@ -374,6 +376,12 @@
                             this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
                         }
                         this.formData.isPostInterestAsOn=true;
+                    }
+                    if (scope.action == "holdAmount") {
+                        this.formData.remarks = this.formData.note;
+                        if (this.formData.transactionDate) {
+                            this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
+                        }
                     }
                     params.savingsId = scope.accountId;
 

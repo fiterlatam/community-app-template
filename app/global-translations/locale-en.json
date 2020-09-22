@@ -4337,6 +4337,7 @@
   "label.button.holdAmount": "Hold Amount",
   "label.heading.holdamountsavingaccount": "Hold Amount Saving Account",
   "label.button.releaseamount": "Release Amount",
+  "label.input.reasonForBlock" : "Reason For Block",
 
   "----End---": "--End of file--- "
 }
