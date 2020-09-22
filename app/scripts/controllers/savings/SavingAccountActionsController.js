@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        SavingAccountActionsController: function (scope, rootScope, resourceFactory, location, routeParams, dateFilter) {
+        SavingAccountActionsController: function (scope, rootScope, resourceFactory, location, routeParams, dateFilter, $timeout) {
 
             scope.action = routeParams.action || "";
             scope.accountId = routeParams.id;
@@ -17,6 +17,7 @@
             scope.submittedDatatables = [];
             scope.tf = "HH:mm";
             var submitStatus = [];
+           scope.holdAmount = false;
 
             rootScope.RequestEntities = function(entity,status,productId){
                 resourceFactory.entityDatatableChecksResource.getAll({limit:-1},function (response) {
@@ -60,8 +61,6 @@
                                 scope.isEntityDatatables = true;
                             }
                         });
-
-
                     });
 
                 });
@@ -316,7 +315,7 @@
                     scope.paymentDatefield = true;
                     scope.modelName = 'dueDate';
                     scope.taskPermissionName = 'PAY_SAVINGSACCOUNTCHARGE';
-                    scope.showNoteField = true; 
+                    scope.showNoteField = true;
                     break;
                 case "inactivate":
                     scope.inactivateCharge = true;
@@ -326,6 +325,21 @@
                     scope.waiveCharge = true;
                     scope.taskPermissionName = 'WAIVE_SAVINGSACCOUNTCHARGE';
                     break;
+                case "holdAmount":
+                       resourceFactory.savingsTrxnsTemplateResource.get({savingsId: scope.accountId}, function (data) {
+                             scope.paymentTypes = data.paymentTypeOptions;
+                       });
+                       scope.title = 'label.heading.holdamountsavingaccount';
+                       scope.labelName = 'label.input.transactiondate';
+                       scope.modelName = 'transactionDate';
+                       scope.showDateField = true;
+                       scope.showNoteField = false;
+                       scope.isTransaction = true;
+                       scope.transactionAmountField = true;
+                       scope.showPaymentDetails = false;
+                       scope.holdAmount= true;
+                       scope.taskPermissionName = 'HOLDAMOUNT_SAVINGSACCOUNT';
+                   break;
             }
 
             scope.cancel = function () {
@@ -338,7 +352,7 @@
                     this.formData.locale = scope.optlang.code;
                     this.formData.dateFormat = scope.df;
                 }
-                if (scope.action == "deposit" || scope.action == "withdrawal" || scope.action == "modifytransaction" || scope.action=="postInterestAsOn") {
+                if (scope.action == "deposit" || scope.action == "withdrawal" || scope.action == "holdAmount" || scope.action == "modifytransaction" || scope.action=="postInterestAsOn") {
                     if (scope.action == "withdrawal") {
                         if (this.formData.transactionDate) {
                             this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
