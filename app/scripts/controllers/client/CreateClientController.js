@@ -477,6 +477,10 @@
                     {
                         temp.lastName=scope.businessOwnersArray[i].lastNameOwner;
                     }
+                    if(scope.businessOwnersArray[i].ownershipOwner)
+                    {
+                        temp.ownership=scope.businessOwnersArray[i].ownershipOwner;
+                    }
                     if(scope.businessOwnersArray[i].username)
                     {
                         temp.username=scope.businessOwnersArray[i].username;
