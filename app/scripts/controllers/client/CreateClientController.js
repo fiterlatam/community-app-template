@@ -103,6 +103,7 @@
                 if (scope.businessOwnerEnabled === true) {
                            scope.countryOptions = data.ownersData[0].countryIdOptions;
                            scope.stateOptions = data.ownersData[0].stateProvinceIdOptions;
+                           scope.titleOptions = data.ownersData[0].titleIdOptions;
                 }
                 scope.enableAddress=data.isAddressEnabled;
 
@@ -469,9 +470,9 @@
                     {
                         temp.firstName=scope.businessOwnersArray[i].firstnameOwner;
                     }
-                    if(scope.businessOwnersArray[i].titleOwner)
+                    if(scope.businessOwnersArray[i].titleId)
                     {
-                        temp.title=scope.businessOwnersArray[i].titleOwner;
+                        temp.titleId=scope.businessOwnersArray[i].titleId;
                     }
                     if(scope.businessOwnersArray[i].lastNameOwner)
                     {
