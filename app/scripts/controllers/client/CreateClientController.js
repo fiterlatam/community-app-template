@@ -104,6 +104,8 @@
                            scope.countryOptions = data.ownersData[0].countryIdOptions;
                            scope.stateOptions = data.ownersData[0].stateProvinceIdOptions;
                            scope.titleOptions = data.ownersData[0].titleIdOptions;
+                           scope.cityOptions = data.ownersData[0].cityIdOptions;
+                           scope.typeOptions = data.ownersData[0].typeIdOptions;
                 }
                 scope.enableAddress=data.isAddressEnabled;
 
@@ -482,17 +484,17 @@
                     {
                         temp.ownership=scope.businessOwnersArray[i].ownershipOwner;
                     }
-                    if(scope.businessOwnersArray[i].username)
+                    if(scope.businessOwnersArray[i].typeId)
                     {
-                        temp.username=scope.businessOwnersArray[i].username;
+                        temp.typeId=scope.businessOwnersArray[i].typeId;
                     }
                     if(scope.businessOwnersArray[i].mobileNumberOwner)
                     {
                         temp.mobileNumber=scope.businessOwnersArray[i].mobileNumberOwner;
                     }
-                    if(scope.businessOwnersArray[i].alterMobileNumber)
+                    if(scope.businessOwnersArray[i].businessOwnerNumber)
                     {
-                        temp.alterMobileNumber=scope.businessOwnersArray[i].alterMobileNumber;
+                        temp.businessOwnerNumber=scope.businessOwnersArray[i].businessOwnerNumber;
                     }
                     if(scope.businessOwnersArray[i].email)
                     {
@@ -502,13 +504,29 @@
                     {
                         temp.streetNumberAndName=scope.businessOwnersArray[i].streetNumberAndName;
                     }
-                    if(scope.businessOwnersArray[i].city)
+                    if(scope.businessOwnersArray[i].address1)
                     {
-                        temp.city=scope.businessOwnersArray[i].city;
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].address1;
                     }
-                    if(scope.businessOwnersArray[i].lga)
+                    if(scope.businessOwnersArray[i].address2)
                     {
-                        temp.lga=scope.businessOwnersArray[i].lga;
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].address2;
+                    }
+                    if(scope.businessOwnersArray[i].address3)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].address3;
+                    }
+                    if(scope.businessOwnersArray[i].postalCode)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].postalCode;
+                    }
+                    if(scope.businessOwnersArray[i].cityId)
+                    {
+                        temp.cityId=scope.businessOwnersArray[i].cityId;
+                    }
+                    if(scope.businessOwnersArray[i].landmark)
+                    {
+                        temp.landmark=scope.businessOwnersArray[i].landmark;
                     }
                     if(scope.businessOwnersArray[i].countryId)
                     {
@@ -518,13 +536,13 @@
                     {
                        temp.stateProvinceId=scope.businessOwnersArray[i].stateProvinceId;
                     }
-                    if(scope.businessOwnersArray[i].dateOfBirthOwner)
-                    {
-                        temp.dateOfBirth=dateFilter(scope.businessOwnersArray[i].dateOfBirthOwner, scope.df);
-                    }
                     if(scope.businessOwnersArray[i].bvn)
                     {
                          temp.bvn=scope.businessOwnersArray[i].bvn;
+                    }
+                    if(scope.businessOwnersArray[i].nin)
+                    {
+                         temp.nin=scope.businessOwnersArray[i].nin;
                     }
 
                     temp.locale = scope.optlang.code;
