@@ -4329,6 +4329,7 @@
   "label.heading.selectOwnerSelfi": "Select Owner Selfi",
   "label.input.userselfi":"User Selfi",
   "label.button.uploaduserselfi": "Upload User Selfi",
+  "label.input.businessOwnerId": "Business Owner ID",
 
   "----End---": "--End of file--- "
 }
