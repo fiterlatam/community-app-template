@@ -36,6 +36,8 @@
             scope.formDat.datatables = [];
             scope.tf = "HH:mm";
             scope.clientId = routeParams.clientId;
+            scope.businessOwnersArray=[];
+            scope.formData.businessOwners=[];
 
             var requestParams = {staffInSelectedOfficeOnly:true};
             if (routeParams.groupId) {
@@ -97,7 +99,14 @@
                     }
                 }
 
-
+                scope.businessOwnerEnabled=data.isBusinessOwnerEnabled;
+                if (scope.businessOwnerEnabled === true) {
+                           scope.countryOptions = data.ownersData[0].countryIdOptions;
+                           scope.stateOptions = data.ownersData[0].stateProvinceIdOptions;
+                           scope.titleOptions = data.ownersData[0].titleIdOptions;
+                           scope.cityOptions = data.ownersData[0].cityIdOptions;
+                           scope.typeOptions = data.ownersData[0].typeIdOptions;
+                }
                 scope.enableAddress=data.isAddressEnabled;
 
                 	   if (scope.enableAddress === true) {
@@ -174,6 +183,18 @@
             scope.removeFamilyMember=function(index)
             {
                 scope.familyArray.splice(index,1);
+            }
+
+          // Bussiness owners
+
+            scope.addBusinessOwners=function()
+            {
+                scope.businessOwnersArray.push({});
+            }
+
+            scope.removeBusinessOwners=function(index)
+            {
+                scope.businessOwnersArray.splice(index,1);
             }
 
 
@@ -430,15 +451,104 @@
 
                         temp.dateOfBirth=dateFilter(scope.familyArray[i].dateOfBirth, scope.df);
                     }
+                    if(scope.addressArray[i].isActive)
+                    {
+                        temp.isActive=scope.addressArray[i].isActive;
+
+                    }
 
                     temp.locale = scope.optlang.code;
                     temp.dateFormat = scope.df;
                     scope.formData.familyMembers.push(temp);
                 }
 
-                //
+                // business Owners array
 
+                for(var i=0;i<scope.businessOwnersArray.length;i++)
+                {
+                    var temp=new Object();
+                    scope.formData.businessOwners = [];
+                    if(scope.businessOwnersArray[i].firstnameOwner)
+                    {
+                        temp.firstName=scope.businessOwnersArray[i].firstnameOwner;
+                    }
+                    if(scope.businessOwnersArray[i].titleId)
+                    {
+                        temp.titleId=scope.businessOwnersArray[i].titleId;
+                    }
+                    if(scope.businessOwnersArray[i].lastNameOwner)
+                    {
+                        temp.lastName=scope.businessOwnersArray[i].lastNameOwner;
+                    }
+                    if(scope.businessOwnersArray[i].ownershipOwner)
+                    {
+                        temp.ownership=scope.businessOwnersArray[i].ownershipOwner;
+                    }
+                    if(scope.businessOwnersArray[i].typeId)
+                    {
+                        temp.typeId=scope.businessOwnersArray[i].typeId;
+                    }
+                    if(scope.businessOwnersArray[i].mobileNumberOwner)
+                    {
+                        temp.mobileNumber=scope.businessOwnersArray[i].mobileNumberOwner;
+                    }
+                    if(scope.businessOwnersArray[i].businessOwnerNumber)
+                    {
+                        temp.businessOwnerNumber=scope.businessOwnersArray[i].businessOwnerNumber;
+                    }
+                    if(scope.businessOwnersArray[i].email)
+                    {
+                        temp.email=scope.businessOwnersArray[i].email;
+                    }
+                    if(scope.businessOwnersArray[i].streetNumberAndName)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].streetNumberAndName;
+                    }
+                    if(scope.businessOwnersArray[i].address1)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].address1;
+                    }
+                    if(scope.businessOwnersArray[i].address2)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].address2;
+                    }
+                    if(scope.businessOwnersArray[i].address3)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].address3;
+                    }
+                    if(scope.businessOwnersArray[i].postalCode)
+                    {
+                        temp.streetNumberAndName=scope.businessOwnersArray[i].postalCode;
+                    }
+                    if(scope.businessOwnersArray[i].cityId)
+                    {
+                        temp.cityId=scope.businessOwnersArray[i].cityId;
+                    }
+                    if(scope.businessOwnersArray[i].landmark)
+                    {
+                        temp.landmark=scope.businessOwnersArray[i].landmark;
+                    }
+                    if(scope.businessOwnersArray[i].countryId)
+                    {
+                        temp.countryId=scope.businessOwnersArray[i].countryId;
+                    }
+                    if(scope.businessOwnersArray[i].stateProvinceId)
+                    {
+                       temp.stateProvinceId=scope.businessOwnersArray[i].stateProvinceId;
+                    }
+                    if(scope.businessOwnersArray[i].bvn)
+                    {
+                         temp.bvn=scope.businessOwnersArray[i].bvn;
+                    }
+                    if(scope.businessOwnersArray[i].nin)
+                    {
+                         temp.nin=scope.businessOwnersArray[i].nin;
+                    }
 
+                    temp.locale = scope.optlang.code;
+                    temp.dateFormat = scope.df;
+                    scope.formData.businessOwners.push(temp);
+                }
 
                 resourceFactory.clientResource.save(this.formData, function (data) {
                     location.path('/viewclient/' + data.clientId);
