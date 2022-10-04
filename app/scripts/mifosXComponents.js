@@ -342,6 +342,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'savings/AddNewMemberToGSIMController',
             'client/AddBusinessOwnersController',
             'client/EditBusinessOwnersController',
+            'client/BusinessOwnerDocumentController',
         ],
         filters: [
             'StatusLookup',

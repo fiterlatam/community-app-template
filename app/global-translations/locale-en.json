@@ -4330,6 +4330,10 @@
   "label.input.userselfi":"User Selfi",
   "label.button.uploaduserselfi": "Upload User Selfi",
   "label.input.businessOwnerId": "Business Owner ID",
+  "label.heading.uploadvalidid": "Upload Valid Id",
+  "label.input.uploadProofOfAddress" : "Upload Proof Of Address",
+  "label.button.uploadProofOfAddress": "Upload Proof Of Address",
+  "label.button.uploadOwnerId": "Upload Owner Id",
 
   "----End---": "--End of file--- "
 }

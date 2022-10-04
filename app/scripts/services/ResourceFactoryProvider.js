@@ -629,6 +629,9 @@
                     businessOwnersTemplate:defineResource(apiVer+"/clients/:clientId/businessOwners/template",{},{
                        get:{method: 'GET',params:{}}
                     }),
+                    businessOwnersDocumentsResource: defineResource(apiVer + "/business_owners/:ownerId/documents/:documentId", {clientId: '@ownerId', documentId: '@documentId'}, {
+                       getAllBusinessOwnerDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
                    provisioningcriteria: defineResource(apiVer + "/provisioningcriteria/:criteriaId",{criteriaId:'@criteriaId'},{
                          get: {method: 'GET',params:{}},
                         getAll: {method: 'GET',params:{}, isArray : true},
