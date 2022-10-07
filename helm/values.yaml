@@ -1,6 +1,6 @@
 fineract-ui:
   replicaCount: 1
-  repository: "916148231619.dkr.ecr.us-east-2.amazonaws.com/fih-ui"
+  repository: "916148231619.dkr.ecr.us-east-2.amazonaws.com/unitedcapitalfrontend"
   pullPolicy: Always
   tag: "mifos-unitedcapital-1.8.0"
   
