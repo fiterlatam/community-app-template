@@ -202,6 +202,15 @@
                     scope.showAccountNumber=true;
                     scope.taskPermissionName = 'POSTINTEREST_SAVINGSACCOUNT';
                     break;
+                    case "postAccrualInterestAsOn":
+                    resourceFactory.savingsTrxnsTemplateResource.get({savingsId: scope.accountId}, function (data) {
+                        scope.accountnumber=data.accountNo;
+                    });
+                    scope.labelName = 'label.input.transactiondate';
+                    scope.modelName = 'transactionDate';
+                    scope.showDateField = true;
+                    scope.showAccountNumber=true;
+                    break;
                 case "withdrawal":
                     resourceFactory.savingsTrxnsTemplateResource.get({savingsId: scope.accountId}, function (data) {
                         scope.paymentTypes = data.paymentTypeOptions;
@@ -413,7 +422,7 @@
                     this.formData.locale = scope.optlang.code;
                     this.formData.dateFormat = scope.df;
                 }
-                if (scope.action == "deposit" || scope.action == "withdrawal" || scope.action == "holdAmount" || scope.action == "modifytransaction" || scope.action=="postInterestAsOn") {
+                if (scope.action == "deposit" || scope.action == "withdrawal" || scope.action == "holdAmount" || scope.action == "modifytransaction" || scope.action=="postInterestAsOn" || scope.action=="postAccrualInterestAsOn") {
                     if (scope.action == "withdrawal") {
                         if (this.formData.transactionDate) {
                             this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
@@ -433,6 +442,12 @@
                     if(scope.action=="postInterestAsOn"){
                         if (this.formData.transactionDate) {
                             this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
+                        }
+                        this.formData.isPostInterestAsOn=true;
+                    }
+                    if(scope.action=="postAccrualInterestAsOn"){
+                        if (this.formData.transactionDate) {
+                           this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
                         }
                         this.formData.isPostInterestAsOn=true;
                     }
