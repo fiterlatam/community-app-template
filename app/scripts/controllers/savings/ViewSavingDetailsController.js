@@ -9,6 +9,7 @@
             scope.staffData = {};
             scope.fieldOfficers = [];
             scope.savingaccountdetails = [];
+            scope.hideAccrualTransactions = true;
             scope.subStatus = false;
 
             scope.isDebit = function (savingsTransactionType) {
@@ -422,6 +423,9 @@
             scope.viewJournalEntries = function(){
                 location.path("/searchtransaction/").search({savingsId: scope.savingaccountdetails.id});
             };
+            scope.viewAccrualTransaction = function(){
+                location.path("/viewaccrualtransaction/").search({savingsId: scope.savingaccountdetails.id});
+           };
 
             scope.viewDataTable = function (registeredTableName,data){
                 if (scope.datatabledetails.isMultirow) {
