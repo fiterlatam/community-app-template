@@ -9,6 +9,7 @@
             scope.staffData = {};
             scope.fieldOfficers = [];
             scope.savingaccountdetails = [];
+            scope.hideAccrualTransactions = true;
             scope.subStatus = false;
 
             scope.isDebit = function (savingsTransactionType) {
@@ -128,6 +129,9 @@
                     case "postInterestAsOn":
                         location.path('/savingaccount/' + accountId + '/postInterestAsOn');
                         break;
+                    case "postAccrualInterestAsOn":
+                         location.path('/savingaccount/' + accountId + '/postAccrualInterestAsOn');
+                    break;
                     case "holdAmount":
                            location.path('/savingaccount/' + accountId + '/holdAmount');
                     break;
@@ -226,6 +230,11 @@
                             name: "button.postInterestAsOn",
                             icon: "icon-arrow-right",
                             taskPermissionName:"POSTINTEREST_SAVINGSACCOUNT"
+                        },
+                        {
+                                name: "button.postAccrualInterestAsOn",
+                                icon: "icon-arrow-right",
+                                taskPermissionName:"POSTACCRUALINTERESTASON_SAVINGSACCOUNT"
                         },
                         {
                             name: "button.deposit",
@@ -422,6 +431,9 @@
             scope.viewJournalEntries = function(){
                 location.path("/searchtransaction/").search({savingsId: scope.savingaccountdetails.id});
             };
+            scope.viewAccrualTransaction = function(){
+                location.path("/viewaccrualtransaction/").search({savingsId: scope.savingaccountdetails.id});
+           };
 
             scope.viewDataTable = function (registeredTableName,data){
                 if (scope.datatabledetails.isMultirow) {
