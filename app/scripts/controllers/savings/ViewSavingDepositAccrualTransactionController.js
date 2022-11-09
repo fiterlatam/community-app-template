@@ -48,7 +48,7 @@
 
             scope.getSavingsAccruals = function (pageNumber) {
                 var items = resourceFactory.savingsResource.get({
-                    accountId: location.search().savingsId, associations: 'accrualTransactions',
+                    accountId: location.search().savingsId, associations: 'accrualTransactions,transactions',
                     pageNumber: pageNumber, pageSize: scope.transactionsPerPage
                 }, function (data) {
                     scope.savingaccountdetails = data;
