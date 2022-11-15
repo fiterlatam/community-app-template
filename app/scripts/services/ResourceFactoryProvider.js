@@ -86,7 +86,9 @@
                     clientIdenfierResource: defineResource(apiVer + "/clients/:clientId/identifiers/:id", {clientId: '@clientId', id: '@id'}, {
                         get: {method: 'GET', params: {}}
                     }),
-
+                    clientDocumentTemplateResource: defineResource(apiVer + "/clients/:clientId/documentsuploaded", {clientId: '@clientId'}, {
+                        get: {method: 'GET', params: {}}
+                    }),
                     surveyResource: defineResource(apiVer + "/surveys/:surveyId", {surveyId: '@surveyId'}, {
                         getAll: {method: 'GET', params: {}, isArray: true},
                         get: {method: 'GET', params: {surveyId: '@surveyId'}, isArray: false},
@@ -165,6 +167,25 @@
                         getCharge: {method: 'GET', params: {}},
                         update: {method: 'PUT', params: {}}
                     }),
+                    clientcollateralResource: defineResource(apiVer + "/clients/:clientId/collaterals/:collateralParamId", {clientId: '@clientId', collateralParamId: '@collateralParamId'}, {
+                        getAllCollaterals: {method: 'GET', params: {}, isArray: true},
+                        get: {method: 'GET', params: {}},
+                        update: {method: 'PUT', params: {}},
+                        delete: {method: 'DELETE'}
+                    }),
+                    clientcollateralTemplateResource: defineResource(apiVer + "/clients/:clientId/collaterals/template", {clientId: '@clientId', prodId: '@prodId'}, {
+                        getAllCollaterals: {method: 'GET', params: {prodId: '@prodId'}, isArray: true},
+                    }),
+                    collateralResource: defineResource(apiVer + "/collateral-management/:collateralId", {collateralId: '@collateralId'}, {
+                        getAllCollaterals: {method: 'GET', params: {}, isArray: true},
+                        get: {method: 'GET', params: {}},
+                        update: {method: 'PUT', params: {}},
+                        save: {method: 'POST', params: {}},
+                        delete: {method: 'DELETE', params: {}}
+                    }),
+                    collateralTemplateResource: defineResource(apiVer + "/collateral-management/template", {}, {
+                        getAllCurrency: {method: 'GET', params: {}, isArray: true},
+                    }),
                     chargeTemplateResource: defineResource(apiVer + "/charges/template", {
                         get: {method: 'GET', params: {}, isArray: true},
                         getChargeTemplates: {method: 'GET', params: {}}
@@ -211,6 +232,9 @@
                     }),
                     loanTrxnsResource: defineResource(apiVer + "/loans/:loanId/transactions/:transactionId", {loanId: '@loanId', transactionId: '@transactionId'}, {
                         get: {method: 'GET', params: {}}
+                    }),
+                    loancollateralResource: defineResource(apiVer + "/loan-collateral-management/:collateralId", {collateralId: '@collateralId'}, {
+                        get: {method: 'GET', params: {}},
                     }),
                     LoanAccountResource: defineResource(apiVer + "/loans/:loanId/:resourceType/:chargeId", {loanId: '@loanId', resourceType: '@resourceType', chargeId: '@chargeId'}, {
                         getLoanAccountDetails: {method: 'GET', params: {}},
@@ -371,6 +395,15 @@
                     }),
                     savingsOnHoldTrxnsResource: defineResource(apiVer + "/savingsaccounts/:savingsId/onholdtransactions", {savingsId: '@savingsId'}, {
                         get: {method: 'GET', params: {}}
+                    }),
+                    savingsAccountBlockResource: defineResource(apiVer + "/savingsaccounts/:savingsId", {savingsId: '@savingsId'}, {
+                        post: {method: 'POST', params:{command : 'block'}}
+                    }),
+                    savingsAccountTransactionBlockResource: defineResource(apiVer + "/savingsaccounts/:savingsId/transactions", {savingsId: '@savingsId', command:'@command'}, {
+                        post: {method: 'POST', params: {}},
+                    }),
+                    savingsAccountReleaseTransactionResource: defineResource(apiVer + "/savingsaccounts/:savingsId/transactions/:transactionId", {savingsId: '@savingsId', transactionId: '@transactionId'}, {
+                        post: {method: 'POST', params:{command : 'releaseAmount'}}
                     }),
                     fixedDepositAccountResource: defineResource(apiVer + "/fixeddepositaccounts/:accountId/:resourceType", {accountId: '@accountId', resourceType: '@resourceType'}, {
                         get: {method: 'GET', params: {}},
@@ -629,8 +662,27 @@
                     businessOwnersTemplate:defineResource(apiVer+"/clients/:clientId/businessOwners/template",{},{
                        get:{method: 'GET',params:{}}
                     }),
+                    employmentInformation:defineResource(apiVer+"/clients/:clientId/employmentInfo/",{},{
+
+                      get:{method: 'GET',isArray: true },
+                      post:{method:'POST',params:{}}
+
+                    }),
+                    employmentInfo:defineResource(apiVer+"/clients/:clientId/employmentInfo/:employmentInfoId",{},{
+
+                        get:{method: 'GET',params:{} },
+                        delete:{method: 'DELETE',params:{}},
+                            put:{method:'PUT',params:{}}
+
+                    }),
+                    employmentInfoTemplate:defineResource(apiVer+"/clients/:clientId/employmentInfo/template",{},{
+                       get:{method: 'GET',params:{}}
+                    }),
+                    employmentInfoStatus:defineResource(apiVer+"/clients/:clientId/employmentInfo/:employmentInfoId/updateInfoStatus",{},{
+                       get:{method:'GET',params:{status:'@status'}}
+                    }),
                     businessOwnersDocumentsResource: defineResource(apiVer + "/business_owners/:ownerId/documents/:documentId", {clientId: '@ownerId', documentId: '@documentId'}, {
-                       getAllBusinessOwnerDocuments: {method: 'GET', params: {}, isArray: true}
+                        getAllBusinessOwnerDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
                    provisioningcriteria: defineResource(apiVer + "/provisioningcriteria/:criteriaId",{criteriaId:'@criteriaId'},{
                          get: {method: 'GET',params:{}},
@@ -668,6 +720,15 @@
                     creditBureauTemplate: defineResource(apiVer + "/CreditBureauConfiguration/", {}, {
                         get: {method: 'GET', isArray: true }
                     }),
+                    addCreditBureauConfiguration: defineResource(apiVer + "/CreditBureauConfiguration/configuration/:creditBureauId", {creditBureauId:'@creditBureauId'}, {
+                        post: {method: 'POST',params:{}},
+                    }),
+                    updateCreditBureauConfiguration: defineResource(apiVer + "/CreditBureauConfiguration/configuration/:configurationId", {configurationId:'@configurationId'}, {
+                        put: {method: 'PUT',params:{}}
+                    }),
+                    fetchCreditBureauConfiguration: defineResource(apiVer + "/CreditBureauConfiguration/config/:organisationCreditBureauId", {organisationCreditBureauId:'@organisationCreditBureauId'}, {
+                        get: {method: 'GET', isArray: true}
+                    }),
                     creditBureauByCountry: defineResource(apiVer + "/CreditBureauConfiguration/dropdown/:country", {country:'@country'}, {
                         get: {method: 'GET',isArray: true }
                     }),
@@ -676,6 +737,21 @@
                     }),
                     equifaxCreditCheck: defineResource(apiVer + "/CreditBureauConfiguration/equifax", {}, {
                         get: {method: 'GET',params:{} }
+                    }),
+                    thitsaworkCreditCheck: defineResource(apiVer + "/creditBureauIntegration/getcreditreport/", {}, {
+                        get: {method: 'GET',params:{}}
+                    }),
+                    creditBureauGeneric: defineResource(apiVer + "/creditBureauIntegration/creditReport", {}, {
+                        post: {method: 'POST'}
+                    }),
+                    saveCreditReport: defineResource(apiVer + "/creditBureauIntegration/saveCreditReport", {apiRequestBodyAsJson:'@apiRequestBodyAsJson', creditBureauId : '@creditBureauId',  nationalId : '@nationalId'}, {
+                        post: {method: 'POST'}
+                    }),
+                    getSavedCreditReportsDetails: defineResource(apiVer + "/creditBureauIntegration/creditReport/:creditBureauId", {creditBureauId : '@creditBureauId'}, {
+                        get: {method: 'GET', isArray : true}
+                    }),
+                    creditBureauByLoanProductId: defineResource(apiVer + "/CreditBureauConfiguration/loanProduct/:loanProductId", {loanProductId:'@loanProductId'}, {
+                        get: {method: 'GET' ,params: {} }
                     }),
                     lpdropdown: defineResource(apiVer + "/CreditBureauConfiguration/loanProduct", {}, {
                         get: {method: 'GET', isArray: true }

@@ -1,19 +1,19 @@
 fineract-ui:
   replicaCount: 1
-  repository: "916148231619.dkr.ecr.us-east-2.amazonaws.com/unitedcapitalfrontend"
+  repository: "646245671754.dkr.ecr.us-east-1.amazonaws.com/fiter-frontend-app"
   pullPolicy: Always
-  tag: "mifos-unitedcapital-1.8.0"
+  tag: "mifos-moniafrica-21SEP22-1651"
   
   secretMounts:
-     - mountPath: "/etc/ssl/keys/cert.pem"
-       mountFileName: "cert.pem"
+     - mountPath: "/etc/ssl/keys/crt.pem"
+       mountFileName: "crt.pem"
      - mountPath: "/etc/ssl/keys/key.pem"
        mountFileName: "key.pem"
      - mountPath: "/etc/nginx/conf.d/default.conf.template"
        mountFileName: "default.conf.template"
 
   env:
-    FINERACT_DOMAIN: "ucdemo.fiter.io"
+    FINERACT_DOMAIN: "mifos.rank.africa"
     FINERACT_BASE_URL: "/fineract-provider/api/v1"
     FINERACT_PROXY_URL: "https://backend-fineract-rest:8443"
     DOLLAR: "$"
@@ -49,18 +49,17 @@ fineract-ui:
 
   ingress:
     enabled: true
-    host: "ucdemo.fiter.io"  
-    path: "/"
-    annotations:
-      # nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      cert-manager.io/cluster-issuer: "letsencrypt-prod-issuer"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     tls:
     - hosts:
-      - "ucdemo.fiter.io"  
-      secretName: "mifos-tls-v3" 
-
+      - "mifos.rank.africa"
+      secretName: "fineract-tls"
+    host: "mifos.rank.africa"
+    path: "/"
+    pathType: ImplementationSpecific
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod-issuer"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"      
   resources:
     limits:
       cpu: 1000m

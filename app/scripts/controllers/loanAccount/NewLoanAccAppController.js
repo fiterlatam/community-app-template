@@ -24,6 +24,10 @@
             scope.disabled = true;
             scope.translate= translate;
             scope.rateFlag=false;
+            scope.interestRateChart = {};
+            scope.collateralAddedDataArray = [];
+            scope.collateralsData = {};
+            scope.addedCollateral = {};
 
             scope.date.first = new Date();
 
@@ -49,9 +53,11 @@
             }
 
             scope.inparams.staffInSelectedOfficeOnly = true;
+            scope.currencyType;
 
             resourceFactory.loanResource.get(scope.inparams, function (data) {
                 scope.products = data.productOptions;
+                console.log(scope.products);
                 scope.ratesEnabled = data.isRatesEnabled;
 
                 if (data.clientName) {
@@ -66,6 +72,10 @@
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
                 scope.inparams.productId = loanProductId;
+                resourceFactory.clientcollateralTemplateResource.getAllCollaterals({clientId: scope.clientId, prodId: loanProductId}, function(data) {
+                        scope.collateralsData = data;
+                        scope.collateralsData = scope.collateralsData.filter((collateral) => collateral.quantity != 0);
+                });
                 // scope.datatables = [];
                 resourceFactory.loanResource.get(scope.inparams, function (data) {
                     scope.loanaccountinfo = data;
@@ -190,6 +200,9 @@
                     scope.rateFlag=true;
                 }
                 scope.rateOptions = [];
+                if(scope.loanaccountinfo.jlgInterestChartRateSummaryData != null && scope.loanaccountinfo.jlgInterestChartRateSummaryData !== undefined){
+                scope.interestRateChart = scope.loanaccountinfo.jlgInterestChartRateSummaryData;
+                }
             };
 
           //Rate
@@ -248,7 +261,9 @@
                     return obj[findattr] === model;
                 })[retAttr];
             };
-
+            scope.$watch("date.second", function(newValue, oldValue) {
+            scope.computeInterestRateForJlg();
+            });
             scope.addCharge = function () {
                 if (scope.chargeFormData.chargeId) {
                     resourceFactory.chargeResource.get({chargeId: this.chargeFormData.chargeId, template: 'true'}, function (data) {
@@ -277,6 +292,36 @@
                     scope.formData.syncDisbursementWithMeeting = false;
                 }
             };
+            scope.computeInterestRateForJlg = function() {
+                  //Reset interest to default
+                  scope.formData.interestRatePerPeriod = scope.loanaccountinfo.interestRatePerPeriod;
+                  if(scope.formData.loanTermFrequency == 1 && scope.formData.loanTermFrequencyType == 1){
+                   var disbursementDate = dateFilter(scope.date.second, scope.df);
+                   var nextMeetingDate  = dateFilter(new Date(scope.loanaccountinfo.calendarOptions[0].nextTenRecurringDates[0]),scope.df);
+                   var loanTermFrequency = scope.formData.loanTermFrequency;
+                   var loanTermFrequencyType = scope.formData.loanTermFrequencyType;
+                   var diffInDisbursementAndMeetingDates = scope.diffDate(disbursementDate,nextMeetingDate);
+
+            angular.forEach(scope.loanaccountinfo.jlgInterestChartRateSummaryData, function(value, key) {
+                  if(diffInDisbursementAndMeetingDates == value.dayOfWeek){
+                       scope.formData.interestRatePerPeriod = value.interestRate;
+                   }
+                   })
+
+                  }
+                 };
+
+            scope.diffDate = function(disbursementDate,nextMeetingDate){
+                 var msPerDay = 8.64e7;
+
+                   var x0 = new Date(disbursementDate);
+                   var x1 = new Date(nextMeetingDate);
+
+                   x0.setHours(12,0,0);
+                   x1.setHours(12,0,0);
+
+                   return Math.round( (x1 - x0) / msPerDay );
+                  };
 
             scope.syncDisbursementWithMeetingchange = function () {
                 if (scope.formData.syncDisbursementWithMeeting) {
@@ -285,15 +330,21 @@
             };
 
             scope.addCollateral = function () {
-                if (scope.collateralFormData.collateralIdTemplate && scope.collateralFormData.collateralValueTemplate) {
-                    scope.collaterals.push({type: scope.collateralFormData.collateralIdTemplate.id, name: scope.collateralFormData.collateralIdTemplate.name, value: scope.collateralFormData.collateralValueTemplate, description: scope.collateralFormData.collateralDescriptionTemplate});
-                    scope.collateralFormData.collateralIdTemplate = undefined;
-                    scope.collateralFormData.collateralValueTemplate = undefined;
-                    scope.collateralFormData.collateralDescriptionTemplate = undefined;
-                }
+                scope.collateralAddedDataArray.push(scope.collateralsData.filter((collateral) => scope.collateralFormData.collateralId == collateral.collateralId)[0]);
+                scope.collateralsData = scope.collateralsData.filter((collateral) => scope.collateralFormData.collateralId != collateral.collateralId);
+                scope.collaterals.push({collateralId: scope.collateralFormData.collateralId, quantity: scope.collateralFormData.quantity, total: scope.collateralFormData.total, totalCollateral: scope.collateralFormData.totalCollateral});
             };
 
+            scope.updateValues = function() {
+                scope.collateralObject = scope.collateralsData.filter((collateral) => collateral.collateralId == scope.collateralFormData.collateralId)[0];
+                scope.collateralFormData.total = scope.collateralFormData.quantity * scope.collateralObject.basePrice;
+                scope.collateralFormData.totalCollateral = scope.collateralFormData.total * scope.collateralObject.pctToBase / 100.0;
+            }
+
             scope.deleteCollateral = function (index) {
+                scope.collateralId = scope.collaterals[index].collateralId;
+                scope.collateralObject = scope.collateralAddedDataArray.filter((collateral) => collateral.collateralId == scope.collateralId)[0];
+                scope.collateralsData.push(scope.collateralObject);
                 scope.collaterals.splice(index, 1);
             };
 
@@ -404,9 +455,8 @@
                 if (scope.collaterals.length > 0) {
                     scope.formData.collateral = [];
                     for (var i in scope.collaterals) {
-                        scope.formData.collateral.push({type: scope.collaterals[i].type, value: scope.collaterals[i].value, description: scope.collaterals[i].description});
+                        scope.formData.collateral.push({clientCollateralId: scope.collaterals[i].collateralId, quantity: scope.collaterals[i].quantity * 1.0});
                     }
-                    ;
                 }
 
                 if (this.formData.syncRepaymentsWithMeeting) {

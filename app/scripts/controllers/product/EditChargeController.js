@@ -6,10 +6,11 @@
             scope.repeatEvery = false;
             scope.first = {};
             scope.flag = false;
-	        scope.showPenalty = true ;
-	        scope.showMinAndMaxAmountSettings = false;
-	        scope.loanChargeCalculationType = false;
+	          scope.showPenalty = true ;
+	          scope.showMinAndMaxAmountSettings = false;
+	          scope.loanChargeCalculationType = false;
             scope.loanChargeTimeChange = false;
+            scope.paymentTypeOptions = [];
 
             resourceFactory.chargeResource.getCharge({chargeId: routeParams.id, template: true}, function (data) {
                 scope.template = data;
@@ -38,6 +39,7 @@
 
                 if (data.chargeAppliesTo.value === "Loan") {
                     scope.chargeTimeTypeOptions = data.loanChargeTimeTypeOptions;
+                    scope.template.chargeCalculationTypeOptions = scope.template.loanChargeCalculationTypeOptions;
                     scope.flag = false;
                     scope.showFrequencyOptions = true;
                     scope.showMinAndMaxAmountSettings = false;
@@ -52,6 +54,10 @@
                     scope.showFrequencyOptions = false;
                     scope.showGLAccount = true;
                     scope.showMinAndMaxAmountSettings = true;
+                    resourceFactory.paymentTypeResource.getAll( function (data) {
+                        scope.paymentTypeOptions = data;
+                    });
+
                     if(data.freeWithdrawal === true) {
                         scope.showenablefreewithdrawal = true;
                         scope.showpaymenttype = true;
@@ -108,12 +114,18 @@
                     minAmount: data.minAmount,
                     maxAmount: data.maxAmount
                 };
-                 if(typeof scope.paymentTypeOptions !== 'undefined' || scope.paymentTypeOptions != null){
+                
+                if(typeof scope.paymentTypeOptions !== 'undefined' || scope.paymentTypeOptions != null){
                     scope.formData.paymentTypeId = data.paymentTypeOptions.id;
-                 }
+                }
+                
                 if(data.incomeOrLiabilityAccount){
                     scope.formData.incomeAccountId = data.incomeOrLiabilityAccount.id;   
-                } 
+                }
+
+                if(data.paymentTypeOptions){
+                    scope.formData.paymentTypeId = data.paymentTypeOptions.id;
+                }
 
                 if(data.taxGroup){
                     scope.formData.taxGroupId = data.taxGroup.id;
@@ -219,13 +231,9 @@
 
             resourceFactory.loanProductResource.get({resourceType: 'template'}, function (data) {
                 scope.product = data;
-                scope.paymentTypeOptions = data.paymentTypeOptions;
+
                 const i = 1;
                 scope.filteredItems = scope.product.repaymentFrequencyTypeOptions.slice(0, i).concat(scope.product.repaymentFrequencyTypeOptions.slice(i + 1, scope.product.repaymentFrequencyTypeOptions.length));
-            });
-
-            resourceFactory.paymentTypeResource.getAll( function (data) {
-
             });
 
             scope.setOptions = function() {

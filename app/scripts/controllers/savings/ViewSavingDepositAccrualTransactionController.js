@@ -67,6 +67,28 @@
 
                  scope.initPage();
 
+            scope.getSavingsAccruals = function (pageNumber) {
+                var items = resourceFactory.savingsResource.get({
+                    accountId: location.search().savingsId, associations: 'accrualTransactions',
+                    pageNumber: pageNumber, pageSize: scope.transactionsPerPage
+                }, function (data) {
+                    scope.savingaccountdetails = data;
+                    scope.convertDateArrayToObject('date');
+                    console.log(data);
+                    if (scope.savingaccountdetails.transactions) {
+                        resourceFactory.savingsResourceTransaction.get({
+                                accountId: location.search().savingsId,
+                                associations: 'accrualTransactions',
+                                resourceType: 'transactionCount'
+                            },
+                            function (data) {
+                                console.log(data);
+                                scope.totalTransactions = data.transactionCount;
+                            });
+                    }
+                });
+            }
+
             scope.getFixedDepositAccruals = function (pageNumber) {
                 resourceFactory.fixedDepositAccountResource.get({
                     accountId: location.search().fixedDepositId, associations: 'accrualTransactions',

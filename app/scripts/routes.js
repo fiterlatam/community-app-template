@@ -190,8 +190,8 @@
             .when('/loan/:loanId/editcollateral/:id', {
                 templateUrl: 'views/loans/editloancollateral.html'
             })
-            .when('/loan/:loanId/viewcollateral/:id', {
-                templateUrl: 'views/loans/viewloancollateral.html'
+            .when('/loan/:id/viewcollateral/:collateralId', {
+                templateUrl: 'views/loans/viewloancollateraldata.html'
             })
             .when('/loan/:loanId/viewcharge/:id', {
                 templateUrl: 'views/loans/viewloancharge.html'
@@ -222,6 +222,24 @@
             })
             .when('/viewcharge/:id', {
                 templateUrl: 'views/products/viewcharge.html'
+            })
+            .when('/collaterals', {
+                templateUrl: 'views/products/collaterals.html'
+            })
+            .when('/createclientcollateral/:id', {
+                templateUrl: 'views/clients/createclientcollateral.html'
+            })
+            .when('/viewclient/:id/editclientcollateral/:collateralId', {
+                templateUrl: 'views/clients/editclientcollateral.html'
+            })
+            .when('/viewclient/:id/viewclientcollateral/:collateralId', {
+                templateUrl: 'views/clients/viewclientcollateral.html'
+            })
+            .when('/viewclient/:id/viewallclientcollaterals', {
+                templateUrl: 'views/clients/viewallclientcollaterals.html'
+            })
+            .when('/viewcollateral/:id', {
+                templateUrl: 'views/products/viewcollateral.html'
             })
             .when('/floatingrates', {
                 templateUrl: 'views/products/floatingrates/FloatingRates.html'
@@ -557,6 +575,12 @@
             .when('/viewonholdtransactions/:savingsId/:fromPath/:fromPathId', {
                 templateUrl: 'views/savings/list_onhold_transactions.html'
             })
+            .when('/savingaccount/:savingsId/hold', {
+                templateUrl: 'views/savings/holdSavingsAccount.html'
+            })
+            .when('/viewsavingsholdtransactions/:savingsId', {
+                templateUrl: 'views/savings/holdSavingsTransactions.html'
+            })
             .when('/groups', {
                 templateUrl: 'views/groups/groups.html'
             })
@@ -701,8 +725,17 @@
             .when('/createcharge', {
                 templateUrl: 'views/products/createcharge.html'
             })
+            .when('/createcollateral', {
+                templateUrl: 'views/products/createcollateral.html'
+            })
             .when('/editcharge/:id', {
                 templateUrl: 'views/products/editcharge.html'
+            })
+            .when('/editcollateral/:id', {
+                templateUrl: 'views/products/editcollateral.html'
+            })
+            .when('/loan/:id/viewcollateraldata/:collateralId', {
+                templateUrl: 'views/products/viewcollateraldata.html'
             })
             .when('/productivesheet/:officeId/:officeName/:meetingDate/:staffId', {
                 templateUrl: 'views/collection/productivecollectionsheet.html'
@@ -974,6 +1007,12 @@
             .when('/editBusinessOwners/:clientId/:businessOwnerId', {
                   templateUrl: 'views/clients/editBusinessOwners.html'
              })
+            .when('/addEmploymentInfo/:clientId/', {
+                 templateUrl: 'views/clients/addEmploymentInfo.html'
+             })
+            .when('/editEmploymentInfo/:clientId/:employmentInfoId', {
+                  templateUrl: 'views/clients/editEmploymentInfo.html'
+             })
             .when('/bulkimportoffices', {
                  templateUrl: 'views/organization/bulkimport/bulkimportoffices.html'
              })
@@ -1052,6 +1091,15 @@
              .when('/externalservicesCB/CreditBureau/addcb', {
                  templateUrl: 'views/administration/addNewCreditBureau.html'
             })
+            .when('/externalservicesCB/CreditBureau/configuration', {
+                templateUrl: 'views/administration/CreditBureauConfiguration.html'
+            })
+            .when('/externalservicesCB/CreditBureau/newconfiguration/', {
+                templateUrl: 'views/administration/addNewCreditBureauConfiguration.html'
+            })
+            .when('/externalservicesCB/CreditBureau/editconfiguration/:creditbureauId', {
+                templateUrl: 'views/administration/EditCreditBureauConfiguration.html'
+            })
             .when('/externalservicesCB/CreditBureau/mapcblp', {
                 templateUrl: 'views/administration/MapCreditBureauToLP.html'
             })
@@ -1066,6 +1114,18 @@
             })
             .when('/editrate/:rateId', {
                 templateUrl: 'views/products/editrate.html'
+            })
+            .when('/creditBureauSummary/:id/:productId', {
+                templateUrl: 'views/loans/creditbureausummary.html'
+            })
+            .when('/creditreport/thitsaworkCreditbureau/:cbId', {
+                templateUrl: 'views/loans/creditReportFetch_ThitsaWorks.html'
+            })
+            .when('/creditreport/thitsaworkCreditbureau/:lpId/:cbId', {
+                templateUrl: 'views/loans/creditReportFetch_ThitsaWorks.html'
+            })
+            .when('/creditreport/thitsaworkUploadCreditbureau/:clientId/:cbId', {
+                templateUrl: 'views/loans/creditReportUpload_ThitsaWorks.html'
             })
             .otherwise({
                 templateUrl: "views/errors/404.html"
