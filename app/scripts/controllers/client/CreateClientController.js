@@ -38,8 +38,6 @@
             scope.clientId = routeParams.clientId;
             scope.businessOwnersArray=[];
             scope.formData.businessOwners=[];
-            scope.businessOwnersArray=[];
-            scope.formData.businessOwners=[];
             scope.employmentInfoArray=[];
 
             var requestParams = {staffInSelectedOfficeOnly:true};
@@ -102,14 +100,6 @@
                     }
                 }
 
-                scope.businessOwnerEnabled=data.isBusinessOwnerEnabled;
-                if (scope.businessOwnerEnabled === true) {
-                           scope.countryOptions = data.ownersData[0].countryIdOptions;
-                           scope.stateOptions = data.ownersData[0].stateProvinceIdOptions;
-                           scope.titleOptions = data.ownersData[0].titleIdOptions;
-                           scope.cityOptions = data.ownersData[0].cityIdOptions;
-                           scope.typeOptions = data.ownersData[0].typeIdOptions;
-                }
                 scope.businessOwnerEnabled=data.isBusinessOwnerEnabled;
                 if (scope.businessOwnerEnabled === true) {
                            scope.countryOptions = data.ownersData[0].countryIdOptions;
