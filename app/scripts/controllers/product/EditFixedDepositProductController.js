@@ -87,7 +87,7 @@
                     scope.formData.lockinPeriodFrequencyType = data.lockinPeriodFrequencyType.id;
                 }
 
-                if (scope.formData.accountingRule == 2) {
+                if (scope.formData.accountingRule == 2 || scope.formData.accountingRule == 3) {
                     //Assets
                     if(data.accountingMappings.savingsReferenceAccount){
                         scope.formData.savingsReferenceAccountId = data.accountingMappings.savingsReferenceAccount.id;
