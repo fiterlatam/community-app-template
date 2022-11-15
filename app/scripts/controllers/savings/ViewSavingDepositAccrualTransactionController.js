@@ -9,7 +9,6 @@
             scope.staffData = {};
             scope.fieldOfficers = [];
             scope.savingaccountdetails = [];
-            scope.hideAccrualTransactions = true;
             scope.subStatus = false;
             scope.transactions = [];
 
@@ -53,6 +52,7 @@
                        });
                   }
 
+
                  scope.initPage = function () {
                  resourceFactory.savingsResource.get({ accountId: location.search().savingsId, associations: 'accrualTransactions,transactions',
                  offset: 0,
@@ -66,28 +66,6 @@
               }
 
                  scope.initPage();
-
-            scope.getSavingsAccruals = function (pageNumber) {
-                var items = resourceFactory.savingsResource.get({
-                    accountId: location.search().savingsId, associations: 'accrualTransactions',
-                    pageNumber: pageNumber, pageSize: scope.transactionsPerPage
-                }, function (data) {
-                    scope.savingaccountdetails = data;
-                    scope.convertDateArrayToObject('date');
-                    console.log(data);
-                    if (scope.savingaccountdetails.transactions) {
-                        resourceFactory.savingsResourceTransaction.get({
-                                accountId: location.search().savingsId,
-                                associations: 'accrualTransactions',
-                                resourceType: 'transactionCount'
-                            },
-                            function (data) {
-                                console.log(data);
-                                scope.totalTransactions = data.transactionCount;
-                            });
-                    }
-                });
-            }
 
             scope.getFixedDepositAccruals = function (pageNumber) {
                 resourceFactory.fixedDepositAccountResource.get({
