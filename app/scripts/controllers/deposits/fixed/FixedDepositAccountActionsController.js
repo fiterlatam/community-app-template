@@ -196,7 +196,7 @@
                 case "waive":
                     scope.waiveCharge = true;
                     break;
-                case "postAccrualInterestAsOn":
+        case "postAccrualInterestAsOn":
                     scope.labelName = 'label.input.transactiondate';
                     scope.modelName = 'transactionDate';
                     scope.showDateField = true;
