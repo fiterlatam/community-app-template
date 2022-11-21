@@ -218,7 +218,7 @@
                     if (this.formData.transactionDate) {
                         this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
                     }
-                    this.formData.isPostInterestAsOn=true;
+          }
                 }
                 if (scope.action == "deposit" || scope.action == "withdrawal" || scope.action == "modifytransaction") {
                     if (scope.action == "withdrawal") {
