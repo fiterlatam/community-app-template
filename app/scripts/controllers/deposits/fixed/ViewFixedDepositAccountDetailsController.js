@@ -112,7 +112,7 @@
                 scope.status = data.status.value;
                 scope.heading = (!scope.savingaccountdetails.status.rejected && !scope.savingaccountdetails.status.submittedAndPendingApproval)?'label.heading.interestchart':'label.heading.summary';
 
-                if (scope.savingaccountdetails.accruedInterestCarriedForward) {
+          if (scope.savingaccountdetails.accruedInterestCarriedForward) {
                     scope.savingaccountdetails.summary.totalInterestEarned += scope.savingaccountdetails.accruedInterestCarriedForward;
                 } else {
                     scope.savingaccountdetails.accruedInterestCarriedForward = 0;
