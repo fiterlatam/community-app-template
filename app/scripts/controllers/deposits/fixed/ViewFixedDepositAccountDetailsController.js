@@ -58,7 +58,7 @@
                         });
                         break;
                     case "postAccrualInterest":
-                        resourceFactory.fixedDepositAccountResource.save({accountId: accountId, command: 'postAccrualInterest'}, {}, function (data) {
+            resourceFactory.fixedDepositAccountResource.save(
                             route.reload();
                         });
                         break;
