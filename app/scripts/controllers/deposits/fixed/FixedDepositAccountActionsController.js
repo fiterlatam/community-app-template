@@ -214,7 +214,7 @@
                     this.formData.locale = scope.optlang.code;
                     this.formData.dateFormat = scope.df;
                 }
-                if(scope.action=="postAccrualInterestAsOn"){
+        if (scope.action == "postAccrualInterestAsOn") {
                     if (this.formData.transactionDate) {
                         this.formData.transactionDate = dateFilter(this.formData.transactionDate, scope.df);
                     }
