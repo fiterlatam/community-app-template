@@ -191,7 +191,7 @@
                                 name: "button.postInterest"
                             },
                             {
-                                name: "button.postAccrualInterest"
+                  name: "button.postAccrualInterest",
                             },
                             {
                                 name: "button.addcharge"
