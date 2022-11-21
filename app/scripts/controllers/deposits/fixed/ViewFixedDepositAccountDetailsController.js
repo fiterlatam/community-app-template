@@ -183,7 +183,7 @@
                         {
                             name: "button.postAccrualInterestAsOn",
                             icon: "icon-arrow-right",
-                            taskPermissionName:"POSTACCRUALINTERESTASON_SAVINGSACCOUNT"
+                  taskPermissionName: "POSTACCRUALINTERESTASON_SAVINGSACCOUNT",
                         }
                     ],
                         options: [
