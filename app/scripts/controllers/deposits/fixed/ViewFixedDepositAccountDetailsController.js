@@ -91,7 +91,7 @@
                         });
                         break;
                     case "postAccrualInterestAsOn":
-                        location.path('/fixeddepositaccount/' + accountId + '/postAccrualInterestAsOn');
+            location.path(
                         break;
                 }
             };
