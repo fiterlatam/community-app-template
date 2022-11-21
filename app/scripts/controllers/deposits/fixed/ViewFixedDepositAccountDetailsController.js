@@ -115,7 +115,7 @@
           if (scope.savingaccountdetails.accruedInterestCarriedForward) {
                     scope.savingaccountdetails.summary.totalInterestEarned += scope.savingaccountdetails.accruedInterestCarriedForward;
                 } else {
-                    scope.savingaccountdetails.accruedInterestCarriedForward = 0;
+            scope.savingaccountdetails.accruedInterestCarriedForward = 0;
                 }
 
                 if (scope.status == "Submitted and pending approval" || scope.status == "Active" || scope.status == "Approved") {
