@@ -200,7 +200,7 @@
                     scope.labelName = 'label.input.transactiondate';
                     scope.modelName = 'transactionDate';
                     scope.showDateField = true;
-                    scope.showAccountNumber=true;
+          scope.showAccountNumber = true;
                     break;
             }
 
