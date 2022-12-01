@@ -49,27 +49,9 @@ jobs:
           username: ${{ secrets.LATAM_REMOTE_USER }}
           key: ${{ secrets.LATAM_EC2_SSH_KEY }}
           script: |
-            echo "I am $$ECR_REGISTRY"
-            echo "I am $IMAGE_TAG"
-            pwd
-            docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG
-            docker run -p 80:80 -d latam-frontend:$IMAGE_TAG
-
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: latam-frontend
-          IMAGE_TAG: ${{ steps.commit.outputs.short }}
-        with:
-          host: ${{ secrets.LATAM_REMOTE_HOST }}
-          username: ${{ secrets.LATAM_REMOTE_USER }}
-          key: ${{ secrets.LATAM_EC2_SSH_KEY }}
-          script: |
             echo "I am $ECR_REGISTRY"
             echo "I am $ECR_REPOSITORY"
             echo "I am $IMAGE_TAG"
-            pwd
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
             docker run -p 80:80 -d $ECR_REPOSITORY:$IMAGE_TAG
 
