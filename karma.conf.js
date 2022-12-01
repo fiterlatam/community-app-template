@@ -64,7 +64,23 @@ module.exports = function (config) {
 
         autoWatch : false,
 
-        browsers : ['PhantomJS2'],
+        browsers : ['ChromeHeadlessNoSandbox'],
+
+        customLaunchers : {
+            ChromeHeadlessNoSandbox: {
+                base: 'ChromeHeadless',
+                flags: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+
+                    '--disable-web-security',
+                    '--disable-dev-shm-usage',
+                    '--remote-debugging-port=9223',
+                    '--headless',
+                    '--disable-gpu'
+                ],
+            }
+        },
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout : 5000,
