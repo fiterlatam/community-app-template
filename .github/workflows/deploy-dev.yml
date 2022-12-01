@@ -39,13 +39,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
         env:
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
-        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.LATAM_REMOTE_HOST }}
           username: ${{ secrets.LATAM_REMOTE_USER }}
           key: ${{ secrets.LATAM_EC2_SSH_KEY }}
           script: |
+            echo "I am $IMAGE_TAG"
+            pwd
+            ls -arth
+            echo "docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG ."
             docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG
-            docker run -p 80:80 -d latam-frontend:${{ env.IMAGE_TAG }}
+            docker run -p 80:80 -d latam-frontend:$IMAGE_TAG
