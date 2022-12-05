@@ -196,7 +196,7 @@
 							<button type="button" class="btn btn-primary" data-ng-click="unassignStaffCenter()"
 									data-ng-show="client.staffId" has-permission='UNASSIGNSTAFF_CLIENT'><i class="fa fa-user "></i>{{"label.button.unassignstaff" | translate}}
 							</button>
-							<span uib-dropdown ng-show="buttonsArray.options" class="btn-group dropdown" on-toggle="toggled(open)">
+							<span uib-dropdown class="btn-group dropdown" on-toggle="toggled(open)">
 									<a uib-dropdown-toggle class="btn btn-primary">
 										{{ 'label.button.more' | translate}}
 										<span class="caret"></span>
@@ -206,6 +206,9 @@
 											<a href="#/clientscreenreport/{{client.id}}"
 											   has-permission='{{button.taskPermissionName}}' ng-show="client.status.value!='Transfer on hold'">{{'label.'+ button.name |
 												translate}}</a>
+										</li>
+										<li class="{{button.icon}}">
+											<a href="#/clients/cupo/{{client.id}}">{{'label.cupo' | translate}}</a>
 										</li>
 										<li>
 											<a data-ng-click="uploadSig()" has-permission='CREATE_CLIENTIMAGE' ng-show="client.status.value!='Transfer on hold'">{{'label.button.uploadsig'

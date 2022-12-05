@@ -449,6 +449,12 @@
                                 </td>
 
                             </tr>
+
+                            <tr data-ng-show="loandetails.linkedCupo">
+                                <td>{{'label.input.linkedcupo' | translate}}</td>
+                                <td><span class="padded-td"><a href="#/viewcupo/{{loandetails.linkedCupo.id}}">{{(loandetails.linkedCupo.id)}}</a></span></td>
+
+                            </tr>
                             </tbody>
                         </table>
                     </uib-tab>

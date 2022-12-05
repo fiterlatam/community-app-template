@@ -1,0 +1,76 @@
+<div class="content-container" ng-controller="CreateCupoController">
+    <ul class="breadcrumb">
+    	<li><a href="#/clients">{{'label.anchor.clients' | translate}}</a></li>
+        <li ng-show="entityName === 'client'"><a href="#/viewclient/{{entityId}}">{{'label.anchor.viewclient' | translate}}</a></li>
+        <li ng-show="entityName === 'client'"><a href="#/clients/cupo/{{entityId}}">{{'label.anchor.cupos' | translate}}</a></li>
+        <li ng-show="entityName === 'group'"><a href="#/viewgroup/{{entityId}}">{{'label.anchor.viewgroup' | translate}}</a></li>
+        <li ng-show="entityName === 'group'"><a href="#/groups/cupo/{{entityId}}">{{'label.anchor.cupos' | translate}}</a></li>
+        <li class="active">{{'label.anchor.createcupo' | translate}}</li>
+    </ul>
+    <div class="card">
+        <div class="content">
+            <div class="toolbar">
+                <h4>{{ 'label.heading.createcupo' | translate }}</h4>
+            </div>
+            <br/>
+            <form name="createcupoform" novalidate="" class="form-horizontal"
+    			      rc-submit="submit()">
+                <api-validate></api-validate>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{ 'label.input.amount' | translate }}<span
+                            class="required">*</span></label>
+        
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="amount" name="amount" ng-model="formData.amount" number-format required
+                            late-Validate/>
+                        </div>
+                        <div class="col-sm-3">
+                            <form-validate valattributeform="createcupoform" valattribute="amount"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{ 'label.input.expirationdate' | translate }}<span
+                                class="required">*</span></label>
+
+                        <div class="col-sm-3">
+                            <input id="expirationDate" type="text" name="expirationDate" datepicker-pop="dd MMMM yyyy" ng-model="date.first"
+                                min="date.minDate"  class="form-control" required />
+                        </div>
+                        <div class="col-sm-3">
+                            <form-validate valattributeform="createcupoform" valattribute="expirationDate"/>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="cupoTemplateData.clientData.displayName">
+                        <label class="control-label col-sm-2">{{ 'label.input.client' | translate }}</label>
+                        <div class="col-sm-3">
+                            <span>{{cupoTemplateData.clientData.displayName}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="cupoTemplateData.groupData.name">
+                        <label class="control-label col-sm-2">{{ 'label.input.group' | translate }}</label>
+                        <div class="col-sm-3">
+                            <span>{{cupoTemplateData.groupData.name}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{ 'label.input.currency' | translate }}</label>
+        
+                        <div class="col-sm-3">
+                            <select id="currency" ng-model="formData.currencyCode" class="form-control"
+                                ng-options="currencyOption.code as currencyOption.name for currencyOption in currencyOptions">
+                            <option value="">{{'label.selectcurrency' | translate}}</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-3">
+    		            <a id="cancel" href="#/{{entityName}}s/cupo/{{entityId}}">
+    		                <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
+    		            </a>
+    		            <button id="save" type="submit" class="btn btn-primary" has-permission='CREATE_CUPO'>{{'label.button.save' | translate}}</button>
+    		        </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

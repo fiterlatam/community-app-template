@@ -1,0 +1,249 @@
+<div class="content-container" ng-controller="ViewCupoController">
+    <ul class="breadcrumb">
+    	<li ng-show="cupo.clientData.id"><a href="#/clients">{{'label.anchor.clients' | translate}}</a></li>
+        <li ng-show="cupo.clientData.id"><a href="#/viewclient/{{cupo.clientData.id}}">{{cupo.clientData.displayName}}</a></li>
+        <li ng-show="cupo.clientData.id"><a href="#/clients/cupo/{{cupo.clientData.id}}">{{'label.anchor.cupos' | translate}}</a></li>
+        <li ng-show="cupo.groupData.id"><a href="#/groups">{{'label.anchor.groups' | translate}}</a></li>
+        <li ng-show="cupo.groupData.id"><a href="#/viewgroup/{{cupo.groupData.id}}">{{cupo.groupData.name}}</a></li>
+        <li ng-show="cupo.groupData.id"><a href="#/groups/cupo/{{cupo.groupData.id}}">{{'label.anchor.cupos' | translate}}</a></li>
+        <li class="active">{{cupo.id}}</li>
+    </ul>
+    <div class="card">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <a ng-show="cupo.status.value === 'Submitted'" href="#/editcupo/{{cupo.id}}" class="btn btn-primary" has-permission='UPDATE_CUPO'><i class="fa fa-edit "></i>&nbsp;&nbsp;{{
+                            'label.button.edit' | translate }}</a>
+                        <a ng-click="approveCupo()" ng-show="cupo.status.value === 'Submitted'" class="btn btn-primary" has-permission='APPROVE_CUPO'><i class="fa fa-check "></i>&nbsp;&nbsp;{{
+                            'label.button.approve' | translate }}</a>
+                        <a ng-click="rejectCupo()" ng-show="cupo.status.value === 'Submitted'" class="btn btn-primary" has-permission='REJECT_CUPO'><i class="fa fa-times "></i>&nbsp;&nbsp;{{
+                            'label.button.reject' | translate }}</a>
+                        <a ng-click="extensionCupo()" ng-show="cupo.status.value === 'Active'" class="btn btn-primary" has-permission='EXTENSION_CUPO'><i class="fa fa-plus "></i>&nbsp;&nbsp;{{
+                            'label.button.extension' | translate }}</a>
+                        <a ng-click="reductionCupo()" ng-show="cupo.status.value === 'Active'" class="btn btn-primary" has-permission='REDUCTION_CUPO'><i class="fa fa-plus "></i>&nbsp;&nbsp;{{
+                            'label.button.reduction' | translate }}</a>
+                        <a ng-click="cancelCupo()" ng-show="cupo.status.value === 'Active'" class="btn btn-primary" has-permission='CANCEL_CUPO'><i class="fa fa-plus "></i>&nbsp;&nbsp;{{
+                            'label.button.cancel' | translate }}</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3><strong>{{'label.heading.expirationdate' | translate }}: {{cupo.expirationDate | DateFormat}}</strong></h3>
+
+            <uib-tabset uib-tabset-name="cupouib-tabset" scrollable persistent-tab>
+                <uib-tab heading="{{ 'label.heading.general' | translate }}">
+                    <div class="container-fluid">
+                        <div class="col-md-12 col-sm-12">
+                            <br />
+                            <table class="table-bordered table view-table" style="width: 350px">
+                                <tr ng-show="cupo.status.value === 'Active'">
+                                    <td>{{ 'label.heading.amount' | translate }}</td>
+                                    <td>{{cupo.amount | number}}</td>
+                                </tr>
+                                <tr ng-show="cupo.status.value === 'Submitted'">
+                                    <td>{{ 'label.heading.amountsubmitted' | translate }}</td>
+                                    <td>{{cupo.amountSubmitted | number}}</td>
+                                </tr>
+                                <tr ng-show="cupo.status.value === 'Active'">
+                                    <td>{{ 'label.heading.amountavailable' | translate }}</td>
+                                    <td>{{cupo.amountAvailable | number}}</td>
+                                </tr>
+                                <tr ng-show="cupo.status.value === 'Active'">
+                                    <td>{{ 'label.heading.amountinhold' | translate }}</td>
+                                    <td>{{cupo.amountInHold | number}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'label.heading.currency' | translate }}</td>
+                                    <td>{{cupo.currency.code}}</td>
+                                </tr>
+                                <tr ng-show="cupo.approvalDate">
+                                    <td>{{ 'label.heading.approvedate' | translate }}</td>
+                                    <td>{{cupo.approvalDate | DateFormat}}</td>
+                                </tr>
+                                <tr ng-show="cupo.amountApproved">
+                                    <td>{{ 'label.heading.amountapproved' | translate }}</td>
+                                    <td>{{cupo.amountApproved | number}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'label.heading.status' | translate }}</td>
+                                    <td>{{cupo.status.code | translate}}</td>
+                                </tr>
+                                <tr ng-show="cupo.clientData.displayName">
+                                    <td>{{ 'label.heading.client' | translate }}</td>
+                                    <td>{{cupo.clientData.displayName}}</td>
+                                </tr>
+                                <tr ng-show="cupo.groupData.displayName">
+                                    <td>{{ 'label.heading.group' | translate }}</td>
+                                    <td>{{cupo.groupData.displayName}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="{{'label.heading.transactions' | translate}}" select="getCupoTransactions()">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'label.heading.transactionId' |
+                                    translate}}
+                                </th>
+                                <th>
+                                    {{'label.heading.transactiondate' | translate}}
+                                </th>
+                                <th>
+                                    {{'label.heading.amount' | translate}}
+                                </th>
+                                <th>
+                                    {{'label.heading.type' | translate}}
+                                </th>
+                                <th>
+                                    {{'label.heading.loantransaction' | translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="transaction in transactions">
+                                <td class="pointer">
+                                    {{transaction.id}}
+                                </td>
+                                <td class="pointer">
+                                    {{transaction.transactionDate | DateFormat}}
+                                </td>
+                                <td class="pointer">
+                                    {{transaction.amount | number}}
+                                </td>
+                                <td class="pointer">
+                                    {{transaction.type.code | translate}}
+                                </td>
+                                <td>
+                                    <a ng-show="transaction.loanTransactionId" href="#/viewloantrxn/{{transaction.loanId}}/trxnId/{{transaction.loanTransactionId}}?transactionId={{transaction.loanTransactionId}}">{{transaction.loanTransactionId}}</a>
+                                    <a ng-show="!transaction.loanTransactionId && transaction.loanId" href="#/viewloanaccount/{{transaction.loanId}}">{{transaction.loanId}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="approvecupo.html">
+    <div class="modal-header silver">
+        <h3 class="bolder">{{'label.heading.approve' | translate}}</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.amount' | translate }}<span
+                class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="amount" name="amount" ng-model="formData.amount" number-format
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.approvaldate' | translate }}<span
+                    class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input id="approvalDate" type="text" name="approvalDate" datepicker-pop="dd MMMM yyyy" ng-model="formData.approvalDate"
+                     class="form-control" />
+            </div>
+        </div>
+        <api-validate></api-validate>
+        <br>
+        <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' 	| translate}}</button>
+        <button class="btn btn-primary" ng-click="approve()">{{'label.button.confirm' 	| translate}}</button>
+    </div>
+</script>
+<script type="text/ng-template" id="rejectcupo.html">
+    <div class="modal-header silver">
+        <h3 class="bolder">{{'label.heading.reject' | translate}}</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.rejectdate' | translate }}<span
+                    class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input id="rejectDate" type="text" name="rejectDate" datepicker-pop="dd MMMM yyyy" ng-model="formData.rejectDate"
+                     class="form-control" />
+            </div>
+        </div>
+        <api-validate></api-validate>
+        <br>
+        <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' 	| translate}}</button>
+        <button class="btn btn-primary" ng-click="reject()">{{'label.button.confirm' 	| translate}}</button>
+    </div>
+</script>
+<script type="text/ng-template" id="extensioncupo.html">
+    <div class="modal-header silver">
+        <h3 class="bolder">{{'label.heading.extension' | translate}}</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.amount' | translate }}<span
+                class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="amount" name="amount" ng-model="formData.amount" number-format
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.expirationdate' | translate }}<span
+                    class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input id="expirationDate" type="text" name="expirationDate" datepicker-pop="dd MMMM yyyy" ng-model="formData.expirationDate"
+                     class="form-control" />
+            </div>
+        </div>
+        <api-validate></api-validate>
+        <br>
+        <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' 	| translate}}</button>
+        <button class="btn btn-primary" ng-click="extension()">{{'label.button.confirm' 	| translate}}</button>
+    </div>
+</script>
+<script type="text/ng-template" id="cancelcupo.html">
+    <div class="modal-header silver">
+        <h3 class="bolder">{{'label.heading.cancel' | translate}}</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.transactiondate' | translate }}<span
+                    class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input id="transactionDate" type="text" name="transactionDate" datepicker-pop="dd MMMM yyyy" ng-model="formData.transactionDate"
+                     class="form-control" />
+            </div>
+        </div>
+        <api-validate></api-validate>
+        <br>
+        <button class="btn btn-warning" ng-click="cancel()">{{'label.button.back' 	| translate}}</button>
+        <button class="btn btn-primary" ng-click="cancelation()">{{'label.button.confirm' 	| translate}}</button>
+    </div>
+</script>
+<script type="text/ng-template" id="reductioncupo.html">
+    <div class="modal-header silver">
+        <h3 class="bolder">{{'label.heading.reduction' | translate}}</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-6">{{ 'label.input.amount' | translate }}<span
+                class="required">*</span></label>
+
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="amount" name="amount" ng-model="formData.amount" number-format
+                />
+            </div>
+        </div>
+        <api-validate></api-validate>
+        <br>
+        <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' 	| translate}}</button>
+        <button class="btn btn-primary" ng-click="reduction()">{{'label.button.confirm' 	| translate}}</button>
+    </div>
+</script>

@@ -130,6 +130,24 @@
                 </td>
             </tr>
         </table>
+        <hr/>
+        <div ng-show="loanaccountinfo">
+            <h3>{{ 'label.heading.cupolinkage' | translate}}</h3>
+            <hr>
+        </div>
+        <div class="content" ng-show="loanaccountinfo">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>{{ 'label.input.linkcupo' | translate }}:</label>
+                </div>
+                <div class="col-sm-3">
+                    <select id="cupoId" ng-model="formData.cupoId" ng-options="cupo.id as (cupo.id + ' - ' + (cupo.expirationDate | DateFormat)) for cupo in loanaccountinfo.cupoLinkingOptions"
+                        class="form-control width170px">
+                        <option value="">{{'label.menu.selectone' | translate}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <hr ng-show="loanaccountinfo"/>
         <label><strong>{{ 'label.heading.terms' | translate }}</strong></label>
         <table class="width100">

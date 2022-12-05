@@ -1109,6 +1109,21 @@
             .when('/creditreport/thitsaworkUploadCreditbureau/:clientId/:cbId', {
                 templateUrl: 'views/loans/creditReportUpload_ThitsaWorks.html'
             })
+            .when('/clients/cupo/:clientId', {
+                templateUrl: 'views/cupo/viewclientcupo.html'
+            })     
+            .when('/createcupo/:entityName/:entityId', {
+                templateUrl: 'views/cupo/createcupo.html'
+            })         
+            .when('/viewcupo/:cupoId', {
+                templateUrl: 'views/cupo/viewcupo.html'
+            })    
+            .when('/editcupo/:cupoId', {
+                templateUrl: 'views/cupo/editcupo.html'
+            })  
+            .when('/groups/cupo/:groupId', {
+                templateUrl: 'views/cupo/viewgroupcupo.html'
+            })
             .otherwise({
                 templateUrl: "views/errors/404.html"
             });

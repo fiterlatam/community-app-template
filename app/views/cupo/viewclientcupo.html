@@ -1,0 +1,42 @@
+<div class="content-container" ng-controller="ViewClientCupoController">
+    <ul class="breadcrumb">
+    	<li><a href="#/clients">{{'label.anchor.clients' | translate}}</a></li>
+        <li><a href="#/viewclient/{{clientId}}">{{'label.anchor.viewclient' | translate}}</a></li>
+        <li class="active">{{'label.anchor.cupo' | translate}}</li>
+    </ul>
+    <div class="card">
+        <div class="toolbar">
+            <h4>{{ 'label.heading.cupos' | translate }}</h4>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <a href="#/createcupo/client/{{clientId}}" class="btn btn-primary" has-permission='CREATE_CUPO'><i class="fa fa-plus "></i>&nbsp;&nbsp;{{'label.button.createcupo' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div>
+                <table class="table table-bordered" data-anchor>
+                    <thead>
+                    <tr class="graybg">
+                        <th>{{'label.heading.amount' | translate}}</th>
+                        <th>{{'label.heading.status' | translate}}</th>
+                        <th>{{'label.heading.expirationdate' | translate}}</th>
+                        <th>{{'label.heading.client' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pointer-main" data-ng-click="routeTo(cupo.id)" ng-repeat="cupo in cupos">
+                        <td class="text-right">{{cupo.amount | number}}</td>
+                        <td class="text-right">{{cupo.status.code | translate}}</td>
+                        <td class="text-right">{{cupo.expirationDate | DateFormat}}</td>
+                        <td class="text-right">{{cupo.clientData.displayName}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -356,7 +356,12 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'savings/ViewGSIMaccountController',
             'savings/GSIMAccountActionsController',
             'savings/EditGSIMAccountController',
-            'savings/AddNewMemberToGSIMController'
+            'savings/AddNewMemberToGSIMController',
+            'client/ViewClientCupoController',
+            'cupo/CreateCupoController',
+            'cupo/ViewCupoController',
+            'cupo/EditCupoController',
+            'client/ViewGroupCupoController'
         ],
         filters: [
             'StatusLookup',
