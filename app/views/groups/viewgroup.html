@@ -102,6 +102,9 @@
 		                              {{ 'label.button.unassignstaff' | translate }}
 		                              </a>
 		                          </li>
+								  <li class="{{button.icon}}">
+									  <a href="#/groups/cupo/{{group.id}}">{{'label.cupo' | translate}}</a>
+								  </li>
 		                          <li>
 		                              <a data-ng-click="deleteGroup()" data-ng-hide="group.status.value=='Active'" has-permission='DELETE_GROUP'>
 		                              {{ 'label.button.delete' | translate }}

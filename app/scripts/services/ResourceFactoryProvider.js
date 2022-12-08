@@ -822,6 +822,27 @@
                         getRate: {method: 'GET', params: {}},
                         update: {method: 'PUT', params: {}},
                         save: {method: 'POST', params: {}}
+                    }),
+                    cuposResource: defineResource(apiVer + "/cupos/:cupoId",{cupoId: '@cupoId'}, {
+                        createCupo: {method: 'POST', params: {}},
+                        update: {method: 'PUT', params: {}},
+                        approve: {method: 'POST', params:{command:'approve'}},
+                        reject: {method: 'POST', params:{command:'reject'}},
+                        extension: {method: 'POST', params:{command:'extension'}},
+                        cancel: {method: 'POST', params:{command:'cancel'}},
+                        reduction: {method: 'POST', params:{command:'reduction'}}
+                    }),
+                    cupoTransactionsResource: defineResource(apiVer + "/cupos/:cupoId/transactions",{cupoId: '@cupoId'}, {
+                        getAll: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    cuposTemplateResource: defineResource(apiVer + "/cupos/template",{clientId: '@clientId'}, {
+                        template: {method: 'GET', params:{clientId: '@clientId'}}
+                    }),
+                    cuposClientResource: defineResource(apiVer + "/cupos/client/:clientId",{clientId: '@clientId'}, {
+                        getAll: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    cuposGroupResource: defineResource(apiVer + "/cupos/group/:groupId",{clientId: '@groupId'}, {
+                        getAll: {method: 'GET', params: {}, isArray: true}
                     })
                 };
             }];

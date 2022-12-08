@@ -1,0 +1,52 @@
+<div class="content-container" ng-controller="EditCupoController">
+    <ul class="breadcrumb">
+    	<li><a href="#/clients">{{'label.anchor.clients' | translate}}</a></li>
+        <li><a href="#/viewclient/{{cupo.clientData.id}}">{{cupo.clientData.displayName}}</a></li>
+        <li><a href="#/clients/cupo/{{cupo.clientData.id}}">{{'label.anchor.cupos' | translate}}</a></li>
+        <li class="active">{{cupo.id}}</li>
+    </ul>
+    <div class="card">
+        <div class="content">
+            <div class="toolbar">
+                <h4>{{ 'label.heading.editcupo' | translate }}</h4>
+            </div>
+            <br/>
+            <form name="editcupoform" novalidate="" class="form-horizontal"
+    			      rc-submit="submit()">
+                <api-validate></api-validate>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{ 'label.input.amount' | translate }}<span
+                            class="required">*</span></label>
+        
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="amount" name="amount" ng-model="formData.amount" number-format required
+                            late-Validate/>
+                        </div>
+                        <div class="col-sm-3">
+                            <form-validate valattributeform="editcupoform" valattribute="amount"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{ 'label.input.expirationdate' | translate }}<span
+                                class="required">*</span></label>
+
+                        <div class="col-sm-3">
+                            <input id="expirationDate" type="text" name="expirationDate" datepicker-pop="dd MMMM yyyy" ng-model="formData.expirationDate"
+                                min="date.minDate"  class="form-control" required />
+                        </div>
+                        <div class="col-sm-3">
+                            <form-validate valattributeform="editcupoform" valattribute="expirationDate"/>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-3">
+    		            <a id="cancel" href="#/viewcupo/{{cupoId}}">
+    		                <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
+    		            </a>
+    		            <button id="save" type="submit" class="btn btn-primary" has-permission='UPDATE_CUPO'>{{'label.button.save' | translate}}</button>
+    		        </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
