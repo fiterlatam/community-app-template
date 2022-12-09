@@ -51,4 +51,4 @@ jobs:
           script: |
             ./docker-login.sh
             docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
-            docker run -p 80:80 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
+            docker run -p 8080:80 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
