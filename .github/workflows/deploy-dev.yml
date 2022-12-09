@@ -50,5 +50,7 @@ jobs:
           key: ${{ secrets.LATAM_EC2_SSH_KEY }}
           script: |
             ./docker-login.sh
+            docker stop mifos
+            docker rm mifos
             docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
-            docker run -p 8080:80 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
+            docker run -p 80:80 --name mifos 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
