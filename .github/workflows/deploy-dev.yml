@@ -53,4 +53,4 @@ jobs:
             docker stop mifos
             docker rm mifos
             docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
-            docker run -d --name mifos 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
+            docker run -d --name mifos --network fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
