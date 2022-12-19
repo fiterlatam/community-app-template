@@ -40,10 +40,11 @@ jobs:
     - name: Install Dependencies
       if: steps.cache-nodemodules.outputs.cache-hit != 'true'
       run: |
-        npm install -g grunt-cli
         npm install -g bower
+        npm install -g grunt-cli
         bower install
         npm install
+        bundle install
     
     - name: Build
       run: |
