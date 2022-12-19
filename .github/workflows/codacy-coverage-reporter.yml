@@ -51,14 +51,14 @@ jobs:
     
     - name: Test coverage
       run: |
-        npm test --force
+        grunt test --code-coverage
         
-    - name: List Files in Distribution Directory
+    - name: List Files in root directory
       run: ls -R ../
         
     - name: Run codacy-coverage-reporter
       uses: codacy/codacy-coverage-reporter-action@master
       with:
         api-token: ${{ secrets.CODACY_API_TOKEN }}
-        coverage-reports: karma-reports/**/lcov.info
+        coverage-reports: ../community-app-template//karma-reports/**/lcov.info
 
