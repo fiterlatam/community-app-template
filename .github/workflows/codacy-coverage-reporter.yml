@@ -28,5 +28,5 @@ jobs:
         npm install -g bower
         npm install -g grunt-cli
         npm install
-        RUN bundle install
+        bundle install
         grunt test --code-coverage
