@@ -13,10 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 12.x
-          - 13.x
           - 14.x
-          - 15.x
 
     steps:
     - uses: actions/checkout@v3
@@ -28,5 +25,8 @@ jobs:
 
     - name: Build
       run: |
+        npm install -g bower
+        npm install -g grunt-cli
         npm install
+        RUN bundle install
         grunt test --code-coverage
