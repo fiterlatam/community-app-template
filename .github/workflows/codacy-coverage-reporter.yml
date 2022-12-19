@@ -52,3 +52,10 @@ jobs:
     - name: Test coverage
       run: |
         npm test --force
+        
+    - name: Run codacy-coverage-reporter
+      uses: codacy/codacy-coverage-reporter-action@master
+      with:
+        api-token: ${{ secrets.CODACY_API_TOKEN }}
+        coverage-reports: karma-reports/**/lcov.info
+
