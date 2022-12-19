@@ -25,6 +25,9 @@ jobs:
 
     - name: Build
       run: |
+        mkdir /usr/src/app
+        cd /usr/src/app
+        COPY package.json /usr/src/app/package.json
         npm install -g bower
         npm install -g grunt-cli
         npm install
