@@ -51,8 +51,7 @@ jobs:
     
     - name: Test coverage
       run: |
-        npm test --force
-        cd ..
+        npm test
         
     - name: Run codacy-coverage-reporter
       uses: codacy/codacy-coverage-reporter-action@master
