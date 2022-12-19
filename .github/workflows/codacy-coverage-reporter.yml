@@ -8,11 +8,16 @@ on:
       - fiter/latam/dev
 jobs:
   codacy-coverage-reporter:
-  runs-on: ubuntu-latest
-
+    name: Run test and upload report
+    runs-on: ubuntu-latest
+    container: myruntime
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version:
+          - 12.x
+          - 13.x
+          - 14.x
+          - 15.x
 
     steps:
     - uses: actions/checkout@v3
