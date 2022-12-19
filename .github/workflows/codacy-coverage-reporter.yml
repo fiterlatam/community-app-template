@@ -1,4 +1,4 @@
-name: Codacy Coverage Reporter
+name: Fiter Latam - Codacy Coverage Reporter
 on:
   push:
     branches:
@@ -10,7 +10,6 @@ jobs:
   codacy-coverage-reporter:
     name: Run test and upload report
     runs-on: ubuntu-latest
-    container: myruntime
     strategy:
       matrix:
         node-version:
