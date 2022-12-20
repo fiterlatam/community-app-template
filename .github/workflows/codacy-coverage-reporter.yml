@@ -57,7 +57,7 @@ jobs:
         working-directory: ../
         run: |
             mkdir coverage
-            cp ./karma-reports/**/lcov.info ./coverage
+            cp ../karma-reports/**/lcov.info ./coverage
             cd coverage
             ls -R ../
           
