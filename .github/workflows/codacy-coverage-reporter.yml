@@ -59,13 +59,12 @@ jobs:
       - name: Upload codacy coverage results
         continue-on-error: true
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-          --project-token ${{ secrets.CODACY_API_TOKEN }} \
-          --language JavaScript \
-          --coverage-reports ../community-app-template/karma-reports/**/lcov.info
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) --project-token ${{ secrets.CODACY_API_TOKEN }} \
+          report -r ../community-app-template/karma-reports/**/lcov.info
           
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
+        continue-on-error: true
         with:
           project-token: "${{ secrets.CODACY_API_TOKEN }}"
           coverage-reports: ../community-app-template/karma-reports/**/lcov.info
