@@ -58,6 +58,6 @@ jobs:
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
         with:
-          api-token: "${{ secrets.CODACY_API_TOKEN }}"
+          project-token: "${{ secrets.CODACY_API_TOKEN }}"
           coverage-reports: ../community-app-template/karma-reports/**/lcov.info
 
