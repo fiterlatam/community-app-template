@@ -38,7 +38,7 @@ jobs:
            ${{ runner.os }}-
             
     - name: Install Dependencies
-      if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+      # if: steps.cache-nodemodules.outputs.cache-hit != 'true'
       run: |
         npm install -g bower
         npm install -g grunt-cli
