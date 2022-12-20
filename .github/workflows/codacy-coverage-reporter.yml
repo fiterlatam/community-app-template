@@ -43,12 +43,18 @@ jobs:
            npm install -g grunt-cli
            bower install
            npm install
+           
+      - name: Delete report directory if exists
+        continue-on-error: true
+        working-directory: ../community-app-template/
+        run: rm -f -r  karma-reports || true   
 
       - name: Test coverage
         run: |
           npm test --no-watch --no-progress
 
       - name: List Files in root directory
+        working-directory: ../community-app-template/
         run: ls -R ../
           
       - name: Run codacy-coverage-reporter
