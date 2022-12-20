@@ -73,7 +73,7 @@ jobs:
         continue-on-error: true
         with:
           api-token: "${{ secrets.CODACY_API_TOKEN }}"
-          coverage-reports: ../community-app-template/karma-reports/**/lcov.info
+          coverage-reports: ../community-app-template/coverage/lcov.info
       
       - name: Upload codacy report
         continue-on-error: true
@@ -83,7 +83,11 @@ jobs:
           CODACY_ORGANIZATION_PROVIDER: "gh"
           CODACY_USERNAME: "FITER1"
           CODACY_PROJECT_NAME: "community-app-template"
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r lcov.info 
+        run: |
+          cd coverage
+          pwd
+          ls -R
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r lcov.info 
           
       
 
