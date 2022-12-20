@@ -61,12 +61,12 @@ jobs:
             # ls -R
             cd karma-reports/**
             pwd
-            #ls -R
+            ls -R
             cp lcov.info ../coverage
             # ls -R
             cd ../../coverage
             pwd
-            ls -R
+            ls
           
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
