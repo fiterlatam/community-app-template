@@ -54,10 +54,11 @@ jobs:
           npm test --no-watch --no-progress
 
       - name: List Files in root directory
+        working-directory: ../community-app-template/
         run: |
             mkdir coverage
             pwd
-            ls -R ../
+            ls -R
           
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
