@@ -31,9 +31,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
-    - name: Build with NPM
-      run: ng build --prod
     
     - name: Test coverage
       run: |
