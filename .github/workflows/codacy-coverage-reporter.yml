@@ -1,0 +1,73 @@
+name: Fiter Latam - Codacy Coverage Reporter
+on:
+  push:
+    branches:
+      - fiter/latam/dev
+  pull_request:
+    branches:
+      - fiter/latam/dev
+jobs:
+  codacy-coverage-reporter:
+    name: Build and upload code coverage report
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+           cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+             ${{ runner.os }}-build-${{ env.cache-name }}-
+             ${{ runner.os }}-build-
+             ${{ runner.os }}-
+
+      - name: Install Dependencies
+        # if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: |
+           npm install -g bower
+           npm install -g grunt-cli
+           bower install
+           npm install
+           
+      - name: Delete report directory if exists
+        continue-on-error: true
+        working-directory: ../community-app-template/
+        run: rm -f -r  karma-reports || true   
+
+      - name: Test coverage
+        run: |
+          npm test --no-watch --no-progress
+
+      - name: List Files in root directory
+        working-directory: ../community-app-template/
+        run: |
+            mkdir coverage
+            cd karma-reports/**
+            cp lcov.info ../../coverage
+            cd ../../coverage
+            ls
+          
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@master
+        continue-on-error: true
+        with:
+          api-token: "${{ secrets.CODACY_API_TOKEN }}"
+          coverage-reports: ../community-app-template/coverage/lcov.info
+          
+      
+
