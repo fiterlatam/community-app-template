@@ -62,7 +62,7 @@ jobs:
             cd karma-reports/**
             pwd
             ls -R
-            cp lcov.info ../coverage
+            cp lcov.info ../../coverage
             # ls -R
             cd ../../coverage
             pwd
