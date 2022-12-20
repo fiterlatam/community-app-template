@@ -16,7 +16,7 @@ jobs:
 
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: '2.7'
+        ruby-version: '2.6'
 
     - name: Set up Node 12 (package install)
       uses: actions/setup-node@v1
