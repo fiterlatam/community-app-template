@@ -54,13 +54,9 @@ jobs:
           npm test --no-watch --no-progress
 
       - name: List Files in root directory
-        working-directory: ../
         run: |
             mkdir coverage
             pwd
-            ls -R ../
-            cp ../community-app-template/karma-reports/**/lcov.info ./coverage
-            cd coverage
             ls -R ../
           
       - name: Run codacy-coverage-reporter
