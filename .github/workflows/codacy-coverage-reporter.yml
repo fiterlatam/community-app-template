@@ -34,7 +34,7 @@ jobs:
     
     - name: Test coverage
       run: |
-        npm test --code-coverage
+        npm test --no-watch --no-progress
         
     - name: List Files in root directory
       run: ls -R ../
