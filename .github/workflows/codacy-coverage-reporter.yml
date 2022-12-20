@@ -58,12 +58,14 @@ jobs:
         run: |
             mkdir coverage
             pwd
-            ls -R
+            # ls -R
             cd karma-reports/**
-            ls -R
+            pwd
+            #ls -R
             cp lcov.info ../coverage
-            ls -R
+            # ls -R
             cd ../../coverage
+            pwd
             ls -R
           
       - name: Run codacy-coverage-reporter
