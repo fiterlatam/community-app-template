@@ -843,7 +843,17 @@
                     }),
                     cuposGroupResource: defineResource(apiVer + "/cupos/group/:groupId",{clientId: '@groupId'}, {
                         getAll: {method: 'GET', params: {}, isArray: true}
-                    })
+                    }),
+                    CausesResource: defineResource(apiVer + "/codecauses/:causeId", {causeId: "@causeId"}, {
+                        retrieveCauses: {method: 'GET', params: {}},                       
+                        retrieveOne: {method: 'GET', params: {}, isArray: false},
+                        createCause: {method: 'POST', params: {}},
+                        updateCause: {method: 'PUT', params: {}},                                            
+                        deleteCause: {method: 'DELETE', params: {}}                        
+                    }),
+                    causesTemplateResource: defineResource(apiVer + "/codecauses/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
                 };
             }];
         }

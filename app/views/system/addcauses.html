@@ -1,0 +1,147 @@
+<div class="content-container" ng-controller="CreateCauseController">
+    <ul class="breadcrumb">        
+        <li><a href="#/system">{{'label.anchor.system' | translate}}</a></li>
+        <li><a href="#/causes">{{'label.anchor.managemanagecauses' | translate}}</a></li>
+        <li class="active">{{'label.anchor.addcause' | translate}}</li>
+    </ul>
+
+    <form name="causeform" novalidate="" class="card form-horizontal well" rc-submit="submit()">
+        <api-validate></api-validate>
+        <fieldset>
+            <legend>{{'label.heading.addcause' | translate}}</legend>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="codigoCausal">{{'label.input.codigoCausal' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="codigoCausal" ng-autofocus="true" type="text" name="codigoCausal" ng-model="formData.id"
+                        class="form-control" required late-Validate/>
+                </div>
+                <div class="col-sm-3">
+                    <form-validate valattributeform="causeform" valattribute="codigoCausal"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="codigoAcrm">{{'label.input.codigoAcrm' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="codigoAcrm" type="text" name="codigoAcrm" ng-model="formData.codigoAcrm"
+                           class="form-control" required late-Validate/>
+                </div>
+                <div class="col-sm-3">
+                    <form-validate valattributeform="causeform" valattribute="codigoAcrm"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="description">{{'label.input.description' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="description" type="text" name="description" ng-model="formData.description"
+                          class="form-control" required late-Validate/>
+                </div>
+                <div class="col-sm-3">
+                    <form-validate valattributeform="causeform" valattribute="description"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="shortDescription">{{'label.input.shortDescription' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="shortDescription" type="text" name="shortDescription" ng-model="formData.shortDescription"
+                           class="form-control" required late-Validate/>
+                </div>
+                <div class="col-sm-3">
+                    <form-validate valattributeform="causeform" valattribute="shortDescription"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">{{ 'label.input.currency' | translate }}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <select id="currency" name="currency" ng-model="formData.currencyCode" class="form-control"
+                            ng-options="currencyOption.intCode as currencyOption.name for currencyOption in currencyOptions"
+                            value="{{currencyOptions.intCode}}" required>
+                        <option value="">{{'label.selectcurrency' | translate}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <form-validate valattributeform="causeform" valattribute="currency"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="operationType">{{'label.input.operationType' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <select id="operationType" type="text" name="operationType" ng-model="formData.operationType"
+                           class="form-control" required>
+                       <option value="">{{'label.select' | translate}}</option>
+                       <option value="A">A</option>
+                       <option value="C">C</option>
+                       <option value="D">D</option>
+                   </select>
+                </div>
+                <div class="col-sm-3">
+                    <form-validate valattributeform="causeform" valattribute="operationType"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="allowOverdraft">{{'label.input.allowOverdraft' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">                    
+                    <input id="allowOverdraft" type="checkbox" name="allowOverdraft" ng-model="formData.allowOverdraft"
+                        class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="isCashOperation">{{'label.input.isCashOperation' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="isCashOperation" type="checkbox" name="isCashOperation" ng-model="formData.isCashOperation"
+                        class="form-control" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="sendAcrm">{{'label.input.sendAcrm' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="sendAcrm" type="checkbox" name="sendAcrm" ng-model="formData.sendAcrm"
+                        class="form-control" />
+                </div>
+            </div>            
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="isDocument">{{'label.input.isDocument' | translate}}<span
+                        class="required">*</span></label>
+
+                <div class="col-sm-3">
+                    <input id="isDocument" type="checkbox" name="isDocument" ng-model="formData.isDocument"
+                        class="form-control" />
+                </div>
+            </div>            
+                      
+            <div class="col-md-offset-3">
+                <a id="cancel" href="#/causes">
+                    <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
+                </a>
+                <button id="save" type="submit" has-permission='CREATE_CODE' class="btn btn-primary">{{'label.button.save' | translate}}</button>
+            </div>
+        </fieldset>
+    </form>    
+</div>
