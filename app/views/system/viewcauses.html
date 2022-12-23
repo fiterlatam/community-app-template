@@ -1,0 +1,84 @@
+<div class="content-container" ng-controller="ViewCausesController">
+    <ul class="breadcrumb">
+        <li><a href="#/system">{{'label.anchor.system' | translate}}</a></li>
+        <li class="active">{{'label.anchor.managemanagecauses' | translate}}</li>
+    </ul>
+
+    <div class="card well">
+        <div class="row">
+            <div class="col-md-8">
+                <label class="control-label">{{'label.heading.cause' | translate}}:</label>
+                <div class="input-group">
+                    <input data-ng-model="formData.searchText" type="text"
+                        placeholder="{{'label.input.searchByCodeDesc' | translate}}" class="form-control unstyled" />
+                    <span class="input-group-btn">
+                        <button  ng-click="search()" has-permission='READ_CODECAUSE' class="btn btn-primary form-control">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4 pull-right">
+                <a href="#/createcause" class="btn btn-primary pull-right" has-permission='CREATE_CODECAUSE'><i
+                        class="fa fa-plus "></i>&nbsp;&nbsp;{{'label.button.createcause' | translate}}</a>
+            </div>
+        </div>
+
+        <hr>
+
+        <div>
+            <div data-ng-show="flag">
+                <table class="table table-bordered width1200px" data-anchor>
+                    <thead>
+                        <tr class="graybg">
+                            <th>{{'label.heading.id' | translate}}</th>
+                            <th>{{'label.heading.description' | translate}}</th>
+                            <th>{{'label.heading.codigoAcrm' | translate}}</th>
+                            <th>{{'label.heading.currency' | translate}}</th>
+                            <th>{{'label.heading.operationType' | translate}}</th>
+                            <th>{{'label.heading.allowOverdraft' | translate}}</th>                           
+                            <th>{{'label.heading.isCashOperation' | translate}}</th>                            
+                            <th>{{'label.heading.sendAcrm' | translate}}</th>                                                        
+                            <th>{{'label.heading.isDocument' | translate}}</th>
+                            <th>{{'label.heading.action' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="pointer-main" data-ng-click="routeTo(data.id)"
+                            ng-repeat="data in searchData.pageItems">
+                            <td>{{data.id}}</td>
+                            <td>{{data.description}}</td>
+                            <td>{{data.codigoAcrm}}</td>
+                            <td>{{data.currency.code}}</td>
+                            <td>{{data.operationType}}</td>                           
+                            <td>{{data.allowOverdraft}}</td>     
+                            <td>{{data.isCashOperation}}</td>                                                   
+                            <td>{{data.sendAcrm}}</td>                                                                                   
+                            <td>{{data.isDocument}}</td>                                                        
+                            <td>                             
+                                <div class="pull-right">     
+                                    <a ng-click="update(data.id)" class="btn btn-primary" has-permission='UPDATE_CODECAUSE'>
+                                        <i class="fa fa-pencil fa fa-large"></i></a>                                                            
+                                    <a ng-click="delete(data.id)" class="btn btn-primary" has-permission='DELETE_CODECAUSE'>
+                                        <i class="fa fa-trash-o fa fa-large"></i></a>
+                                </div>
+                            </td>                      
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--           
+            <ul class="pager" data-ng-show="flag">
+                <li class="previous">
+                    <a id="prev" ng-click="audit.previous()" href="" ng-disabled="!audit.hasPrevious()">&larr; {{'label.button.previous' | translate}}</a>
+                </li>
+                <li class="next">
+                    <a id="next" ng-click="audit.next()" href="" ng-disabled="!audit.hasNext()">{{'label.button.next' | translate}} &rarr;</a>
+                </li>
+            </ul>             
+
+            <h3 data-ng-show="!flag" class="auditnodata"><strong>{{ 'label.nodata' | translate }}</strong></h3>
+            -->
+        </div>
+    </div>
+</div>

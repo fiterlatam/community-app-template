@@ -232,6 +232,7 @@
                 case "close":
                     resourceFactory.savingsTrxnsTemplateResource.get({savingsId: scope.accountId}, function (data) {
                         scope.paymentTypes = data.paymentTypeOptions;
+                        scope.causes = data.causes.filter(t=>t.operationType === 'D' || t.operationType === 'A');
                     });
                     resourceFactory.savingsResource.get({accountId: routeParams.id, fields:'summary'}, function (accountData) {
                         scope.accountBalance = accountData.summary.accountBalance;

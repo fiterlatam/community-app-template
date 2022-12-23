@@ -1124,6 +1124,15 @@
             .when('/groups/cupo/:groupId', {
                 templateUrl: 'views/cupo/viewgroupcupo.html'
             })
+            .when('/causes', {
+                templateUrl: 'views/system/viewcauses.html'
+            })
+            .when('/createcause', {
+                templateUrl: 'views/system/addcauses.html'
+            })
+            .when('/updatecause/:id', {
+                templateUrl: 'views/system/editcauses.html'
+            })
             .otherwise({
                 templateUrl: "views/errors/404.html"
             });
