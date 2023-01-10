@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fineract-rest-ui
+  labels:
+    app: fineract-rest-ui
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: fineract-rest-ui
+    tier: frontend
+    instance: fineract-rest-ui

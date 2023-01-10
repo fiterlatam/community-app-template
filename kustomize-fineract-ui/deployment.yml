@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fineract-rest-ui
+  labels:
+    app: fineract-rest-ui
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: fineract-rest-ui
+      tier: frontend
+      instance: fineract-rest-ui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fineract-rest-ui
+        tier: frontend
+        instance: fineract-rest-ui
+    spec:
+      containers:
+        - name: fineract-rest-ui
+          image: docker.io/hero78/moniafrica-ui-latest-v1.8.0:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+          - name: FINERACT_DOMAIN
+            value: ""
+          - name: FINERACT_BASE_URL
+            value: "/fineract-provider/api/v1"
+          - name: FINERACT_PROXY_URL
+            value: "https://fineract-rest:8443"
+          - name: DOLLAR
+            value: $
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
