@@ -1,11 +1,11 @@
-name: Fiter Latam - Codacy Coverage Reporter
+name: Albo - Codacy Coverage Reporter
 on:
   push:
     branches:
-      - fiter/latam/dev
+      - fiter/albo/dev
   pull_request:
     branches:
-      - fiter/latam/dev
+      - fiter/albo/dev
 jobs:
   codacy-coverage-reporter:
     name: Build and upload code coverage report
@@ -15,7 +15,7 @@ jobs:
         node-version:
           - 14.x
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3

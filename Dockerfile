@@ -3,7 +3,6 @@ FROM timbru31/ruby-node:2.7 as builder
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-#ENV CHROME_BIN /usr/bin/chromium-browser
 COPY package.json /usr/src/app/package.json
 
 RUN npm install -g bower
@@ -12,7 +11,6 @@ COPY . /usr/src/app
 RUN bower --allow-root install
 RUN npm install
 RUN bundle install
-#RUN grunt test --code-coverage --force
 RUN grunt prod
 
 FROM nginx:1.19.3
