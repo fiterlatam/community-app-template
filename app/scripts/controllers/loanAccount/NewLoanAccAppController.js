@@ -199,6 +199,8 @@
                     scope.rateFlag=true;
                 }
                 scope.rateOptions = [];
+
+                scope.computeEffectiveInterest();
             };
 
           //Rate
@@ -286,6 +288,55 @@
                     scope.formData.syncDisbursementWithMeeting = false;
                 }
             };
+            scope.computeInterestRateForJlg = function() {
+                  //Reset interest to default
+                  scope.formData.interestRatePerPeriod = scope.loanaccountinfo.interestRatePerPeriod;
+                  if(scope.formData.loanTermFrequency == 1 && scope.formData.loanTermFrequencyType == 1){
+                   var disbursementDate = dateFilter(scope.date.second, scope.df);
+                   var nextMeetingDate  = dateFilter(new Date(scope.loanaccountinfo.calendarOptions[0].nextTenRecurringDates[0]),scope.df);
+                   var loanTermFrequency = scope.formData.loanTermFrequency;
+                   var loanTermFrequencyType = scope.formData.loanTermFrequencyType;
+                   var diffInDisbursementAndMeetingDates = scope.diffDate(disbursementDate,nextMeetingDate);
+
+            angular.forEach(scope.loanaccountinfo.jlgInterestChartRateSummaryData, function(value, key) {
+                  if(diffInDisbursementAndMeetingDates == value.dayOfWeek){
+                       scope.formData.interestRatePerPeriod = value.interestRate;
+                   }
+                   })
+
+                  }
+                 };
+
+
+
+            scope.computeEffectiveInterest = function(){
+                if(!scope.formData.loanTermFrequency || scope.formData.loanTermFrequency == 0 ||
+                                !scope.formData.interestRatePerPeriod || scope.formData.interestRatePerPeriod == 0){
+                                return;
+                }
+
+                var period = scope.formData.loanTermFrequency;
+                var interest = scope.formData.interestRatePerPeriod;
+                if(scope.formData.loanTermFrequencyType == 2){
+                    period = period/12;
+                }
+                let effectInterestAmount = (1 + interest / period) * period - 1;
+
+                console.log(period, interest, effectInterestAmount);
+                scope.tasaeffectiva = effectInterestAmount;
+            }
+
+            scope.diffDate = function(disbursementDate,nextMeetingDate){
+                 var msPerDay = 8.64e7;
+
+                   var x0 = new Date(disbursementDate);
+                   var x1 = new Date(nextMeetingDate);
+
+                   x0.setHours(12,0,0);
+                   x1.setHours(12,0,0);
+
+                   return Math.round( (x1 - x0) / msPerDay );
+                  };
 
             scope.syncDisbursementWithMeetingchange = function () {
                 if (scope.formData.syncDisbursementWithMeeting) {

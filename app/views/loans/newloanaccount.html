@@ -212,10 +212,10 @@
                                     <span class="required">*</span>:</label>
                             </td>
                             <td class="width36 paddedbottom20">
-                                <input id="loanTermFrequency" class="form-control" name="loanterm" type="text" ng-model="formData.loanTermFrequency" required
+                                <input id="loanTermFrequency" class="form-control" name="loanterm" type="text" ng-model="formData.loanTermFrequency" ng-change="computeEffectiveInterest();" required
                                     late-Validate/>
                                 <select ng-disabled="response.uiDisplayConfigurations.loanAccount.isReadOnlyField.loanTermFrequencyType == true" id="loanTermFrequencyType"
-                                    class="form-control" ng-model="formData.loanTermFrequencyType" ng-change="loandetails.loanTermFrequencyValue = formValue(loanaccountinfo.termFrequencyTypeOptions,formData.loanTermFrequencyType)"
+                                    class="form-control" ng-model="formData.loanTermFrequencyType" ng-change="loandetails.loanTermFrequencyValue = formValue(loanaccountinfo.termFrequencyTypeOptions,formData.loanTermFrequencyType);computeEffectiveInterest();"
                                     ng-options="termFrequencyType.id as termFrequencyType.value for termFrequencyType in loanaccountinfo.termFrequencyTypeOptions"
                                     value="{{termFrequencyType.id}}"></select>
                                 <form-validate valattributeform="Terms" valattribute="loanterm" />
@@ -286,7 +286,7 @@
                                 </label>
                             </td>
                             <td class="paddedbottom20">
-                                <input id="interestRatePerPeriod" class="form-control" type="text" name="nominalinterestrate" ng-model="formData.interestRatePerPeriod" ng-disabled="ratesEnabled&&rateFlag"
+                                <input id="interestRatePerPeriod" class="form-control" type="text" name="nominalinterestrate" ng-model="formData.interestRatePerPeriod" ng-disabled="ratesEnabled&&rateFlag" ng-change="computeEffectiveInterest()"
                                 />&nbsp;&nbsp;{{loanaccountinfo.interestRateFrequencyType.value}}
                             </td>
                             <td ng-hide="response.uiDisplayConfigurations.loanAccount.isHiddenField.interestType == true">
@@ -301,6 +301,15 @@
                                     <label class="col-sm-offset-1">{{ 'label.input.isequalamortization' | translate }}</label>
                                     <input type="checkbox" ng-model="formData.isEqualAmortization" ng-true-value="true" ng-false-value="false">
                                 </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>{{ 'label.input.tasaeffectiva' | translate }}</label>
+                            </td>
+                            <td class="paddedbottom20" >
+                                <input id="tasaeffectiva" class="form-control" name="tasaeffectiva" ng-model="tasaeffectiva" readonly />&nbsp;&nbsp;
                             </td>
                         </tr>
 
