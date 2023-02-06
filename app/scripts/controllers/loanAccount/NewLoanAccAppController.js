@@ -203,6 +203,8 @@
                 if(scope.loanaccountinfo.jlgInterestChartRateSummaryData != null && scope.loanaccountinfo.jlgInterestChartRateSummaryData !== undefined){
                 scope.interestRateChart = scope.loanaccountinfo.jlgInterestChartRateSummaryData;
                 }
+
+                scope.computeEffectiveInterest();
             };
 
           //Rate
@@ -310,6 +312,25 @@
 
                   }
                  };
+
+
+
+            scope.computeEffectiveInterest = function(){
+                if(!scope.formData.loanTermFrequency || scope.formData.loanTermFrequency == 0 ||
+                                !scope.formData.interestRatePerPeriod || scope.formData.interestRatePerPeriod == 0){
+                                return;
+                }
+
+                var period = scope.formData.loanTermFrequency;
+                var interest = scope.formData.interestRatePerPeriod;
+                if(scope.formData.loanTermFrequencyType == 2){
+                    period = period/12;
+                }
+                let effectInterestAmount = (1 + interest / period) * period - 1;
+
+                console.log(period, interest, effectInterestAmount);
+                scope.tasaeffectiva = effectInterestAmount;
+            }
 
             scope.diffDate = function(disbursementDate,nextMeetingDate){
                  var msPerDay = 8.64e7;

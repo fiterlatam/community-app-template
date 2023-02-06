@@ -2931,6 +2931,7 @@
 	"label.input.numofrepayments": "Número de reembolsos",
 	"label.input.repaidevery": "Reembolsado cada",
 	"label.input.nominalinterestrate": "Tasa de interés nominal",
+	"label.input.tasaeffectiva": "Tasa efectiva",
 	"label.input.floatinginterestrate": "Tasa de interés variable",
 	"label.input.islinedtofloatinginterestrates": "¿Está relacionado con tipos de interés flotantes?",
 	"label.input.isfloatingcalculationallowed": "¿Se permite el cálculo de flotación?",
