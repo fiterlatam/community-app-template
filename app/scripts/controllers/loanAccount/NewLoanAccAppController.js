@@ -288,24 +288,6 @@
                     scope.formData.syncDisbursementWithMeeting = false;
                 }
             };
-            scope.computeInterestRateForJlg = function() {
-                  //Reset interest to default
-                  scope.formData.interestRatePerPeriod = scope.loanaccountinfo.interestRatePerPeriod;
-                  if(scope.formData.loanTermFrequency == 1 && scope.formData.loanTermFrequencyType == 1){
-                   var disbursementDate = dateFilter(scope.date.second, scope.df);
-                   var nextMeetingDate  = dateFilter(new Date(scope.loanaccountinfo.calendarOptions[0].nextTenRecurringDates[0]),scope.df);
-                   var loanTermFrequency = scope.formData.loanTermFrequency;
-                   var loanTermFrequencyType = scope.formData.loanTermFrequencyType;
-                   var diffInDisbursementAndMeetingDates = scope.diffDate(disbursementDate,nextMeetingDate);
-
-            angular.forEach(scope.loanaccountinfo.jlgInterestChartRateSummaryData, function(value, key) {
-                  if(diffInDisbursementAndMeetingDates == value.dayOfWeek){
-                       scope.formData.interestRatePerPeriod = value.interestRate;
-                   }
-                   })
-
-                  }
-                 };
 
 
 
