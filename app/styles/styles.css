@@ -376,6 +376,17 @@ th {
   src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
   src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
+
+@font-face {
+  font-family: 'Urbanist-Regular';
+  src: url("../fonts/Urbanist-Regular.woff2") format("woff2"), url("../fonts/Urbanist-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Urbanist-Bold';
+  src: url("../fonts/Urbanist-Bold.woff2") format("woff"), url("../fonts/Urbanist-Bold.ttf") format("truetype");
+}
+
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_glyphicons.scss */
 .glyphicon {
   position: relative;
@@ -1747,7 +1758,7 @@ a {
 }
 /* line 52, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_scaffolding.scss */
 a:hover, a:focus {
-  color: #1672d9;
+  color: #150380;
   text-decoration: underline;
 }
 /* line 58, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_scaffolding.scss */
@@ -10518,12 +10529,13 @@ textarea {
 
 /* line 48, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_scaffolding.scss */
 a {
-  color: #4f99ed;
+  color: #0A0C10;
   text-decoration: none;
+  font-family: "Urbanist-Regular"
 }
 /* line 52, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_scaffolding.scss */
 a:hover, a:focus {
-  color: #1672d9;
+  color: #150380;
   text-decoration: underline;
 }
 /* line 58, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_scaffolding.scss */
@@ -10616,6 +10628,7 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 500;
   line-height: 1.1;
   color: inherit;
+  font-family: "Urbanist-Bold"
 }
 /* line 16, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_type.scss */
 h1 small,
@@ -12309,7 +12322,7 @@ label {
   display: inline-block;
   max-width: 100%;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-family: "Urbanist-Bold";
 }
 
 /* line 47, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_forms.scss */
@@ -13062,8 +13075,8 @@ a.btn.disabled, fieldset[disabled] a.btn {
 /* line 71, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-primary {
   color: #fff;
-  background-color: #4f99ed;
-  border-color: #388ceb;
+  background-color: #00D1B1;
+  border-color: #00D1B1;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-primary:focus, .btn-primary.focus {
@@ -20374,7 +20387,7 @@ span.required {
 /* line 3, ../styles-dev/main/components/_navbar.scss */
 .navbar {
   border-bottom: 1px solid #dfdfdf;
-  background-color: white;
+  background-color: #00D1B1;
 }
 /* line 6, ../styles-dev/main/components/_navbar.scss */
 .navbar #leftnav-toggle {
@@ -20441,7 +20454,7 @@ span.required {
 
 /* line 9, ../styles-dev/main/components/_layout.scss */
 .navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a {
-  color: #4f99ed !important;
+  color: #0A0C10 !important;
 }
 
 /* line 13, ../styles-dev/main/components/_layout.scss */
@@ -20507,7 +20520,7 @@ span.required {
   max-width: 51px;
   overflow: auto;
   overflow-x: hidden;
-  background: #082331;
+  background: #0A0C10;
   border-right: 1px solid #e0e0e0;
   -webkit-transition-duration: 500ms;
   -moz-transition-duration: 500ms;
@@ -20603,6 +20616,7 @@ span.required {
   display: block;
   height: 40px;
   padding: 12px 10px;
+  font-family: 'Urbanist-Regular';
   color: #adbabd;
   transition-duration: 250ms;
   border-bottom: 1px solid #1e313a;
