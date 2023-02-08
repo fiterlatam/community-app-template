@@ -1028,13 +1028,32 @@
 
 							<tr >
 								<th >
-									{{'label.input.firstname' | translate }}
+									{{'label.input.uuid' | translate }}
+								</th>
+								<td>
+									{{family.uuid}}
+								</td>
+							</tr>
+
+							<tr >
+								<th >
+									{{'label.input.curp' | translate }}
+								</th>
+								<td>
+									{{family.curp}}
+								</td>
+							</tr>
+
+							<tr >
+								<th >
+									{{'label.input.familynames' | translate }}
 								</th>
 								<td>
 									{{family.firstName}}
 								</td>
 							</tr>
 
+							<!--
                             <tr >
                                 <th >
                                     {{'label.input.middlename' | translate }}
@@ -1043,18 +1062,6 @@
                                     {{family.middleName}}
                                 </td>
                             </tr>
-
-
-                            <tr >
-                                <th >
-                                    {{'label.input.lastname' | translate }}
-                                </th>
-                                <td>
-                                    {{family.lastName}}
-                                </td>
-                            </tr>
-
-
 
                             <tr >
                                 <th >
@@ -1065,19 +1072,7 @@
                                 </td>
                             </tr>
 
-
-
-                            <tr >
-                                <th >
-                                    {{'label.input.mobileNumber' | translate }}
-                                </th>
-                                <td>
-                                    {{family.mobileNumber}}
-                                </td>
-                            </tr>
-
-
-                            <tr >
+                                                        <tr >
                                 <th >
                                     {{'label.input.age' | translate }}
                                 </th>
@@ -1095,8 +1090,6 @@
                                 </td>
                             </tr>
 
-
-
                             <tr >
                                 <th >
                                     {{'label.input.maritalstatus' | translate }}
@@ -1105,8 +1098,6 @@
                                     {{family.maritalStatus}}
                                 </td>
                             </tr>
-
-
 
                             <tr >
                                 <th >
@@ -1126,8 +1117,6 @@
                                 </td>
                             </tr>
 
-
-
 							<tr >
 								<th >
 									{{'label.input.dateofbirth' | translate }}
@@ -1136,6 +1125,45 @@
 									{{family.dateOfBirth | DateFormat }}
 								</td>
 							</tr>
+
+							-->
+
+                            <tr >
+                                <th >
+                                    {{'label.input.lastname' | translate }}
+                                </th>
+                                <td>
+                                    {{family.lastName}}
+                                </td>
+                            </tr>
+
+							<tr >
+								<th >
+									{{'label.input.motherlastname' | translate }}
+								</th>
+								<td>
+									{{family.motherLastName}}
+								</td>
+							</tr>
+
+                            <tr >
+                                <th >
+                                    {{'label.input.mobileNumber' | translate }}
+                                </th>
+                                <td>
+                                    {{family.mobileNumber}}
+                                </td>
+                            </tr>
+
+							<tr >
+								<th >
+									{{'label.input.email' | translate }}
+								</th>
+								<td>
+									{{family.email}}
+								</td>
+							</tr>
+
 
 							</tbody>
 
@@ -1298,6 +1326,7 @@
 						</blockquote>
 					</div>
 				</uib-tab>
+				<!--
 				<uib-tab heading="{{ 'label.heading.creditreportcheck' | translate }}" has-permission='READ_CLIENTNOTE'>
 					<form class="form">
 						<div class="form-group">
@@ -1324,6 +1353,7 @@
                         </form>
 
                     </uib-tab>
+                    -->
                 </uib-tabset>
             </div>
         </div>

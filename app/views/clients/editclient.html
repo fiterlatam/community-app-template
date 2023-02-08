@@ -43,6 +43,15 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="uuid">{{ 'label.input.uuid' | translate
+					}}</label>
+				<div class="col-sm-3">
+					<input type="text" id="uuid" name="uuid" ng-model="formData.uuid"
+						   class="form-control" late-Validate />
+				</div>
+			</div>
+
 			<div data-ng-switch on="showNonPersonOptions">
 				<div data-ng-switch-when="false">
 					<div class="form-group">
@@ -92,6 +101,17 @@
 							<form-validate valattributeform="editclientform" valattribute="lastname"/>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="motherlastname">{{'label.input.motherlastname' | translate}}
+						</label>
+						<div class="col-sm-3">
+							<input type="text" id="motherlastname" name="motherlastname" ng-model="formData.motherlastname"
+								   class="form-control" late-Validate />
+						</div>
+						<div class="col-sm-2">
+							<form-validate valattributeform="editclientform" valattribute="motherlastname" />
+						</div>
+					</div>
 				</div>
 	        </div>
 			<div data-ng-switch on="showNonPersonOptions">
@@ -138,6 +158,22 @@
 	                    </span>
 	            </div>
 	        </div>
+			<div data-ng-switch on="showNonPersonOptions">
+				<div data-ng-switch-when="false">
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{'label.input.countryofbirth' | translate}}</label>
+						<div class="col-sm-3">
+							<input type="text" id="countryOfBirth"
+								   ng-model="formData.countryOfBirth" class="form-control" />
+						</div>
+						<label class="control-label col-sm-2">{{'label.input.nationality' | translate}}</label>
+						<div class="col-sm-3">
+							<input type="text" id="nationality"
+								   ng-model="formData.nationality" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" ng-hide="showNonPersonOptions">{{'label.input.dateofbirth' | translate}}</label>
 				<label class="control-label col-sm-2" ng-show="showNonPersonOptions">{{'label.input.incorporationdate' | translate}}</label>
@@ -169,6 +205,44 @@
 								   ng-model="date.incorpValidityTillDate" is-open="opened1"   class="form-control"/>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div data-ng-switch on="showNonPersonOptions">
+				<div data-ng-switch-when="false">
+					<div class="form-group">
+						<div class="control-label col-sm-2">
+							<label>{{ 'label.input.profession' | translate }}</label>
+						</div>
+						<div class="col-sm-3">
+							<select chosen="professionIdOptions" id="clientProfessionIdOption"
+									ng-model="formData[$index].professionId" class="form-control"
+									ng-options="clientProfessionIdOption.id as clientProfessionIdOption.name for clientProfessionIdOption in clientProfessionIdOptions track by clientProfessionIdOption.id"
+									value="formData.clientProfessionId"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div data-ng-switch on="showNonPersonOptions">
+				<div data-ng-switch-when="false">
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="curp">{{'label.input.curp' |
+						translate}}</label>
+						<div class="col-sm-3">
+							<input type="text" id="curp" name="curp" ng-model="formData.curp"
+								    class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="rfc">{{'label.input.rfc' |
+				translate}}</label>
+				<div class="col-sm-3">
+					<input type="text" id="rfc" name="rfc" ng-model="formData.rfc"
+						   class="form-control" />
 				</div>
 			</div>
 
@@ -265,6 +339,35 @@
 
 	            </div>
 	        </div>
+
+			<div data-ng-switch on="showNonPersonOptions">
+				<div data-ng-switch-when="false">
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="finalBeneficiary">{{'label.input.beneficiary' |
+						translate}}</label>
+						<div class="col-sm-3">
+							<select id="finalBeneficiary" ng-model="formData.finalBeneficiary"
+									value="{{formData.finalBeneficiary}}" class="form-control"
+									ng-change="enableThirdParty(formData.finalBeneficiary)">
+								<option value="titular" >Titular</option>
+								<option value="tercero">Tercero</option>></option>
+							</select>
+						</div>
+						<div class="col-sm-3">
+							<input type="text" id="thirdpartybeneficiary" name="thirdpartybeneficiary" ng-disabled="!showThirdPartyBeneficiary"
+								   ng-model="formData.thirdPartyBeneficiary" class="form-control" />
+						</div>
+						<div class="col-sm-2">
+                              <span ng-show="createclientform.thirdpartybeneficiary.$invalid && createclientform.thirdpartybeneficiary.$dirty">
+                                 <small class="required" ng-show="createclientform.thirdpartybeneficiary.$error.pattern">
+                                    {{'label.requirefield' | translate}}
+                                 </small>
+                              </span>
+						</div>
+					</div>
+				</div>
+			</div>
+
 	        <div class="col-md-offset-3">
 	            <a id="cancel" href="#/viewclient/{{clientId}}">
 	                <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
