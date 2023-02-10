@@ -36,6 +36,8 @@
             scope.formDat.datatables = [];
             scope.tf = "HH:mm";
             scope.clientId = routeParams.clientId;
+            scope.formData.finalBeneficiary = "titular";
+            scope.showThirdPartyBeneficiary = false;
 
             var requestParams = {staffInSelectedOfficeOnly:true};
             if (routeParams.groupId) {
@@ -198,6 +200,15 @@
                 });
             };
 
+            scope.enableThirdParty = function(finalBeneficiary){
+                scope.showThirdPartyBeneficiary = false;
+                // this.formData.thirdPartyBeneficiary = '';
+                delete this.formData.thirdPartyBeneficiary;
+                if(finalBeneficiary === 'tercero'){
+                    scope.showThirdPartyBeneficiary = true;
+                }
+            };
+
             scope.setChoice = function () {
                 if (this.formData.active) {
                     scope.choice = 1;
@@ -307,6 +318,10 @@
 
                 if (!scope.savings.opensavingsproduct) {
                     this.formData.savingsProductId = null;
+                }
+
+                if(this.formData.finalBeneficiary === 'titular'){
+                    delete this.formData.thirdPartyBeneficiary;
                 }
 
                 if(scope.enableAddress===true)
@@ -427,8 +442,23 @@
                     }
                     if(scope.familyArray[i].dateOfBirth)
                     {
-
                         temp.dateOfBirth=dateFilter(scope.familyArray[i].dateOfBirth, scope.df);
+                    }
+                    if(scope.familyArray[i].uuid)
+                    {
+                        temp.uuid=scope.familyArray[i].uuid;
+                    }
+                    if(scope.familyArray[i].curp)
+                    {
+                        temp.curp=scope.familyArray[i].curp;
+                    }
+                    if(scope.familyArray[i].motherLastName)
+                    {
+                        temp.motherLastName=scope.familyArray[i].motherLastName;
+                    }
+                    if(scope.familyArray[i].email)
+                    {
+                        temp.email=scope.familyArray[i].email;
                     }
 
                     temp.locale = scope.optlang.code;

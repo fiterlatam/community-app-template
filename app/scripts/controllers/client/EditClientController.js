@@ -21,6 +21,7 @@
                 scope.clientNonPersonMainBusinessLineOptions = data.clientNonPersonMainBusinessLineOptions;
                 scope.clientLegalFormOptions = data.clientLegalFormOptions;
                 scope.officeId = data.officeId;
+                scope.showThirdPartyBeneficiary = false;
                 scope.formData = {
                     firstname: data.firstname,
                     lastname: data.lastname,
@@ -34,11 +35,23 @@
                     savingsProductId: data.savingsProductId,
                     genderId: data.gender.id,
                     fullname: data.fullname,
+                    uuid: data.uuid,
+                    curp: data.curp,
+                    rfc: data.rfc,
+                    motherlastname: data.motherLastName,
+                    countryOfBirth: data.countryOfBirth,
+                    nationality: data.nationality,
+                    finalBeneficiary: data.mainBeneficiary,
+                    thirdPartyBeneficiary: data.thirdPartyBeneficiary,
                     clientNonPersonDetails : {
                         incorpNumber: data.clientNonPersonDetails.incorpNumber,
                         remarks: data.clientNonPersonDetails.remarks
                     }
                 };
+
+                if (data.mainBeneficiary && data.mainBeneficiary === 'tercero'){
+                    scope.showThirdPartyBeneficiary = true;
+                }
 
                 if(data.gender){
                     scope.formData.genderId = data.gender.id;
@@ -105,6 +118,15 @@
                 }
             };
 
+            scope.enableThirdParty = function(finalBeneficiary){
+                scope.showThirdPartyBeneficiary = false;
+                // this.formData.thirdPartyBeneficiary = '';
+                delete this.formData.thirdPartyBeneficiary;
+                if(finalBeneficiary === 'tercero'){
+                    scope.showThirdPartyBeneficiary = true;
+                }
+            };
+
             scope.submit = function () {
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
@@ -133,6 +155,11 @@
                     delete this.formData.firstname;
                     delete this.formData.middlename;
                     delete this.formData.lastname;
+                    delete this.formData.motherlastname;
+                }
+
+                if(this.formData.finalBeneficiary === 'titular'){
+                    this.formData.thirdPartyBeneficiary = '';
                 }
 
                 resourceFactory.clientResource.update({'clientId': routeParams.id}, this.formData, function (data) {

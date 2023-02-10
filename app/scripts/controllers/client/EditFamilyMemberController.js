@@ -16,7 +16,6 @@
                 scope.genderIdOptions=data.genderIdOptions;
                 scope.maritalStatusIdOptions=data.maritalStatusIdOptions;
                 scope.professionIdOptions=data.professionIdOptions;
-
             });
 
 
