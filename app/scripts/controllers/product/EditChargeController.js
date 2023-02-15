@@ -90,6 +90,7 @@
                 scope.formData = {
                     name: data.name,
                     active: data.active,
+                    isVatRequired: data.isVatRequired,
                     enableFreeWithdrawalCharge: data.freeWithdrawal,
                     enablePaymentType: data.isPaymentType,
                     freeWithdrawalFrequency:data.freeWithdrawalChargeFrequency,
@@ -231,6 +232,7 @@
                 }
                 this.formData.locale = scope.optlang.code;
                 this.formData.active = this.formData.active || false;
+                this.formData.isVatRequired = this.formData.isVatRequired || false;
                 this.formData.enableFreeWithdrawalCharge = this.formData.enableFreeWithdrawalCharge || false;
                 this.formData.enablePaymentType = this.formData.enablePaymentType || false;
                 this.formData.penalty = this.formData.penalty || false;
