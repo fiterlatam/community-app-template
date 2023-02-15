@@ -331,6 +331,10 @@
                                 <td><span class="padded-td">{{loandetails.annualInterestRate}} per annum ({{loandetails.interestRatePerPeriod}}%&nbsp; {{loandetails.interestRateFrequencyType.value}}) - {{loandetails.interestType.value}}</span>
                                 </td>
                             </tr>
+                            <tr ng-show="!loandetails.isLoanProductLinkedToFloatingRate">
+                                <td>{{'label.heading.catrate' | translate}}</td>
+                                <td><span class="padded-td">{{loandetails.catRate}}%</td>
+                            </tr>
                             <tr>
                                 <td>{{'label.heading.graceonprincipalpayment' |
                                     translate}}
