@@ -207,6 +207,7 @@
                     delete this.formData.chargePaymentMode;
                 }
                 this.formData.active = this.formData.active || false;
+                this.formData.isVatRequired = this.formData.isVatRequired || false;
                 this.formData.enableFreeWithdrawalCharge = this.formData.enableFreeWithdrawalCharge || false;
                 this.formData.enablePaymentType = this.formData.enablePaymentType || false;
                 this.formData.locale = scope.optlang.code;
