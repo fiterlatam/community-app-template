@@ -468,6 +468,7 @@
                 this.formData.expectedDisbursementDate = reqSecondDate;
                 this.formData.submittedOnDate = reqFirstDate;
                 this.formData.createStandingInstructionAtDisbursement = scope.formData.createStandingInstructionAtDisbursement;
+                this.formData.isVatRequired = this.formData.isVatRequired || false;
                 if (scope.date.recalculationRestFrequencyDate) {
                     var restFrequencyDate = dateFilter(scope.date.recalculationRestFrequencyDate, scope.df);
                     scope.formData.recalculationRestFrequencyDate = restFrequencyDate;

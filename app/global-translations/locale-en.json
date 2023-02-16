@@ -137,6 +137,7 @@
   "label.heading.rateperiods": "Floating Rate Periods",
   "label.heading.fromdate": "From Date:",
   "label.heading.interestrate": "Interest Rate",
+  "label.heading.tasaeffectiva": "Effective rate",
   "label.heading.patternupdate": "Pattern Update",
   "label.input.collateralName": "Collateral Name",
   "label.input.quantity": "Quantity",

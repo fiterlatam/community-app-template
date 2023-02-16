@@ -308,6 +308,10 @@
                             </thead>
                             <tbody>
                             <tr>
+                                <td>{{'label.heading.isvatrequired' | translate}}</td>
+                                <td><span class="padded-td">{{loandetails.isVatRequired}}</span></td>
+                            </tr>
+                            <tr>
                                 <td>{{'label.heading.repaymentstrategy' |
                                     translate}}
                                 </td>
@@ -330,6 +334,10 @@
                                 <td>{{'label.heading.interest' | translate}}</td>
                                 <td><span class="padded-td">{{loandetails.annualInterestRate}} per annum ({{loandetails.interestRatePerPeriod}}%&nbsp; {{loandetails.interestRateFrequencyType.value}}) - {{loandetails.interestType.value}}</span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>{{'label.heading.tasaeffectiva' | translate}}</td>
+                                <td><span class="padded-td">{{loandetails.effectiveRate}}</span></td>
                             </tr>
                             <tr>
                                 <td>{{'label.heading.graceonprincipalpayment' |

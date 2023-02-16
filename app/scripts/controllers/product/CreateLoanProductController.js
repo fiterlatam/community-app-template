@@ -377,6 +377,7 @@
                 this.formData.startDate = reqFirstDate;
                 this.formData.closeDate = reqSecondDate;
                 this.formData.rates = scope.rates;
+                this.formData.isVatRequired = this.formData.isVatRequired || false;
 
                 //Interest recalculation data
                 if (this.formData.isInterestRecalculationEnabled) {

@@ -152,6 +152,7 @@
 	"label.heading.rateperiods": "Períodos de tasa flotante",
 	"label.heading.fromdate": "Desde la fecha:",
 	"label.heading.interestrate": "Tasa de interés",
+	"label.heading.tasaeffectiva": "Tasa efectiva",
 	"label.heading.patternupdate": "Actualización de patrón",
 	"label.input.between": "Entre",
 	"label.input.provisioningcriteria": "Criterios de aprovisionamiento",
