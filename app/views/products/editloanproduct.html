@@ -77,6 +77,15 @@
 	            <input type="checkbox" ng-model="formData.includeInBorrowerCycle" ng-true-value="true" ng-false-value="false">
 	        </label>
 	    </div>
+
+
+		<label class="control-label col-sm-2" for="isVatRequired">{{'label.input.isvatrequired' | translate}}</label>
+
+		<div class="checkbox col-sm-2">
+			<label class="checkbox">
+				<input id="isVatRequired" type="checkbox" ng-model="formData.isVatRequired">
+			</label>
+		</div>
 	</div>
 	<h3>{{ 'label.heading.currency' | translate }}</h3>
 	<hr>

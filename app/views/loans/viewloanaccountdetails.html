@@ -308,6 +308,10 @@
                             </thead>
                             <tbody>
                             <tr>
+                                <td>{{'label.heading.isvatrequired' | translate}}</td>
+                                <td><span class="padded-td">{{loandetails.isVatRequired}}</span></td>
+                            </tr>
+                            <tr>
                                 <td>{{'label.heading.repaymentstrategy' |
                                     translate}}
                                 </td>
@@ -334,6 +338,10 @@
                             <tr ng-show="!loandetails.isLoanProductLinkedToFloatingRate">
                                 <td>{{'label.heading.catrate' | translate}}</td>
                                 <td><span class="padded-td">{{loandetails.catRate}}%</td>
+                            </tr>
+                            <tr>
+                                <td>{{'label.heading.tasaeffectiva' | translate}}</td>
+                                <td><span class="padded-td">{{loandetails.effectiveRate}}</span></td>
                             </tr>
                             <tr>
                                 <td>{{'label.heading.graceonprincipalpayment' |

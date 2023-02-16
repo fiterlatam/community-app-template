@@ -419,6 +419,19 @@
                                     ng-model="formData.graceOnArrearsAgeing">
                             </td>
                         </tr>
+
+                        <tr>
+                            <td class="paddedbottom20">
+                                <label class="ng-binding" for="isVatRequired">{{'label.input.isvatrequired' | translate}}</label>
+                            </td>
+
+                            <td class="checkbox col-sm-3">
+                                <label class="checkbox">
+                                    <input id="isVatRequired" type="checkbox" ng-model="formData.isVatRequired">
+                                </label>
+                            </td>
+                        </tr>
+
                         <tr data-ng-show="loanaccountinfo.canDefineInstallmentAmount">
                             <td colspan=2>
                                 <label>{{ 'label.input.fixedemiamount' | translate }}:</label>&nbsp;
@@ -544,6 +557,7 @@
                                 </label>
                             </td>
                         </tr>
+
                         <tr data-ng-show="loanaccountinfo.isInterestRecalculationEnabled && loanaccountinfo.interestRecalculationData.interestRecalculationCompoundingType.id != 0 && loanaccountinfo.interestRecalculationData.recalculationCompoundingFrequencyType.id != 1">
                             <td ng-hide="response.uiDisplayConfigurations.loanAccount.isHiddenSection.interestRecalculationSection == true">
                                 <label class="control-label">{{ 'label.input.frequenc.interval.for.compounding' | translate }}</label>

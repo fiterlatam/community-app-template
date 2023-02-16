@@ -429,6 +429,18 @@
                            ng-model="date.recalculationCompoundingFrequencyDate" is-open="opened" min="'2000-01-01'" max="restrictDate" class="form-control"/>
                 </td>
             </tr>
+
+            <tr>
+                <td class="paddedbottom20">
+                    <label class="ng-binding" for="isVatRequired">{{'label.input.isvatrequired' | translate}}</label>
+                </td>
+
+                <td class="checkbox col-sm-3">
+                    <label class="checkbox">
+                        <input id="isVatRequired" type="checkbox" ng-model="formData.isVatRequired">
+                    </label>
+                </td>
+            </tr>
         </table>
         <div ng-show="multiDisburseLoan">
             <hr/>
