@@ -9,7 +9,8 @@
             scope.submit = function () {
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/clients/' + scope.clientId + '/documents',
-                    data: { name : scope.formData.name, description : scope.formData.description, file: scope.formData.file},
+                    data: { name : scope.formData.name, description : scope.formData.description, file: scope.formData.file,
+                        documentLink : scope.formData.documentLink},
                 }).then(function (data) {
                         // to fix IE not refreshing the model
                         if (!scope.$$phase) {
