@@ -340,6 +340,26 @@
 	            </div>
 	        </div>
 
+			<div class="form-group">
+				<label class="control-label col-sm-2">{{'label.input.isvatrequired' | translate}}</label>
+				<div class="col-sm-3">
+					<input id="isVatRequired" type="checkbox" ng-model="formData.isVatRequired" data-ng-change="setVatRequired()" >
+				</div>
+				<div data-ng-switch on="isVatRequired">
+					<div data-ng-switch-when="1">
+						<label class="control-label col-sm-2">{{'label.input.vatrate' | translate}}</label>
+						<div class="col-sm-3">
+							<select id="vatRateId" name="vatRateId"
+									ng-model="formData.vatRateId" class="form-control"
+									ng-options="vatRate.id as vatRate.name for vatRate in vatRateOptions"
+									value="{{vatRate.id}}">
+								<option value="">--{{'label.menu.vatrate' | translate}}--</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div data-ng-switch on="showNonPersonOptions">
 				<div data-ng-switch-when="false">
 					<div class="form-group">
