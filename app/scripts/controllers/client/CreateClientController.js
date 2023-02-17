@@ -55,6 +55,7 @@
                 scope.clienttypeOptions = data.clientTypeOptions;
                 scope.clientClassificationOptions = data.clientClassificationOptions;
                 scope.clientNonPersonConstitutionOptions = data.clientNonPersonConstitutionOptions;
+                scope.vatRateOptions = data.vatRateOptions;
                 scope.clientNonPersonMainBusinessLineOptions = data.clientNonPersonMainBusinessLineOptions;
                 scope.clientLegalFormOptions = data.clientLegalFormOptions;
                 scope.datatables = data.datatables;
@@ -217,6 +218,16 @@
                     scope.choice = 0;
                 }
             };
+
+            scope.setVatRequired = function () {
+                if (this.formData.isVatRequired) {
+                    scope.isVatRequired = 1;
+                }
+                else if (!this.formData.isVatRequired) {
+                    scope.isVatRequired = 0;
+                }
+            };
+
             if(routeParams.groupId) {
                 scope.cancel = '#/viewgroup/' + routeParams.groupId
                 scope.groupid = routeParams.groupId;

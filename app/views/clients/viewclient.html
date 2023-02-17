@@ -862,6 +862,14 @@
 										<th>{{ 'label.numofactivesavings' | translate }}</th>
 										<td><span class="padded-td">{{client.ClientSummary.activeSavings}}</span></td>
 									</tr>
+									<tr>
+										<th>{{ 'label.isvatrequired' | translate }}</th>
+										<td><span class="padded-td">{{client.isVatRequired  | YesOrNo}}</span></td>
+									</tr>
+									<tr>
+										<th>{{ 'label.vatrate' | translate }}</th>
+										<td><span class="padded-td">{{client.vatRateData.name}}</span></td>
+									</tr>
 								</table>
 							</div>
 						</div>

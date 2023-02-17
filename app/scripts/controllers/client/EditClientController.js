@@ -22,6 +22,7 @@
                 scope.clientLegalFormOptions = data.clientLegalFormOptions;
                 scope.officeId = data.officeId;
                 scope.showThirdPartyBeneficiary = false;
+                scope.vatRateOptions = data.vatRateOptions;
                 scope.formData = {
                     firstname: data.firstname,
                     lastname: data.lastname,
@@ -46,7 +47,9 @@
                     clientNonPersonDetails : {
                         incorpNumber: data.clientNonPersonDetails.incorpNumber,
                         remarks: data.clientNonPersonDetails.remarks
-                    }
+                    },
+                    isVatRequired: data.isVatRequired,
+                    vatRateId: data.vatRateData.id
                 };
 
                 if (data.mainBeneficiary && data.mainBeneficiary === 'tercero'){
@@ -108,6 +111,8 @@
                     scope.date.submittedOnDate = new Date(submittedOnDate);
                 }
 
+                scope.setVatRequired();
+
             });
 
             scope.displayPersonOrNonPersonOptions = function (legalFormId) {
@@ -124,6 +129,15 @@
                 delete this.formData.thirdPartyBeneficiary;
                 if(finalBeneficiary === 'tercero'){
                     scope.showThirdPartyBeneficiary = true;
+                }
+            };
+
+            scope.setVatRequired = function () {
+                if (this.formData.isVatRequired) {
+                    scope.isVatRequired = 1;
+                }
+                else if (!this.formData.isVatRequired) {
+                    scope.isVatRequired = 0;
                 }
             };
 
