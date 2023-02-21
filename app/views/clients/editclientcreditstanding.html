@@ -1,0 +1,104 @@
+<div class="content-container" ng-controller="EditClientCreditStandingController">
+    <div class="card">
+        <div class="content">
+        <div class="toolbar">
+            <h4>{{ 'label.heading.editcreditstanding' | translate }}</h4>
+        </div>
+        <br/>
+            <form name="editcreditstandingform" novalidate="" class="form-horizontal" rc-submit="submit()">
+                <api-validate></api-validate>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="mra">{{ 'label.input.standing.mra' | translate }}<span
+                                class="required">*</span></label>
+
+                        <div class="col-sm-3">
+                            <input id="mra" name="mra" ng-autofocus="true" type="text" class="form-control" ng-model="formData.mra" required number-format late-validate>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <form-validate valattributeform="editcreditstandingform" valattribute="mra"/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="mra">{{ 'label.input.standing.rci.max' | translate }}<span
+                                class="required">*</span></label>
+
+                        <div class="col-sm-3">
+                            <input id="rcimax" name="rcimax" type="text" class="form-control" ng-model="formData.rciMax" required number-format late-validate>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <form-validate valattributeform="editcreditstandingform" valattribute="rcimax"/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="mraavailable">{{'label.input.standing.mraAvailable' | translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input id="mraavailable" name="mraavailable" type="text" ng-model="formData.mraAvailable" class="form-control" number-format disabled/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="monthlycommitment">{{'label.input.standing.monthlyCommitment' | translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input id="monthlycommitment" name="monthlycommitment" type="text" ng-model="formData.monthlyCommitment" class="form-control" number-format disabled/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="totaldebt">{{'label.input.standing.totalDebt' | translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input id="totaldebt" name="totaldebt" type="text" ng-model="formData.totalDebt" class="form-control" number-format disabled/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="currentdebt">{{'label.input.standing.currentDebt' | translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input id="currentdebt" name="currentdebt" type="text" ng-model="formData.currentDebt" class="form-control" number-format disabled/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="expireddebt">{{'label.input.standing.expiredDebt' | translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input id="expireddebt" name="expireddebt" type="text" ng-model="formData.expiredDebt" class="form-control" number-format disabled/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="delayindays">{{'label.input.standing.delayInDays' | translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input id="delayindays" name="delayindays" type="text" ng-model="formData.delayInDays" class="form-control" number-format disabled/>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-offset-3">
+                        <a id="cancel" href="#/viewclient/{{clientId}}">
+                            <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
+                        </a>
+                        <button id="save" type="submit" has-permission='CREATE_CREDITSTANDING' class="btn btn-primary">{{ 'label.button.save' | translate }}</button>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

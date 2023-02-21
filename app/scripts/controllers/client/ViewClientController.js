@@ -93,8 +93,6 @@
             scope.routeToEdit=function(clientId,addressId)
             {
                 location.path('/editAddress/'+clientId+'/'+addressId+'/'+ routeParams.id);
-
-
             }
 
             // family members
@@ -124,10 +122,7 @@
 
             scope.editFamilyMember=function(clientFamilyMemberId)
             {
-
                 location.path('/editfamilymember/'+routeParams.id+'/'+clientFamilyMemberId);
-
-
             }
 
             scope.routeToaddFamilyMember=function()
@@ -135,11 +130,7 @@
                 location.path('/addfamilymembers/'+ routeParams.id);
             }
 
-
             // end of family members
-
-
-
             scope.routeToLoan = function (id) {
                 location.path('/viewloanaccount/' + id);
             };
@@ -171,7 +162,12 @@
 
             scope.routeToCollateral = function(id) {
                 location.path('/viewclient/' + routeParams.id + '/viewclientcollateral/' + id);
-            }
+            };
+
+            scope.editClientCreditStanding=function()
+            {
+                location.path('/editclientcreditstanding/'+routeParams.id+'/');
+            };
 
             scope.haveFile = [];
             resourceFactory.clientResource.get({clientId: routeParams.id}, function (data) {
@@ -180,6 +176,7 @@
                 scope.collateralSize = scope.collaterals.length;
                 scope.isClosedClient = scope.client.status.value == 'Closed';
                 scope.staffData.staffId = data.staffId;
+                scope.creditStandingDetails = data.creditStandingDetails;
                 if (data.imagePresent) {
                     http({
                         method: 'GET',

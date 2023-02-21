@@ -876,6 +876,91 @@
 					</div>
 
 				</uib-tab>
+
+				<!--credit standing tab-->
+				<uib-tab heading="{{'label.heading.creditStanding' | translate}}">
+					<!--credit standing tab-->
+						<div>
+							<table class="table" class="table table-condensed">
+								<thead>
+									<tr class="graybg">
+										<th class="graybg"> {{label.heading.creditStanding}}</th>
+										<td>
+											<button class="btn btn-primary pull-right" ng-click="editClientCreditStanding()"><i class="icon-plus icon-white"></i>{{'label.button.edit' | translate}}</button>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>
+											{{'label.input.standing.mra' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.mra}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.mraAvailable' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.mraAvailable}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.rci.max' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.rciMax}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.monthlyCommitment' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.monthlyCommitment}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.totalDebt' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.totalDebt}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.currentDebt' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.currentDebt}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.expiredDebt' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.expiredDebt}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											{{'label.input.standing.delayInDays' | translate }}
+										</th>
+										<td>
+											{{creditStandingDetails.delayInDays}}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<!--end of credit standing tab-->
+
 				<uib-tab ng-show="enableAddress" heading="{{'label.heading.address' | translate}}" >
 					<!--<fieldset>-->
 					<!-- <div ng-controller="AddressController">-->

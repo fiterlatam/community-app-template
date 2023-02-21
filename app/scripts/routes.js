@@ -238,6 +238,9 @@
             .when('/viewcollateral/:id', {
                 templateUrl: 'views/products/viewcollateral.html'
             })
+            .when('/editclientcreditstanding/:id', {
+                templateUrl: 'views/clients/editclientcreditstanding.html'
+            })
             .when('/floatingrates', {
                 templateUrl: 'views/products/floatingrates/FloatingRates.html'
             })
