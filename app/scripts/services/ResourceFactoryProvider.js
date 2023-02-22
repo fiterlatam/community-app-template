@@ -854,6 +854,13 @@
                     causesTemplateResource: defineResource(apiVer + "/codecauses/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    creditStandingClientResource: defineResource(apiVer + "/creditstandings/client/:clientId", {clientId: '@clientId'}, {
+                        get: {method: 'GET', params: {}},
+                        update: {method: 'PUT', params: {}}
+                    }),
+                    creditStandingResource: defineResource(apiVer + "/creditstandings/", {}, {
+                        save: {method: 'POST', params: {}}
+                    }),
                 };
             }];
         }

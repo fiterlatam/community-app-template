@@ -56,6 +56,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'client/CreateClientCollateralController',
             'client/EditClientCollateralController',
             'client/ViewClientCollateralController',
+            'client/EditClientCreditStandingController',
             'client/ViewAllClientCollateralsController',
             'client/EditClientController',
             'client/ViewClientController',

@@ -38,6 +38,7 @@
 
                     modelCtrl.$parsers.push(function (stringValue) {
                         if (stringValue) {
+                            var caretPosition = element[0].selectionStart || undefined;
                             var index = stringValue.indexOf($locale.NUMBER_FORMATS.DECIMAL_SEP),
                                 decimal,
                                 fraction,
@@ -64,11 +65,32 @@
                                 scope.$evalAsync(function () {
                                     modelCtrl.$viewValue = number(viewValue, fractionLength);
                                     modelCtrl.$render();
+                                    if (typeof caretPosition === 'number') {
+                                        caretPosition = caretPosition + getGroupCount(viewValue);
+                                        if(modelCtrl.$viewValue.length - caretPosition == 2){
+                                            caretPosition = caretPosition - 1;
+                                        }
+                                        element[0].selectionStart = element[0].selectionEnd = caretPosition;
+                                    }
+                                    else {
+                                        element[0].selectionStart = element[0].selectionEnd = 0;
+                                    }
                                 });
                             }
                             return result;
                         }
                     });
+
+                    function getGroupCount(number) {
+                        if(number >= 1000){
+                            let newNumber = number/1000;
+                            if(newNumber > 9)
+                                return 0 + getGroupCount(number/1000);
+                            else
+                                return 1 + getGroupCount(number/1000);
+                        }
+                        return 0;
+                    }
 
                     scope.$on('$localeChangeSuccess', function (event, localeId) {
                         modelCtrl.$viewValue = $filter('number')(modelCtrl.$modelValue);
