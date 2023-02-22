@@ -1,16 +1,8 @@
-server {
-    listen 80 default_server;
-
-    server_name abea.fiter.io;
-
-    return 301 https://$host$request_uri;
-}
-
 
 server {
 
-    listen  443;
-    server_name 3.17.138.28 abea.fiter.io;
+    listen  8888;
+    server_name 3.17.138.28 abea.fiter.io localhost;
    
 
   location / {
