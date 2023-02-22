@@ -529,7 +529,7 @@
                             <tr>
                                 <th colspan="5" scope="colgroup"></th>
                                 <th colspan="2" scope="colgroup">{{'label.heading.loanamountandbalance' | translate}}</th>
-                                <th colspan="3" scope="colgroup">{{'label.heading.totalcostofloan' | translate}}</th>
+                                <th colspan="5" scope="colgroup">{{'label.heading.totalcostofloan' | translate}}</th>
                                 <th colspan="6" scope="colgroup">{{'label.heading.installmenttotals' | translate}}</th>
                             </tr>
                             <tr>
@@ -545,6 +545,9 @@
                                 <th scope="col">{{'label.heading.interest' | translate}}</th>
                                 <th scope="col">{{'label.heading.fees' | translate}}</th>
                                 <th scope="col">{{'label.heading.penalties' | translate}}</th>
+
+                                <th scope="col">{{'label.heading.vatoninterest' | translate}}</th>
+                                <th scope="col">{{'label.heading.vatoncharge' | translate}}</th>
 
                                 <th scope="col">{{'label.heading.due' | translate}}</th>
                                 <th scope="col">{{'label.heading.paid' | translate}}</th>
@@ -570,6 +573,9 @@
                                 <td>{{period.feeChargesDue | number}}</td>
                                 <td>{{period.penaltyChargesDue | number}}</td>
 
+                                <td>{{period.vatOnInterest | number}}</td>
+                                <td>{{period.vatOnCharges | number}}</td>
+
                                 <td>{{period.totalDueForPeriod | number}}</td>
                                 <td>{{period.totalPaidForPeriod | number}}</td>
                                 <td>{{period.totalPaidInAdvanceForPeriod | number}}</td>
@@ -589,6 +595,9 @@
                                 <th>{{loandetails.repaymentSchedule.totalInterestCharged | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalFeeChargesCharged | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalPenaltyChargesCharged | number}}</th>
+
+                                <th>{{loandetails.repaymentSchedule.totalVatOnInterestExpected | number}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalVatOnChargeExpected | number}}</th>
 
                                 <th>{{loandetails.repaymentSchedule.totalRepaymentExpected | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalRepayment | number}}</th>
