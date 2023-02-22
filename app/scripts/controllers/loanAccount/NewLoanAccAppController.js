@@ -302,7 +302,7 @@
                 if(scope.formData.loanTermFrequencyType == 2){
                     period = period/12;
                 }
-                let effectInterestAmount = (1 + interest / period) * period - 1;
+                let effectInterestAmount = ((1 + interest / period) * period - 1).toFixed(2);
 
                 console.log(period, interest, effectInterestAmount);
                 scope.tasaeffectiva = effectInterestAmount;
