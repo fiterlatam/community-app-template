@@ -2,7 +2,7 @@
 server {
 
     listen  80;
-    server_name 3.17.138.28 abea.fiter.io localhost 127.0.0.1;
+    server_name _;
    
 
   location / {
@@ -18,7 +18,7 @@ server {
     error_log /var/log/nginx/error.log error;
     access_log off;
 
-    proxy_pass https://fineract_fineract-server_1:8443/;
+    proxy_pass https://fineract_fineract-server_1:8443;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
