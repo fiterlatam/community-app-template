@@ -2,7 +2,7 @@
 server {
 
     listen  80;
-    server_name 3.17.138.28 abea.fiter.io localhost;
+    server_name 3.17.138.28 abea.fiter.io localhost 127.0.0.1;
    
 
   location / {
