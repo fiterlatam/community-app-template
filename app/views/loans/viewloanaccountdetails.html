@@ -164,6 +164,15 @@
                                 <td>{{loandetails.summary.interestOverdue | number}}</td>
                             </tr>
                             <tr>
+                                <th>{{'label.heading.vatoninterest' | translate}}</th>
+                                <td>{{loandetails.summary.totalVatOnInterestCharged | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnInterestPaid | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnInterestWaived | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnInterestWrittenOff | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnInterestOutstanding | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnInterestOverdue | number}}</td>
+                            </tr>
+                            <tr>
                                 <th>{{'label.heading.fees' | translate}}</th>
                                 <td>{{loandetails.summary.feeChargesCharged | number}}</td>
                                 <td>{{loandetails.summary.feeChargesPaid | number}}</td>
@@ -181,6 +190,16 @@
                                 <td>{{loandetails.summary.penaltyChargesWrittenOff | number}}</td>
                                 <td>{{loandetails.summary.penaltyChargesOutstanding | number}}</td>
                                 <td>{{loandetails.summary.penaltyChargesOverdue | number}}</td>
+                            </tr>
+
+                            <tr>
+                                <th>{{'label.heading.vatoncharge' | translate}}</th>
+                                <td>{{loandetails.summary.totalVatOnChargeExpected | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnChargePaid | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnChargeWaived | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnChargeWrittenOff | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnChargeOutstanding | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnChargeOverdue | number}}</td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -543,10 +562,10 @@
                                 <th scope="col">{{'label.heading.balanceofloan' | translate}}</th>
 
                                 <th scope="col">{{'label.heading.interest' | translate}}</th>
+                                <th scope="col">{{'label.heading.vatoninterest' | translate}}</th>
                                 <th scope="col">{{'label.heading.fees' | translate}}</th>
                                 <th scope="col">{{'label.heading.penalties' | translate}}</th>
 
-                                <th scope="col">{{'label.heading.vatoninterest' | translate}}</th>
                                 <th scope="col">{{'label.heading.vatoncharge' | translate}}</th>
 
                                 <th scope="col">{{'label.heading.due' | translate}}</th>
@@ -570,12 +589,10 @@
                                 <td>{{period.principalDue | number}}</td>
                                 <td>{{period.principalLoanBalanceOutstanding | number}}</td>
                                 <td>{{period.interestOriginalDue | number}}</td>
+                                <td>{{period.vatOnInterest | number}}</td>
                                 <td>{{period.feeChargesDue | number}}</td>
                                 <td>{{period.penaltyChargesDue | number}}</td>
-
-                                <td>{{period.vatOnInterest | number}}</td>
                                 <td>{{period.vatOnCharges | number}}</td>
-
                                 <td>{{period.totalDueForPeriod | number}}</td>
                                 <td>{{period.totalPaidForPeriod | number}}</td>
                                 <td>{{period.totalPaidInAdvanceForPeriod | number}}</td>
@@ -593,10 +610,10 @@
                                 <th>{{loandetails.repaymentSchedule.totalPrincipalExpected | number}}</th>
                                 <th>&nbsp;</th>
                                 <th>{{loandetails.repaymentSchedule.totalInterestCharged | number}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalVatOnInterestExpected | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalFeeChargesCharged | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalPenaltyChargesCharged | number}}</th>
 
-                                <th>{{loandetails.repaymentSchedule.totalVatOnInterestExpected | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalVatOnChargeExpected | number}}</th>
 
                                 <th>{{loandetails.repaymentSchedule.totalRepaymentExpected | number}}</th>
