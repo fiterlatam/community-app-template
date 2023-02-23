@@ -1,8 +1,11 @@
 
 server {
 
-    listen  80;
-    server_name _;
+    listen  443;
+    server_name abea.fiter.io;
+    
+    ssl_certificate /etc/ssl/keys/crt.pem;
+    ssl_certificate_key /etc/ssl/keys/key.pem;
    
 
   location / {
