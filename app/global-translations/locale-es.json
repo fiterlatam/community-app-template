@@ -1330,6 +1330,8 @@
 	"label.heading.overdue": "Atrasado",
 	"label.heading.original": "Original",
 	"label.heading.penalties": "Sanciones",
+	"label.heading.vatoninterest": "Intereses IVA",
+	"label.heading.vatoncharge": "Cobra IVA",
 	"label.heading.repaymentschedule": "Calendario de reembolso",
 	"label.heading.futureschedule": "Agenda futura",
 	"label.heading.originalschedule": "Agenda original",
