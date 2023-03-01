@@ -354,9 +354,13 @@
                                 <td><span class="padded-td">{{loandetails.annualInterestRate}} per annum ({{loandetails.interestRatePerPeriod}}%&nbsp; {{loandetails.interestRateFrequencyType.value}}) - {{loandetails.interestType.value}}</span>
                                 </td>
                             </tr>
-                            <tr ng-show="!loandetails.isLoanProductLinkedToFloatingRate">
+                            <tr ng-show="loandetails.isVatRequired">
+                                <td>{{'label.heading.catratewithvat' | translate}}</td>
+                                <td><span class="padded-td">{{loandetails.catRateWithVat | number:2}}%</span></td>
+                            </tr>
+                            <tr>
                                 <td>{{'label.heading.catrate' | translate}}</td>
-                                <td><span class="padded-td">{{loandetails.catRate}}%</td>
+                                <td><span class="padded-td">{{loandetails.catRate | number:2}}%</span></td>
                             </tr>
                             <tr>
                                 <td>{{'label.heading.tasaeffectiva' | translate}}</td>
