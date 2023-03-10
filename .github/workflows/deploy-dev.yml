@@ -34,14 +34,16 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
   continuous-deployment:
     needs: continuous-integration
     runs-on: ubuntu-latest
     steps:
+    
+      - id: commit
+        uses: pr-mpt/actions-commit-hash@v1    
+      
+      
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
@@ -50,8 +52,14 @@ jobs:
           key: ${{ secrets.LATAM_EC2_SSH_KEY }}
           script: |
             ./docker-login.sh
+            cd mifos
+            echo IMAGE_TAG=${{ steps.commit.outputs.short }} > .env
             docker stop mifos
             docker rm mifos
-            docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
-            docker run -d --name mifos -p 80:80 -p 443:443 --network fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
+            docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG
+            docker run -d --name mifos -p 80:80 -p 443:443 --network fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG
+            docker cp letsencrypt mifos:/etc
+            docker cp -f default.conf mifos:/etc/nginx/conf.d
+            docker stop mifos
+            docker start mifos
 
