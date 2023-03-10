@@ -32,8 +32,8 @@ jobs:
           ECR_REPOSITORY: latam-frontend
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
   continuous-deployment:
     needs: continuous-integration
@@ -56,8 +56,8 @@ jobs:
             echo IMAGE_TAG=${{ steps.commit.outputs.short }} > .env
             docker stop mifos
             docker rm mifos
-            docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG
-            docker run -d --name mifos -p 80:80 -p 443:443 --network fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:$IMAGE_TAG
+            docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
+            docker run -d --name mifos -p 80:80 -p 443:443 --network fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
             docker cp letsencrypt mifos:/etc
             docker cp -f default.conf mifos:/etc/nginx/conf.d
             docker stop mifos
