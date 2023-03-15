@@ -1,4 +1,4 @@
-name: FB Mifos Dev CI/CD
+name: FB Mifos Dev CI
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - uses: kamiazya/setup-graphviz@v1
 
@@ -34,3 +34,23 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      #Checkout remote repository
+      - name: Checkout remote repo
+        uses: actions/checkout@v3
+        with:
+          repository: fiterlatam/gitops-argocd
+          token: ${{ secrets.PAT }}
+          ref: fiter/fb/dev
+
+      - name: Update YAML file
+        run: |
+          sed -i 's/dev-frontend.*/dev-frontend:${{ steps.commit.outputs.short }}/' helm/deployment.yaml
+
+      - name: Commit changes
+        run: |
+          git config --global user.email "git.latam@fiter.io"
+          git config --global user.name "fiterlatam"
+          git add .
+          git commit -am "Mifos update Docker image tag to ${{ steps.commit.outputs.short }}"
+          git push
