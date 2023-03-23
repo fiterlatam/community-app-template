@@ -13,6 +13,7 @@
             scope.showPenalty = true ;
             scope.showfreewithdrawalfrequency = false;
             scope.showrestartfrequency = false;
+            scope.showChargeCalculationType = true;
             scope.paymentTypes = [];
 
             resourceFactory.chargeTemplateResource.get(function (data) {
@@ -88,6 +89,20 @@
                 if(chargeTimeType == 9){
                     scope.showFrequencyOptions = true;
                 }
+
+                if (chargeTimeType == 17){
+                    scope.showChargeCalculationType = false;
+                    scope.formData.chargeCalculationType = 2;
+                } else if (chargeTimeType == 18){
+                    scope.showChargeCalculationType = false;
+                    scope.formData.chargeCalculationType = 1;
+                } else if (chargeTimeType == 19){
+                    scope.showChargeCalculationType = false;
+                    scope.formData.chargeCalculationType = 2;
+                }else {
+                    scope.showChargeCalculationType = true;
+                }
+
                 if (scope.showChargePaymentByField === false) {
                     for (var i in scope.chargeTimeTypeOptions) {
                         if (chargeTimeType === scope.chargeTimeTypeOptions[i].id) {
