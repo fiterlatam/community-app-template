@@ -3341,7 +3341,7 @@
   "chargeTimeType.atmWithdrawalFee":"ATM Withdrawal Fee",
   "chargeTimeType.atmPurchaseFee":"ATM Purchase Fee",
   "chargeTimeType.tranchedisbursement": "Tranche Disbursement",
-  "chargeTimeType.punitiveFee": "Punitive Fee",
+  "chargeTimeType.punitiveFee": "Installation Fee",
   "chargeTimeType.collectionFee": "Collection Fee",
   "chargeTimeType.originationFee": "Origination Fee",
   "chargeCalculationType.percent.of.amount": "% Approved Amount",
