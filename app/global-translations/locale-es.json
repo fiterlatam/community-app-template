@@ -255,6 +255,8 @@
 	"label.input.activationdate": "Fecha de activación",
 	"label.input.staff": "Personal",
 	"label.input.office": "Oficina",
+	"label.input.officecode": "Código",
+	"label.input.officeUniqueResponsible": "Responsable único",
 	"label.input.client": "Cliente",
 	"label.input.clients": "Clientes",
 	"label.input.enternote": "Ingresar nota:",
