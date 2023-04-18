@@ -1135,6 +1135,18 @@
             })
             .otherwise({
                 templateUrl: "views/errors/404.html"
+            })
+            .when('/agencies', {
+                templateUrl: 'views/organization/agencies.html'
+            })
+            .when('/createagency', {
+                templateUrl: 'views/organization/createagency.html'
+            })
+            .when('/viewagency/:id', {
+                templateUrl: 'views/organization/viewagency.html'
+            })
+            .when('/editagency/:id', {
+                templateUrl: 'views/organization/editagency.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
