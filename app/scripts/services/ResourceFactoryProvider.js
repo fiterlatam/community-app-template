@@ -854,6 +854,16 @@
                     causesTemplateResource: defineResource(apiVer + "/codecauses/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    agencyTemplateResource: defineResource(apiVer + "/agencies/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    agencyResource: defineResource(apiVer + "/agencies/:agencyId", {officeId: "@agencyId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        getAllAgenciesForCurrentUser: {method: 'GET', params: {}, isArray: true},
+                        save: {method: 'POST', params: {}},
+                        update: { method: 'PUT'},
+                        delete: {method: 'DELETE', params: {}}
+                    }),
                 };
             }];
         }
