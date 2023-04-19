@@ -26,6 +26,7 @@
                 }, function (data) {
                     scope.foreclosuredata = data;
                     scope.formData.outstandingPrincipalPortion = scope.foreclosuredata.principalPortion;
+                    scope.formData.originationFees = scope.foreclosuredata.originationFees;
                     scope.formData.outstandingInterestPortion = scope.foreclosuredata.interestPortion;
                     if (scope.foreclosuredata.unrecognizedIncomePortion) {
                         scope.formData.interestAccruedAfterDeath = scope.foreclosuredata.unrecognizedIncomePortion;
