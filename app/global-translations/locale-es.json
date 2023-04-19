@@ -119,6 +119,7 @@
 	"label.heading.loan": "Préstamo",
 	"label.input.paidloans": "Préstamos pagados",
 	"label.heading.principal": "Principal",
+	"label.heading.originationfee": "Tarifas de originación",
 	"label.heading.amount": "Cantidad",
 	"label.heading.date": "Fecha",
 	"label.heading.transactiontype": "Tipo de transacción",
