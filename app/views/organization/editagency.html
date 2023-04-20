@@ -6,7 +6,7 @@
     </ul>
     <div class="card">
     	<div class="content">
-    		<form name="editofficeform" novalidate="" class="form-horizontal" 
+    		<form name="editagencyform" novalidate="" class="form-horizontal"
     			ng-controller="EditAgencyController"
     		      rc-submit="submit()">
     		    <api-validate></api-validate>
@@ -21,7 +21,7 @@
 									value="{{office.id}}"></select>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editofficeform" valattribute="parentId"/>
+							<form-validate valattributeform="editagencyform" valattribute="parentId"/>
 						</div>
 					</div>
 					<!--agency name-->
@@ -33,7 +33,7 @@
 								   required late-Validate/>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editofficeform" valattribute="name"/>
+							<form-validate valattributeform="editagencyform" valattribute="name"/>
 						</div>
 					</div>
 					<!--address-->
@@ -43,7 +43,7 @@
 							<input id="address" type="text" name="address" ng-model="formData.address" class="form-control" required late-Validate/>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editofficeform" valattribute="address"/>
+							<form-validate valattributeform="editagencyform" valattribute="address"/>
 						</div>
 					</div>
 					<!--city-->
@@ -91,7 +91,7 @@
 									value="{{currency.code}}"></select>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editofficeform" valattribute="currencyCode"/>
+							<form-validate valattributeform="editagencyform" valattribute="currencyCode"/>
 						</div>
 					</div>
 					<!--agency type-->
@@ -198,7 +198,7 @@
 									value="{{responsibleUser.id}}"></select>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editofficeform" valattribute="responsibleUserId"/>
+							<form-validate valattributeform="editagencyform" valattribute="responsibleUserId"/>
 						</div>
 					</div>
 					<!--cancel / submit buttons-->

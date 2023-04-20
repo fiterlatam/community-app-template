@@ -4128,5 +4128,14 @@
 	"label.anchor.editagency": "Editar agencia",
 	"label.heading.editagency": "Editar agencia",
 	"label.input.agencyResponsibleUser": "Responsable",
+	"label.anchor.managesupervisions": "Gestionar supervisiones",
+	"label.anchor.editsupervision": "Editar supervisión",
+	"label.heading.editsupervision": "Editar supervisión",
+	"label.heading.createsupervision": "Crear supervisión",
+	"label.anchor.createsupervision": "Crear supervisión",
+	"label.button.createsupervision": "Crear supervisión",
+	"label.addnewsupervisionormodifysupervision": "Agregar nueva supervisión o modificar supervisión",
+	"label.input.supervision" : "Nombre Supervisión",
+	"label.input.supervisionResponsibleUser": "Responsable",
 	"----End---": "---Fin del archivo---"
 }
