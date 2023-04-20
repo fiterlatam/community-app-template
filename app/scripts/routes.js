@@ -1147,6 +1147,18 @@
             })
             .when('/editagency/:id', {
                 templateUrl: 'views/organization/editagency.html'
+            })
+            .when('/supervisions', {
+                templateUrl: 'views/organization/supervisions.html'
+            })
+            .when('/createsupervision', {
+                templateUrl: 'views/organization/createsupervision.html'
+            })
+            .when('/viewsupervision/:id', {
+                templateUrl: 'views/organization/viewsupervision.html'
+            })
+            .when('/editsupervision/:id', {
+                templateUrl: 'views/organization/editsupervision.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

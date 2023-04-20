@@ -1,13 +1,13 @@
-<div class="content-container" ng-controller="AgenciesController">
+<div class="content-container" ng-controller="SupervisionsController">
     <ul class="breadcrumb">
         <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-        <li class="active">{{'label.anchor.manageagencies' | translate}}</li>
+        <li class="active">{{'label.anchor.managesupervisions' | translate}}</li>
     </ul>
     <div class="card">
         <div class="content">
             <div class="toolbar">
                 <div class="pull-right">
-                    <a href="#/createagency" class="btn btn-primary" has-permission='CREATE_AGENCY'><i class="fa fa-plus "></i>&nbsp;&nbsp;{{'label.button.createagency' | translate}}</a>&nbsp;&nbsp;
+                    <a href="#/createsupervision" class="btn btn-primary" has-permission='CREATE_SUPERVISION'><i class="fa fa-plus "></i>&nbsp;&nbsp;{{'label.button.createsupervision' | translate}}</a>&nbsp;&nbsp;
                 </div>
             </div>
             <br>
@@ -21,9 +21,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="pointer-main" dir-paginate="agency in agencies | orderBy:'name':reverse  | filter:filterText |  itemsPerPage: AgenciesPerPage">
-                        <td class="pointer" data-ng-click="routeTo(agency.id)">{{agency.name}}</td>
-                        <td class="pointer" data-ng-click="routeTo(agency.id)">{{agency.parentName}}</td>
+                    <tr class="pointer-main" dir-paginate="supervision in supervisions | orderBy:'name':reverse  | filter:filterText |  itemsPerPage: SupervisionsPerPage">
+                        <td class="pointer" data-ng-click="routeTo(supervision.id)">{{supervision.name}}</td>
+                        <td class="pointer" data-ng-click="routeTo(supervision.id)">{{supervision.parentName}}</td>
                     </tr>
                     </tbody>
                 </table>

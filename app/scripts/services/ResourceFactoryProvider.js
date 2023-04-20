@@ -857,9 +857,19 @@
                     agencyTemplateResource: defineResource(apiVer + "/agencies/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
-                    agencyResource: defineResource(apiVer + "/agencies/:agencyId", {officeId: "@agencyId"}, {
+                    agencyResource: defineResource(apiVer + "/agencies/:agencyId", {agencyId: "@agencyId"}, {
                         get: {method: 'GET', params: {}, isArray: false},
                         getAllAgenciesForCurrentUser: {method: 'GET', params: {}, isArray: true},
+                        save: {method: 'POST', params: {}},
+                        update: { method: 'PUT'},
+                        delete: {method: 'DELETE', params: {}}
+                    }),
+                    supervisionTemplateResource: defineResource(apiVer + "/supervisions/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    supervisionResource: defineResource(apiVer + "/supervisions/:supervisionId", {supervisionId: "@supervisionId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        getAllSupervisionsForCurrentUser: {method: 'GET', params: {}, isArray: true},
                         save: {method: 'POST', params: {}},
                         update: { method: 'PUT'},
                         delete: {method: 'DELETE', params: {}}
