@@ -1159,6 +1159,21 @@
             })
             .when('/editsupervision/:id', {
                 templateUrl: 'views/organization/editsupervision.html'
+            })
+            .when('/portfolios', {
+                templateUrl: 'views/organization/portfolios.html'
+            })
+            .when('/createportfolio', {
+                templateUrl: 'views/organization/createportfolio.html'
+            })
+            .when('/viewportfolio/:id', {
+                templateUrl: 'views/organization/viewportfolio.html'
+            })
+            .when('/editportfolio/:id', {
+                templateUrl: 'views/organization/editportfolio.html'
+            })
+            .when('/editportfoliocenter/:portfolioId/:portfolioCenterId', {
+                templateUrl: 'views/organization/editportfoliocenter.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
