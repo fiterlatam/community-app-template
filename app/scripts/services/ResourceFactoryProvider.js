@@ -874,6 +874,23 @@
                         update: { method: 'PUT'},
                         delete: {method: 'DELETE', params: {}}
                     }),
+                    portfolioTemplateResource: defineResource(apiVer + "/portfolios/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    portfolioResource: defineResource(apiVer + "/portfolios/:portfolioId", {portfolioId: "@portfolioId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        getAllPortfoliosForCurrentUser: {method: 'GET', params: {}, isArray: true},
+                        save: {method: 'POST', params: {}},
+                        update: { method: 'PUT'},
+                        delete: {method: 'DELETE', params: {}}
+                    }),
+                    portfolioCenterTemplateResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    portfolioCenterResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/:portfolioCenterId", {portfolioId: "@portfolioCenterId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        update: { method: 'PUT'}
+                    }),
                 };
             }];
         }

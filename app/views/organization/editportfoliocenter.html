@@ -1,0 +1,100 @@
+<div class="content-container">
+    <ul class="breadcrumb">
+        <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
+        <li><a href="#/portfolios">{{'label.anchor.manageportfolios' | translate}}</a></li>
+        <li class="active">{{'label.anchor.editportfoliocenter' | translate}}</li>
+    </ul>
+    <div class="card">
+    	<div class="content">
+    		<form name="editportfoliocenterform" novalidate="" class="form-horizontal"
+    			ng-controller="EditPortfolioCenterController"
+    		      rc-submit="submit()">
+    		    <api-validate></api-validate>
+    		    <fieldset>
+    		        <legend>{{'label.heading.editagency' | translate}}</legend>
+					<!--parent office-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.parentoffice' | translate }}<span class="required">*</span></label>
+						<div class="col-sm-3">
+							<select id="parentId" ng-model="formData.parentId" class="form-control" name="parentId"
+									ng-options="office.id as office.name for office in parentOfficesOptions"
+									value="{{office.id}}"></select>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="editportfoliocenterform" valattribute="parentId"/>
+						</div>
+					</div>
+					<!--portfolio center name-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.agency' | translate }}<span
+								class="required">*</span></label>
+						<div class="col-sm-3">
+							<input id="name" ng-autofocus="true" type="text" name="name" ng-model="formData.name" class="form-control"
+								   required late-Validate/>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="editportfoliocenterform" valattribute="name"/>
+						</div>
+					</div>
+					<!--address-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.agencyAddress' | translate }}<span class="required">*</span></label>
+						<div class="col-sm-3">
+							<input id="address" type="text" name="address" ng-model="formData.address" class="form-control" required late-Validate/>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="editportfoliocenterform" valattribute="address"/>
+						</div>
+					</div>
+					<!--city-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.agencyCity' | translate }}</label>
+						<div class="col-sm-3">
+							<select id="cityId" ng-model="formData.cityId" class="form-control" name="cityId"
+									ng-options="city.id as city.name for city in cityOptions"
+									value="{{city.id}}"></select>
+						</div>
+					</div>
+					<!--department-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.agencyDepartment' | translate }}</label>
+						<div class="col-sm-3">
+							<select id="stateId" ng-model="formData.stateId" class="form-control" name="stateId"
+									ng-options="state.id as state.name for state in stateOptions"
+									value="{{state.id}}"></select>
+						</div>
+					</div>
+					<!--country-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.agencyCountry' | translate }}</label>
+						<div class="col-sm-3">
+							<select id="countryId" ng-model="formData.countryId" class="form-control" name="countryId"
+									ng-options="country.id as country.name for country in countryOptions"
+									value="{{country.id}}"></select>
+						</div>
+					</div>
+					<!--responsible user-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.agencyResponsibleUser' | translate }}<span class="required">*</span></label>
+						<div class="col-sm-3">
+							<select id="responsibleUserId" ng-model="formData.responsibleUserId" class="form-control" required late-Validate name="responsibleUserId"
+									ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')'
+									for responsibleUser in responsibleUserOptions"
+									value="{{responsibleUser.id}}"></select>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="editportfoliocenterform" valattribute="responsibleUserId"/>
+						</div>
+					</div>
+					<!--cancel / submit buttons-->
+					<div class="col-md-offset-3">
+						<a id="cancel" href="#/agencies">
+							<button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
+						</a>
+						<button id="save" type="submit" class="btn btn-primary" has-permission='UPDATE_AGENCY'>{{'label.button.save' | translate}}</button>
+					</div>
+    		    </fieldset>
+    		</form>
+    	</div>
+    </div>
+</div>
