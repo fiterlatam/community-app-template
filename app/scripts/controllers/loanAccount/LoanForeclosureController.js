@@ -47,6 +47,9 @@
                 transactionAmount += parseFloat(scope.foreclosuredata.interestPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.feeChargesPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.penaltyChargesPortion);
+                transactionAmount += parseFloat(scope.foreclosuredata.penaltyChargesPortion);
+                transactionAmount += parseFloat(scope.foreclosuredata.vatOnInterest);
+                transactionAmount += parseFloat(scope.foreclosuredata.vatOnCharges);
                 scope.formData.transactionAmount = $filter('number')(transactionAmount, 2);
                 scope.formData.transactionAmount =  scope.formData.transactionAmount.replace(/,/g,"");
             };
