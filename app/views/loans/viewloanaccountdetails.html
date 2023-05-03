@@ -155,6 +155,15 @@
                                 <td>{{loandetails.summary.principalOverdue | number}}</td>
                             </tr>
                             <tr>
+                                <th>{{'label.heading.originationfee' | translate}}</th>
+                                <td>{{loandetails.summary.originationFees | number}}</td>
+                                <td> </td>
+                                <td>&nbsp;</td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            <tr>
                                 <th>{{'label.heading.interest' | translate}}</th>
                                 <td>{{loandetails.summary.interestCharged | number}}</td>
                                 <td>{{loandetails.summary.interestPaid | number}}</td>
@@ -896,7 +905,7 @@
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.name}}</td>
                                 <td ng-show="charge.penalty" class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{"penalty"}}</td>
                                 <td ng-hide="charge.penalty" class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{"fee"}}</td>
-                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeTimeType.value}}</td>
+                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeTimeType.code | translate}}</td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.dueDate | DateFormat}}</td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeCalculationType.value}}</td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amount| number}}</td>

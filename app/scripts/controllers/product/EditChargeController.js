@@ -8,6 +8,7 @@
             scope.flag = false;
 	        scope.showPenalty = true ;
             scope.paymentTypeOptions = [];
+            scope.showChargeCalculationType = true;
 
             resourceFactory.chargeResource.getCharge({chargeId: routeParams.id, template: true}, function (data) {
                 scope.template = data;
@@ -146,19 +147,32 @@
                 } else {
                     scope.formData.chargePaymentMode = data.chargePaymentMode.id;
                 }
+
+                 scope.chargeTimeChange(scope.formData.chargeTimeType);
             });
             //when chargeAppliesTo is savings, below logic is
             //to display 'Due date' field, if chargeTimeType is
             // 'annual fee' or 'monthly fee'
             scope.chargeTimeChange = function (chargeTimeType) {
-		if ((chargeTimeType === 12) && (scope.template.chargeAppliesTo.value === "Loan"))
-		{
-			scope.showFrequencyOptions = false;
-		}
-		else
-		{
-			scope.showFrequencyOptions = true;
-		}
+                if ((chargeTimeType === 12) && (scope.template.chargeAppliesTo.value === "Loan")){
+                    scope.showFrequencyOptions = false;
+                } else {
+                    scope.showFrequencyOptions = true;
+                }
+
+                if (chargeTimeType == 17){
+                    scope.showChargeCalculationType = false;
+                    scope.formData.chargeCalculationType = 2;
+                } else if (chargeTimeType == 18){
+                    scope.showChargeCalculationType = false;
+                    scope.formData.chargeCalculationType = 1;
+                } else if (chargeTimeType == 19){
+                    scope.showChargeCalculationType = false;
+                    scope.formData.chargeCalculationType = 2;
+                }else {
+                    scope.showChargeCalculationType = true;
+                }
+
                 if (scope.formData.chargeAppliesTo === 2) {
                     for (var i in scope.template.chargeTimeTypeOptions) {
                         if (chargeTimeType === scope.template.chargeTimeTypeOptions[i].id) {

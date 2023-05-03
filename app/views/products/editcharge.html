@@ -46,12 +46,12 @@
 
                 <div class="col-sm-3">
                     <select id="chargeTimeType" ng-model="formData.chargeTimeType"
-                            data-ng-options="timetype.id as timetype.value for timetype in chargeTimeTypeOptions"
+                            data-ng-options="timetype.id as timetype.code | translate for timetype in chargeTimeTypeOptions"
                             value="{{timetype.id}}" ng-change="chargeTimeChange(formData.chargeTimeType)" class="form-control">
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="showChargeCalculationType">
                 <label class="control-label col-sm-2">{{'label.input.chargecalculation' | translate}}<span
                         class="required">*</span></label>
 
