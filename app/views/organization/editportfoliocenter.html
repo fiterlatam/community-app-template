@@ -1,7 +1,7 @@
 <div class="content-container">
     <ul class="breadcrumb">
         <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-        <li><a href="#/portfolios">{{'label.anchor.manageportfolios' | translate}}</a></li>
+        <li><a href="#/portfolios">{{'label.anchor.manageportfolioCenters' | translate}}</a></li>
         <li class="active">{{'label.anchor.editportfoliocenter' | translate}}</li>
     </ul>
     <div class="card">
@@ -11,22 +11,21 @@
     		      rc-submit="submit()">
     		    <api-validate></api-validate>
     		    <fieldset>
-    		        <legend>{{'label.heading.editagency' | translate}}</legend>
-					<!--parent office-->
+    		        <legend>{{'label.heading.editportfoliocenter' | translate}}</legend>
+					<!--portfolio name-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.parentoffice' | translate }}<span class="required">*</span></label>
+						<label class="control-label col-sm-2">{{ 'label.input.portfolio' | translate }}<span class="required">*</span></label>
 						<div class="col-sm-3">
-							<select id="parentId" ng-model="formData.parentId" class="form-control" name="parentId"
-									ng-options="office.id as office.name for office in parentOfficesOptions"
-									value="{{office.id}}"></select>
+							<input id="portfolioName" type="text" name="portfolioName" ng-model="formData.portfolioName" class="form-control" disabled
+								   required late-Validate/>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editportfoliocenterform" valattribute="parentId"/>
+							<form-validate valattributeform="editportfoliocenterform" valattribute="portfolioName"/>
 						</div>
 					</div>
 					<!--portfolio center name-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.agency' | translate }}<span
+						<label class="control-label col-sm-2">{{ 'label.input.centerName' | translate }}<span
 								class="required">*</span></label>
 						<div class="col-sm-3">
 							<input id="name" ng-autofocus="true" type="text" name="name" ng-model="formData.name" class="form-control"
@@ -36,19 +35,16 @@
 							<form-validate valattributeform="editportfoliocenterform" valattribute="name"/>
 						</div>
 					</div>
-					<!--address-->
+					<!--legacy center number-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.agencyAddress' | translate }}<span class="required">*</span></label>
+						<label class="control-label col-sm-2">{{ 'label.input.centerLegacyNumber' | translate }}</label>
 						<div class="col-sm-3">
-							<input id="address" type="text" name="address" ng-model="formData.address" class="form-control" required late-Validate/>
-						</div>
-						<div class="col-sm-3">
-							<form-validate valattributeform="editportfoliocenterform" valattribute="address"/>
+							<input id="centerLegacyNumber" type="text" name="centerLegacyNumber" ng-model="formData.legacyCenterNumber" class="form-control"/>
 						</div>
 					</div>
 					<!--city-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.agencyCity' | translate }}</label>
+						<label class="control-label col-sm-2">{{ 'label.input.centerCity' | translate }}</label>
 						<div class="col-sm-3">
 							<select id="cityId" ng-model="formData.cityId" class="form-control" name="cityId"
 									ng-options="city.id as city.name for city in cityOptions"
@@ -57,41 +53,56 @@
 					</div>
 					<!--department-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.agencyDepartment' | translate }}</label>
+						<label class="control-label col-sm-2">{{ 'label.input.centerDepartment' | translate }}</label>
 						<div class="col-sm-3">
 							<select id="stateId" ng-model="formData.stateId" class="form-control" name="stateId"
 									ng-options="state.id as state.name for state in stateOptions"
 									value="{{state.id}}"></select>
 						</div>
 					</div>
-					<!--country-->
+					<!--center type-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.agencyCountry' | translate }}</label>
+						<label class="control-label col-sm-2">{{ 'label.input.centerType' | translate }}</label>
 						<div class="col-sm-3">
-							<select id="countryId" ng-model="formData.countryId" class="form-control" name="countryId"
-									ng-options="country.id as country.name for country in countryOptions"
-									value="{{country.id}}"></select>
+							<select id="centerType" ng-model="formData.centerTypeId" class="form-control" name="centerTypeId"
+									ng-options="type.id as type.name for type in typeOptions">
+									value="{{type.id}}"></select>
+							<!-- <option value="">{{'label.selectcentertype' | translate}}</option> -->
 						</div>
 					</div>
-					<!--responsible user-->
+					<!--center status-->
 					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.agencyResponsibleUser' | translate }}<span class="required">*</span></label>
+						<label class="control-label col-sm-2">{{ 'label.input.centerStatus' | translate }}<span class="required">*</span></label>
 						<div class="col-sm-3">
-							<select id="responsibleUserId" ng-model="formData.responsibleUserId" class="form-control" required late-Validate name="responsibleUserId"
-									ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')'
-									for responsibleUser in responsibleUserOptions"
-									value="{{responsibleUser.id}}"></select>
+							<select id="status" ng-model="formData.statusId" class="form-control" name="statusId"
+									ng-options="statusOption.id as statusOption.code | translate for statusOption in statusOptions"
+									value="{{statusOption.id}}"></select>
 						</div>
 						<div class="col-sm-3">
-							<form-validate valattributeform="editportfoliocenterform" valattribute="responsibleUserId"/>
+							<form-validate valattributeform="editportfoliocenterform" valattribute="status"/>
+						</div>
+					</div>
+					<!--distance-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.centerDistance' | translate }}</label>
+						<div class="col-sm-3">
+							<input id="distance" type="text" name="distance" ng-model="formData.distance" class="form-control"/>
+						</div>
+					</div>
+					<!--created date-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.centercreateddate' | translate }}</label>
+						<div class="col-sm-3">
+							<input id="createdDate" sort type="text" datepicker-pop="dd MMMM yyyy" ng-model="formData.createdDate"
+								   class="form-control" is-open="opened" min="minDate" max="restrictDate" disabled/>
 						</div>
 					</div>
 					<!--cancel / submit buttons-->
 					<div class="col-md-offset-3">
-						<a id="cancel" href="#/agencies">
+						<a id="cancel" href="#/viewportfolio/{{portfolioId}}">
 							<button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}</button>
 						</a>
-						<button id="save" type="submit" class="btn btn-primary" has-permission='UPDATE_AGENCY'>{{'label.button.save' | translate}}</button>
+						<button id="save" type="submit" class="btn btn-primary" has-permission='UPDATE_PORTFOLIO_CENTER'>{{'label.button.save' | translate}}</button>
 					</div>
     		    </fieldset>
     		</form>
