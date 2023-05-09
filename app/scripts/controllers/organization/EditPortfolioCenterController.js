@@ -4,29 +4,35 @@
             scope.formData = {};
             scope.cityOptions = [];
             scope.stateOptions = [];
-            scope.countryOptions = [];
             scope.parentOfficesOptions = [];
-            scope.responsibleUserOptions = [];
+            scope.typeOptions = [];
+            scope.statusOptions = [];
             scope.tf = "HH:mm";
+            scope.portfolioId = routeParams.portfolioId;
 
-            portfolioId = routeParams.portfolioId;
-            portfolioCenterId = routeParams.portfolioCenterId;
+            let portfolioId = routeParams.portfolioId;
+            let portfolioCenterId = routeParams.portfolioCenterId;
 
-            let requestParams = {orderBy: 'description', sortOrder: 'ASC'};
             resourceFactory.portfolioCenterTemplateResource.get({portfolioId:portfolioId}, function (data) {
-                scope.cityOptions = data.cityOptions;
-                scope.stateOptions = data.stateOptions;
-                scope.countryOptions = data.countryOptions;
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
+                scope.cityOptions = data.cityOptions;
+                scope.stateOptions = data.stateOptions;
+                scope.typeOptions = data.typeOptions;
+                scope.statusOptions = data.statusOptions;
             });
 
             resourceFactory.portfolioCenterResource.get({portfolioId:portfolioId, portfolioCenterId: portfolioCenterId}, function (data) {
                 scope.formData = data;
                 scope.formData.cityId = data.city.id;
                 scope.formData.stateId = data.state.id;
-                scope.formData.countryId = data.country.id;
+                scope.formData.centerTypeId = data.type.id;
+                scope.formData.statusId = data.status.id;
 
+                if (data.createdDate) {
+                    let editDate = dateFilter(data.createdDate, scope.df);
+                    scope.formData.createdDate = new Date(editDate);
+                }
             });
 
             scope.submit = function () {
@@ -34,13 +40,14 @@
                 delete this.formData.parentName;
                 delete this.formData.city;
                 delete this.formData.state;
-                delete this.formData.country;
+                delete this.formData.status;
+                delete this.formData.type;
                 delete this.formData.responsibleUserName;
 
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
 
-                 resourceFactory.portfolioCenterResource.update({'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
+                 resourceFactory.portfolioCenterResource.update({'portfolioId':portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
                     location.path('/viewportfolio/' + portfolioId);
                 });
             };

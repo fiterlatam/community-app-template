@@ -8,13 +8,13 @@
 
                 // centers associated with this portfolio
                 if (data.centers) {
-                    scope.centers=data.centers;
+                    scope.centers = data.centers;
                 }
             });
 
             scope.editCenter=function(centerId)
             {
-                // location.path('/editportfoliocenter/'+routeParams.id+'/'+centerId);
+                location.path('/editportfoliocenter/'+routeParams.id+'/'+centerId);
             }
 
         }

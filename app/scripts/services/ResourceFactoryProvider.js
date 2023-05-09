@@ -887,7 +887,7 @@
                     portfolioCenterTemplateResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
-                    portfolioCenterResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/:portfolioCenterId", {portfolioId: "@portfolioCenterId"}, {
+                    portfolioCenterResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/:portfolioCenterId", {portfolioId: "@portfolioId", portfolioCenterId: "@portfolioCenterId", }, {
                         get: {method: 'GET', params: {}, isArray: false},
                         update: { method: 'PUT'}
                     }),

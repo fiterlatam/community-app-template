@@ -45,13 +45,11 @@
                     </span>
                     <tr class="graybg">
                         <th>{{'label.heading.centerName' | translate}}</th>
-                        <th>{{'label.heading.nextMeetingDate' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="pointer-main" ng-repeat="center in centers">
                         <td class="pointer" data-ng-click="editCenter(center.id)">{{center.name}}</td>
-                        <td class="pointer" data-ng-click="editCenter(center.id)">{{center.nextMeetingDate | DateFormat}}</td>
                     </tr>
                     </tbody>
                 </table>
