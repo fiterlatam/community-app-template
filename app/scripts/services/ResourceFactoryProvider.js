@@ -891,6 +891,14 @@
                         get: {method: 'GET', params: {}, isArray: false},
                         update: { method: 'PUT'}
                     }),
+                    centerGroupTemplateResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    centerGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        save: {method: 'POST', params: {}},
+                        update: { method: 'PUT'}
+                    }),
                 };
             }];
         }
