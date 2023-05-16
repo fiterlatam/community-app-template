@@ -7,6 +7,7 @@
             scope.parentOfficesOptions = [];
             scope.typeOptions = [];
             scope.statusOptions = [];
+            scope.meetingDayOptions = [];
             scope.tf = "HH:mm";
             scope.portfolioId = routeParams.portfolioId;
 
@@ -20,6 +21,7 @@
                 scope.stateOptions = data.stateOptions;
                 scope.typeOptions = data.typeOptions;
                 scope.statusOptions = data.statusOptions;
+                scope.meetingDayOptions = data.meetingDayOptions;
             });
 
             resourceFactory.portfolioCenterResource.get({portfolioId:portfolioId, portfolioCenterId: portfolioCenterId}, function (data) {
@@ -33,6 +35,18 @@
                     let editDate = dateFilter(data.createdDate, scope.df);
                     scope.formData.createdDate = new Date(editDate);
                 }
+
+                if (data.meetingStartTime) {
+                    var date = new Date();
+                    var meetingStartSplitted = data.meetingStartTime.split(":", 2);
+                    scope.formData.meetingStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDay(), meetingStartSplitted[0], meetingStartSplitted[1], 0);
+                }
+
+                if (data.meetingEndTime) {
+                    var date = new Date();
+                    var meetingEndSplitted = data.meetingEndTime.split(":", 2);
+                    scope.formData.meetingEndTime = new Date(date.getFullYear(), date.getMonth(), date.getDay(), meetingEndSplitted[0], meetingEndSplitted[1], 0);
+                }
             });
 
             scope.submit = function () {
@@ -43,9 +57,17 @@
                 delete this.formData.status;
                 delete this.formData.type;
                 delete this.formData.responsibleUserName;
+                delete this.formData.meetingDayName;
 
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
+
+                if (scope.formData.meetingStartTime) {
+                    this.formData.meetingStartTime = dateFilter(scope.formData.meetingStartTime, scope.tf);
+                }
+                if (scope.formData.meetingEndTime) {
+                    this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
+                }
 
                  resourceFactory.portfolioCenterResource.update({'portfolioId':portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
                     location.path('/viewportfolio/' + portfolioId);

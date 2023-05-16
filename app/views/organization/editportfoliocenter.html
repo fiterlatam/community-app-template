@@ -89,6 +89,29 @@
 							<input id="distance" type="text" name="distance" ng-model="formData.distance" class="form-control"/>
 						</div>
 					</div>
+					<!--meeting day-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.centerMeetingDay' | translate }}<span class="required">*</span></label>
+						<div class="col-sm-3">
+							<select id="meetingDay" ng-model="formData.meetingDay" class="form-control" name="meetingDay"
+									ng-options="meetingDayOption.id as meetingDayOption.name for meetingDayOption in meetingDayOptions"
+									value="{{meetingDayOption.id}}"></select>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="editportfoliocenterform" valattribute="meetingDay"/>
+						</div>
+					</div>
+					<!--meeting start / end-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.meetingStartTime' | translate }}</label>
+						<div class="col-sm-3">
+							<input id="meetingStartTime" type="time" placeholder="HH:MM:SS" name="meetingStartTime" ng-model="formData.meetingStartTime" class="form-control"/>
+						</div>
+						<label class="control-label col-sm-2">{{ 'label.input.meetingEndTime' | translate }}</label>
+						<div class="col-sm-3">
+							<input id="meetingEndTime" type="time" placeholder="HH:MM:SS" name="meetingEndTime" ng-model="formData.meetingEndTime" class="form-control"/>
+						</div>
+					</div>
 					<!--created date-->
 					<div class="form-group">
 						<label class="control-label col-sm-2">{{ 'label.input.centercreateddate' | translate }}</label>

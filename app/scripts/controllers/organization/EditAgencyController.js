@@ -54,7 +54,6 @@
                     var date = new Date();
                     scope.formData.openHourAfternoon = new Date(date.getFullYear(), date.getMonth(), date.getDay(), data.openHourAfternoon[0], data.openHourAfternoon[1], 0);
                 }
-
             });
 
             scope.submit = function () {

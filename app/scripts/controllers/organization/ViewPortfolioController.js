@@ -17,6 +17,11 @@
                 location.path('/editportfoliocenter/'+routeParams.id+'/'+centerId);
             }
 
+            scope.viewGroups=function(centerId)
+            {
+                location.path('/viewcentergroups/'+routeParams.id+'/'+centerId);
+            }
+
         }
 
     });
