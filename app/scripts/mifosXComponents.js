@@ -137,6 +137,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'organization/ViewCenterGroupsController',
             'organization/CreateCenterGroupController',
             'organization/EditCenterGroupController',
+            'organization/TransferCenterGroupController',
             'organization/CurrencyConfigController',
             'organization/CreateUserController',
             'organization/EditUserController',

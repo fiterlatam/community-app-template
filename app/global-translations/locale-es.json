@@ -4191,5 +4191,10 @@
 	"label.heading.editcentergroup": "Editar grupo",
 	"validation.msg.center_group.size.cannot.be.blank": "Tamaño del grupo es requerido y debe ser igual o mayor a cero",
 	"validation.msg.center_group.legacyGroupNumber.not.greater.than.zero": "Antiguo No. Grupo debe ser mayor a cero ",
+	"label.input.transfergroup": "Transferir a otro centro",
+	"label.anchor.transfercentergroup": "Transferir grupo",
+	"label.heading.availability.centers": "Centros y horarios disponibles",
+	"label.heading.transfergroup": "Transferir grupo",
+	"label.heading.centermeetingtimes": "Horarios de reunión",
 	"----End---": "---Fin del archivo---"
 }

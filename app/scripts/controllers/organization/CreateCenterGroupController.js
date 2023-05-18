@@ -10,11 +10,15 @@
             let portfolioId = routeParams.portfolioId
             let portfolioCenterId = routeParams.portfolioCenterId;
 
+            resourceFactory.portfolioCenterByCurrentUserResource.get({portfolioId:portfolioId},function(data)
+            {
+                scope.portfolioCenterOptions = data;
+            });
+
             resourceFactory.centerGroupTemplateResource.get({portfolioCenterId:portfolioCenterId}, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.statusOptions = data.statusOptions;
-                scope.portfolioCenterOptions = data.portfolioCenterOptions;
                 scope.formData = {
                     portfolioCenterId: parseInt(portfolioCenterId),
                     portfolioId: parseInt(portfolioId)
