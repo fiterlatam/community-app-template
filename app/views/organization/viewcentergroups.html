@@ -6,7 +6,7 @@
     </ul>
     <div class="card">
         <div class="content">
-            <uib-tabset class="overflowhidden marginbottom0 scrollable" tabset-name="portfolioTabset" scrollable>
+            <uib-tabset class="overflowhidden marginbottom0 scrollable" tabset-name="portfolioCenterTabset" scrollable>
                 <uib-tab heading="{{'label.heading.general' | translate}}">
                     <div class="container-fluid">
                         <div class="col-md-12 col-sm-12">
@@ -53,6 +53,7 @@
                             <th>{{'label.input.groupname' | translate}}</th>
                             <th>{{'label.input.meetingStartTime' | translate}}</th>
                             <th>{{'label.input.meetingEndTime' | translate}}</th>
+                            <th>{{'label.input.transfergroup' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,7 @@
                             <td class="pointer" data-ng-click="editCenterGroup(group.id)">{{group.name}}</td>
                             <td class="pointer">{{group.meetingStartTime | date: 'HH:mm'}}</td>
                             <td class="pointer">{{group.meetingEndTime | date: 'HH:mm'}}</td>
+                            <td><button class="btn btn-default" data-ng-click="transferCenterGroup(group.id)"><i class="fa fa-adjust"></i></button></td>
                         </tr>
                     </tbody>
                 </table>

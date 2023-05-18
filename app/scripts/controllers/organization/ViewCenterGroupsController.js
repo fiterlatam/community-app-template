@@ -34,6 +34,11 @@
                 location.path('/editcentergroup/'+ portfolioId +'/'+ routeParams.portfolioCenterId +'/'+ centerGroupId);
             }
 
+            scope.transferCenterGroup=function(centerGroupId)
+            {
+                location.path('/transfercentergroup/'+ portfolioId +'/'+ routeParams.portfolioCenterId +'/'+ centerGroupId);
+            }
+
         }
 
     });

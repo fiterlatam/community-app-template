@@ -15,7 +15,10 @@
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.statusOptions = data.statusOptions;
-                scope.portfolioCenterOptions = data.portfolioCenterOptions;
+            });
+
+            resourceFactory.portfolioCenterByCurrentUserResource.get({portfolioId:portfolioId}, function (data) {
+                scope.portfolioCenterOptions = data;
             });
 
             resourceFactory.centerGroupResource.get({portfolioCenterId: portfolioCenterId, centerGroupId:centerGroupId}, function (data) {
