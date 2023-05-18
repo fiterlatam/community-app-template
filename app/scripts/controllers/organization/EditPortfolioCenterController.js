@@ -58,6 +58,7 @@
                 delete this.formData.type;
                 delete this.formData.responsibleUserName;
                 delete this.formData.meetingDayName;
+                delete this.formData.groups;
 
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
