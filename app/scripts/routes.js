@@ -1174,6 +1174,18 @@
             })
             .when('/editportfoliocenter/:portfolioId/:portfolioCenterId', {
                 templateUrl: 'views/organization/editportfoliocenter.html'
+            })
+            .when('/viewcentergroups/:portfolioId/:portfolioCenterId', {
+                templateUrl: 'views/organization/viewcentergroups.html'
+            })
+            .when('/createcentergroup/:portfolioId/:portfolioCenterId', {
+                templateUrl: 'views/organization/createcentergroup.html'
+            })
+            .when('/editcentergroup/:portfolioId/:portfolioCenterId/:centerGroupId', {
+                templateUrl: 'views/organization/editcentergroup.html'
+            })
+            .when('/transfercentergroup/:portfolioId/:portfolioCenterId/:centerGroupId', {
+                templateUrl: 'views/organization/transfercentergroup.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

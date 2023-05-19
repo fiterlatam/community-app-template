@@ -887,9 +887,26 @@
                     portfolioCenterTemplateResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
-                    portfolioCenterResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/:portfolioCenterId", {portfolioId: "@portfolioCenterId"}, {
+                    portfolioCenterByCurrentUserResource: defineResource(apiVer + "/portfolios/:portfolioId/centers", {}, {
+                        get: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    portfolioCenterResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/:portfolioCenterId", {portfolioId: "@portfolioId", portfolioCenterId: "@portfolioCenterId"}, {
                         get: {method: 'GET', params: {}, isArray: false},
                         update: { method: 'PUT'}
+                    }),
+                    portfolioAllCentersAvailabilityResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/availability", {portfolioId: "@portfolioId"}, {
+                        get: {method: 'GET', params: {}, isArray: true},
+                    }),
+                    centerGroupTemplateResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    centerGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        save: {method: 'POST', params: {}},
+                        update: { method: 'PUT'}
+                    }),
+                    transferCenterGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId/transfer", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
+                        transfer: { method: 'PUT'}
                     }),
                 };
             }];

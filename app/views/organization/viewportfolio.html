@@ -40,19 +40,19 @@
             <div>
                 <table class="table">
                     <thead>
-                    <span class="span gray-head">
-                        <strong>{{ 'label.heading.centers' | translate }}</strong>
-                    </span>
-                    <tr class="graybg">
-                        <th>{{'label.heading.centerName' | translate}}</th>
-                        <th>{{'label.heading.nextMeetingDate' | translate}}</th>
-                    </tr>
+                        <span class="span gray-head">
+                            <strong>{{ 'label.heading.centers' | translate }}</strong>
+                        </span>
+                        <tr class="graybg">
+                            <th>{{'label.heading.centerName' | translate}}</th>
+                            <th>{{'label.heading.centereditegroups' | translate}}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr class="pointer-main" ng-repeat="center in centers">
-                        <td class="pointer" data-ng-click="editCenter(center.id)">{{center.name}}</td>
-                        <td class="pointer" data-ng-click="editCenter(center.id)">{{center.nextMeetingDate | DateFormat}}</td>
-                    </tr>
+                        <tr class="pointer-main" ng-repeat="center in centers">
+                            <td class="pointer" data-ng-click="editCenter(center.id)">{{center.name}}</td>
+                            <td><button class="btn btn-default" data-ng-click="viewGroups(center.id)"><i class="fa fa-pencil"></i></button></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
