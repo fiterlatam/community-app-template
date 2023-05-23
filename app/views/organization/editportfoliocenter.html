@@ -28,7 +28,7 @@
 						<label class="control-label col-sm-2">{{ 'label.input.centerName' | translate }}<span
 								class="required">*</span></label>
 						<div class="col-sm-3">
-							<input id="name" ng-autofocus="true" type="text" name="name" ng-model="formData.name" class="form-control"
+							<input id="name" ng-autofocus="true" type="text" name="name" ng-model="formData.name" class="form-control" readonly
 								   required late-Validate/>
 						</div>
 						<div class="col-sm-3">
@@ -58,6 +58,13 @@
 							<select id="stateId" ng-model="formData.stateId" class="form-control" name="stateId"
 									ng-options="state.id as state.name for state in stateOptions"
 									value="{{state.id}}"></select>
+						</div>
+					</div>
+					<!--reference point-->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.centerReferencePoint' | translate }}</label>
+						<div class="col-sm-3">
+							<input id="centerReferencePoint" type="text" name="centerReferencePoint" ng-model="formData.referencePoint" class="form-control"/>
 						</div>
 					</div>
 					<!--center type-->
