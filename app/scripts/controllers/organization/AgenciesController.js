@@ -47,6 +47,11 @@
                 data.sort(sortByParentId);
 
             });
+
+            scope.transferAgency=function(agencyId)
+            {
+                location.path('/transferagency/'+ agencyId);
+            }
         }
     });
     mifosX.ng.application.controller('AgenciesController', ['$scope', 'ResourceFactory', '$location', mifosX.controllers.AgenciesController]).run(function ($log) {

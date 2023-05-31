@@ -1186,6 +1186,9 @@
             })
             .when('/transfercentergroup/:portfolioId/:portfolioCenterId/:centerGroupId', {
                 templateUrl: 'views/organization/transfercentergroup.html'
+            })
+            .when('/transferagency/:id', {
+                templateUrl: 'views/organization/transferagency.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

@@ -44,6 +44,9 @@
                     officeImportTemplateResource: defineResource(apiVer + "/offices/bulkimporttemplate", {}, {
                     		get: {method: 'GET', params: {}}
                     }),
+                    officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
+                        get: {method: 'GET', params: {}, isArray: true}
+                    }),
                     importResource: defineResource(apiVer + "/imports", {}, {
                 			getImports: {method: 'GET', params: {}, isArray: true}
                     }),
@@ -906,6 +909,9 @@
                         update: { method: 'PUT'}
                     }),
                     transferCenterGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId/transfer", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
+                        transfer: { method: 'PUT'}
+                    }),
+                    transferAgencyResource: defineResource(apiVer + "/agencies/:agencyId/transfer", {agencyId: "@agencyId"}, {
                         transfer: { method: 'PUT'}
                     }),
                 };

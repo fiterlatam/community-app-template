@@ -4197,5 +4197,10 @@
 	"label.heading.transfergroup": "Transferir grupo",
 	"label.heading.centermeetingtimes": "Horarios de reunión",
 	"label.input.centerReferencePoint": "Punto de referencia",
+	"label.heading.transferAgency": "Transferir agencia",
+	"label.heading.availability.regions": "Regiones disponibles",
+	"label.anchor.manageagency": "Gestionar agencias",
+	"label.anchor.transferagency": "Transferir agencia",
+	"label.heading.regionName": "Nombre de la región",
 	"----End---": "---Fin del archivo---"
 }
