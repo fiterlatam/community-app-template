@@ -1,0 +1,71 @@
+<div class="content-container" ng-controller="ViewPortfolioPlanningController">
+    <ul class="breadcrumb">
+        <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
+        <li><a href="#/planningportfolios">{{'label.anchor.portfoliosplanning' | translate}}</a></li>
+        <li class="active">{{portfolio.name}}</li>
+    </ul>
+    <div class="card">
+        <div class="content">
+            <uib-tabset class="overflowhidden marginbottom0 scrollable" tabset-name="portfolioTabset" scrollable>
+                <uib-tab heading="{{'label.heading.general' | translate}}">
+                    <div class="container-fluid">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="row primarydiv">
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <a href="#/editportfolio/{{portfolio.id}}" class="btn btn-primary" has-permission='UPDATE_PORTFOLIO'><i class="fa fa-edit "></i>&nbsp;&nbsp;{{
+                                            'label.button.edit' | translate }}</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3><strong>{{portfolio.name}}</strong></h3>
+                            <table class="table-bordered table view-table" style="width: 350px">
+                                <tr>
+                                    <td>{{ 'label.heading.agencyName' | translate }}</td>
+                                    <td>{{portfolio.agencyName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'label.heading.parentoffice' | translate }}</td>
+                                    <td>{{portfolio.parentName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'label.heading.namedecorated' | translate }}</td>
+                                    <td>{{portfolio.name | DotRemove}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+            <div class="clear"></div>
+            <!--centers-->
+            <div class="clear"></div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <span class="span gray-head">
+                            <strong>{{ 'label.heading.portfolioplanning' | translate }}</strong>
+                        </span>
+                        <tr class="graybg">
+                            <th>{{'label.heading.planningDay' | translate}}</th>
+                            <th>{{'label.heading.meetingStartTime' | translate}}</th>
+                            <th>{{'label.heading.portfolioCenterId' | translate}}</th>
+                            <th>{{'label.heading.centerGroupId' | translate}}</th>
+                            <th>{{'label.heading.centerGroupName' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="pointer-main" ng-repeat="planning in detailedPlanningData">
+                            <td>{{planning.meetingDayName}}</td>
+                            <td>{{planning.meetingStartTime | date: 'HH:mm'}}</td>
+                            <td>{{planning.portfolioCenterId}}</td>
+                            <td>{{planning.centerGroupId}}</td>
+                            <td>{{planning.centerGroupName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
