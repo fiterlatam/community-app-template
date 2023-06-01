@@ -890,6 +890,9 @@
                     portfolioCenterTemplateResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    portfolioPlanningResource: defineResource(apiVer + "/portfolios/:portfolioId/planning", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
                     portfolioCenterByCurrentUserResource: defineResource(apiVer + "/portfolios/:portfolioId/centers", {}, {
                         get: {method: 'GET', params: {}, isArray: true}
                     }),
