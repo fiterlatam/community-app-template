@@ -1163,11 +1163,17 @@
             .when('/portfolios', {
                 templateUrl: 'views/organization/portfolios.html'
             })
+            .when('/planningportfolios', {
+                templateUrl: 'views/organization/planningportfolios.html'
+            })
             .when('/createportfolio', {
                 templateUrl: 'views/organization/createportfolio.html'
             })
             .when('/viewportfolio/:id', {
                 templateUrl: 'views/organization/viewportfolio.html'
+            })
+            .when('/viewportfolioplanning/:id', {
+                templateUrl: 'views/organization/viewportfolioplanning.html'
             })
             .when('/editportfolio/:id', {
                 templateUrl: 'views/organization/editportfolio.html'
@@ -1186,6 +1192,9 @@
             })
             .when('/transfercentergroup/:portfolioId/:portfolioCenterId/:centerGroupId', {
                 templateUrl: 'views/organization/transfercentergroup.html'
+            })
+            .when('/transferagency/:id', {
+                templateUrl: 'views/organization/transferagency.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

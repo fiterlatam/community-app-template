@@ -18,12 +18,14 @@
                     <tr class="graybg">
                         <th>{{'label.heading.officeName' | translate}}</th>
                         <th>{{'label.heading.parentoffice' | translate}}</th>
+                        <th>{{'label.heading.transferAgency' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="pointer-main" dir-paginate="agency in agencies | orderBy:'name':reverse  | filter:filterText |  itemsPerPage: AgenciesPerPage">
                         <td class="pointer" data-ng-click="routeTo(agency.id)">{{agency.name}}</td>
                         <td class="pointer" data-ng-click="routeTo(agency.id)">{{agency.parentName}}</td>
+                        <td><button class="btn btn-default" data-ng-click="transferAgency(agency.id)"><i class="fa fa-adjust"></i></button></td>
                     </tr>
                     </tbody>
                 </table>

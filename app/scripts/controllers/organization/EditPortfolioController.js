@@ -19,6 +19,7 @@
             scope.submit = function () {
                 // remove extra fields from form data
                 delete this.formData.parentName;
+                delete this.formData.responsibleUserName;
                 delete this.formData.centers;
 
                 this.formData.locale = scope.optlang.code;
