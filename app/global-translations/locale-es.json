@@ -492,6 +492,7 @@
 	"error.msg.loan.writeoff.cannot.be.undone.before.client.transfer.date": "La fecha en la cual se hace una escritura no puede ser anterior a la fecha de transferencia del cliente de ({{params[0].value}})",
 	"error.msg.loan.close.cannot.be.undone.before.client.transfer.date": "La fecha en que el préstamo es pagado en su totalidad no puede ser anterior a la fecha de transferencia del cliente de ({{params[0].value}})",
 	"error.msg.loan.repayment.or.waiver.account.is.not.active": "Cuenta de préstamo no está activa",
+	"error.msg.center.group.meeting.times.collision": "Grupo central  `{{params[0].value}}` con id `{{params[1].value}}` En el centro de destino tiene una reunión colisionante en un tiempo determinado: `{{params[2].value}}` - {{params[3].value}}",
 	"validation.msg.floatingrate.ratePeriods.cannot.be.empty": "Flotante de periodos de tasa no puede estar vacío",
 	"validation.msg.floatingrate.fromDate.is.less.than.date": "Flotante de tarifas por períodos de fecha debe ser mayor que fecha actual",
 	"validation.msg.floatingrate.isBaseLendingRate.baselendingrate.duplicate": "Tasa de interés ya está definida",
