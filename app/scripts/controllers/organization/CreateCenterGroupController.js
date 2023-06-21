@@ -6,6 +6,7 @@
             scope.responsibleUserOptions = [];
             scope.statusOptions = [];
             scope.portfolioCenterOptions = [];
+            scope.defaultMeetingPeriod = 0;
             scope.tf = "HH:mm";
             let portfolioId = routeParams.portfolioId
             let portfolioCenterId = routeParams.portfolioCenterId;
@@ -14,6 +15,25 @@
             {
                 scope.portfolioCenterOptions = data;
             });
+
+            resourceFactory.configurationResourceByName.get({configName:'meeting-default-duration'}, function (data){
+                scope.defaultMeetingPeriod = data.value;
+            });
+
+            scope.startTimeChanged = function(){
+                // Perform any additional logic or actions here
+                if(scope.formData.meetingStartTime != null
+                        && scope.formData.meetingStartTime != undefined
+                        && scope.formData.meetingStartTime != ""){
+                    console.log(scope.formData.meetingStartTime.getMinutes());
+
+                    var meetingEndTime = new Date(scope.formData.meetingStartTime);
+                    var hours = meetingEndTime.getHours();
+                    var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod;
+                    var newTime = new Date(meetingEndTime.getFullYear(), meetingEndTime.getMonth(), meetingEndTime.getDate(), hours, minutesToAdd);
+                    scope.formData.meetingEndTime = newTime;
+                }
+            }
 
             resourceFactory.centerGroupTemplateResource.get({portfolioCenterId:portfolioCenterId}, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
