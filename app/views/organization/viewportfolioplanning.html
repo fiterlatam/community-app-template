@@ -44,25 +44,27 @@
             <div>
                 <table class="table">
                     <thead>
-                        <span class="span gray-head">
+                    <span class="span gray-head">
                             <strong>{{ 'label.heading.portfolioplanning' | translate }}</strong>
                         </span>
-                        <tr class="graybg">
-                            <th>{{'label.heading.planningDay' | translate}}</th>
-                            <th>{{'label.heading.meetingStartTime' | translate}}</th>
-                            <th>{{'label.heading.portfolioCenterId' | translate}}</th>
-                            <th>{{'label.heading.centerGroupId' | translate}}</th>
-                            <th>{{'label.heading.centerGroupName' | translate}}</th>
-                        </tr>
+                    <tr class="graybg">
+                        <th>{{'label.heading.planningDate' | translate}}</th>
+                        <th>{{'label.heading.planningDay' | translate}}</th>
+                        <th>{{'label.heading.meetingStartTime' | translate}}</th>
+                        <th>{{'label.heading.portfolioCenter' | translate}}</th>
+                        <th>{{'label.heading.centerGroupId' | translate}}</th>
+                        <th>{{'label.heading.centerGroupName' | translate}}</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr class="pointer-main" ng-repeat="planning in detailedPlanningData">
-                            <td>{{planning.meetingDayName}}</td>
-                            <td>{{planning.meetingStartTime | date: 'HH:mm'}}</td>
-                            <td>{{planning.portfolioCenterId}}</td>
-                            <td>{{planning.centerGroupId}}</td>
-                            <td>{{planning.centerGroupName}}</td>
-                        </tr>
+                    <tr class="pointer-main" ng-repeat="planning in detailedPlanningData">
+                        <td>{{planning.meetingDate | DateFormat}}</td>
+                        <td>{{planning.meetingDayName}}</td>
+                        <td>{{planning.meetingStartTime | date: 'HH:mm'}}</td>
+                        <td>{{planning.portfolioCenterName}}</td>
+                        <td>{{planning.centerGroupId}}</td>
+                        <td>{{planning.centerGroupName}}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

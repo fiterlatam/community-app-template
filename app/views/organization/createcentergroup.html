@@ -1,17 +1,17 @@
 <div class="content-container">
-    <ul class="breadcrumb">
-        <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-        <li><a href="#/portfolios">{{'label.anchor.managecentergroups' | translate}}</a></li>
-        <li class="active">{{'label.anchor.createCenterGroup' | translate}}</li>
-    </ul>
-    <div class="card">
-    	<div class="content">
-    		<form name="createcentergroupform" novalidate="" class="form-horizontal"
-    			ng-controller="CreateCenterGroupController"
-    		      rc-submit="submit()">
-    		    <api-validate></api-validate>
-    		    <fieldset>
-    		        <legend>{{'label.heading.createcentergroup' | translate}}</legend>
+	<ul class="breadcrumb">
+		<li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
+		<li><a href="#/portfolios">{{'label.anchor.managecentergroups' | translate}}</a></li>
+		<li class="active">{{'label.anchor.createCenterGroup' | translate}}</li>
+	</ul>
+	<div class="card">
+		<div class="content">
+			<form name="createcentergroupform" novalidate="" class="form-horizontal"
+				  ng-controller="CreateCenterGroupController"
+				  rc-submit="submit()">
+				<api-validate></api-validate>
+				<fieldset>
+					<legend>{{'label.heading.createcentergroup' | translate}}</legend>
 					<!--portfolio center name-->
 					<div class="form-group">
 						<label class="control-label col-sm-2">{{ 'label.input.portfolioCenter' | translate }}<span class="required">*</span></label>
@@ -95,7 +95,7 @@
 						<label class="control-label col-sm-2">{{ 'label.input.meetingStartTime' | translate }}<span class="required">*</span></label>
 						<div class="col-sm-3">
 							<input id="meetingStartTime" type="time" placeholder="HH:MM:SS" name="meetingStartTime" ng-model="formData.meetingStartTime"
-								   class="form-control" required late-Validate/>
+								   class="form-control" ng-change="startTimeChanged()" required late-Validate/>
 						</div>
 						<div class="col-sm-3">
 							<form-validate valattributeform="createcentergroupform" valattribute="meetingStartTime"/>
@@ -105,7 +105,7 @@
 						<label class="control-label col-sm-2">{{ 'label.input.meetingEndTime' | translate }}<span class="required">*</span></label>
 						<div class="col-sm-3">
 							<input id="meetingEndTime" type="time" placeholder="HH:MM:SS" name="meetingEndTime" ng-model="formData.meetingEndTime"
-								   class="form-control" required late-Validate/>
+								   class="form-control" disabled late-Validate/>
 						</div>
 						<div class="col-sm-3">
 							<form-validate valattributeform="createcentergroupform" valattribute="meetingEndTime"/>
@@ -131,8 +131,8 @@
 						</a>
 						<button id="save" type="submit" class="btn btn-primary" has-permission='CREATE_CENTER_GROUP'>{{'label.button.save' | translate}}</button>
 					</div>
-    		    </fieldset>
-    		</form>
-    	</div>
-    </div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
 </div>

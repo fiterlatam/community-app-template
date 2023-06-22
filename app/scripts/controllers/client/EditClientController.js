@@ -27,6 +27,8 @@
                     middlename: data.middlename,
                     active: data.active,
                     accountNo: data.accountNo,
+                    dpi: data.dpiNumber,
+                    dpiNumber: data.dpiNumber,
                     staffId: data.staffId,
                     externalId: data.externalId,
                     isStaff:data.isStaff,
@@ -135,6 +137,7 @@
                     delete this.formData.lastname;
                 }
 
+                console.log("dpi: "+ this.formData.dpi)
                 resourceFactory.clientResource.update({'clientId': routeParams.id}, this.formData, function (data) {
                     location.path('/viewclient/' + routeParams.id);
                 });
