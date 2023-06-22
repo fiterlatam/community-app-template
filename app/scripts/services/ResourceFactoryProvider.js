@@ -42,13 +42,13 @@
                         update: { method: 'PUT'}
                     }),
                     officeImportTemplateResource: defineResource(apiVer + "/offices/bulkimporttemplate", {}, {
-                    		get: {method: 'GET', params: {}}
+                        get: {method: 'GET', params: {}}
                     }),
                     officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
                         get: {method: 'GET', params: {}, isArray: true}
                     }),
                     importResource: defineResource(apiVer + "/imports", {}, {
-                			getImports: {method: 'GET', params: {}, isArray: true}
+                        getImports: {method: 'GET', params: {}, isArray: true}
                     }),
                     clientResource: defineResource(apiVer + "/clients/:clientId/:anotherresource", {clientId: '@clientId', anotherresource: '@anotherresource', status: '@status'}, {
                         getAllClients: {method: 'GET', params: {limit: 1000, status: '@status'}},
@@ -333,12 +333,12 @@
                         getAllCodeValues: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT', params: {} }
                     }),
-					hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
+                    hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
                         getAllHooks: {method: 'GET', params: {}, isArray: true},
                         getHook: {method: 'GET', params: {}},
-						update: {method: 'PUT', params: {}}
+                        update: {method: 'PUT', params: {}}
                     }),
-					hookTemplateResource: defineResource(apiVer + "/hooks/template", {}, {
+                    hookTemplateResource: defineResource(apiVer + "/hooks/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
                     entityToEntityResource: defineResource(apiVer + "/entitytoentitymapping/:mappingId/:fromId/:toId", {mappingId: '@mappingId'}, {
@@ -485,7 +485,7 @@
                         get: {method: 'GET', params: {}},
                         update: {method: 'PUT', params: {}}
                     }),
-                    configurationResourceByName: defineResource(apiVer + "/configurations/", {configName: '@configName'}, {
+                    configurationResourceByName: defineResource(apiVer + "/configurations/name/:configName", {configName: '@configName'}, {
                         get: {method: 'GET', params: {configName:'configName'}}
                     }),
                     cacheResource: defineResource(apiVer + "/caches", {}, {
@@ -504,15 +504,15 @@
                         get: {method: 'GET', params: {}}
                     }),
                     loanRescheduleResource: defineResource(apiVer + "/rescheduleloans/:scheduleId",{scheduleId:'@scheduleId', command: '@command'},{
-                     get: {method: 'GET',params:{}},
-                     getAll: {method: 'GET', params: {}, isArray: true},
-                     template: {method: 'GET',params:{}},
-                     preview:{method:'GET',params:{command:'previewLoanReschedule'}},
-                     put: {method: 'POST', params: {command:'reschedule'}},
-                     reject:{method:'POST',params:{command:'reject'}},
-                     approve:{method:'POST',params:{command:'approve'}}
-                     }),
-                     auditResource: defineResource(apiVer + "/audits/:templateResource", {templateResource: '@templateResource'}, {
+                        get: {method: 'GET',params:{}},
+                        getAll: {method: 'GET', params: {}, isArray: true},
+                        template: {method: 'GET',params:{}},
+                        preview:{method:'GET',params:{command:'previewLoanReschedule'}},
+                        put: {method: 'POST', params: {command:'reschedule'}},
+                        reject:{method:'POST',params:{command:'reject'}},
+                        approve:{method:'POST',params:{command:'approve'}}
+                    }),
+                    auditResource: defineResource(apiVer + "/audits/:templateResource", {templateResource: '@templateResource'}, {
                         get: {method: 'GET', params: {}},
                         search: {method: 'GET', params: {}, isArray: false}
                     }),
@@ -579,7 +579,7 @@
                         put: {method: 'PUT', params:{}}
                     }),
                     workingDaysResourceTemplate: defineResource(apiVer + "/workingdays/template", {}, {
-                       get: {method: 'GET', params: {}}
+                        get: {method: 'GET', params: {}}
                     }),
                     passwordPrefTemplateResource: defineResource(apiVer + "/passwordpreferences/template", {}, {
                         get: {method: 'GET', params: {}, isArray : true},
@@ -631,7 +631,7 @@
 
                         get:{method: 'GET',params:{} },
                         delete:{method: 'DELETE',params:{}},
-                            put:{method:'PUT',params:{}}
+                        put:{method:'PUT',params:{}}
 
                     }),
                     familyMembers:defineResource(apiVer+"/clients/:clientId/familymembers/",{},{
@@ -644,8 +644,8 @@
                     familyMemberTemplate:defineResource(apiVer+"/clients/:clientId/familymembers/template",{},{
                         get:{method: 'GET',params:{}}
                     }),
-                   provisioningcriteria: defineResource(apiVer + "/provisioningcriteria/:criteriaId",{criteriaId:'@criteriaId'},{
-                         get: {method: 'GET',params:{}},
+                    provisioningcriteria: defineResource(apiVer + "/provisioningcriteria/:criteriaId",{criteriaId:'@criteriaId'},{
+                        get: {method: 'GET',params:{}},
                         getAll: {method: 'GET',params:{}, isArray : true},
                         template: {method: 'GET',params:{}},
                         post:{method:'POST',params:{}},
@@ -802,7 +802,7 @@
                         delete: {method: 'DELETE', params: {}}
                     }),
 
-					adHocQueryResource: defineResource(apiVer + "/adhocquery/:adHocId", {adHocId: '@adHocId'}, {
+                    adHocQueryResource: defineResource(apiVer + "/adhocquery/:adHocId", {adHocId: '@adHocId'}, {
                         getAllAdHocQuery: {method: 'GET', params: {}, isArray: true},
                         disableAdHocQuery: {method: 'POST'},
                         enableAdHocQuery: {method: 'POST'},
@@ -848,11 +848,11 @@
                         getAll: {method: 'GET', params: {}, isArray: true}
                     }),
                     CausesResource: defineResource(apiVer + "/codecauses/:causeId", {causeId: "@causeId"}, {
-                        retrieveCauses: {method: 'GET', params: {}},                       
+                        retrieveCauses: {method: 'GET', params: {}},
                         retrieveOne: {method: 'GET', params: {}, isArray: false},
                         createCause: {method: 'POST', params: {}},
-                        updateCause: {method: 'PUT', params: {}},                                            
-                        deleteCause: {method: 'DELETE', params: {}}                        
+                        updateCause: {method: 'PUT', params: {}},
+                        deleteCause: {method: 'DELETE', params: {}}
                     }),
                     causesTemplateResource: defineResource(apiVer + "/codecauses/template", {}, {
                         get: {method: 'GET', params: {}}
@@ -910,20 +910,6 @@
                         get: {method: 'GET', params: {}, isArray: false},
                         save: {method: 'POST', params: {}},
                         update: { method: 'PUT'}
-                    }),
-                    portfolioAllCentersAvailabilityResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/availability", {portfolioId: "@portfolioId"}, {
-                        get: {method: 'GET', params: {}, isArray: true},
-                    }),
-                    centerGroupTemplateResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/template", {}, {
-                        get: {method: 'GET', params: {}}
-                    }),
-                    centerGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
-                        get: {method: 'GET', params: {}, isArray: false},
-                        save: {method: 'POST', params: {}},
-                        update: { method: 'PUT'}
-                    }),
-                    transferCenterGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId/transfer", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
-                        transfer: { method: 'PUT'}
                     }),
                     transferCenterGroupResource: defineResource(apiVer + "/centers/:portfolioCenterId/groups/:centerGroupId/transfer", {portfolioCenterId: "@portfolioCenterId", centerGroupId: "@centerGroupId"}, {
                         transfer: { method: 'PUT'}
