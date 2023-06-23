@@ -7,6 +7,7 @@
             scope.statusOptions = [];
             scope.portfolioCenterOptions = [];
             scope.defaultMeetingPeriod = 0;
+            scope.timePeriodBetweenMeeting = 0;
             scope.tf = "HH:mm";
             let portfolioId = routeParams.portfolioId
             let portfolioCenterId = routeParams.portfolioCenterId;
@@ -20,16 +21,19 @@
                 scope.defaultMeetingPeriod = data.value;
             });
 
+            resourceFactory.configurationResourceByName.get({configName:'time-between-meetings'}, function (data){
+                scope.timePeriodBetweenMeeting = data.value;
+            });
+
             scope.startTimeChanged = function(){
                 // Perform any additional logic or actions here
                 if(scope.formData.meetingStartTime != null
                     && scope.formData.meetingStartTime != undefined
                     && scope.formData.meetingStartTime != ""){
-                    console.log(scope.formData.meetingStartTime.getMinutes());
 
                     var meetingEndTime = new Date(scope.formData.meetingStartTime);
                     var hours = meetingEndTime.getHours();
-                    var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod;
+                    var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod + scope.timePeriodBetweenMeeting;
                     var newTime = new Date(meetingEndTime.getFullYear(), meetingEndTime.getMonth(), meetingEndTime.getDate(), hours, minutesToAdd);
                     scope.formData.meetingEndTime = newTime;
                 }

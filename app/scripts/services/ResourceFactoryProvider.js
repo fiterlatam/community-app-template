@@ -47,6 +47,9 @@
                     officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
                         get: {method: 'GET', params: {}, isArray: true}
                     }),
+                    officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
+                        get: {method: 'GET', params: {}, isArray: true}
+                    }),
                     importResource: defineResource(apiVer + "/imports", {}, {
                         getImports: {method: 'GET', params: {}, isArray: true}
                     }),
