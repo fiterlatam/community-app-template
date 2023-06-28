@@ -495,7 +495,7 @@
                         get: {method: 'GET', params: {}},
                         update: {method: 'PUT', params: {}}
                     }),
-                    configurationResourceByName: defineResource(apiVer + "/configurations/", {configName: '@configName'}, {
+                    configurationResourceByName: defineResource(apiVer + "/configurations/name/:configName", {configName: '@configName'}, {
                         get: {method: 'GET', params: {configName:'configName'}}
                     }),
                     cacheResource: defineResource(apiVer + "/caches", {}, {
