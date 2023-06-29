@@ -683,6 +683,7 @@
 	"label.anchor.undoReject": "Deshacer Rechazo",
 	"label.anchor.undoWithdrawn": "Deshacer Retiro",
 	"label.anchor.blacklistClient": "Cliente de la lista negra",
+	"label.anchor.blacklist": "lista negra",
 	"label.input.filterbynameaccno": "Filtrar lo que se muestra por nombre/cliente/personal/oficina",
 	"label.input.searchByNameAccNo": "Buscar por nombre/móvil/cliente/id. externo/identificador",
 	"label.input.selectclientimage": "Seleccionar imagen del cliente",

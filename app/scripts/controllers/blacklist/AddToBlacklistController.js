@@ -2,6 +2,7 @@
     mifosX.controllers = _.extend(module, {
         AddToBlacklistController: function (scope, routeParams, route, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
             scope.client = null;
+            scope.dpi = null;
             scope.typificationOptions = [];
             scope.loanProductOptions = [];
 
@@ -10,10 +11,13 @@
 
             resourceFactory.blacklistTemplateResource.get({clientId: routeParams.clientId}, function (data) {
                 scope.client = data;
+                scope.dpi = data.dpi
                 scope.formData['dpiNumber'] = data.dpi
                 scope.formData['clientName'] = data.clientName
                 scope.typificationOptions= data.typificationOptions
                 scope.loanProductOptions= data.loanProducts
+            },function (){
+                scope.routeTo()
             });
 
 
@@ -24,6 +28,12 @@
                 resourceFactory.blacklistResource.save({clientId: routeParams.clientId}, this.formData, function (data) {
                     location.path('/viewclient/' + routeParams.clientId );
                 });
+            }
+
+            scope.routeTo = async ()=>{
+                await setTimeout(function (){
+                    location.path('/blacklist' );
+                },3000);
             }
 
         }
