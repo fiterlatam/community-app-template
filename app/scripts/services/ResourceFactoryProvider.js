@@ -59,10 +59,15 @@
                         retrieveTransferDate: { method: 'GET', params:{}, isArray: true}
                     }),
 
-                    blacklistResource: defineResource(apiVer + "/blacklist/:clientId", {clientId: '@clientId', status: '@status'}, {
+                    blacklistResource: defineResource(apiVer + "/blacklist/:clientId/:blacklistId", {clientId: '@clientId', status: '@status'}, {
+                        getOne: {method: 'GET', params: {blacklistId: '@blacklistId'}},
                         getAllBlacklistClients: {method: 'GET', params: {limit: 1000, status: '@status'}},
                         save: { method: 'POST'},
                         update: { method: 'PUT'}
+                    }),
+
+                    blacklistDocumentsResource: defineResource(apiVer + "/blacklist/:blacklistId/documents/:documentId", {blacklistId: '@blacklistId', documentId: '@documentId'}, {
+                        getAllDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
 
                     blacklistTemplateResource: defineResource(apiVer + "/blacklist/template/:clientId", {clientId: '@clientId'}, {

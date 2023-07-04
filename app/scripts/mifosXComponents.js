@@ -386,7 +386,8 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'cupo/EditCupoController',
             'client/ViewGroupCupoController',
             'blacklist/AddToBlacklistController',
-            'blacklist/BlacklistController'
+            'blacklist/BlacklistController',
+            'blacklist/RemoveBlacklistController'
         ],
         filters: [
             'StatusLookup',

@@ -1197,6 +1197,8 @@
                 templateUrl: 'views/organization/transferagency.html'
             }).when('/blacklist', {
                 templateUrl: 'views/blacklist/blacklist.html'
+             }).when('/blacklist/:blacklistId/:action', {
+                templateUrl: 'views/blacklist/removeblacklist.html'
             }).when('/clients/addblacklist/:clientId', {
                 templateUrl: 'views/blacklist/addToBlacklist.html'
             });
