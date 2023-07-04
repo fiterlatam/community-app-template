@@ -58,6 +58,16 @@
                         update: { method: 'PUT'},
                         retrieveTransferDate: { method: 'GET', params:{}, isArray: true}
                     }),
+
+                    blacklistResource: defineResource(apiVer + "/blacklist/:clientId", {clientId: '@clientId', status: '@status'}, {
+                        getAllBlacklistClients: {method: 'GET', params: {limit: 1000, status: '@status'}},
+                        save: { method: 'POST'},
+                        update: { method: 'PUT'}
+                    }),
+
+                    blacklistTemplateResource: defineResource(apiVer + "/blacklist/template/:clientId", {clientId: '@clientId'}, {
+                        get: {method: 'GET', params: {}},
+                    }),
                     clientChargesResource: defineResource(apiVer + "/clients/:clientId/charges/:resourceType", {clientId: '@clientId', resourceType: '@resourceType'}, {
                         getCharges: {method: 'GET'},
                         waive:{method:'POST' , params:{command : 'waive'}}

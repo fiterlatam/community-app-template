@@ -1195,6 +1195,10 @@
             })
             .when('/transferagency/:id', {
                 templateUrl: 'views/organization/transferagency.html'
+            }).when('/blacklist', {
+                templateUrl: 'views/blacklist/blacklist.html'
+            }).when('/clients/addblacklist/:clientId', {
+                templateUrl: 'views/blacklist/addToBlacklist.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
