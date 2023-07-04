@@ -29,7 +29,15 @@
                         </div>
                     </form>
                 </div>
-<!--                <div class="col-sm-4">-->
+
+                <div class="col-sm-4">
+                    <div class="checkbox">
+                        <label for="showAll">
+                            <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">
+                            &nbsp;{{'label.button.showinactive' | translate }}
+                        </label>
+                    </div>
+                </div>
 <!--                    <a href="#/createclient" class="btn btn-primary pull-right" has-permission='CREATE_CLIENT'><i-->
 <!--                            class="fa fa-plus"></i> {{'label.button.createclient' | translate}}</a> &nbsp;&nbsp;-->
 <!--                    <a href="#/bulkimportclients" style="margin-right: 5px" class="btn btn-primary pull-right" has-permission='CREATE_CLIENT'><i-->
@@ -50,6 +58,7 @@
                     <th>{{'label.input.agencyId' | translate}}</th>
                     <th>{{'label.input.balance' | translate}}</th>
                     <th>{{'label.input.disbursementAmount' | translate}}</th>
+                    <th>{{'label.heading.action' | translate}}</th>
                 </tr>
                 </thead>
 
@@ -67,6 +76,12 @@
                     <td class="pointer">{{client.agencyId}}</td>
                     <td class="pointer">{{client.balance |number}}</td>
                     <td class="pointer">{{client.disbursementAmount |number}}</td>
+                    <td class="pointer">
+                        <a ng-if="client.status=='ACTIVE'" href="#/blacklist/{{client.id}}/removeblacklist" has-permission='REMOVE_BLACKLIST'>
+                        <i class="fa fa-minus-square-o fa fa-2x" title="Remove From Blacklist"></i></a>
+                        <a ng-if="client.status!='ACTIVE'" href="#/blacklist/{{client.id}}/viewdetails" has-permission='VIEW_BLACKLIST'>
+                        <i class="fa fa-search fa fa-2x" title="Remove From Blacklist"></i></a>
+                    </td>
                 </tr>
                 </tbody>
 
