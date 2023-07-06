@@ -9,15 +9,9 @@
             scope.formData={};
 
 
-            resourceFactory.blacklistTemplateResource.get({clientId: routeParams.clientId}, function (data) {
-                scope.client = data;
-                scope.dpi = data.dpi
-                scope.formData['dpiNumber'] = data.dpi
-                scope.formData['clientName'] = data.clientName
+            resourceFactory.blacklistTemplateResource.get(function (data) {
                 scope.typificationOptions= data.typificationOptions
                 scope.loanProductOptions= data.loanProducts
-            },function (){
-                scope.routeTo()
             });
 
 
@@ -25,16 +19,16 @@
             scope.submit=function (){
                 this.formData.locale = scope.optlang.code;
 
-                resourceFactory.blacklistResource.save({clientId: routeParams.clientId}, this.formData, function (data) {
-                    location.path('/viewclient/' + routeParams.clientId );
+                resourceFactory.blacklistResource.save(this.formData, function (data) {
+                    location.path('blacklist/'+data.resourceId+'/viewdetails' );
                 });
             }
 
-            scope.routeTo = async ()=>{
-                await setTimeout(function (){
-                    location.path('/blacklist' );
-                },3000);
-            }
+            // scope.routeTo = async ()=>{
+            //     await setTimeout(function (){
+            //         location.path('/blacklist' );
+            //     },3000);
+            // }
 
         }
     });
