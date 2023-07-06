@@ -1199,7 +1199,7 @@
                 templateUrl: 'views/blacklist/blacklist.html'
              }).when('/blacklist/:blacklistId/:action', {
                 templateUrl: 'views/blacklist/removeblacklist.html'
-            }).when('/clients/addblacklist/:clientId', {
+            }).when('/blacklist/createblacklist', {
                 templateUrl: 'views/blacklist/addToBlacklist.html'
             });
         $locationProvider.hashPrefix('');

@@ -11,8 +11,8 @@
         <div class="content">
             <br>
             <div class="row">
-                <div class="col-sm-8">
-                    <form ng-submit="search()" class="form-horizontal">
+                <div class="col-sm-6">
+                    <form ng-submit="getResultsPage(1)" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-md-8">
                                 <div class="input-group">
@@ -20,7 +20,7 @@
                                            placeholder="{{'label.input.searchByNameDpi' | translate}}"
                                            class="form-control unstyled"/>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary form-control">
+                                        <button class="btn btn-primary form-control" ng-disabled="!searchText">
                                             <span class="fa fa-search"></span>
                                         </button>
                                     </span>
@@ -30,7 +30,7 @@
                     </form>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="checkbox">
                         <label for="showAll">
                             <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">
@@ -38,11 +38,12 @@
                         </label>
                     </div>
                 </div>
-<!--                    <a href="#/createclient" class="btn btn-primary pull-right" has-permission='CREATE_CLIENT'><i-->
-<!--                            class="fa fa-plus"></i> {{'label.button.createclient' | translate}}</a> &nbsp;&nbsp;-->
+                <div class="col-sm-3">
+                <a href="#/blacklist/createblacklist" class="btn btn-primary pull-right" has-permission='ADD_BLACKLIST'><i
+                            class="fa fa-plus"></i> {{'label.addtoblacklist' | translate}}</a> &nbsp;&nbsp;
 <!--                    <a href="#/bulkimportclients" style="margin-right: 5px" class="btn btn-primary pull-right" has-permission='CREATE_CLIENT'><i-->
 <!--                            class="fa fa-upload"></i>&nbsp;{{'label.button.importclients' | translate}}</a>-->
-<!--                </div>-->
+                </div>
             </div>
             <hr/>
             <table class="table">
@@ -79,7 +80,7 @@
                     <td class="pointer">
                         <a ng-if="client.status=='ACTIVE'" href="#/blacklist/{{client.id}}/removeblacklist" has-permission='REMOVE_BLACKLIST'>
                         <i class="fa fa-minus-square-o fa fa-2x" title="Remove From Blacklist"></i></a>
-                        <a ng-if="client.status!='ACTIVE'" href="#/blacklist/{{client.id}}/viewdetails" has-permission='VIEW_BLACKLIST'>
+                        <a href="#/blacklist/{{client.id}}/viewdetails" has-permission='VIEW_BLACKLIST'>
                         <i class="fa fa-search fa fa-2x" title="Remove From Blacklist"></i></a>
                     </td>
                 </tr>
