@@ -13,7 +13,6 @@
                 var items = resourceFactory.blacklistResource.getAllBlacklistClients({
                     offset: ((pageNumber - 1) * scope.clientsPerPage),
                     limit: scope.clientsPerPage,
-                    status: scope.showInactive? 'INACTIVE' : 'ACTIVE',
                     searchText:scope.searchText
                 }, function (data) {
                     scope.totalClients = data.totalFilteredRecords;
