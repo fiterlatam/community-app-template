@@ -31,12 +31,12 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <div class="checkbox">
-                        <label for="showAll">
-                            <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">
-                            &nbsp;{{'label.button.showinactive' | translate }}
-                        </label>
-                    </div>
+<!--                    <div class="checkbox">-->
+<!--                        <label for="showAll">-->
+<!--                            <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">-->
+<!--                            &nbsp;{{'label.button.showinactive' | translate }}-->
+<!--                        </label>-->
+<!--                    </div>-->
                 </div>
                 <div class="col-sm-3">
                 <a href="#/blacklist/createblacklist" class="btn btn-primary pull-right" has-permission='ADD_BLACKLIST'><i
@@ -64,7 +64,7 @@
                 </thead>
 
                 <tbody>
-                <tr dir-paginate="client in blacklist | orderBy:'id':reverse  | filter:filterText | itemsPerPage: clientsPerPage" class="pointer-main"
+                <tr dir-paginate="client in blacklist | itemsPerPage: clientsPerPage" class="pointer-main"
                     total-items="totalClients"  pagination-id="blacklist" ng-show="client.status.code != 'clientStatusType.closed' || showClosed">
                     <td class="pointer" data-ng-click="routeTo('/viewclient/'+client.id)">{{client.clientName}}</td>
                     <td class="pointer">{{client.dpi}}</td>
