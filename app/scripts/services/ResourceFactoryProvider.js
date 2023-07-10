@@ -50,6 +50,9 @@
                     officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
                         get: {method: 'GET', params: {}, isArray: true}
                     }),
+                    officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
+                        get: {method: 'GET', params: {}, isArray: true}
+                    }),
                     importResource: defineResource(apiVer + "/imports", {}, {
                         getImports: {method: 'GET', params: {}, isArray: true}
                     }),
@@ -60,6 +63,21 @@
                         getAllClientDocuments: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT'},
                         retrieveTransferDate: { method: 'GET', params:{}, isArray: true}
+                    }),
+
+                    blacklistResource: defineResource(apiVer + "/blacklist/:clientId/:blacklistId", {clientId: '@clientId', status: '@status'}, {
+                        getOne: {method: 'GET', params: {blacklistId: '@blacklistId'}},
+                        getAllBlacklistClients: {method: 'GET', params: {limit: 1000, status: '@status'}},
+                        save: { method: 'POST'},
+                        update: { method: 'PUT'}
+                    }),
+
+                    blacklistDocumentsResource: defineResource(apiVer + "/blacklist/:blacklistId/documents/:documentId", {blacklistId: '@blacklistId', documentId: '@documentId'}, {
+                        getAllDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+
+                    blacklistTemplateResource: defineResource(apiVer + "/blacklist/template/:clientId", {clientId: '@clientId'}, {
+                        get: {method: 'GET', params: {}},
                     }),
                     clientChargesResource: defineResource(apiVer + "/clients/:clientId/charges/:resourceType", {clientId: '@clientId', resourceType: '@resourceType'}, {
                         getCharges: {method: 'GET'},
