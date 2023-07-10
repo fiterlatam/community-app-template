@@ -5,6 +5,7 @@
             scope.parentOfficesOptions = [];
             scope.responsibleUserOptions = [];
             scope.statusOptions = [];
+            scope.centerGroupLocations = [];
             scope.portfolioCenterOptions = [];
             scope.tf = "HH:mm";
             let portfolioId = routeParams.portfolioId
@@ -15,6 +16,7 @@
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.statusOptions = data.statusOptions;
+                scope.centerGroupLocations = data.centerGroupLocations;
             });
 
             resourceFactory.portfolioCenterByCurrentUserResource.get({portfolioId:portfolioId}, function (data) {
@@ -24,6 +26,7 @@
             resourceFactory.centerGroupResource.get({portfolioCenterId: portfolioCenterId, centerGroupId:centerGroupId}, function (data) {
                 scope.formData = data;
                 scope.formData.statusId = data.status.id;
+                scope.formData.grouplocation = data.grouplocation.id;
                 scope.formData.portfolioId = parseInt(portfolioId);
 
                 if (data.formationDate) {

@@ -5,6 +5,7 @@
             scope.parentOfficesOptions = [];
             scope.responsibleUserOptions = [];
             scope.statusOptions = [];
+            scope.centerGroupLocations = [];
             scope.portfolioCenterOptions = [];
             scope.defaultMeetingPeriod = 0;
             scope.timePeriodBetweenMeeting = 0;
@@ -43,6 +44,7 @@
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.statusOptions = data.statusOptions;
+                scope.centerGroupLocations = data.centerGroupLocations;
                 scope.formData = {
                     portfolioCenterId: parseInt(portfolioCenterId),
                     portfolioId: parseInt(portfolioId)
