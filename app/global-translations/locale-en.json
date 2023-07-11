@@ -1177,6 +1177,7 @@
   "center.group.location.rural": "Rural",
   "center.group.location.invalid": "Not Set",
   "label.input.centerlocation": "Center Location",
+  "label.input.old.customer.number": "Old Customer Number",
   "#journalEntryType code ": ".............",
   "journalEntryType.credit": "Credit",
   "journalEntrytType.debit": "Debit",

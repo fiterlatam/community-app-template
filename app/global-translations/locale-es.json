@@ -4179,6 +4179,7 @@
 	"label.input.centercreateddate": "Fecha de creación",
 	"label.input.grouplocation": "ubicación del grupo",
 	"label.input.centerlocation": "ubicación del Centro",
+	"label.input.old.customer.number": "Antiguo número de cliente",
 	"label.heading.editportfoliocenter": "Editar Centro",
 	"label.selectcentertype": "Seleccione tipo de centro",
 	"portfolioCenterStatus.active": "Activo",
