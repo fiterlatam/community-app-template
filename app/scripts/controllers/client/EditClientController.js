@@ -29,6 +29,7 @@
                     accountNo: data.accountNo,
                     dpi: data.dpiNumber,
                     dpiNumber: data.dpiNumber,
+                    oldCustomerNumber: data.oldCustomerNumber,
                     staffId: data.staffId,
                     externalId: data.externalId,
                     isStaff:data.isStaff,
