@@ -10,7 +10,7 @@
             scope.defaultMeetingPeriod = 0;
             scope.timePeriodBetweenMeeting = 0;
             scope.tf = "HH:mm";
-            let portfolioId = routeParams.portfolioId
+            let portfolioId = routeParams.portfolioId;
             let portfolioCenterId = routeParams.portfolioCenterId;
 
             resourceFactory.portfolioCenterByCurrentUserResource.get({portfolioId:portfolioId},function(data)
@@ -70,7 +70,7 @@
                     this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
                 }
 
-                 resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
+                resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
                     location.path('/viewcentergroups/' + portfolioId + "/" + portfolioCenterId);
                 });
             };

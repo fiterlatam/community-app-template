@@ -8,6 +8,10 @@
             scope.entityformData.datatables={};
             scope.submittedDatatables = [];
             var submitStatus = [];
+            scope.parentOfficesOptions = [];
+            scope.responsibleUserOptions = [];
+            scope.portfolioCenterOptions = [];
+            scope.tf = "HH:mm";
 
             scope.RequestEntities = function(entity,status){
                 resourceFactory.entityDatatableChecksResource.getAll({limit:-1},function (response) {
@@ -45,8 +49,45 @@
                             }
                         });
                     });
-
                 });
+
+                var requestParams = {orderBy: 'name', sortOrder: 'ASC', staffInSelectedOfficeOnly: true};
+                if (routeParams.centerId) {
+                    requestParams.centerId = routeParams.centerId;
+                }
+
+                resourceFactory.groupTemplateResource.get(requestParams, function (data) {
+                    scope.offices = data.officeOptions;
+                    scope.staffs = data.staffOptions;
+
+                    // FB - customization for groups
+                    scope.parentOfficesOptions = data.parentOfficesOptions;
+                    scope.responsibleUserOptions = data.responsibleUserOptions;
+                    scope.statusOptions = data.statusOptions;
+                    scope.portfolioCenterOptions = data.portfolioCenterOptions;
+                });
+
+                resourceFactory.configurationResourceByName.get({configName:'meeting-default-duration'}, function (data){
+                    scope.defaultMeetingPeriod = data.value;
+                });
+
+                resourceFactory.configurationResourceByName.get({configName:'time-between-meetings'}, function (data){
+                    scope.timePeriodBetweenMeeting = data.value;
+                });
+
+                scope.startTimeChanged = function(){
+                    // Perform any additional logic or actions here
+                    if(scope.formData.meetingStartTime != null
+                        && scope.formData.meetingStartTime != undefined
+                        && scope.formData.meetingStartTime != ""){
+
+                        var meetingEndTime = new Date(scope.formData.meetingStartTime);
+                        var hours = meetingEndTime.getHours();
+                        var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod + scope.timePeriodBetweenMeeting;
+                        var newTime = new Date(meetingEndTime.getFullYear(), meetingEndTime.getMonth(), meetingEndTime.getDate(), hours, minutesToAdd);
+                        scope.formData.meetingEndTime = newTime;
+                    }
+                }
             };
 
             function asyncLoop(iterations, func, callback) {
@@ -105,13 +146,31 @@
                 scope.formData = {
                     name: data.name,
                     externalId: data.externalId,
-                    staffId: data.staffId
+                    staffId: data.staffId,
+                    portfolioCenterId: data.portfolioCenterId,
+                    legacyGroupNumber: data.legacyGroupNumber,
+                    latitude: data.latitude,
+                    longitude: data.longitude,
+                    size: data.size,
+                    responsibleUserId: data.responsibleUserId
                 };
                 if (data.activationDate) {
                     var actDate = dateFilter(data.activationDate, scope.df);
                     scope.first.date = new Date(actDate);
                 }
+                if (data.formationDate) {
+                    let formationDate = dateFilter(data.formationDate, scope.df);
+                    scope.formData.formationDate = new Date(formationDate);
+                }
 
+                var date = new Date();
+                if (data.meetingStartTime) {
+                    scope.formData.meetingStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDay(), data.meetingStartTime[0], data.meetingStartTime[1], 0);
+                }
+
+                if (data.meetingEndTime) {
+                    scope.formData.meetingEndTime = new Date(date.getFullYear(), date.getMonth(), date.getDay(), data.meetingEndTime[0], data.meetingEndTime[1], 0);
+                }
             });
 
             resourceFactory.groupResource.get({groupId: routeParams.id}, function (data) {
@@ -126,6 +185,16 @@
                 this.formData.activationDate = dateFilter(scope.first.date, scope.df);
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
+
+                this.formData.formationDate = dateFilter(scope.formData.formationDate, scope.df);
+
+                if (scope.formData.meetingStartTime) {
+                    this.formData.meetingStartTime = dateFilter(scope.formData.meetingStartTime, scope.tf);
+                }
+                if (scope.formData.meetingEndTime) {
+                    this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
+                }
+
                 resourceFactory.groupResource.update({groupId: routeParams.id}, this.formData, function (data) {
                     location.path('/viewgroup/' + routeParams.id);
                 });

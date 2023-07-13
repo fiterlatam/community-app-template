@@ -4267,5 +4267,7 @@
 	"label.heading.centerGroupName": "Grupo",
 	"validation.msg.user.roles.not.supported.more.than.one.role": "Solo es posible asignar un rol al usuario.",
 	"label.heading.responsibleUser": "Usuario responsable",
+	"label.input.company.fieldset.client": "Cliente",
+	"label.input.company.fieldset.custom": "Adicionales",
 	"----End---": "---Fin del archivo---"
 }
