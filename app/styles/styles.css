@@ -21989,4 +21989,8 @@ Interactive Layer
 }
 .amber{
   color: rgb(202 140 45);
-} 
+}
+
+.m-1{
+  margin: 2px !important;
+}
