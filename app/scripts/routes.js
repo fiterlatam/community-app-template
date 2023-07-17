@@ -1202,7 +1202,9 @@
             }).when('/blacklist/createblacklist', {
                 templateUrl: 'views/blacklist/addToBlacklist.html'
             }).when('/prequalifications', {
-                templateUrl: 'views/prequalifications/prequalifications.html'
+                templateUrl: 'views/prequalifications/prequalificationsMenu.html'
+            }).when('/prequalificationGroups', {
+                templateUrl: 'views/prequalifications/prequalificationsGroups.html'
             }).when('/prequalifications/newgroup', {
                 templateUrl: 'views/prequalifications/newgroup.html'
             });

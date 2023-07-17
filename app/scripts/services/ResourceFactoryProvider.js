@@ -73,6 +73,16 @@
                     blacklistTemplateResource: defineResource(apiVer + "/blacklist/template/:clientId", {clientId: '@clientId'}, {
                         get: {method: 'GET', params: {}},
                     }),
+
+                    prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
+                        get: {method: 'GET', params: {}},
+                    }),
+                    prequalificationResource: defineResource(apiVer + "/prequalification/:requestId", {requestId: '@requestId'}, {
+                        get: {method: 'GET', params: {}},
+                        getAllGroups: {method: 'GET', params: {limit: 1000}},
+                        save: {method: 'POST', params: {}},
+                        update: {method: 'PUT', params: {}},
+                    }),
                     clientChargesResource: defineResource(apiVer + "/clients/:clientId/charges/:resourceType", {clientId: '@clientId', resourceType: '@resourceType'}, {
                         getCharges: {method: 'GET'},
                         waive:{method:'POST' , params:{command : 'waive'}}
