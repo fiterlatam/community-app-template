@@ -69,8 +69,8 @@
                                 <label class="control-label col-sm-2">{{ 'label.input.portfolioCenter' | translate }}<span class="required">*</span></label>
                                 <div class="col-sm-3">
                                     <select id="portfolioCenterId" ng-model="formData.portfolioCenterId" class="form-control" name="portfolioCenterId" disabled
-                                            ng-options="portfolioCenterOption.id as portfolioCenterOption.name for portfolioCenterOption in portfolioCenterOptions"
-                                            value="{{portfolioCenterOption.id}}"></select>
+                                            ng-options="centerOption.id as centerOption.name for centerOption in centerOptions"
+                                            value="{{centerOption.id}}"></select>
                                 </div>
                                 <div class="col-sm-3">
                                     <form-validate valattributeform="editgroupform" valattribute="portfolioCenterId"/>

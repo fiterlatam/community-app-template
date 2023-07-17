@@ -59,6 +59,7 @@
                 resourceFactory.groupTemplateResource.get(requestParams, function (data) {
                     scope.offices = data.officeOptions;
                     scope.staffs = data.staffOptions;
+                    scope.centerOptions = data.centerOptions;
 
                     // FB - customization for groups
                     scope.parentOfficesOptions = data.parentOfficesOptions;

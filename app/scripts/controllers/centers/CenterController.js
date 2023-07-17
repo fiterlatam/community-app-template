@@ -33,7 +33,7 @@
                     offset: ((pageNumber - 1) * scope.centersPerPage),
                     limit: scope.centersPerPage,
                     paged: 'true',
-                    orderBy: 'name',
+                    orderBy: '',
                     sortOrder: 'ASC'
                 }, function (data) {
                     scope.centers = data.pageItems;
@@ -45,7 +45,7 @@
                     offset: 0,
                     limit: scope.centersPerPage,
                     paged: 'true',
-                    orderBy: 'name',
+                    orderBy: '',
                     sortOrder: 'ASC'
                 }, function (data) {
                     scope.totalCenters = data.totalFilteredRecords;
