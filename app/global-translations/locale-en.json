@@ -2459,6 +2459,7 @@
   "label.heading.successcount":"Success Count",
   "label.heading.failurecount":"Failure Count",
   "label.heading.totalrecords":"Total Records",
+  "label.heading.blacklist.clients": "Blacklist Clients",
   "#Anchors": "..",
   "label.anchor.users": "Users",
   "label.anchor.createuser": "Create User",

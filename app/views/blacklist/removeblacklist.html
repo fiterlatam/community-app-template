@@ -7,7 +7,7 @@
         <api-validate></api-validate>
 
         <div class="toolbar">
-            <h4 class="pull-left">Details</h4>
+            <h4 class="pull-left">{{'label.heading.details' | translate}}</h4>
         </div>
         <div class="row" style="margin: 1rem">
             <hr/>
@@ -45,8 +45,8 @@
             </div>
         </div>
 
-        <div ng-if="action=='viewdetails' && blacklistDocuments.length > 0">
-            <table class="table">
+        <div ng-if="action=='viewdetails'">
+            <table class="table" ng-if="blacklistDocuments.length > 0">
                 <thead>
                 <tr class="graybg">
                     <th>{{'label.heading.name' | translate}}</th>
@@ -68,6 +68,12 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="text-center">
+                <a id="close" href="#/blacklist">
+                    <button type="reset" class="btn btn-default">{{'label.button.back' | translate}}
+                    </button>
+                </a>
+            </div>
         </div>
 
         <form name="blacklistForm" novalidate="" class="card form-horizontal well" rc-submit="submit()" ng-if="action=='removeblacklist'">
