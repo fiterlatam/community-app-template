@@ -996,13 +996,13 @@
                 templateUrl: 'views/clients/addfamilymembers.html'
             })
             .when('/bulkimportoffices', {
-                 templateUrl: 'views/organization/bulkimport/bulkimportoffices.html'
-             })
-             .when('/bulkimportclients', {
-                 templateUrl: 'views/organization/bulkimport/bulkimportclients.html'
-             })
+                templateUrl: 'views/organization/bulkimport/bulkimportoffices.html'
+            })
+            .when('/bulkimportclients', {
+                templateUrl: 'views/organization/bulkimport/bulkimportclients.html'
+            })
             .when('/bulkimportloanaccounts', {
-            templateUrl: 'views/organization/bulkimport/bulkimportloanaccounts.html'
+                templateUrl: 'views/organization/bulkimport/bulkimportloanaccounts.html'
             })
             .when('/bulkimportloanrepayments', {
                 templateUrl: 'views/organization/bulkimport/bulkimportloanrepayments.html'
@@ -1052,7 +1052,7 @@
             .when('/bulkimport', {
                 templateUrl: 'views/organization/bulkimport/bulkimport.html'
             })
-			.when('/adhocquery/', {
+            .when('/adhocquery/', {
                 templateUrl: 'views/adhocquery/adhocquerylists.html'
             })
             .when('/createadhocquery/', {
@@ -1070,8 +1070,8 @@
             .when('/externalservicesCB/CreditBureau', {
                 templateUrl: 'views/administration/CreditBureauSummary.html'
             })
-             .when('/externalservicesCB/CreditBureau/addcb', {
-                 templateUrl: 'views/administration/addNewCreditBureau.html'
+            .when('/externalservicesCB/CreditBureau/addcb', {
+                templateUrl: 'views/administration/addNewCreditBureau.html'
             })
             .when('/externalservicesCB/CreditBureau/configuration', {
                 templateUrl: 'views/administration/CreditBureauConfiguration.html'
@@ -1111,16 +1111,16 @@
             })
             .when('/clients/cupo/:clientId', {
                 templateUrl: 'views/cupo/viewclientcupo.html'
-            })     
+            })
             .when('/createcupo/:entityName/:entityId', {
                 templateUrl: 'views/cupo/createcupo.html'
-            })         
+            })
             .when('/viewcupo/:cupoId', {
                 templateUrl: 'views/cupo/viewcupo.html'
-            })    
+            })
             .when('/editcupo/:cupoId', {
                 templateUrl: 'views/cupo/editcupo.html'
-            })  
+            })
             .when('/groups/cupo/:groupId', {
                 templateUrl: 'views/cupo/viewgroupcupo.html'
             })

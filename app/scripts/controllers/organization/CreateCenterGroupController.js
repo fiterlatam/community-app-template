@@ -31,7 +31,6 @@
                 if(scope.formData.meetingStartTime != null
                         && scope.formData.meetingStartTime != undefined
                         && scope.formData.meetingStartTime != ""){
-
                     var meetingEndTime = new Date(scope.formData.meetingStartTime);
                     var hours = meetingEndTime.getHours();
                     var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod + scope.timePeriodBetweenMeeting;
@@ -70,7 +69,11 @@
                     this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
                 }
 
+<<<<<<< HEAD
                  resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
+=======
+                resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
+>>>>>>> ea16746dd11860b854e787777250f64e8888a310
                     location.path('/viewcentergroups/' + portfolioId + "/" + portfolioCenterId);
                 });
             };
