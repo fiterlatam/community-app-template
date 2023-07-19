@@ -69,11 +69,7 @@
                     this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
                 }
 
-<<<<<<< HEAD
                  resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
-=======
-                resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
->>>>>>> ea16746dd11860b854e787777250f64e8888a310
                     location.path('/viewcentergroups/' + portfolioId + "/" + portfolioCenterId);
                 });
             };
