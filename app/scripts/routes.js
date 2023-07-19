@@ -1196,12 +1196,16 @@
             .when('/transferagency/:id', {
                 templateUrl: 'views/organization/transferagency.html'
             }).when('/blacklist', {
-            templateUrl: 'views/blacklist/blacklist.html'
-        }).when('/blacklist/:blacklistId/:action', {
-            templateUrl: 'views/blacklist/removeblacklist.html'
-        }).when('/blacklist/createblacklist', {
-            templateUrl: 'views/blacklist/addToBlacklist.html'
-        });
+                templateUrl: 'views/blacklist/blacklist.html'
+             }).when('/blacklist/:blacklistId/:action', {
+                templateUrl: 'views/blacklist/removeblacklist.html'
+            }).when('/blacklist/createblacklist', {
+                templateUrl: 'views/blacklist/addToBlacklist.html'
+            }).when('/prequalifications', {
+                templateUrl: 'views/prequalifications/prequalifications.html'
+            }).when('/prequalifications/newgroup', {
+                templateUrl: 'views/prequalifications/newgroup.html'
+            });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };

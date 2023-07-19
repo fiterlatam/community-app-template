@@ -30,6 +30,10 @@
                                     <td>{{ 'label.heading.centermeetingday' | translate }}</td>
                                     <td>{{portfolioCenter.meetingDayName}}</td>
                                 </tr>
+                                <tr>
+                                    <td>{{ 'label.input.centerlocation' | translate }}</td>
+                                    <td>{{portfolioCenter.centerLocation.code|translate}}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -53,6 +57,7 @@
                             <th>{{'label.input.groupname' | translate}}</th>
                             <th>{{'label.input.meetingStartTime' | translate}}</th>
                             <th>{{'label.input.meetingEndTime' | translate}}</th>
+                            <th>{{'label.input.grouplocation' | translate}}</th>
                             <th>{{'label.input.transfergroup' | translate}}</th>
                         </tr>
                     </thead>
@@ -61,6 +66,7 @@
                             <td class="pointer" data-ng-click="editCenterGroup(group.id)">{{group.name}}</td>
                             <td class="pointer">{{group.meetingStartTime | date: 'HH:mm'}}</td>
                             <td class="pointer">{{group.meetingEndTime | date: 'HH:mm'}}</td>
+                            <td class="pointer">{{group.grouplocation.code | translate}}</td>
                             <td><button class="btn btn-default" data-ng-click="transferCenterGroup(group.id)"><i class="fa fa-adjust"></i></button></td>
                         </tr>
                     </tbody>

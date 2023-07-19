@@ -5,6 +5,7 @@
             scope.parentOfficesOptions = [];
             scope.responsibleUserOptions = [];
             scope.statusOptions = [];
+            scope.centerGroupLocations = [];
             scope.portfolioCenterOptions = [];
             scope.defaultMeetingPeriod = 0;
             scope.timePeriodBetweenMeeting = 0;
@@ -28,9 +29,8 @@
             scope.startTimeChanged = function(){
                 // Perform any additional logic or actions here
                 if(scope.formData.meetingStartTime != null
-                    && scope.formData.meetingStartTime != undefined
-                    && scope.formData.meetingStartTime != ""){
-
+                        && scope.formData.meetingStartTime != undefined
+                        && scope.formData.meetingStartTime != ""){
                     var meetingEndTime = new Date(scope.formData.meetingStartTime);
                     var hours = meetingEndTime.getHours();
                     var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod + scope.timePeriodBetweenMeeting;
@@ -43,6 +43,7 @@
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.statusOptions = data.statusOptions;
+                scope.centerGroupLocations = data.centerGroupLocations;
                 scope.formData = {
                     portfolioCenterId: parseInt(portfolioCenterId),
                     portfolioId: parseInt(portfolioId)
@@ -68,7 +69,11 @@
                     this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
                 }
 
+<<<<<<< HEAD
+                 resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
+=======
                 resourceFactory.centerGroupResource.save({'portfolioId': portfolioId, 'portfolioCenterId': portfolioCenterId}, this.formData, function (data) {
+>>>>>>> ea16746dd11860b854e787777250f64e8888a310
                     location.path('/viewcentergroups/' + portfolioId + "/" + portfolioCenterId);
                 });
             };

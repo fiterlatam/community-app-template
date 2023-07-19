@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="toolbar">
-            <h4 class="pull-left">Blacklisted Clients</h4>
+            <h4 class="pull-left">{{'label.heading.blacklist.clients'|translate}}</h4>
         </div>
         <div class="content">
             <br>
@@ -31,12 +31,12 @@
                 </div>
 
                 <div class="col-sm-3">
-<!--                    <div class="checkbox">-->
-<!--                        <label for="showAll">-->
-<!--                            <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">-->
-<!--                            &nbsp;{{'label.button.showinactive' | translate }}-->
-<!--                        </label>-->
-<!--                    </div>-->
+                    <div class="checkbox">
+                        <label for="showAll">
+                            <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">
+                            &nbsp;{{'label.button.showinactive' | translate }}
+                        </label>
+                    </div>
                 </div>
                 <div class="col-sm-3">
                 <a href="#/blacklist/createblacklist" class="btn btn-primary pull-right" has-permission='ADD_BLACKLIST'><i
@@ -56,7 +56,7 @@
                     <th>{{'label.input.status' | translate}}</th>
                     <th>{{'label.input.product' | translate}}</th>
                     <th>{{'label.input.year' | translate}}</th>
-                    <th>{{'label.input.agencyId' | translate}}</th>
+                    <th>{{'label.input.agency' | translate}}</th>
                     <th>{{'label.input.balance' | translate}}</th>
                     <th>{{'label.input.disbursementAmount' | translate}}</th>
                     <th>{{'label.heading.action' | translate}}</th>

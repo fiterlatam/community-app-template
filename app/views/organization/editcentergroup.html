@@ -36,6 +36,18 @@
 							<form-validate valattributeform="editcentergroupform" valattribute="name"/>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.grouplocation' | translate }}<span class="required">*</span></label>
+						<div class="col-sm-3">
+							<select id="grpLocation" ng-model="formData.grouplocation" class="form-control" name="grpLocation"
+									ng-options="location.id as location.code |translate for location in centerGroupLocations"
+									value="{{location.id}}"></select>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="editcentergroupform" valattribute="grpLocation"/>
+						</div>
+					</div>
 					<!--legacy center group number-->
 					<div class="form-group">
 						<label class="control-label col-sm-2">{{ 'label.input.legacyGroupNumber' | translate }}</label>
