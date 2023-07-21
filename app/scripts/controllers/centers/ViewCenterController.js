@@ -2,11 +2,13 @@
     mifosX.controllers = _.extend(module, {
         ViewCenterController: function (scope, routeParams, resourceFactory, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope) {
 
-            scope.center = [];
+            scope.center = {};
             scope.staffData = {};
             scope.formData = {};
+            scope.newCenter = {};
             scope.report = false;
             scope.hidePentahoReport = true;
+            scope.oldModalInstance = null;
             resourceFactory.centerResource.get({centerId: routeParams.id, associations: 'groupMembers,collectionMeetingCalendar'}, function (data) {
                 scope.center = data;
                 scope.isClosedCenter = scope.center.status.value == 'Closed';
@@ -139,7 +141,68 @@
                     route.reload();
                 });
             };
+
+            scope.transferGroup = function (group) {
+                scope.groupData = group
+
+                $uibModal.open({
+                    templateUrl: 'transferGroupToCenter.html',
+                    controller: TransferGroupCtrl,
+                });
+            }
+
+            scope.goToPage = function (path) {
+                location.path(path);
+            }
+
+            var TransferGroupCtrl = function ($scope, $uibModalInstance) {
+                $scope.group = scope.groupData;
+                $scope.availableCenters = [];
+                resourceFactory.centerResource.getAllCenters({
+                    orderBy: 'name',
+                    sortOrder: 'ASC'
+                }, function (data) {
+                    $scope.availableCenters = data;
+                });
+
+                $scope.confirmTransfer = function (center) {
+                    // $uibModalInstance.dismiss('cancel');
+                    scope.oldModalInstance = $uibModalInstance;
+                    scope.newCenter =center
+                    $uibModal.open({
+                        templateUrl: 'confirmTransfer.html',
+                        controller: ConfirmTransferCtrl,
+                    });
+                };
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }
+
+            var ConfirmTransferCtrl = function ($scope, $uibModalInstance) {
+                $scope.group = scope.groupData;
+                $scope.center = scope.center;
+                $scope.newCenter = scope.newCenter;
+                $scope.availableCenters = [];
+
+                $scope.transfer = function () {
+                    let postData = {
+                        toCenterId: $scope.newCenter.id,
+                        groupId: $scope.group.id
+                    };
+                    resourceFactory.centerResource.transferGroup({centerId:$scope.center.id,anotherresource:"transfer"},postData, function (data) {
+                        $uibModalInstance.close('activate');
+                        scope.oldModalInstance.close('activate');
+                        route.reload();
+                    });
+                };
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }
+
         }
+
     });
 
     mifosX.ng.application.controller('ViewCenterController', ['$scope', '$routeParams', 'ResourceFactory', '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope', mifosX.controllers.ViewCenterController]).run(function ($log) {
