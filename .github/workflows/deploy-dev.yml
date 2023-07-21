@@ -57,9 +57,5 @@ jobs:
             docker stop mifos
             docker rm mifos
             docker pull 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
-            docker run -d --name mifos -p 80:80 -p 443:443 --network fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
-            docker cp letsencrypt mifos:/etc
-            docker cp default.conf mifos:/etc/nginx/conf.d
-            docker stop mifos
-            docker start mifos
+            docker run -d --name mifos -v $HOME/mifos/conf.d:/etc/nginx/conf.d/ -v $HOME/mifos/letsencrypt:/etc/letsencrypt -p 80:80 -p 443:443 --network fineract_fineract_default 916148231619.dkr.ecr.us-east-2.amazonaws.com/latam-frontend:latest
 
