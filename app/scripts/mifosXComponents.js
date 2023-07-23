@@ -389,7 +389,8 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'blacklist/BlacklistController',
             'blacklist/RemoveBlacklistController',
             'prequalification/NewGroupPrequalificatoinController',
-            'prequalification/PrequalificationsController'
+            'prequalification/PrequalificationsController',
+            'prequalification/PrequalificationDetailsController'
         ],
         filters: [
             'StatusLookup',

@@ -1201,12 +1201,14 @@
                 templateUrl: 'views/blacklist/removeblacklist.html'
             }).when('/blacklist/createblacklist', {
                 templateUrl: 'views/blacklist/addToBlacklist.html'
-            }).when('/prequalifications', {
+            }).when('/prequalificationsmenu', {
                 templateUrl: 'views/prequalifications/prequalificationsMenu.html'
-            }).when('/prequalificationGroups', {
+            }).when('/prequalificationGroups/:type', {
                 templateUrl: 'views/prequalifications/prequalificationsGroups.html'
             }).when('/prequalifications/newgroup', {
                 templateUrl: 'views/prequalifications/newgroup.html'
+            }).when('/prequalification/:groupId/viewdetails', {
+                templateUrl: 'views/prequalifications/prequalificationDetails.html'
             });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
