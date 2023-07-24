@@ -387,7 +387,10 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'client/ViewGroupCupoController',
             'blacklist/AddToBlacklistController',
             'blacklist/BlacklistController',
-            'blacklist/RemoveBlacklistController'
+            'blacklist/RemoveBlacklistController',
+            'prequalification/NewGroupPrequalificatoinController',
+            'prequalification/PrequalificationsController',
+            'prequalification/PrequalificationDetailsController'
         ],
         filters: [
             'StatusLookup',
