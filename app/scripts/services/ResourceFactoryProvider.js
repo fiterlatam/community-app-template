@@ -70,6 +70,13 @@
                         getAllDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
 
+                    entityDocumentsResource: defineResource(apiVer + "/:entity/:entityId/documents/:documentId", {entity: '@entity', entityId: '@entityId', documentId: '@documentId'}, {
+                        getAllDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    prequalificationDocumentsResource: defineResource(apiVer + "/prequalification/:groupId/documents/:documentId", {groupId: '@groupId', documentId: '@documentId'}, {
+                        getAllDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+
                     blacklistTemplateResource: defineResource(apiVer + "/blacklist/template/:clientId", {clientId: '@clientId'}, {
                         get: {method: 'GET', params: {}},
                     }),
@@ -77,7 +84,7 @@
                     prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
                         get: {method: 'GET', params: {}},
                     }),
-                    prequalificationResource: defineResource(apiVer + "/prequalification/:requestId", {requestId: '@requestId'}, {
+                    prequalificationResource: defineResource(apiVer + "/prequalification/:groupId", {groupId: '@groupId'}, {
                         get: {method: 'GET', params: {}},
                         getAllGroups: {method: 'GET', params: {limit: 1000}},
                         save: {method: 'POST', params: {}},

@@ -22,44 +22,30 @@
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="productId"/>
                     </td>
-                    <td class="width14">
-                        <label>{{ 'label.input.portfolio' | translate }}<span class="required">*</span>:&nbsp;</label>
-                    </td>
-                    <td class="width36 paddedbottom10">
-                        <select id="portfolioId" ng-model="formData.portfolioId"
-                                ng-change="getPortfolioCenters(formData.portfolioId)"
-                                ng-options="portfolio.id as portfolio.name for portfolio in portfoliosList"
-                                value="{{portfolio.id}}"
-                                class="form-control width170px" required="required" late-Validate>
-<!--                            <option style="display:none" value="">{{'label.input.portfolio' | translate}}</option>-->
-                        </select>
-                        <form-validate valattributeform="groupDetailsForm" valattribute="portfolioId"/>
-                    </td>
-                </tr>
-                <tr ng-if="centersList && centersList.length>0">
+
                     <td class="width14">
                         <label>{{ 'label.input.select.center' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
                         <select id="centerId" ng-model="formData.centerId"
-                                ng-change="getCenterGroups(formData.centerId)"
                                 ng-options="pcenter.id as pcenter.name for pcenter in centersList"
                                 value="{{pcenter.id}}"
                                 class="form-control width170px" required="true" late-Validate>
-<!--                            <option style="display:none" value="">{{'label.input.select.center' | translate}}</option>-->
+                            <!--                            <option style="display:none" value="">{{'label.input.select.center' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="centerId"/>
                     </td>
-                    <td class="width14" ng-if="groupsList && groupsList.length>0">
-                        <label>{{ 'label.menu.selectgroup' | translate }}<span class="required">*</span>:&nbsp;</label>
+
+                </tr>
+                <tr ng-if="centersList && centersList.length>0">
+                    <td class="width14">
+                        <label>{{ 'label.input.groupname' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
-                    <td class="width36 paddedbottom10" ng-if="groupsList && groupsList.length>0">
-                        <select id="groupId" ng-model="formData.groupId"
-                                ng-options="group.id as group.name for group in groupsList" value="{{group.id}}"
-                                class="form-control width170px" required="true" late-validate>
-<!--                            <option style="display:none" value="">{{'label.menu.selectgroup' | translate}}</option>-->
-                        </select>
+                    <td class="width36 paddedbottom10">
+                        <input type="text" class="form-control" name="grpnm"
+                               placeholder="{{'label.input.groupname'|translate}}"
+                               data-ng-model="formData.groupName" id="grpnm" required>
                         <form-validate valattributeform="groupDetailsForm" valattribute="groupId"/>
                     </td>
                 </tr>
@@ -119,7 +105,7 @@
             <div class="text-center">
                 <a id="cancel" ng-href="#/prequalifications" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || !formData.groupId?true:false"
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || (!formData.group && !formData.groupName)?true:false"
                         has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.save' | translate}}</button>
             </div>
         </fieldset>

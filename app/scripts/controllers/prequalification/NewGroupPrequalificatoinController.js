@@ -17,27 +17,10 @@
 
             resourceFactory.prequalificationTemplateResource.get(function (data) {
                 scope.agenciesList = data.agencies
-                scope.portfoliosList = data.portfolioData
+                scope.centersList = data.centerData
                 scope.productsList = data.loanProducts
                 scope.facilitators = data.facilitators
             });
-
-
-            scope.getPortfolioCenters = function (portfolioId) {
-                resourceFactory.portfolioResource.get({portfolioId: portfolioId}, function (data) {
-                    scope.centersList = data.centers;
-                });
-            }
-
-            scope.getCenterGroups = function (centerId) {
-                console.log("going to fetch groups for center: " + centerId)
-                resourceFactory.portfolioCenterResource.get({
-                    portfolioId: scope.formData.portfolioId,
-                    portfolioCenterId: centerId
-                }, function (data) {
-                    scope.groupsList = data.groups;
-                });
-            }
 
             scope.submit = function () {
                 this.formData.locale = scope.optlang.code;
