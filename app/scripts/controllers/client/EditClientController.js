@@ -28,7 +28,6 @@
                     active: data.active,
                     accountNo: data.accountNo,
                     dpi: data.dpiNumber,
-                    dpiNumber: data.dpiNumber,
                     oldCustomerNumber: data.oldCustomerNumber,
                     staffId: data.staffId,
                     externalId: data.externalId,

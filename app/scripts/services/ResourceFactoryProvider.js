@@ -79,8 +79,25 @@
                         getAllDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
 
+                    entityDocumentsResource: defineResource(apiVer + "/:entity/:entityId/documents/:documentId", {entity: '@entity', entityId: '@entityId', documentId: '@documentId'}, {
+                        getAllDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    prequalificationDocumentsResource: defineResource(apiVer + "/prequalification/:groupId/documents/:documentId", {groupId: '@groupId', documentId: '@documentId'}, {
+                        getAllDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+
                     blacklistTemplateResource: defineResource(apiVer + "/blacklist/template/:clientId", {clientId: '@clientId'}, {
                         get: {method: 'GET', params: {}},
+                    }),
+
+                    prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
+                        get: {method: 'GET', params: {}},
+                    }),
+                    prequalificationResource: defineResource(apiVer + "/prequalification/:groupId", {groupId: '@groupId'}, {
+                        get: {method: 'GET', params: {}},
+                        getAllGroups: {method: 'GET', params: {limit: 1000}},
+                        save: {method: 'POST', params: {}},
+                        update: {method: 'PUT', params: {}},
                     }),
                     clientChargesResource: defineResource(apiVer + "/clients/:clientId/charges/:resourceType", {clientId: '@clientId', resourceType: '@resourceType'}, {
                         getCharges: {method: 'GET'},
@@ -484,6 +501,7 @@
                     centerResource: defineResource(apiVer + "/centers/:centerId/:anotherresource", {centerId: '@centerId', anotherresource: '@anotherresource'}, {
                         get: {method: 'GET', params: {}},
                         getAllCenters: {method: 'GET', params: {}, isArray: true},
+                        transferGroup: {method: 'POST', params: {}},
                         getAllMeetingFallCenters: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT'}
                     }),
