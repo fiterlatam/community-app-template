@@ -43,12 +43,12 @@
             <table class="width100" style="table-layout: fixed"
                    ng-if="groupMembers && groupMembers.length>0">
                 <tr>
-                    <th>Name</th>
-                    <th>DPI</th>
-                    <th>DOB</th>
-                    <th>Work With Puente</th>
-                    <th>Requested Amount</th>
-                    <th>Status</th>
+                    <th>{{'label.input.name'|translate}}</th>
+                    <th>{{'label.input.dpi'|translate}}</th>
+                    <th>{{'label.input.dateofbirth'|translate}}</th>
+                    <th>{{'label.input.work.with.puente' | translate}}</th>
+                    <th>{{'label.input.amount.requested'|translate}}</th>
+                    <th>{{'label.input.status'}}</th>
                 </tr>
 
                 <tr ng-repeat="member in groupMembers">
