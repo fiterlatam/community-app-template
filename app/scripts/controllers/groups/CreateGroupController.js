@@ -43,6 +43,7 @@
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.statusOptions = data.statusOptions;
                 scope.portfolioCenterOptions = data.portfolioCenterOptions;
+                scope.centerGroupLocations = data.centerGroupLocations;
 
                 scope.datatables = data.datatables;
                 if (!_.isUndefined(scope.datatables) && scope.datatables.length > 0) {

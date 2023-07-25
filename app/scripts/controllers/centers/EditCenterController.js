@@ -23,7 +23,7 @@
                     cityId: data.city.id,
                     stateId: data.state.id,
                     centerTypeId: data.type.id,
-                    legacyCenterNumber: data.legacyCenterNumber,
+                    legacyNumber: data.legacyNumber,
                     referencePoint: data.referencePoint,
                     meetingDay: data.meetingDay,
                     meetingDayName: data.meetingDayName,

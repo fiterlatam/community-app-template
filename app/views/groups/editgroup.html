@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2">{{ 'label.input.portfolioCenter' | translate }}<span class="required">*</span></label>
                                 <div class="col-sm-3">
-                                    <select id="portfolioCenterId" ng-model="formData.portfolioCenterId" class="form-control" name="portfolioCenterId" disabled
+                                    <select id="portfolioCenterId" ng-model="formData.centerId" class="form-control" name="centerId" disabled
                                             ng-options="centerOption.id as centerOption.name for centerOption in centerOptions"
                                             value="{{centerOption.id}}"></select>
                                 </div>
@@ -76,11 +76,23 @@
                                     <form-validate valattributeform="editgroupform" valattribute="portfolioCenterId"/>
                                 </div>
                             </div>
+                            <!--group location -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">{{ 'label.input.grouplocation' | translate }}<span class="required">*</span></label>
+                                <div class="col-sm-3">
+                                    <select id="grpLocation" ng-model="formData.groupLocation" class="form-control" name="grpLocation"
+                                            ng-options="location.id as location.code |translate for location in centerGroupLocations"
+                                            value="{{location.id}}"></select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <form-validate valattributeform="editcentergroupform" valattribute="grpLocation"/>
+                                </div>
+                            </div>
                             <!--legacy center group number-->
                             <div class="form-group">
                                 <label class="control-label col-sm-2">{{ 'label.input.legacyGroupNumber' | translate }}</label>
                                 <div class="col-sm-3">
-                                    <input id="centerLegacyNumber" type="text" name="legacyGroupNumber" ng-model="formData.legacyGroupNumber" class="form-control"/>
+                                    <input id="groupLegacyNumber" type="text" name="legacyNumber" ng-model="formData.legacyNumber" class="form-control"/>
                                 </div>
                             </div>
                             <!--latitude-->

@@ -66,6 +66,7 @@
                     scope.responsibleUserOptions = data.responsibleUserOptions;
                     scope.statusOptions = data.statusOptions;
                     scope.portfolioCenterOptions = data.portfolioCenterOptions;
+                    scope.centerGroupLocations = data.centerGroupLocations;
                 });
 
                 resourceFactory.configurationResourceByName.get({configName:'meeting-default-duration'}, function (data){
@@ -149,12 +150,16 @@
                     externalId: data.externalId,
                     staffId: data.staffId,
                     portfolioCenterId: data.portfolioCenterId,
-                    legacyGroupNumber: data.legacyGroupNumber,
+                    legacyNumber: data.legacyNumber,
                     latitude: data.latitude,
                     longitude: data.longitude,
                     size: data.size,
-                    responsibleUserId: data.responsibleUserId
+                    responsibleUserId: data.responsibleUserId,
+                    centerId: data.centerId
                 };
+                if(data.groupLocation) {
+                    scope.formData.groupLocation = data.groupLocation.id;
+                }
                 if (data.activationDate) {
                     var actDate = dateFilter(data.activationDate, scope.df);
                     scope.first.date = new Date(actDate);
