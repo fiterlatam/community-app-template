@@ -251,8 +251,13 @@
                         getAllNotes: {method: 'GET', params: {}, isArray: true},
                         put: {method: 'PUT', params: {}}
                     }),
+
                     loanChargeTemplateResource: defineResource(apiVer + "/loans/:loanId/charges/template", {loanId: '@loanId'}, {
                         get: {method: 'GET', params: {}}
+                    }),
+
+                    loanAgeLimitResource: defineResource(apiVer + "/loans/validateAgeLimits/:clientId/:productId", {clientId: '@clientId',productId: '@productId'}, {
+                        validateAge: {method: 'GET', params: {}}
                     }),
                     loanChargesResource: defineResource(apiVer + "/loans/:loanId/charges/:chargeId", {loanId: '@loanId', chargeId: '@chargeId'}, {
                     }),
