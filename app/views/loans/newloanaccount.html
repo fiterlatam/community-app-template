@@ -1230,5 +1230,25 @@
             </form>
         </wz-step>
     </wizard>
+
+    <script type="text/ng-template" id="ageLimitWarning.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.input.age.limit.warning' | translate}}</h3>
+        </div>
+
+        <div class="modal-body">
+            <div>
+                {{'label.input.age.limit.warning.message' | translate}}
+            </div>
+            <div>
+                <p>{{'label.input.age.limit.warning'|translate}} - {{loanProduct.ageLimitWarning}} {{'label.input.years' |translate}}</p>
+                <p>{{'label.input.age.limit.block'|translate}} - {{loanProduct.ageLimitBlock}} {{'label.input.years' |translate}}</p>
+            </div>
+            <br>
+            <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+            <button class="btn btn-primary" ng-click="continue()">	{{'label.button.proceed' | translate}}</button>
+        </div>
+    </script>
+
 </div>
 </div>

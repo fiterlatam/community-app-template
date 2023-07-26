@@ -51,6 +51,8 @@
                 scope.formData = {
                     name: scope.product.name,
                     shortName: scope.product.shortName,
+                    ageLimitWarning: data.ageLimitWarning,
+                    ageLimitBlock: data.ageLimitBlock,
                     description: scope.product.description,
                     fundId: scope.product.fundId,
                     description: scope.product.description,

@@ -642,6 +642,20 @@
         </div>
     </div>
 
+	<div class="form-group">
+        <label class="control-label col-sm-4">{{ 'label.input.age.limit.warning' | translate }}</label>
+        <div class="col-sm-2">
+            <input id="agelimitwarning" type="text" class="form-control"	ng-model="formData.ageLimitWarning">
+        </div>
+    </div>
+
+	<div class="form-group">
+        <label class="control-label col-sm-4">{{ 'label.input.age.limit.block' | translate }}</label>
+        <div class="col-sm-2">
+            <input id="agelimitblock" type="text" class="form-control"	ng-model="formData.ageLimitBlock">
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-sm-3">
             <input type="checkbox" name="name1" ng-model="formData.allowVariableInstallments"/>
