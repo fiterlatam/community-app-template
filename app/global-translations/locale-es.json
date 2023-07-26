@@ -4207,8 +4207,8 @@
 	"label.input.centerType": "Tipo de Centro",
 	"label.input.centerStatus": "Estado de Centro",
 	"label.input.centercreateddate": "Fecha de creación",
-	"label.input.grouplocation": "ubicación del grupo",
-	"label.input.centerlocation": "ubicación del Centro",
+	"label.input.grouplocation": "Ubicación del grupo",
+	"label.input.centerlocation": "Ubicación del Centro",
 	"label.input.old.customer.number": "Antiguo número de cliente",
 	"label.heading.editportfoliocenter": "Editar Centro",
 	"label.selectcentertype": "Seleccione tipo de centro",
@@ -4267,5 +4267,7 @@
 	"label.heading.centerGroupName": "Grupo",
 	"validation.msg.user.roles.not.supported.more.than.one.role": "Solo es posible asignar un rol al usuario.",
 	"label.heading.responsibleUser": "Usuario responsable",
+	"label.input.company.fieldset.client": "Cliente",
+	"label.input.company.fieldset.custom": "Adicionales",
 	"----End---": "---Fin del archivo---"
 }
