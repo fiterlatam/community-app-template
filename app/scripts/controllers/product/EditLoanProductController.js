@@ -59,6 +59,8 @@
                     includeInBorrowerCycle: scope.product.includeInBorrowerCycle,
                     useBorrowerCycle: scope.product.useBorrowerCycle,
                     currencyCode: scope.product.currency.code,
+                    ownerType: scope.product.ownerTypeOption.id,
+                    addNewCyclesEnabled: scope.product.addNewCyclesEnabled,
                     digitsAfterDecimal: scope.product.currency.decimalPlaces,
                     inMultiplesOf: scope.product.currency.inMultiplesOf,
                     principal: scope.product.principal,

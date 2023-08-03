@@ -77,6 +77,20 @@
 	            <input type="checkbox" ng-model="formData.includeInBorrowerCycle" ng-true-value="true" ng-false-value="false">
 	        </label>
 	    </div>
+		<label class="control-label col-sm-2 col-sm-offset-2">{{ 'label.input.usedFor' | translate }}
+			<span class="required">*</span>
+			<i class="fa fa-question-circle "
+			   uib-tooltip="{{'label.tooltip.loanproduct.usedFor' | translate}}"
+			   tooltip-append-to-body="true"></i>
+		</label>
+		<div class="col-sm-2">
+			<select id="ownerType" class="form-control"
+				ng-model="formData.ownerType" 
+				ng-options="ownerType.id as ownerType.value for ownerType in product.loanProductOwnerTypes"
+				value="{{ownerType.id}}">
+			</select>
+		</div>
+
 	</div>
 	<h3>{{ 'label.heading.currency' | translate }}</h3>
 	<hr>
@@ -121,6 +135,16 @@
     </div>
 	<h3>{{ 'label.heading.terms' | translate }}</h3>
 	<hr>
+	<div class="form-group">
+	    <label class="control-label col-sm-2">{{ 'label.input.addNewLoanCycles' | translate }}
+	        <i class="fa fa-question-circle" uib-tooltip="{{'label.tooltip.loanproduct.addNewLoanCycles' | translate}}" tooltip-append-to-body="true"></i>
+	    </label>
+	    <div class="checkbox col-sm-2">
+	        <label>
+	            <input type="checkbox" ng-model="formData.addNewCyclesEnabled"/>
+	        </label>
+	    </div>
+	</div>
 	<div class="form-group">
 	    <label class="control-label col-sm-2">{{ 'label.input.useborrowerloancounter' | translate }}
 	        <i class="fa fa-question-circle" uib-tooltip="{{'label.tooltip.loanproduct.useborrowerloancounter' | translate}}" tooltip-append-to-body="true"></i>
