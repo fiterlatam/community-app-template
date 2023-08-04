@@ -53,6 +53,10 @@
                         <td>{{'label.heading.includeborrowercycle' | translate}} :</td>
                         <td colspan="3">{{loanproduct.includeInBorrowerCycle}}</td>
                     </tr>
+                    <tr ng-show="loanproduct.ownerTypeOption">
+                        <td>{{'label.heading.usedFor' | translate}}:</td>
+                        <td colspan="3">{{loanproduct.ownerTypeOption.value}}</td>
+                    </tr>
                     <tr>
                         <td colspan="4"><br/></td>
                     </tr>
@@ -80,6 +84,10 @@
                     </tr>
                     <tr class="bottomborder">
                         <td colspan="4"><strong>{{'label.heading.terms' | translate}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>{{'label.input.addNewLoanCycles' | translate}} :</td>
+                        <td colspan="3">{{loanproduct.addNewCyclesEnabled}}</td>
                     </tr>
                     <tr>
                         <td>{{'label.input.useborrowerloancounter' | translate}} :</td>

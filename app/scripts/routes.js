@@ -1185,7 +1185,7 @@
                 templateUrl: 'views/organization/viewcentergroups.html'
             })
             .when('/createcentergroup/:portfolioId/:portfolioCenterId', {
-                templateUrl: 'views/organization/createcentergroup.html'
+                templateUrl: 'views/groups/creategroup.html'
             })
             .when('/editcentergroup/:portfolioId/:portfolioCenterId/:centerGroupId', {
                 templateUrl: 'views/organization/editcentergroup.html'
