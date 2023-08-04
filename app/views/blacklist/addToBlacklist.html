@@ -79,8 +79,11 @@
                         class="required">*</span></label>
 
                 <div class="col-sm-3">
-                    <input id="agency" type="text" name="agency" ng-model="formData.agencyId"
-                           required="required" class="form-control" late-Validate/>
+                    <select id="agency" ng-model="formData.agencyId"
+                            ng-options="agency.id as agency.name for agency in agenciesList" value="{{agency.id}}"
+                            class="form-control width170px" required late-validate>
+                        <!--                            <option style="display:none" value="">{{'label.input.agency' | translate}}</option>-->
+                    </select>
                 </div>
                 <div class="col-sm-3">
                     <form-validate valattributeform="blacklistForm" valattribute="agency"/>

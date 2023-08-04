@@ -5,6 +5,7 @@
             scope.dpi = null;
             scope.typificationOptions = [];
             scope.loanProductOptions = [];
+            scope.agenciesList = [];
 
             scope.formData={};
 
@@ -15,6 +16,9 @@
             });
 
 
+            resourceFactory.agencyResource.getAllAgenciesForCurrentUser(function (data) {
+                scope.agenciesList = data;
+            });
 
             scope.submit=function (){
                 this.formData.locale = scope.optlang.code;

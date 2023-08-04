@@ -32,8 +32,8 @@
             scope.date.first = new Date();
 
             if (scope.clientId) {
-                scope.inparams.clientId = scope.clientId;
-                scope.formData.clientId = scope.clientId;
+                scope.inparams.clientId = routeParams.clientId;
+                scope.formData.clientId = routeParams.clientId;
             }
 
 
@@ -56,7 +56,7 @@
             scope.validateAgeLimit = function (productId) {
 
                 if (scope.clientId) {
-                    resourceFactory.loanAgeLimitResource.validateAge({clientId: scope.clientId, productId: productId}, function (data) {
+                    resourceFactory.loanAgeLimitResource.validateAge({clientId: routeParams.clientId, productId: productId}, function (data) {
                         if (data.value === 'WARNING') {
                             $uibModal.open({
                                 templateUrl: 'ageLimitWarning.html',
@@ -104,7 +104,7 @@
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
                 scope.inparams.productId = loanProductId;
                 resourceFactory.clientcollateralTemplateResource.getAllCollaterals({
-                    clientId: scope.clientId,
+                    clientId: routeParams.clientId,
                     prodId: loanProductId
                 }, function (data) {
                     scope.collateralsData = data;
