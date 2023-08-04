@@ -442,6 +442,7 @@
   "validation.msg.missing.locale.parameter": "The parameter `locale` is required.",
   "validation.msg.invalid.number.format": "`{{params[0].value}}` is an invalid integer.",
   "validation.msg.invalid.integer": "`{{params[0].value}}` is an invalid integer.",
+  "error.msg.portfolio.planning.invalid": "Portfolio planning `{{params[0].value}}` does not exist for user `{{params[1].value}}`.",
   "validation.msg.invalid.integer.format": "`{{params[0].value}}` is an invalid integer.",
   "validation.msg.invalid.decimal.format": "`{{params[0].value}}` is an invalid decimal.",
   "error.msg.document.file.too.big": "You may not upload a file larger than 5 MB.",
