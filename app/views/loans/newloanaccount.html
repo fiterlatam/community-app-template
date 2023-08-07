@@ -1249,6 +1249,22 @@
             <button class="btn btn-primary" ng-click="continue()">	{{'label.button.proceed' | translate}}</button>
         </div>
     </script>
+    <script type="text/ng-template" id="ageLimitBlock.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.input.age.limit.block' | translate}}</h3>
+        </div>
+
+        <div class="modal-body">
+            <div>
+                {{'label.input.age.limit.block.message' | translate}}
+            </div>
+            <div>
+                <div>{{'label.input.age.limit.block'|translate}} - {{loanProduct.ageLimitBlock}} {{'label.input.years' |translate}}</div>
+            </div>
+            <br>
+            <button class="btn btn-primary" ng-click="doNothing()">	{{'label.button.ok' | translate}}</button>
+        </div>
+    </script>
 
 </div>
 </div>

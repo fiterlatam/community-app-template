@@ -668,6 +668,7 @@
   "label.input.changelanguage": "Change language:",
   "label.input.supportingDocuments": "Supporting Documents",
   "label.input.age.limit.warning.message": "The client is almost past the age limit for this loan product: ",
+  "label.input.age.limit.block.message": "The client is older the age limit for this loan product: ",
   "label.input.age.limit.warning": "Warning Age Limit ",
   "label.input.age.limit.block": "Block Age Limit ",
   "#Search": "..",

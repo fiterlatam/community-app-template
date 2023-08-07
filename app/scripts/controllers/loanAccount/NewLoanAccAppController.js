@@ -57,12 +57,17 @@
 
                 if (scope.clientId) {
                     resourceFactory.loanAgeLimitResource.validateAge({clientId: routeParams.clientId, productId: productId}, function (data) {
+                        console.log("age limit response: "+ data.value)
                         if (data.value === 'WARNING') {
                             $uibModal.open({
                                 templateUrl: 'ageLimitWarning.html',
                                 controller: AgeLimitCtrl,
                             });
                         } else if (data.value === 'BLOCK') {
+                            $uibModal.open({
+                                templateUrl: 'ageLimitBlock.html',
+                                controller: AgeLimitCtrl,
+                            });
                             scope.cancel();
                         }
                     });
@@ -75,6 +80,15 @@
                 $scope.continue = function () {
                     $uibModalInstance.dismiss('cancel');
                 };
+
+                $scope.doNothing = function (){
+                    if (scope.groupId) {
+                        location.path('/viewgroup/' + scope.groupId);
+                    } else if (scope.clientId) {
+                        location.path('/viewclient/' + scope.clientId);
+                    }
+                    $uibModalInstance.dismiss('cancel');
+                }
 
                 $scope.cancel = function () {
                     if (scope.groupId) {
