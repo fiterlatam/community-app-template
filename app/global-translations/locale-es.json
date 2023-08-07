@@ -4276,5 +4276,11 @@
 	"label.heading.responsibleUser": "Usuario responsable",
 	"label.input.company.fieldset.client": "Cliente",
 	"label.input.company.fieldset.custom": "Adicionales",
+	"label.button.searchPlanning": "Buscar planificación",
+	"label.heading.portfolioHeader": "Cartera: ",
+	"label.heading.loanProductShortName":"Tipo",
+	"label.heading.loanTotalRepayment": "A Cobrar",
+	"label.heading.loanTotalOverdue": "Mora",
+	"label.heading.groupNumberOfClients": "Clientes",
 	"----End---": "---Fin del archivo---"
 }
