@@ -14,6 +14,9 @@
             scope.formData.members = [];
             scope.membersForm = {};
             scope.memberDetailsForm;
+            scope.groupData;
+            scope.membersList = [];
+            scope.tf = "HH:mm";
 
             resourceFactory.prequalificationTemplateResource.get(function (data) {
                 scope.agenciesList = data.agencies
@@ -22,13 +25,7 @@
                 scope.facilitators = data.facilitators
             });
 
-            scope.submit = function () {
-                this.formData.locale = scope.optlang.code;
 
-                resourceFactory.blacklistResource.save(this.formData, function (data) {
-                    location.path('blacklist/' + data.resourceId + '/viewdetails');
-                });
-            }
 
             scope.addMemberData = function () {
                 var reqDate = dateFilter(scope.membersForm.dob, scope.df);
@@ -44,6 +41,62 @@
 
             }
 
+            scope.getGroupsByCenterId = function (centerId) {
+                scope.groupsList = [];
+
+                resourceFactory.centerResource.get({centerId: centerId,associations: 'groupMembers'}, function (data) {
+                    scope.groupsList = data.groupMembers;
+                });
+            }
+
+            scope.getGroupMembers = function (groupId) {
+
+                resourceFactory.groupResource.get({groupId: groupId, associations: 'clientMembers'}, function (data) {
+                    scope.group = data;
+                    if(data.clientMembers){
+                        scope.isGroupMembersAvailable = (data.clientMembers.length>0);
+                        scope.membersList = data.clientMembers;
+                        scope.groupData = data;
+
+                        if (scope.groupData.meetingStartTime) {
+                            scope.groupData.meetingStartTime = dateFilter(scope.groupData.meetingStartTime, scope.tf);
+                        }
+                        if (scope.groupData.meetingEndTime) {
+                            scope.groupData.meetingEndTime = dateFilter(scope.groupData.meetingEndTime, scope.tf);
+                        }
+                    }
+                    scope.isClosedGroup = data.status.value == 'Closed';
+                    scope.staffData.staffId = data.staffId;
+                });
+            }
+
+            scope.prequalifyGroup = function (){
+                console.log("submitting form data")
+                this.formData.locale = scope.optlang.code;
+                this.formData.dateFormat = scope.df;
+                if (scope.membersList.length > 0){
+                    let newMemberData = [];
+                    for (var i = 0; i < scope.membersList.length; i++) {
+                        let memberData = {};
+                        memberData.clientId = scope.membersList[i].id ;
+                        memberData.name = scope.membersList[i].displayName ;
+                        memberData.dpi = scope.membersList[i].dpiNumber ;
+                        if(scope.membersList[i].dateOfBirth){
+                            memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
+                        }
+                        memberData.amount = scope.membersList[i].requestedAmount ;
+                        memberData.locale = scope.optlang.code;
+                        memberData.dateFormat = scope.df;
+                        scope.formData.members.push(memberData)
+                    }
+                }
+
+
+                resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
+                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                });
+            }
+
             scope.requestPrequalification = function () {
                 console.log("submitting form data")
                 this.formData.locale = scope.optlang.code;
@@ -56,6 +109,19 @@
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails');
                 });
+            }
+
+            scope.generatePrequalificationNumber = function (){
+                var agencyId = this.formData.agencyId
+                var groupId = this.formData.groupId
+                return "PRECAL-"+agencyId+"-"+groupId.toString().padStart(4,"0")
+            }
+
+            scope.resolveTime = function (time) {
+                let hour = time[0];
+                let minute = time[1];
+                let seconds = time[2];
+                return hour.toString().padStart(2,"0")+':'+minute.toString().padStart(2,"0")+':'+seconds.toString().padStart(2,"0");
             }
 
         }

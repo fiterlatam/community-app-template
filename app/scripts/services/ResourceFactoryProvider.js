@@ -84,8 +84,9 @@
                     prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
                         get: {method: 'GET', params: {}},
                     }),
-                    prequalificationResource: defineResource(apiVer + "/prequalification/:groupId", {groupId: '@groupId'}, {
+                    prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},
+                        prequalifyExistingGroup: {method: 'POST', params: {anotherResource: '@anotherResource'}},
                         getAllGroups: {method: 'GET', params: {limit: 1000}},
                         save: {method: 'POST', params: {}},
                         update: {method: 'PUT', params: {}},
