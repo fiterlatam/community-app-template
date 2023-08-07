@@ -4604,5 +4604,9 @@
   "label.addnewsupervisionormodifysupervision": "Add new supervision or modify supervision",
   "label.input.supervision" : "Supervision name",
   "label.input.supervisionResponsibleUser": "Responsible",
+  "label.heading.loanProductShortName":"Type",
+  "label.heading.loanTotalRepayment": "Paid",
+  "label.heading.loanTotalOverdue": "Overdue",
+  "label.heading.groupNumberOfClients": "Customers",
   "----End---": "--End of file--- "
 }
