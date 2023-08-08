@@ -700,7 +700,7 @@
                                     <th class="pointer" ng-click="changeTransactionSort('date')">{{'label.heading.transactiondate' | translate}}</th>
                                     <th class="pointer" ng-click="changeTransactionSort('type.value')">{{'label.heading.transactiontype' | translate}}</th>
                                     <th class="pointer" ng-click="changeTransactionSort('amount')">{{'label.heading.amount' | translate}}</th>
-                                    <th class="pointer" colspan="4" scope="colgroup">{{'label.heading.breakdown' | translate}}</th>
+                                    <th class="pointer" colspan="5" scope="colgroup">{{'label.heading.breakdown' | translate}}</th>
                                     <th class="pointer" scope="colgroup">{{'label.heading.loan.balance' | translate}}</th>
                                     <th></th>
                                     <th></th>
@@ -715,6 +715,7 @@
                                     <th class="pointer" scope="col" ng-click="changeTransactionSort('interestPortion')">{{'label.heading.interest' | translate}}</th>
                                     <th class="pointer" scope="col" ng-click="changeTransactionSort('feeChargesPortion')">{{'label.heading.fees' | translate}}</th>
                                     <th class="pointer" scope="col" ng-click="changeTransactionSort('penaltyChargesPortion')">{{'label.heading.penalities' | translate}}</th>
+                                    <th class="pointer" scope="col" ng-click="changeTransactionSort('vatOnCharges')">{{'label.heading.vat' | translate}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -746,6 +747,11 @@
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
                                         {{transaction.penaltyChargesPortion | number}}
+                                    </td>
+                                    <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
+                                        <div ng-show="transaction.vatOnCharges>0">{{transaction.vatOnCharges | number}}</div>
+                                        <div ng-show="transaction.vatOnInterest>0">{{transaction.vatOnInterest | number}}</div>
+                                        <div ng-show="transaction.vatOnInterest<=0 && transaction.vatOnCharges<=0">0</div>
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
                                         {{transaction.outstandingLoanBalance | number}}
