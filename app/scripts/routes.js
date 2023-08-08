@@ -1205,8 +1205,10 @@
                 templateUrl: 'views/prequalifications/prequalificationsMenu.html'
             }).when('/prequalificationGroups/:type', {
                 templateUrl: 'views/prequalifications/prequalificationsGroups.html'
-            }).when('/prequalifications/newgroup', {
+            }).when('/prequalifications/newprequalification/new', {
                 templateUrl: 'views/prequalifications/newgroup.html'
+            }).when('/prequalifications/newprequalification/existing', {
+                templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
             }).when('/prequalification/:groupId/viewdetails', {
                 templateUrl: 'views/prequalifications/prequalificationDetails.html'
             });
