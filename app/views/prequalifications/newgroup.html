@@ -1,7 +1,7 @@
 <div ng-controller="NewGroupPrequalificatoinController">
     <div>
         <ul class="breadcrumb">
-            <li><a href="#/prequalifications">{{'label.anchor.prequalifications' | translate}}</a></li>
+            <li><a href="#/prequalificationsmenu">{{'label.anchor.prequalifications' | translate}}</a></li>
             <li class="active">{{'label.heading.newgroup.prequalification' | translate}}</li>
         </ul>
     </div>
@@ -103,7 +103,7 @@
 
             <hr/>
             <div class="text-center">
-                <a id="cancel" ng-href="#/prequalifications" class="btn btn-default">{{'label.button.cancel' |
+                <a id="cancel" ng-href="#/prequalificationsmenu" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
                 <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || (!formData.group && !formData.groupName)?true:false"
                         has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.save' | translate}}</button>
