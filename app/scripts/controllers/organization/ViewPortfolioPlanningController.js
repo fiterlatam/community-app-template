@@ -62,6 +62,8 @@
                     }
                 });
             };
+
+            scope.retrievePlanning();
         }
 
     });
