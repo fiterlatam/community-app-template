@@ -72,8 +72,9 @@
 
             scope.prequalifyGroup = function (){
                 console.log("submitting form data")
-                this.formData.locale = scope.optlang.code;
-                this.formData.dateFormat = scope.df;
+                scope.formData.locale = scope.optlang.code;
+                scope.formData.individual = false;
+                scope.formData.dateFormat = scope.df;
                 if (scope.membersList.length > 0){
                     let newMemberData = [];
                     for (var i = 0; i < scope.membersList.length; i++) {
@@ -101,6 +102,7 @@
                 console.log("submitting form data")
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
+                this.formData.individual = false;
 
                 // this.formData.members.forEach(function(member){
                 //     member.locale = scope.optlang.code;
