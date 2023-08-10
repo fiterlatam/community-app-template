@@ -18,7 +18,7 @@
                 scope.membersForm['dateFormat'] = scope.df;
 
                 resourceFactory.individualPrequalificationResource.save(scope.membersForm, function (data) {
-                    location.path('prequalifications/individualprequalifications' + data.resourceId);
+                    location.path('prequalifications/individualprequalifications');
                 });
             }
         }
