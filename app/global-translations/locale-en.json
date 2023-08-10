@@ -4608,5 +4608,15 @@
   "label.heading.loanTotalRepayment": "Paid",
   "label.heading.loanTotalOverdue": "Overdue",
   "label.heading.groupNumberOfClients": "Customers",
+  "label.heading.portfolioHeader": "Portfolio: ",
+  "label.heading.agencyName": "Agency",
+  "label.heading.portfolioplanning": "Portfolio Planning",
+  "label.heading.planningDate": "Date",
+  "label.heading.planningDay": "Day",
+  "label.heading.meetingStartTime": "Hour",
+  "label.heading.portfolioCenter": "Center",
+  "label.heading.centerGroupId": "Group No.",
+  "label.heading.centerGroupName": "Group Name",
+  "label.button.searchPlanning": "Search planning",
   "----End---": "--End of file--- "
 }
