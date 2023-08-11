@@ -13,6 +13,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'SessionManager',
             'Paginator',
             'UIConfigService',
+            'ValidationService',
             'NotificationResponseHeaderProvider'
         ],
 
@@ -420,6 +421,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'FormValidateDirective',
             'FormSubmitValidateDirective',
             'ApiValidationDirective',
+            'UiValidationDirective',
             'HasPermissionDirective',
             'ActivitiesDisplayPanelDirective',
             'ScrollbarTopDirective',

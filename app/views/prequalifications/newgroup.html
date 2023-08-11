@@ -113,6 +113,8 @@
     <hr/>
 
     <legend>{{ 'label.heading.add.groupmembers' | translate }}</legend>
+    
+    <ui-validate></ui-validate>
 
     <form name="memberDetailsForm" novalidate="" rc-submit="addMemberData()">
 
@@ -154,7 +156,7 @@
                 </td>
 
                 <td class="text-center">
-                    <button id="save" class="btn btn-primary" type="submit"><i class="fa fa-plus"> Add</i>
+                    <button id="save" class="btn btn-primary" type="submit"><i class="fa fa-plus" has-permission='CREATE_PREQUALIFICATIONS'> {{'label.button.add' | translate}}</i>
                     </button>
                 </td>
             </tr>
