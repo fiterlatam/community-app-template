@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        NewGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, validationService, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.agenciesList = [];
             scope.portfoliosList = [];
@@ -25,20 +25,24 @@
                 scope.facilitators = data.facilitators
             });
 
-
-
             scope.addMemberData = function () {
-                var reqDate = dateFilter(scope.membersForm.dob, scope.df);
+                var uiValidationErrors = [];
+                if (!validationService.checkDPI(scope.membersForm.dpi)) {
+                    uiValidationErrors.push({
+                        message: `${scope.membersForm.dpi} DPI provided is invalid`
+                    });
+                } else {
+                    var reqDate = dateFilter(scope.membersForm.dob, scope.df);
+                    scope.membersForm.dob = reqDate;
+                    scope.membersForm['locale'] = scope.optlang.code;
+                    scope.membersForm['dateFormat'] = scope.df;
+                    scope.formData.members.push(scope.membersForm);
+                    scope.membersForm = {}
+                    scope.memberDetailsForm.$setUntouched();
+                    scope.memberDetailsForm.$setPristine();
 
-                scope.membersForm.dob = reqDate;
-                scope.membersForm['locale'] = scope.optlang.code;
-                scope.membersForm['dateFormat'] = scope.df;
-
-                scope.formData.members.push(scope.membersForm);
-                scope.membersForm = {}
-                scope.memberDetailsForm.$setUntouched();
-                scope.memberDetailsForm.$setPristine();
-
+                }
+                this.uiValidationErrors = uiValidationErrors;
             }
 
             scope.getGroupsByCenterId = function (centerId) {
@@ -129,7 +133,7 @@
         }
     });
 
-    mifosX.ng.application.controller('NewGroupPrequalificatoinController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.NewGroupPrequalificatoinController]).run(function ($log) {
+    mifosX.ng.application.controller('NewGroupPrequalificatoinController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', 'ValidationService', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.NewGroupPrequalificatoinController]).run(function ($log) {
         $log.info("NewGroupPrequalificatoinController initialized");
     });
 }(mifosX.controllers || {}));
