@@ -4619,5 +4619,6 @@
   "label.heading.centerGroupId": "Group No.",
   "label.heading.centerGroupName": "Group Name",
   "label.button.searchPlanning": "Search planning",
+  "error.msg.loan.existing.active.loan.product": "This loan could not be disbursed as this client or group already has an active loan for the product `{{params[0].value}}`.",
   "----End---": "--End of file--- "
 }

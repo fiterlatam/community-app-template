@@ -4292,5 +4292,6 @@
 	"label.heading.loanTotalRepayment": "A Cobrar",
 	"label.heading.loanTotalOverdue": "Mora",
 	"label.heading.groupNumberOfClients": "Clientes",
+	"error.msg.loan.existing.active.loan.product": "Este préstamo no puede ser desembolsado debido a que el cliente o grupo ya tiene un préstamo vigente para el producto `{{params[0].value}}`.",
 	"----End---": "---Fin del archivo---"
 }
