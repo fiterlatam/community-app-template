@@ -1207,8 +1207,11 @@
 						<thead>
 						<tr class="graybg">
 							<th>{{'label.heading.name' | translate}}</th>
-							<th>{{'label.heading.description' | translate}}</th>
+							<th>{{'label.input.observations' | translate}}</th>
 							<th>{{'label.heading.filename' | translate}}</th>
+							<th>{{'label.input.documenttype' | translate}}</th>
+							<th>{{'label.input.document.purpose' | translate}}</th>
+							<th>{{'label.input.date' | translate}}</th>
 							<th>{{'label.heading.actions' | translate}}</th>
 						</tr>
 						</thead>
@@ -1217,6 +1220,10 @@
 						  <td>{{clientdocument.name}}</td>
 							<td>{{clientdocument.description}}</td>
 							<td>{{clientdocument.fileName}}</td>
+							<td>{{clientdocument.documentType?clientdocument.documentType:'---'}}</td>
+							<td>{{clientdocument.documentPurpose?clientdocument.documentPurpose:'---'}}</td>
+							<td ng-if="clientdocument.dateCreated">{{clientdocument.dateCreated |DateFormat}}</td>
+							<td ng-if="!clientdocument.dateCreated">---</td>
 							<td>
 								<a target="_blank" href="{{hostUrl}}{{clientdocument.docUrl}}"><i class="fa fa-cloud-download"></i></a>&nbsp;
 								<a ng-show="clientdocument.fileIsImage" ng-click="previewDocument(clientdocument.docUrl,clientdocument.fileName)"><i class="fa fa-eye"></i></a>
