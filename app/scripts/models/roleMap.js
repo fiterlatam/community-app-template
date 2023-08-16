@@ -3,8 +3,7 @@
         roleMap: {
             1: "superuser",
             2: "branchmanager",
-            3: "default",
-            4: "regional"
+            3: "funder"
         }
     });
 }(mifosX.models || {}));

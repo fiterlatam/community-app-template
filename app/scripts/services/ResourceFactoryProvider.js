@@ -47,15 +47,6 @@
                     officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
                         get: {method: 'GET', params: {}, isArray: true}
                     }),
-                    officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
-                        get: {method: 'GET', params: {}, isArray: true}
-                    }),
-                    officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
-                        get: {method: 'GET', params: {}, isArray: true}
-                    }),
-                    officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
-                        get: {method: 'GET', params: {}, isArray: true}
-                    }),
                     importResource: defineResource(apiVer + "/imports", {}, {
                         getImports: {method: 'GET', params: {}, isArray: true}
                     }),
@@ -93,9 +84,15 @@
                     prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
                         get: {method: 'GET', params: {}},
                     }),
-                    prequalificationResource: defineResource(apiVer + "/prequalification/:groupId", {groupId: '@groupId'}, {
+                    prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},
+                        prequalifyExistingGroup: {method: 'POST', params: {anotherResource: '@anotherResource'}},
                         getAllGroups: {method: 'GET', params: {limit: 1000}},
+                        save: {method: 'POST', params: {}},
+                        update: {method: 'PUT', params: {}},
+                    }),
+                    individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/:clientId", {clientId: '@clientId'}, {
+                        get: {method: 'GET', params: {}},
                         save: {method: 'POST', params: {}},
                         update: {method: 'PUT', params: {}},
                     }),
@@ -260,8 +257,13 @@
                         getAllNotes: {method: 'GET', params: {}, isArray: true},
                         put: {method: 'PUT', params: {}}
                     }),
+
                     loanChargeTemplateResource: defineResource(apiVer + "/loans/:loanId/charges/template", {loanId: '@loanId'}, {
                         get: {method: 'GET', params: {}}
+                    }),
+
+                    loanAgeLimitResource: defineResource(apiVer + "/loans/validateAgeLimits/:clientId/:productId", {clientId: '@clientId',productId: '@productId'}, {
+                        validateAge: {method: 'GET', params: {}}
                     }),
                     loanChargesResource: defineResource(apiVer + "/loans/:loanId/charges/:chargeId", {loanId: '@loanId', chargeId: '@chargeId'}, {
                     }),
@@ -932,8 +934,8 @@
                     portfolioCenterTemplateResource: defineResource(apiVer + "/portfolios/:portfolioId/centers/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
-                    portfolioPlanningResource: defineResource(apiVer + "/portfolios/:portfolioId/planning", {}, {
-                        get: {method: 'GET', params: {}}
+                    portfolioPlanningResource: defineResource(apiVer + "/portfolios/:portfolioId/planning", {portfolioId: "@portfolioId"}, {
+                        get: {method: 'GET', params: {portfolioId: "@portfolioId"}, isArray: false}
                     }),
                     portfolioCenterByCurrentUserResource: defineResource(apiVer + "/portfolios/:portfolioId/centers", {}, {
                         get: {method: 'GET', params: {}, isArray: true}

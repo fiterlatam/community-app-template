@@ -4,11 +4,13 @@
 
             scope.groupsList = [];
             scope.groupsPerPage=20;
+            scope.prequalificationType=routeParams.type;
 
             scope.getResultsPage = function (pageNumber) {
                 var items = resourceFactory.prequalificationResource.getAllGroups({
                     offset: ((pageNumber - 1) * scope.groupsPerPage),
                     limit: scope.groupsPerPage,
+                    type: routeParams.type,
                     searchText:scope.searchText
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;
