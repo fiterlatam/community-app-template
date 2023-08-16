@@ -404,22 +404,22 @@
             .when('/editaccrule/:id', {
                 templateUrl: 'views/accounting/edit_acc_rule.html'
             })
-            .when('/run_periodic_accrual',{
+            .when('/run_periodic_accrual', {
                 templateUrl: 'views/accounting/periodic_accrual_accounting.html'
             })
-            .when('/openingbalances',{
+            .when('/openingbalances', {
                 templateUrl: 'views/accounting/openingbalances.html'
             })
-            .when('/viewprovisioningentries',{
+            .when('/viewprovisioningentries', {
                 templateUrl: 'views/accounting/provisioning/ProvisioningEntries.html'
             })
-            .when('/createprovisioningentries',{
+            .when('/createprovisioningentries', {
                 templateUrl: 'views/accounting/provisioning/CreateProvisioningEntries.html'
             })
-            .when('/viewprovisioningentry/:entryId',{
+            .when('/viewprovisioningentry/:entryId', {
                 templateUrl: 'views/accounting/provisioning/ViewProvisioningEntry.html'
             })
-            .when('/viewprovisioningjournalentry/:entryId',{
+            .when('/viewprovisioningjournalentry/:entryId', {
                 templateUrl: 'views/accounting/provisioning/ViewProvisioningJournalEntries.html'
             })
             .when('/viewcode/:id', {
@@ -899,7 +899,7 @@
             .when('/editprovisioningcriteria/:criteriaId', {
                 templateUrl: 'views/organization/provisioning/EditProvisioningCriteria.html'
             })
-            .when('/taxconfiguration',{
+            .when('/taxconfiguration', {
                 templateUrl: 'views/products/tax/TaxConfigurations.html'
             })
             .when('/createtaxcomponent', {
@@ -980,13 +980,13 @@
             .when('/notifications', {
                 templateUrl: 'views/notification/notifications.html'
             })
-            .when('/surveys',{
+            .when('/surveys', {
                 templateUrl: 'views/surveys/surveys.html'
             })
-            .when('/surveys/add',{
+            .when('/surveys/add', {
                 templateUrl: 'views/surveys/createsurvey.html'
             })
-            .when('/editsurvey/:id',{
+            .when('/editsurvey/:id', {
                 templateUrl: 'views/surveys/editsurvey.html'
             })
             .when('/editfamilymember/:clientId/:familyMemberId', {
@@ -1064,7 +1064,7 @@
             .when('/editadhocquery/:id', {
                 templateUrl: 'views/adhocquery/editadhocquery.html'
             })
-            .when('/selfservice/createuser/:clientId',{
+            .when('/selfservice/createuser/:clientId', {
                 templateUrl: 'views/selfservice/createuser.html'
             })
             .when('/externalservicesCB/CreditBureau', {
@@ -1185,7 +1185,7 @@
                 templateUrl: 'views/organization/viewcentergroups.html'
             })
             .when('/createcentergroup/:portfolioId/:portfolioCenterId', {
-                templateUrl: 'views/organization/createcentergroup.html'
+                templateUrl: 'views/groups/creategroup.html'
             })
             .when('/editcentergroup/:portfolioId/:portfolioCenterId/:centerGroupId', {
                 templateUrl: 'views/organization/editcentergroup.html'
@@ -1196,20 +1196,26 @@
             .when('/transferagency/:id', {
                 templateUrl: 'views/organization/transferagency.html'
             }).when('/blacklist', {
-                templateUrl: 'views/blacklist/blacklist.html'
-             }).when('/blacklist/:blacklistId/:action', {
-                templateUrl: 'views/blacklist/removeblacklist.html'
-            }).when('/blacklist/createblacklist', {
-                templateUrl: 'views/blacklist/addToBlacklist.html'
-            }).when('/prequalificationsmenu', {
-                templateUrl: 'views/prequalifications/prequalificationsMenu.html'
-            }).when('/prequalificationGroups/:type', {
-                templateUrl: 'views/prequalifications/prequalificationsGroups.html'
-            }).when('/prequalifications/newgroup', {
-                templateUrl: 'views/prequalifications/newgroup.html'
-            }).when('/prequalification/:groupId/viewdetails', {
-                templateUrl: 'views/prequalifications/prequalificationDetails.html'
-            });
+            templateUrl: 'views/blacklist/blacklist.html'
+        }).when('/blacklist/:blacklistId/:action', {
+            templateUrl: 'views/blacklist/removeblacklist.html'
+        }).when('/blacklist/createblacklist', {
+            templateUrl: 'views/blacklist/addToBlacklist.html'
+        }).when('/prequalificationsmenu', {
+            templateUrl: 'views/prequalifications/prequalificationsMenu.html'
+        }).when('/prequalificationGroups/:type', {
+            templateUrl: 'views/prequalifications/prequalificationsGroups.html'
+        }).when('/prequalifications/newprequalification/new', {
+            templateUrl: 'views/prequalifications/newgroup.html'
+        }).when('/prequalifications/newprequalification/existing', {
+            templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
+        }).when('/prequalification/:groupId/viewdetails', {
+            templateUrl: 'views/prequalifications/prequalificationDetails.html'
+        }).when('/prequalifications/individualprequalifications', {
+            templateUrl: 'views/prequalifications/individualPrequalificationList.html'
+        }).when('/prequalifications/individual/create', {
+            templateUrl: 'views/prequalifications/individualPrequalification.html'
+        });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };

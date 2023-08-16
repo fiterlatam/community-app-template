@@ -37,7 +37,7 @@
                     if (!scope.$$phase) {
                         scope.$apply();
                     }
-                    location.path('/prequalificationGroups/newgroup');
+                    location.path('/prequalificationGroups/newprequalification/new');
                 });
             };
 

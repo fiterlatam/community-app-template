@@ -49,6 +49,12 @@
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
                     <th>{{'label.input.status' |translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' |translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' |translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' |translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.noOfCycles' |translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsCount' |translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsSum' |translate}}</th>
                 </tr>
 
                 <tr ng-repeat="member in groupMembers">
@@ -58,6 +64,13 @@
                     <td>{{member.workWithPuente}}</td>
                     <td>{{member.requestedAmount}}</td>
                     <td><i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i></td>
+                    <td ng-if="groupData.groupId">{{member.totalLoanAmount}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalLoanBalance}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance}}</td>
+                    <td ng-if="groupData.groupId">{{member.noOfCycles}}</td>
+                    <td ng-if="groupData.groupId">{{member.additionalCreditsCount}}</td>
+                    <td ng-if="groupData.groupId">{{member.additionalCreditsSum}}</td>
+
                 </tr>
             </table>
 
@@ -112,7 +125,7 @@
                                    required="required" class="form-control" late-Validate/>
                         </div>
                         <div class="col-sm-3">
-                            <form-validate valattributeform="blacklistForm" valattribute="concentDocs"/>
+                            <form-validate valattributeform="prequalForm" valattribute="concentDocs"/>
                         </div>
                     </div>
 
@@ -128,7 +141,7 @@
                     </div>
 
                     <div class="col-md-offset-3">
-                        <a id="cancel" href="#/prequalifications/newgroup">
+                        <a id="cancel" href="#/prequalificationsmenu">
                             <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}
                             </button>
                         </a>

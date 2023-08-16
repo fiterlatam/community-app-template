@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location, dateFilter, uiConfigService, WizardHandler, translate) {
+        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
             scope.groupId = routeParams.groupId;
@@ -22,17 +22,18 @@
             scope.customSteps = [];
             scope.tempDataTables = [];
             scope.disabled = true;
-            scope.translate= translate;
-            scope.rateFlag=false;
+            scope.translate = translate;
+            scope.rateFlag = false;
             scope.collateralAddedDataArray = [];
             scope.collateralsData = {};
             scope.addedCollateral = {};
+            scope.product;
 
             scope.date.first = new Date();
 
             if (scope.clientId) {
-                scope.inparams.clientId = scope.clientId;
-                scope.formData.clientId = scope.clientId;
+                scope.inparams.clientId = routeParams.clientId;
+                scope.formData.clientId = routeParams.clientId;
             }
 
 
@@ -43,16 +44,61 @@
 
             if (scope.clientId && scope.groupId) {
                 scope.inparams.templateType = 'jlg';
-            }
-            else if (scope.groupId) {
+            } else if (scope.groupId) {
                 scope.inparams.templateType = 'group';
-            }
-            else if (scope.clientId) {
+            } else if (scope.clientId) {
                 scope.inparams.templateType = 'individual';
             }
 
             scope.inparams.staffInSelectedOfficeOnly = true;
             scope.currencyType;
+
+            scope.validateAgeLimit = function (productId) {
+
+                if (scope.clientId) {
+                    resourceFactory.loanAgeLimitResource.validateAge({clientId: routeParams.clientId, productId: productId}, function (data) {
+                        console.log("age limit response: "+ data.value)
+                        if (data.value === 'WARNING') {
+                            $uibModal.open({
+                                templateUrl: 'ageLimitWarning.html',
+                                controller: AgeLimitCtrl,
+                            });
+                        } else if (data.value === 'BLOCK') {
+                            $uibModal.open({
+                                templateUrl: 'ageLimitBlock.html',
+                                controller: AgeLimitCtrl,
+                            });
+                            scope.cancel();
+                        }
+                    });
+                }
+            }
+
+            var AgeLimitCtrl = function ($scope, $uibModalInstance) {
+                $scope.loanProduct = scope.product;
+
+                $scope.continue = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+
+                $scope.doNothing = function (){
+                    if (scope.groupId) {
+                        location.path('/viewgroup/' + scope.groupId);
+                    } else if (scope.clientId) {
+                        location.path('/viewclient/' + scope.clientId);
+                    }
+                    $uibModalInstance.dismiss('cancel');
+                }
+
+                $scope.cancel = function () {
+                    if (scope.groupId) {
+                        location.path('/viewgroup/' + scope.groupId);
+                    } else if (scope.clientId) {
+                        location.path('/viewclient/' + scope.clientId);
+                    }
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }
 
             resourceFactory.loanResource.get(scope.inparams, function (data) {
                 scope.products = data.productOptions;
@@ -71,29 +117,41 @@
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
                 scope.inparams.productId = loanProductId;
-                resourceFactory.clientcollateralTemplateResource.getAllCollaterals({clientId: scope.clientId, prodId: loanProductId}, function(data) {
-                        scope.collateralsData = data;
-                        scope.collateralsData = scope.collateralsData.filter((collateral) => collateral.quantity != 0);
+                resourceFactory.clientcollateralTemplateResource.getAllCollaterals({
+                    clientId: routeParams.clientId,
+                    prodId: loanProductId
+                }, function (data) {
+                    scope.collateralsData = data;
+                    scope.collateralsData = scope.collateralsData.filter((collateral) => collateral.quantity != 0);
                 });
                 // scope.datatables = [];
                 resourceFactory.loanResource.get(scope.inparams, function (data) {
                     scope.loanaccountinfo = data;
+                    scope.product = data.product;
+
+                    scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
-                    scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions,scope.formData.transactionProcessingStrategyId,'id','name');
+                    scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'name');
                     scope.datatables = data.datatables;
                     scope.handleDatatables(scope.datatables);
                     scope.disabled = false;
                 });
 
-                resourceFactory.loanResource.get({resourceType: 'template', templateType: 'collateral', productId: loanProductId, fields: 'id,loanCollateralOptions'}, function (data) {
+                resourceFactory.loanResource.get({
+                    resourceType: 'template',
+                    templateType: 'collateral',
+                    productId: loanProductId,
+                    fields: 'id,loanCollateralOptions'
+                }, function (data) {
                     scope.collateralOptions = data.loanCollateralOptions || [];
                 });
+
             }
 
-            scope.goNext = function(form){
+            scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
             }
 
@@ -124,7 +182,7 @@
                 }
             };
 
-            scope.updateColumnHeaders = function(columnHeaderData) {
+            scope.updateColumnHeaders = function (columnHeaderData) {
                 var colName = columnHeaderData[0].columnName;
                 if (colName == 'id') {
                     columnHeaderData.splice(0, 1);
@@ -136,8 +194,8 @@
                 }
             };
             //Wizard is creating new scope on every step. So resetting the variable here
-            scope.resetPreviewFlag = function() {
-                scope.previewRepayment =  !scope.previewRepayment;
+            scope.resetPreviewFlag = function () {
+                scope.previewRepayment = !scope.previewRepayment;
             };
 
             scope.previewClientLoanAccInfo = function () {
@@ -176,7 +234,7 @@
                 scope.formData.graceOnInterestPayment = scope.loanaccountinfo.graceOnInterestPayment;
                 scope.formData.graceOnArrearsAgeing = scope.loanaccountinfo.graceOnArrearsAgeing;
                 scope.formData.transactionProcessingStrategyId = scope.loanaccountinfo.transactionProcessingStrategyId;
-                scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions,scope.formData.transactionProcessingStrategyId,'id','name');
+                scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'name');
                 scope.formData.graceOnInterestCharged = scope.loanaccountinfo.graceOnInterestCharged;
                 scope.formData.fixedEmiAmount = scope.loanaccountinfo.fixedEmiAmount;
                 scope.formData.maxOutstandingLoanBalance = scope.loanaccountinfo.maxOutstandingLoanBalance;
@@ -188,71 +246,71 @@
                     scope.date.recalculationCompoundingFrequencyDate = new Date(scope.loanaccountinfo.interestRecalculationData.recalculationCompoundingFrequencyDate);
                 }
 
-                if(scope.loanaccountinfo.isLoanProductLinkedToFloatingRate) {
-                    scope.formData.isFloatingInterestRate = false ;
+                if (scope.loanaccountinfo.isLoanProductLinkedToFloatingRate) {
+                    scope.formData.isFloatingInterestRate = false;
                 }
 
                 scope.loandetails = angular.copy(scope.formData);
-                scope.loandetails.productName = scope.formValue(scope.products,scope.formData.productId,'id','name');
+                scope.loandetails.productName = scope.formValue(scope.products, scope.formData.productId, 'id', 'name');
                 scope.formData.rates = scope.loanaccountinfo.product.rates;
-                if (scope.formData.rates && scope.formData.rates.length>0){
-                    scope.rateFlag=true;
+                if (scope.formData.rates && scope.formData.rates.length > 0) {
+                    scope.rateFlag = true;
                 }
                 scope.rateOptions = [];
             };
 
-          //Rate
-          scope.rateSelected = function(currentRate){
+            //Rate
+            scope.rateSelected = function (currentRate) {
 
-            if(currentRate && !scope.checkIfRateAlreadyExist(currentRate)){
-                scope.rateFlag=true;
-              scope.formData.rates.push(currentRate);
-              scope.rateOptions.splice(scope.rateOptions.indexOf(currentRate),1);
-              scope.currentRate = '';
-              currentRate = '';
-              scope.calculateRates();
-            }
-          };
+                if (currentRate && !scope.checkIfRateAlreadyExist(currentRate)) {
+                    scope.rateFlag = true;
+                    scope.formData.rates.push(currentRate);
+                    scope.rateOptions.splice(scope.rateOptions.indexOf(currentRate), 1);
+                    scope.currentRate = '';
+                    currentRate = '';
+                    scope.calculateRates();
+                }
+            };
 
-          scope.checkIfRateAlreadyExist = function(currentRate){
-            var exist = false;
-            scope.formData.rates.forEach(function(rate){
-              if(rate.id === currentRate.id){
-                exist = true;
-              }
-            });
+            scope.checkIfRateAlreadyExist = function (currentRate) {
+                var exist = false;
+                scope.formData.rates.forEach(function (rate) {
+                    if (rate.id === currentRate.id) {
+                        exist = true;
+                    }
+                });
 
-            return exist
-          };
+                return exist
+            };
 
-          scope.calculateRates = function(){
-            var total = 0;
-            scope.formData.rates.forEach(function(rate){
-              total += rate.percentage;
-            });
-            if (total===0){
-                total=undefined;
-                scope.rateFlag=false;
-            }
-            scope.formData.interestRatePerPeriod = total;
+            scope.calculateRates = function () {
+                var total = 0;
+                scope.formData.rates.forEach(function (rate) {
+                    total += rate.percentage;
+                });
+                if (total === 0) {
+                    total = undefined;
+                    scope.rateFlag = false;
+                }
+                scope.formData.interestRatePerPeriod = total;
 
 
-          };
+            };
 
-          scope.deleteRate = function (index){
-            scope.rateOptions.push(scope.formData.rates[index]);
-            scope.formData.rates.splice(index,1);
-            scope.calculateRates();
-          };
+            scope.deleteRate = function (index) {
+                scope.rateOptions.push(scope.formData.rates[index]);
+                scope.formData.rates.splice(index, 1);
+                scope.calculateRates();
+            };
 
-          scope.$watch('formData',function(newVal){
-                scope.loandetails = angular.extend(scope.loandetails,newVal);
-            },true);
+            scope.$watch('formData', function (newVal) {
+                scope.loandetails = angular.extend(scope.loandetails, newVal);
+            }, true);
 
-            scope.formValue = function(array,model,findattr,retAttr){
+            scope.formValue = function (array, model, findattr, retAttr) {
                 findattr = findattr ? findattr : 'id';
                 retAttr = retAttr ? retAttr : 'value';
-                console.log(findattr,retAttr,model);
+                console.log(findattr, retAttr, model);
                 return _.find(array, function (obj) {
                     return obj[findattr] === model;
                 })[retAttr];
@@ -260,7 +318,10 @@
 
             scope.addCharge = function () {
                 if (scope.chargeFormData.chargeId) {
-                    resourceFactory.chargeResource.get({chargeId: this.chargeFormData.chargeId, template: 'true'}, function (data) {
+                    resourceFactory.chargeResource.get({
+                        chargeId: this.chargeFormData.chargeId,
+                        template: 'true'
+                    }, function (data) {
                         data.chargeId = data.id;
                         scope.charges.push(data);
                         scope.chargeFormData.chargeId = undefined;
@@ -274,8 +335,7 @@
 
 
             scope.addTranches = function () {
-                scope.formData.disbursementData.push({
-                });
+                scope.formData.disbursementData.push({});
             };
             scope.deleteTranches = function (index) {
                 scope.formData.disbursementData.splice(index, 1);
@@ -296,10 +356,15 @@
             scope.addCollateral = function () {
                 scope.collateralAddedDataArray.push(scope.collateralsData.filter((collateral) => scope.collateralFormData.collateralId == collateral.collateralId)[0]);
                 scope.collateralsData = scope.collateralsData.filter((collateral) => scope.collateralFormData.collateralId != collateral.collateralId);
-                scope.collaterals.push({collateralId: scope.collateralFormData.collateralId, quantity: scope.collateralFormData.quantity, total: scope.collateralFormData.total, totalCollateral: scope.collateralFormData.totalCollateral});
+                scope.collaterals.push({
+                    collateralId: scope.collateralFormData.collateralId,
+                    quantity: scope.collateralFormData.quantity,
+                    total: scope.collateralFormData.total,
+                    totalCollateral: scope.collateralFormData.totalCollateral
+                });
             };
 
-            scope.updateValues = function() {
+            scope.updateValues = function () {
                 scope.collateralObject = scope.collateralsData.filter((collateral) => collateral.collateralId == scope.collateralFormData.collateralId)[0];
                 scope.collateralFormData.total = scope.collateralFormData.quantity * scope.collateralObject.basePrice;
                 scope.collateralFormData.totalCollateral = scope.collateralFormData.total * scope.collateralObject.pctToBase / 100.0;
@@ -316,7 +381,7 @@
                 // Make sure charges and collaterals are empty before initializing.
                 delete scope.formData.charges;
                 delete scope.formData.collateral;
-                if(_.isUndefined(scope.formData.datatables) || (!_.isUndefined(scope.formData.datatables) && scope.formData.datatables.length == 0)) {
+                if (_.isUndefined(scope.formData.datatables) || (!_.isUndefined(scope.formData.datatables) && scope.formData.datatables.length == 0)) {
                     delete scope.formData.datatables;
                 }
 
@@ -327,7 +392,11 @@
                 if (scope.charges.length > 0) {
                     scope.formData.charges = [];
                     for (var i in scope.charges) {
-                        scope.formData.charges.push({ chargeId: scope.charges[i].chargeId, amount: scope.charges[i].amount, dueDate: dateFilter(scope.charges[i].dueDate, scope.df) });
+                        scope.formData.charges.push({
+                            chargeId: scope.charges[i].chargeId,
+                            amount: scope.charges[i].amount,
+                            dueDate: dateFilter(scope.charges[i].dueDate, scope.df)
+                        });
                     }
                 }
 
@@ -340,7 +409,11 @@
                 if (scope.collaterals.length > 0) {
                     scope.formData.collateral = [];
                     for (var i in scope.collaterals) {
-                        scope.formData.collateral.push({type: scope.collaterals[i].type, value: scope.collaterals[i].value, description: scope.collaterals[i].description});
+                        scope.formData.collateral.push({
+                            type: scope.collaterals[i].type,
+                            value: scope.collaterals[i].value,
+                            description: scope.collaterals[i].description
+                        });
                     }
                     ;
                 }
@@ -358,7 +431,7 @@
                 this.formData.loanType = scope.inparams.templateType;
                 this.formData.expectedDisbursementDate = reqSecondDate;
                 this.formData.submittedOnDate = reqFirstDate;
-                if(this.formData.interestCalculationPeriodType == 0){
+                if (this.formData.interestCalculationPeriodType == 0) {
                     this.formData.allowPartialPeriodInterestCalcualtion = false;
                 }
                 resourceFactory.loanResource.save({command: 'calculateLoanSchedule'}, this.formData, function (data) {
@@ -407,7 +480,11 @@
                 if (scope.charges.length > 0) {
                     scope.formData.charges = [];
                     for (var i in scope.charges) {
-                        scope.formData.charges.push({ chargeId: scope.charges[i].chargeId, amount: scope.charges[i].amount, dueDate: dateFilter(scope.charges[i].dueDate, scope.df) });
+                        scope.formData.charges.push({
+                            chargeId: scope.charges[i].chargeId,
+                            amount: scope.charges[i].amount,
+                            dueDate: dateFilter(scope.charges[i].dueDate, scope.df)
+                        });
                     }
                 }
 
@@ -419,7 +496,10 @@
                 if (scope.collaterals.length > 0) {
                     scope.formData.collateral = [];
                     for (var i in scope.collaterals) {
-                        scope.formData.collateral.push({clientCollateralId: scope.collaterals[i].collateralId, quantity: scope.collaterals[i].quantity * 1.0});
+                        scope.formData.collateral.push({
+                            clientCollateralId: scope.collaterals[i].collateralId,
+                            quantity: scope.collaterals[i].quantity * 1.0
+                        });
                     }
                 }
 
@@ -443,7 +523,7 @@
                     var restFrequencyDate = dateFilter(scope.date.recalculationCompoundingFrequencyDate, scope.df);
                     scope.formData.recalculationCompoundingFrequencyDate = restFrequencyDate;
                 }
-                if(this.formData.interestCalculationPeriodType == 0){
+                if (this.formData.interestCalculationPeriodType == 0) {
                     this.formData.allowPartialPeriodInterestCalcualtion = false;
                 }
                 if (!_.isUndefined(scope.datatables) && scope.datatables.length > 0) {
@@ -483,7 +563,7 @@
             }
         }
     });
-    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
+    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
         $log.info("NewLoanAccAppController initialized");
     });
 }(mifosX.controllers || {}));
