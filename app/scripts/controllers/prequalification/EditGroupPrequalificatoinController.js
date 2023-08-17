@@ -27,6 +27,15 @@
                     var editDate = dateFilter(data.openingDate, scope.df);
                     scope.first.date = new Date(editDate);
                 }
+
+                if(data.groupMembers){
+                    data.groupMembers.forEach(member => {
+                        if (member.dob) {
+                            var dobDate = dateFilter(member.dob, scope.df);
+                            member.dob = new Date(dobDate);
+                        }
+                    });
+                }
                 scope.formData =
                 {
                     agencyId: data.agencyId,
@@ -167,9 +176,9 @@
                         dateFormat : scope.df,
                         name : member.name,
                         dpi : member.dpi,
-                        dob : member.dob,
-                        requestedAmount : member.requestedAmount,
-                        workWithPuente : member.workWithPuente,
+                        dob : member.dob ? dateFilter(member.dob,  scope.df) : member.dob,
+                        amount : member.requestedAmount,
+                        puente : member.workWithPuente,
                         id : member.id
                     }
 

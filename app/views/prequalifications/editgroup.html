@@ -103,8 +103,8 @@
                 <tr ng-repeat="member in formData.members">
                     <td>{{member.name}}</td>
                     <td>{{member.dpi}}</td>
-                    <td>{{member.dob}}</td>
-                    <td>{{member.requestedAmount}}</td>
+                    <td>{{member.dob | DateFormat}}</td>
+                    <td>{{member.requestedAmount| number}}</td>
                     <td>{{member.workWithPuente}}</td>
                 </tr>
             </table>
@@ -148,7 +148,7 @@
                     <form-validate valattributeform="memberDetailsForm" valattribute="dpi"/>
                 </td>
                 <td>
-                    <input id="dob" type="text" placeholder="{{'label.input.dob'|translate}}" name="dob" datepicker-pop="dd MMMM yyyy"
+                    <input id="dob" type="text" name="dob" datepicker-pop="dd MMMM yyyy"
                            ng-model="member.dob" is-open="opened1" min="minDate" max="restrictDate"
                            class="form-control" required/>
                     <form-validate valattributeform="memberDetailsForm" valattribute="dob"/>
