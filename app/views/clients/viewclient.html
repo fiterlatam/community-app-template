@@ -362,6 +362,9 @@
 												<a uib-tooltip="{{'label.button.makerepayment' | translate}}" ng-href="#/loanaccount/{{loanaccount.id}}/repayment" class="btn btn-xs btn-primary ng-binding">
 													<i class="fa fa-dollar"></i>
 												</a>
+												<a uib-tooltip="{{'label.button.futurepayment' | translate}}" ng-href="#/loanfuturepayment/{{loanaccount.id}}" class="btn btn-xs btn-primary ng-binding">
+													<i class="fa fa-question-circle"></i>
+												</a>
 											</td>
 											<td class="pointer center" ng-if="loanaccount.status.pendingApproval">
 												<a uib-tooltip="{{'label.button.approve' | translate}}" has-permission='APPROVE_LOAN' ng-href="#/loanaccount/{{loanaccount.id}}/approve" class="btn btn-xs btn-primary ng-binding">

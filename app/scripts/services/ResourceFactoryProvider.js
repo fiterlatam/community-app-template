@@ -966,6 +966,9 @@
                     transferAgencyResource: defineResource(apiVer + "/agencies/:agencyId/transfer", {agencyId: "@agencyId"}, {
                         transfer: { method: 'PUT'}
                     }),
+                    loanTrxnsSimulatePaymentResource: defineResource(apiVer + "/loans/:loanId/transactions/simulation", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
+                    }),
                 };
             }];
         }

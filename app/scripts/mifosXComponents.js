@@ -52,6 +52,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'loanAccount/CreditBureauSummaryController',
             'loanAccount/CreditReportFetchThitsaWorksController',
             'loanAccount/CreditReportUploadThitsaWorksController',
+            'loanAccount/LoanFuturePaymentController',
             'groups/AssignStaffController',
             'client/ClientController',
             'client/CreateClientCollateralController',
