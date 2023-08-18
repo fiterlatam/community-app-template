@@ -45,6 +45,10 @@
                 this.uiValidationErrors = uiValidationErrors;
             }
 
+           scope.removeMember = function (index) {
+                scope.formData.members.splice(index,1);
+           };
+
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];
 
