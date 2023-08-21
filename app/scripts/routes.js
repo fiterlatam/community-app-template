@@ -956,6 +956,9 @@
             .when('/loanforeclosure/:id', {
                 templateUrl: 'views/loans/loanforeclosure.html'
             })
+            .when('/loanfuturepayment/:id', {
+                templateUrl: 'views/loans/loanfuturepayment.html'
+            })
             .when('/address/:id', {
                 templateUrl: 'views/administration/AddressForm.html'
             })

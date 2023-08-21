@@ -377,6 +377,10 @@
                         getAllCodeValues: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT', params: {} }
                     }),
+                    codeValueNameResource: defineResource(apiVer + "/codes/codevalues/:codeName", {codeName: '@codeName'}, {
+                        getAllCodeValues: {method: 'GET', params: {}, isArray: true},
+                        update: { method: 'PUT', params: {} }
+                    }),
 					hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
                         getAllHooks: {method: 'GET', params: {}, isArray: true},
                         getHook: {method: 'GET', params: {}},
@@ -961,6 +965,9 @@
                     }),
                     transferAgencyResource: defineResource(apiVer + "/agencies/:agencyId/transfer", {agencyId: "@agencyId"}, {
                         transfer: { method: 'PUT'}
+                    }),
+                    loanTrxnsSimulatePaymentResource: defineResource(apiVer + "/loans/:loanId/transactions/simulation", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
                     }),
                 };
             }];

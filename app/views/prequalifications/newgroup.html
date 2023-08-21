@@ -90,6 +90,7 @@
                     <th>{{'label.input.dateofbirth'|translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
+                    <th></th>
                 </tr>
 
                 <tr ng-repeat="member in formData.members">
@@ -98,6 +99,7 @@
                     <td>{{member.dob}}</td>
                     <td>{{member.puente}}</td>
                     <td>{{member.amount}}</td>
+                    <td><a ng-click="removeMember($index)" uib-tooltip="{{'label.remove.row' | translate}}"><i class="fa fa-times"></i></a></td>
                 </tr>
             </table>
 
