@@ -394,7 +394,8 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'prequalification/PrequalificationsController',
             'prequalification/PrequalificationDetailsController',
             'prequalification/IndividualPrequalificatoinFormController',
-            'prequalification/IndividualPrequalificatoinController'
+            'prequalification/IndividualPrequalificatoinController',
+            'prequalification/EditGroupPrequalificatoinController'
         ],
         filters: [
             'StatusLookup',

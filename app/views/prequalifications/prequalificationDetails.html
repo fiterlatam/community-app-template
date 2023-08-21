@@ -4,7 +4,10 @@
 
         <div class="content">
             <div class="toolbar">
-                <h3>{{'label.anchor.prequalifications' | translate }}</h3>
+                <ul class="breadcrumb">
+                    <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+                    <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
+                </ul>
             </div>
             <hr/>
             <div class="row">
@@ -62,14 +65,14 @@
                     <td>{{member.dpi}}</td>
                     <td>{{member.dob|DateFormat}}</td>
                     <td>{{member.workWithPuente}}</td>
-                    <td>{{member.requestedAmount}}</td>
+                    <td>{{member.requestedAmount | number}}</td>
                     <td><i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i></td>
-                    <td ng-if="groupData.groupId">{{member.totalLoanAmount}}</td>
-                    <td ng-if="groupData.groupId">{{member.totalLoanBalance}}</td>
-                    <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalLoanBalance | number}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance | number}}</td>
                     <td ng-if="groupData.groupId">{{member.noOfCycles}}</td>
                     <td ng-if="groupData.groupId">{{member.additionalCreditsCount}}</td>
-                    <td ng-if="groupData.groupId">{{member.additionalCreditsSum}}</td>
+                    <td ng-if="groupData.groupId">{{member.additionalCreditsSum | number}}</td>
 
                 </tr>
             </table>

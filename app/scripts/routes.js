@@ -1198,37 +1198,29 @@
             })
             .when('/transferagency/:id', {
                 templateUrl: 'views/organization/transferagency.html'
-            }).
-            when('/blacklist', {
-                templateUrl: 'views/blacklist/blacklist.html'
-            }).
-            when('/blacklist/:blacklistId/:action', {
-                templateUrl: 'views/blacklist/removeblacklist.html'
-            }).
-            when('/blacklist/createblacklist', {
-                templateUrl: 'views/blacklist/addToBlacklist.html'
-            }).
-            when('/prequalificationsmenu', {
-                templateUrl: 'views/prequalifications/prequalificationsMenu.html'
-            }).
-            when('/prequalificationGroups/:type', {
-                templateUrl: 'views/prequalifications/prequalificationsGroups.html'
-            }).
-            when('/prequalifications/newprequalification/new', {
-                templateUrl: 'views/prequalifications/newgroup.html'
-            }).
-            when('/prequalifications/newprequalification/existing', {
-                templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
-            }).
-            when('/prequalification/:groupId/viewdetails', {
-                templateUrl: 'views/prequalifications/prequalificationDetails.html'
-            }).
-            when('/prequalifications/individualprequalifications', {
-                templateUrl: 'views/prequalifications/individualPrequalificationList.html'
-            }).
-            when('/prequalifications/individual/create', {
-                templateUrl: 'views/prequalifications/individualPrequalification.html'
-            });
+            }).when('/blacklist', {
+            templateUrl: 'views/blacklist/blacklist.html'
+        }).when('/blacklist/:blacklistId/:action', {
+            templateUrl: 'views/blacklist/removeblacklist.html'
+        }).when('/blacklist/createblacklist', {
+            templateUrl: 'views/blacklist/addToBlacklist.html'
+        }).when('/prequalificationsmenu', {
+            templateUrl: 'views/prequalifications/prequalificationsMenu.html'
+        }).when('/prequalificationGroups/:type', {
+            templateUrl: 'views/prequalifications/prequalificationsGroups.html'
+        }).when('/prequalifications/newprequalification/new', {
+            templateUrl: 'views/prequalifications/newgroup.html'
+        }).when('/prequalifications/newprequalification/existing', {
+            templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
+        }).when('/prequalification/:groupId/viewdetails', {
+            templateUrl: 'views/prequalifications/prequalificationDetails.html'
+        }).when('/prequalification/:groupId/edit', {
+            templateUrl: 'views/prequalifications/editgroup.html'
+        }).when('/prequalifications/individualprequalifications', {
+            templateUrl: 'views/prequalifications/individualPrequalificationList.html'
+        }).when('/prequalifications/individual/create', {
+            templateUrl: 'views/prequalifications/individualPrequalification.html'
+        });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };
