@@ -956,6 +956,9 @@
             .when('/loanforeclosure/:id', {
                 templateUrl: 'views/loans/loanforeclosure.html'
             })
+            .when('/loanfuturepayment/:id', {
+                templateUrl: 'views/loans/loanfuturepayment.html'
+            })
             .when('/address/:id', {
                 templateUrl: 'views/administration/AddressForm.html'
             })
@@ -1211,6 +1214,8 @@
             templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
         }).when('/prequalification/:groupId/viewdetails', {
             templateUrl: 'views/prequalifications/prequalificationDetails.html'
+        }).when('/prequalification/:groupId/edit', {
+            templateUrl: 'views/prequalifications/editgroup.html'
         }).when('/prequalifications/individualprequalifications', {
             templateUrl: 'views/prequalifications/individualPrequalificationList.html'
         }).when('/prequalifications/individual/create', {

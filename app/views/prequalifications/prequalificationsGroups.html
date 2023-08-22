@@ -1,5 +1,6 @@
 <div class="content-container" ng-controller="PrequalificationsController">
     <ul class="breadcrumb">
+        <li><a href="#/prequalificationsmenu">{{'label.anchor.prequalifications' | translate}}</a></li>
         <li class="active">{{'label.anchor.prequalification.groups' | translate}}</li>
     </ul>
 
@@ -12,22 +13,22 @@
             <br>
             <div class="row">
                 <div class="col-sm-6">
-<!--                    <form ng-submit="getResultsPage(1)" class="form-horizontal">-->
-<!--                        <div class="form-group">-->
-<!--                            <div class="col-md-8">-->
-<!--                                <div class="input-group">-->
-<!--                                    <input data-ng-model="searchText" type="text"-->
-<!--                                           placeholder="{{'label.input.searchByNameDpi' | translate}}"-->
-<!--                                           class="form-control unstyled"/>-->
-<!--                                    <span class="input-group-btn">-->
-<!--                                        <button class="btn btn-primary form-control" ng-disabled="!searchText">-->
-<!--                                            <span class="fa fa-search"></span>-->
-<!--                                        </button>-->
-<!--                                    </span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </form>-->
+                    <form ng-submit="getResultsPage(1)" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <input data-ng-model="searchText" type="text"
+                                        placeholder="{{'label.input.searchByGroupOrGroupNameOrCenter' | translate}}"
+                                        class="form-control unstyled"/>
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-primary form-control" ng-disabled="!searchText">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="col-sm-3">
@@ -35,7 +36,8 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <a href="#/prequalifications/newprequalification/{{prequalificationType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
+                    <!-- Only show New Pre-qualification button if type is not existing-->
+                    <a ng-if="prequalificationType !== 'existing'" href="#/prequalifications/newprequalification/{{prequalificationType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
                             class="fa fa-plus"></i> {{'label.heading.newgroup.prequalification' | translate}}</a> &nbsp;&nbsp;
                 </div>
             </div>
@@ -67,6 +69,8 @@
                     <td class="pointer">
                         <a href="#/prequalification/{{client.id}}/viewdetails" has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
+                        <a href="#/prequalification/{{client.id}}/edit" has-permission='EDIT_PREQUALIFICATIONS'>
+                            <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
                     </td>
                 </tr>
                 </tbody>

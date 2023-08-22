@@ -10,6 +10,7 @@
             this.setTenantIdenetifier = function (tenant) {
                 tenantIdentifier = tenant;
             }
+
             this.$get = ['$resource', '$rootScope', function (resource, $rootScope) {
                 var defineResource = function (url, paramDefaults, actions) {
                     var tempUrl = baseUrl;
@@ -964,6 +965,9 @@
                     }),
                     transferAgencyResource: defineResource(apiVer + "/agencies/:agencyId/transfer", {agencyId: "@agencyId"}, {
                         transfer: { method: 'PUT'}
+                    }),
+                    loanTrxnsSimulatePaymentResource: defineResource(apiVer + "/loans/:loanId/transactions/simulation", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
                     }),
                 };
             }];

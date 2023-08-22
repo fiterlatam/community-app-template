@@ -1,14 +1,14 @@
-<div ng-controller="NewGroupPrequalificatoinController">
+<div ng-controller="EditGroupPrequalificatoinController">
     <div>
         <ul class="breadcrumb">
-            <li><a href="#/prequalificationsmenu">{{'label.anchor.prequalifications' | translate}}</a></li>
-            <li class="active">{{'label.heading.newgroup.prequalification' | translate}}</li>
+            <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+            <li class="active">{{'label.heading.editgroup.prequalification' | translate}}</li>
         </ul>
     </div>
     <api-validate></api-validate>
-    <form name="groupDetailsForm" novalidate="" class="well form-inline" ng-submit="requestPrequalification()">
+    <form name="groupDetailsForm" novalidate="" class="well form-inline" ng-submit="updatePreQualification()">
         <fieldset>
-            <legend>{{ 'label.heading.newgroup.prequalification' | translate }}</legend>
+            <legend>{{ 'label.heading.editgroup.prequalification' | translate }}</legend>
             <table class="width100">
                 <tr>
                     <td class="width14">
@@ -43,10 +43,17 @@
                         <label>{{ 'label.input.groupname' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
-                        <input type="text" class="form-control" name="grpnm"
-                               placeholder="{{'label.input.groupname'|translate}}"
-                               data-ng-model="formData.groupName" id="grpnm" required>
+                        <input type="text" class="form-control" name="grpnm" ng-model="formData.groupName" id="grpnm" required>
                         <form-validate valattributeform="groupDetailsForm" valattribute="groupId"/>
+                    </td>
+                    <td class="width14">
+                        <label>{{ 'label.input.prequalification.number' | translate }}<span
+                                class="required">*</span>:&nbsp;</label>
+                    </td>
+                    <td class="width36 paddedbottom10">
+                        <div class="alert alert-info">
+                            <span>{{'label.input.prequalification.number'|translate}}: <span class="pull-right">{{formData.prequalificationNumber}}</span></span>
+                        </div>
                     </td>
                 </tr>
                 <tr ng-if="productsList && productsList.length>0">
@@ -63,14 +70,15 @@
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="product"/>
                     </td>
-
+                </tr>
+                <tr ng-if="facilitators && facilitators.length>0">
                     <td class="width14">
                         <label>{{ 'label.input.facilitator' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
                         <select id="facilitator" ng-model="formData.facilitator"
-                                ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitators"
+                                ng-options="facilitator.id as facilitator.firstname + ' ' + facilitator.lastname + ' (' + facilitator.username + ')' for facilitator in facilitators"
                                 value="{{facilitator.id}}" required late-validate
                                 class="form-control width170px">
 <!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
@@ -88,18 +96,16 @@
                     <th>{{'label.input.name'|translate}}</th>
                     <th>{{'label.input.dpi'|translate}}</th>
                     <th>{{'label.input.dateofbirth'|translate}}</th>
-                    <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
-                    <th></th>
+                    <th>{{'label.input.work.with.puente' | translate}}</th>
                 </tr>
 
                 <tr ng-repeat="member in formData.members">
                     <td>{{member.name}}</td>
                     <td>{{member.dpi}}</td>
-                    <td>{{member.dob}}</td>
-                    <td>{{member.puente}}</td>
-                    <td>{{member.amount}}</td>
-                    <td><a ng-click="removeMember($index)" uib-tooltip="{{'label.remove.row' | translate}}"><i class="fa fa-times"></i></a></td>
+                    <td>{{member.dob | DateFormat}}</td>
+                    <td>{{member.requestedAmount| number}}</td>
+                    <td>{{member.workWithPuente}}</td>
                 </tr>
             </table>
 
@@ -108,7 +114,7 @@
                 <a id="cancel" ng-href="#/prequalificationsmenu" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
                 <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || (!formData.group && !formData.groupName)?true:false"
-                        has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.save' | translate}}</button>
+                        has-permission='UPDATE_PREQUALIFICATIONS'>{{'label.button.edit' | translate}}</button>
             </div>
         </fieldset>
     </form>
@@ -122,21 +128,28 @@
 
         <table class="width100" style="table-layout: fixed">
             <tr>
+                <th>{{'label.input.name'|translate}}</th>
+                <th>{{'label.input.dpi'|translate}}</th>
+                <th>{{'label.input.dateofbirth'|translate}}</th>
+                <th>{{'label.input.amount.requested'|translate}}</th>
+                <th>{{'label.input.work.with.puente' | translate}}</th>
+            </tr>
+            <tr ng-repeat="member in formData.members">
                 <td>
                     <input type="text" class="form-control" name="name"
                            placeholder="{{'label.heading.clientname'|translate}}"
-                           data-ng-model="membersForm.name" id="clientname" required>
+                           ng-model="member.name" id="clientname" required>
                     <form-validate valattributeform="memberDetailsForm" valattribute="name"/>
                 </td>
                 <td>
                     <input type="text" class="form-control" name="dpi"
-                           placeholder="{{'label.input.dpi' | translate}}" data-ng-model="membersForm.dpi"
+                           placeholder="{{'label.input.dpi' | translate}}" ng-model="member.dpi"
                            id="dpi" required>
                     <form-validate valattributeform="memberDetailsForm" valattribute="dpi"/>
                 </td>
                 <td>
-                    <input id="dob" type="text" placeholder="{{'label.input.dob'|translate}}" name="dob" datepicker-pop="dd MMMM yyyy"
-                           ng-model="membersForm.dob" is-open="opened1" min="minDate" max="restrictDate"
+                    <input id="dob" type="text" name="dob" datepicker-pop="dd MMMM yyyy"
+                           ng-model="member.dob" is-open="opened1" min="minDate" max="restrictDate"
                            class="form-control" required/>
                     <form-validate valattributeform="memberDetailsForm" valattribute="dob"/>
                 </td>
@@ -144,12 +157,12 @@
                 <td>
                     <input type="text" class="form-control" name="amount"
                            placeholder="{{'label.input.amount.requested' |translate}}"
-                           data-ng-model="membersForm.amount" id="amount" required>
+                           ng-model="member.requestedAmount" id="amount" required>
                     <form-validate valattributeform="memberDetailsForm" valattribute="amount"/>
                 </td>
 
                 <td>
-                    <select id="puente" ng-model="membersForm.puente"
+                    <select id="puente" ng-model="member.workWithPuente"
                             ng-options="item.value as item.name for item in yesNo" value="{{group.value}}"
                             class="form-control" required="required" required>
                         <option style="display:none" value="">{{'label.input.work.with.puente' | translate}}</option>
