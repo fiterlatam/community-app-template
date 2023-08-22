@@ -37,7 +37,7 @@
                     if (!scope.$$phase) {
                         scope.$apply();
                     }
-                    location.path('/prequalificationGroups/newprequalification/new');
+                    location.path('/prequalificationGroups/new');
                 });
             };
 
@@ -56,6 +56,14 @@
             scope.onFileSelect = function (files) {
                 scope.formData.file = files[0];
             };
+
+            scope.showSupportDocumentUploadPage = function(){
+                var allowedStatuses =  [400, 200];
+                if(scope.groupData.status){
+                    return allowedStatuses.includes(scope.groupData.status.id)
+                }
+                return false;
+            }
         }
     });
 
