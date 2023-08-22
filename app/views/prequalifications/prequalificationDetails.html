@@ -35,6 +35,12 @@
                     <div class="alert alert-info">
                         <span>{{'label.input.addedBy'|translate}}: <span class="pull-right">{{groupData.addedBy}}</span></span>
                     </div>
+                    <div class="alert alert-info">
+                        <span>{{'label.input.status'|translate}}: <span class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
+                             uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
+                            {{groupData.status.value}} </span>
+                        </span>
+                    </div>
                     <div class="alert alert-default" ng-if="groupData.comments">
                         <span>{{'label.input.comments'|translate}}: <span class="pull-right">{{groupData.comments}}</span></span>
                     </div>
@@ -101,7 +107,7 @@
                 </tbody>
             </table>
 
-            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()" ng-if="prequalificationDocuments.length<=0">
+            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()" ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
                 <api-validate></api-validate>
                 <fieldset>
                     <div class="form-group">

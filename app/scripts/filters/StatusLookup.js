@@ -39,7 +39,9 @@
                     "purchasedSharesStatusType.approved": "statusApproved",
                     "purchasedSharesStatusType.rejected": "statusrejected",
                     "charges.StatusType.active.true": "statusactive",
-                    "employees.StatusType.active.true": "statusactive"
+                    "employees.StatusType.active.true": "statusactive",
+                    "prequalification.status.blacklist.checked": "statusApproved",
+                    "prequalification.status.blacklist.rejected": "statusrejected"
                 }
 
                 return cssClassNameLookup[input];
