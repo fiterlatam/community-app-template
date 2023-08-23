@@ -55,6 +55,11 @@
                 scope.clientNonPersonConstitutionOptions = data.clientNonPersonConstitutionOptions;
                 scope.clientNonPersonMainBusinessLineOptions = data.clientNonPersonMainBusinessLineOptions;
                 scope.clientLegalFormOptions = data.clientLegalFormOptions;
+                scope.clientAreaOptions = data.clientAreaOptions;
+                scope.publicServiceOptions = data.publicServiceOptions;
+                scope.housingTypeOptions = data.housingTypeOptions;
+                scope.departamentoOptions = data.departamentoOptions;
+                scope.municipioOptions = data.municipioOptions;
                 scope.datatables = data.datatables;
                 if (!_.isUndefined(scope.datatables) && scope.datatables.length > 0) {
                     scope.noOfTabs = scope.datatables.length + 1;
