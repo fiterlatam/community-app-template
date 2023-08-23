@@ -12,7 +12,9 @@
             scope.restrictDate = new Date();
             scope.formData = {};
             scope.formData.members = [];
-            scope.membersForm = {};
+            scope.membersForm = {
+                workWithPuente: "YES"
+            };
             scope.memberDetailsForm;
             scope.groupData;
             scope.membersList = [];
@@ -69,13 +71,19 @@
                     scope.membersForm['locale'] = scope.optlang.code;
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
-                    scope.membersForm = {}
+                    scope.membersForm = {
+                       workWithPuente: "YES"
+                    };
                     scope.memberDetailsForm.$setUntouched();
                     scope.memberDetailsForm.$setPristine();
 
                 }
                 this.uiValidationErrors = uiValidationErrors;
             }
+
+           scope.removeMember = function (index) {
+                scope.formData.members.splice(index,1);
+           };
 
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];

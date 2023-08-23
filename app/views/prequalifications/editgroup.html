@@ -98,6 +98,7 @@
                     <th>{{'label.input.dateofbirth'|translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
+                    <th></th>
                 </tr>
 
                 <tr ng-repeat="member in formData.members">
@@ -106,6 +107,7 @@
                     <td>{{member.dob | DateFormat}}</td>
                     <td>{{member.requestedAmount| number}}</td>
                     <td>{{member.workWithPuente}}</td>
+                    <td><a ng-click="removeMember($index)" uib-tooltip="{{'label.remove.row' | translate}}"><i class="fa fa-times"></i></a></td>
                 </tr>
             </table>
 
@@ -134,22 +136,22 @@
                 <th>{{'label.input.amount.requested'|translate}}</th>
                 <th>{{'label.input.work.with.puente' | translate}}</th>
             </tr>
-            <tr ng-repeat="member in formData.members">
+            <tr>
                 <td>
                     <input type="text" class="form-control" name="name"
                            placeholder="{{'label.heading.clientname'|translate}}"
-                           ng-model="member.name" id="clientname" required>
+                           ng-model="membersForm.name" id="clientname" required>
                     <form-validate valattributeform="memberDetailsForm" valattribute="name"/>
                 </td>
                 <td>
                     <input type="text" class="form-control" name="dpi"
-                           placeholder="{{'label.input.dpi' | translate}}" ng-model="member.dpi"
+                           placeholder="{{'label.input.dpi' | translate}}" ng-model="membersForm.dpi"
                            id="dpi" required>
                     <form-validate valattributeform="memberDetailsForm" valattribute="dpi"/>
                 </td>
                 <td>
                     <input id="dob" type="text" name="dob" datepicker-pop="dd MMMM yyyy"
-                           ng-model="member.dob" is-open="opened1" min="minDate" max="restrictDate"
+                           ng-model="membersForm.dob" is-open="opened1" min="minDate" max="restrictDate"
                            class="form-control" required/>
                     <form-validate valattributeform="memberDetailsForm" valattribute="dob"/>
                 </td>
@@ -157,12 +159,12 @@
                 <td>
                     <input type="text" class="form-control" name="amount"
                            placeholder="{{'label.input.amount.requested' |translate}}"
-                           ng-model="member.requestedAmount" id="amount" required>
+                           ng-model="membersForm.requestedAmount" id="amount" required>
                     <form-validate valattributeform="memberDetailsForm" valattribute="amount"/>
                 </td>
 
                 <td>
-                    <select id="puente" ng-model="member.workWithPuente"
+                    <select id="puente" ng-model="membersForm.workWithPuente"
                             ng-options="item.value as item.name for item in yesNo" value="{{group.value}}"
                             class="form-control" required="required" required>
                         <option style="display:none" value="">{{'label.input.work.with.puente' | translate}}</option>
