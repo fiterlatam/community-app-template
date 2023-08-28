@@ -1220,6 +1220,10 @@
             templateUrl: 'views/prequalifications/individualPrequalificationList.html'
         }).when('/prequalifications/individual/create', {
             templateUrl: 'views/prequalifications/individualPrequalification.html'
+        }).when('/evaluation/hardpolicychecklist/:groupId', {
+            templateUrl: 'views/hardpolicy/checklistevaluationform.html'
+        }).when('/evaluation/hardpolicychecklist/:groupId/:evaluationId', {
+            templateUrl: 'views/hardpolicy/checklistevaluationdetails.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

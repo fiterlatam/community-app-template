@@ -1,0 +1,28 @@
+<div class="content-container" ng-controller="NewHardPolicyChecklistController">
+    <div class="card">
+        <div class="content">
+            <div class="toolbar">
+                <h5>{{'label.heading.hardpolicychecklist' | translate }}</h5>
+            </div>
+            <br>
+            <div class="row m-1">
+                <form ng-submit="fetchChecklist()" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input data-ng-model="prequalificationNumber" type="text"
+                                       placeholder="{{'label.heading.prequalificationnumber' | translate}}"
+                                       class="form-control unstyled"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary form-control" ng-disabled="!prequalificationNumber">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

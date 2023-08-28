@@ -376,6 +376,8 @@
 	"label.button.postdividends": "Post Dividendos",
 	"label.button.proceed": "Continuar",
 	"label.button.addAddress": "Agregar dirección",
+	"label.button.hardpolicychecklist": "Check list de políticas duras",
+	"label.heading.hardpolicychecklist": "Check list de políticas duras",
 	"label.uniquelyidentifiedwithid": "Exclusivamente identificado con Id",
 	"label.belongsto": "Pertenece a",
 	"label.memberof": "Miembro de",
