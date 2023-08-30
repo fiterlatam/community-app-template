@@ -397,6 +397,8 @@
   "label.button.postdividends": "Post Dividends",
   "label.button.proceed": "Proceed",
   "label.button.addAddress": "Add Address",
+  "label.button.hardpolicychecklist": "Hard Policy Checklist",
+  "label.heading.hardpolicychecklist": "Hard Policy Checklist",
   "#Misc Labels": "..",
   "label.uniquelyidentifiedwithid": "Uniquely identified with ID",
   "label.belongsto": "Belongs To",

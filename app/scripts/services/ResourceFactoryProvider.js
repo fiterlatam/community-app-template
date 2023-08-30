@@ -85,6 +85,10 @@
                     prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
                         get: {method: 'GET', params: {}},
                     }),
+
+                    prequalificationChecklistResource: defineResource(apiVer + "/prequalification/checklist/:precalnumber", {precalnumber:'@precalnumber'}, {
+                        get: {method: 'GET', params: {}, isArray:true},
+                    }),
                     prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},
                         prequalifyExistingGroup: {method: 'POST', params: {anotherResource: '@anotherResource'}},
