@@ -6,7 +6,7 @@
             scope.formData = {};
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
-
+            scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
@@ -51,6 +51,17 @@
                 if (statusId==='NONE'){
                     return 'text-success';
                 }
+            }
+            scope.policyCheckColor = function (redValidationCount) {
+                    if (redValidationCount > 0){
+                         return 'text-danger';
+                    }
+                    return 'text-success'
+            }
+            scope.validateHardPolicy = function(){
+                resourceFactory.prequalificationChecklistResource.validate({prequalificationId: routeParams.groupId}, {}, function (data) {
+                    route.reload();
+               });
             }
 
             scope.onFileSelect = function (files) {

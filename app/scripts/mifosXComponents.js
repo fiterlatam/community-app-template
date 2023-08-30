@@ -396,7 +396,9 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'prequalification/IndividualPrequalificatoinFormController',
             'prequalification/IndividualPrequalificatoinController',
             'prequalification/EditGroupPrequalificatoinController',
-            'evaluation/NewHardPolicyChecklistController'
+            'hardpolicychecklist/ViewHardPolicyChecklistController',
+            'hardpolicychecklist/CreateHardPolicyChecklistController',
+            'hardpolicychecklist/EditHardPolicyChecklistController'
         ],
         filters: [
             'StatusLookup',

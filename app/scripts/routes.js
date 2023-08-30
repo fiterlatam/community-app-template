@@ -1220,10 +1220,12 @@
             templateUrl: 'views/prequalifications/individualPrequalificationList.html'
         }).when('/prequalifications/individual/create', {
             templateUrl: 'views/prequalifications/individualPrequalification.html'
-        }).when('/evaluation/hardpolicychecklist/:groupId', {
-            templateUrl: 'views/hardpolicy/checklistevaluationform.html'
-        }).when('/evaluation/hardpolicychecklist/:groupId/:evaluationId', {
-            templateUrl: 'views/hardpolicy/checklistevaluationdetails.html'
+        }).when('/viewhardpolicychecklist/:groupId', {
+            templateUrl: '/views/hardpolicychecklist/viewhardpolicychecklist.html'
+        }).when('/createhardpolicychecklist/:groupId', {
+            templateUrl: '/views/hardpolicychecklist/createhardpolicychecklist.html'
+        }).when('/edithardpolicychecklist/:checklistId', {
+           templateUrl: '/views/hardpolicychecklist/edithardpolicychecklist.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

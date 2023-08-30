@@ -86,8 +86,9 @@
                         get: {method: 'GET', params: {}},
                     }),
 
-                    prequalificationChecklistResource: defineResource(apiVer + "/prequalification/checklist/:precalnumber", {precalnumber:'@precalnumber'}, {
+                    prequalificationChecklistResource: defineResource(apiVer + "/prequalification/checklist/:prequalificationId", {prequalificationId:'@prequalificationId'}, {
                         get: {method: 'GET', params: {}, isArray:true},
+                        validate: {method: 'POST', params: {command: 'validateprequalification'}},
                     }),
                     prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},
