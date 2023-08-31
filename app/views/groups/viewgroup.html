@@ -44,7 +44,8 @@
 				<uib-tab heading="{{ 'label.heading.general' | translate }}">
 						<div>
 						<div class="">
-					    <div class="btn-group pull-right">
+					    <div class="btn-group pull-right"
+					    	data-ng-hide="group.status.value == 'Closed'">
 							<a href="#/editgroup/{{group.id}}?managecode=2"
 					        	class="btn btn-primary" has-permission='UPDATE_GROUP'
 					          	data-ng-hide="group.status.value=='Active'"><i class="fa fa-check"></i>
@@ -102,9 +103,7 @@
 		                              </a>
 		                          </li>
 								  <li>
-									    <a href="#/prequalification/11/viewdetails?showValidatePolicies=true" has-permission='READ_GROUP'>
-					          				{{'label.button.hardpolicychecklist' | translate }}
-					        			</a>
+									    <a href="#/prequalification/11/viewdetails?showValidatePolicies=true" has-permission='READ_GROUP'>{{'label.button.hardpolicychecklist' | translate }}</a>
 								  </li>
 								  <li class="{{button.icon}}">
 									  <a href="#/groups/cupo/{{group.id}}">{{'label.cupo' | translate}}</a>

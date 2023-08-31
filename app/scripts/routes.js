@@ -1222,10 +1222,6 @@
             templateUrl: 'views/prequalifications/individualPrequalification.html'
         }).when('/viewhardpolicychecklist/:groupId', {
             templateUrl: '/views/hardpolicychecklist/viewhardpolicychecklist.html'
-        }).when('/createhardpolicychecklist/:groupId', {
-            templateUrl: '/views/hardpolicychecklist/createhardpolicychecklist.html'
-        }).when('/edithardpolicychecklist/:checklistId', {
-           templateUrl: '/views/hardpolicychecklist/edithardpolicychecklist.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

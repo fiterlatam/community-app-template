@@ -6,9 +6,14 @@
             scope.checklist = [];
             scope.tf = "HH:mm";
             scope.showChecklistTable = true;
+
+            resourceFactory.groupResource.get({groupId: routeParams.groupId, associations: 'all'}, function (data) {
+
+            };
+
             scope.fetchClientChecklists = function () {
                 var items = resourceFactory.prequalificationChecklistResource.get({
-                    prequalificationId: routeParams.groupId
+                    prequalificationId: scope.routeParams.groupId
                 }, function (data) {
                     scope.checklist = data;
                 });
