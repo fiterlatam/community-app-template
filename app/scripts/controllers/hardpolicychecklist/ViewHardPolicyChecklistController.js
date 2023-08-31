@@ -9,7 +9,7 @@
 
             resourceFactory.groupResource.get({groupId: routeParams.groupId, associations: 'all'}, function (data) {
 
-            };
+            });
 
             scope.fetchClientChecklists = function () {
                 var items = resourceFactory.prequalificationChecklistResource.get({
