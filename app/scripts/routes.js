@@ -1226,6 +1226,8 @@
             templateUrl: 'views/hardpolicy/checklistevaluationdetails.html'
         }).when('/loans/restructurecredit/:clientId', {
             templateUrl: 'views/loans/restructurecredits.html'
+        }).when('/viewhardpolicychecklist/:groupId', {
+            templateUrl: '/views/hardpolicychecklist/viewhardpolicychecklist.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
