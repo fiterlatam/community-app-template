@@ -565,6 +565,14 @@
                      reject:{method:'POST',params:{command:'reject'}},
                      approve:{method:'POST',params:{command:'approve'}}
                      }),
+
+                    restructurecreditsResource: defineResource(apiVer + "/restructurecredits/:clientId/:anotherresource",{clientId:'@clientId', anotherresource: '@anotherresource'},{
+                     get: {method: 'GET',params:{}},
+                     save: {method: 'POST',params:{}},
+                     template: {method: 'GET',params:{anotherresource:'template'}},
+                     reject:{method:'POST',params:{command:'reject'}},
+                     approve:{method:'POST',params:{command:'approve'}}
+                     }),
                      auditResource: defineResource(apiVer + "/audits/:templateResource", {templateResource: '@templateResource'}, {
                         get: {method: 'GET', params: {}},
                         search: {method: 'GET', params: {}, isArray: false}

@@ -1224,6 +1224,8 @@
             templateUrl: 'views/hardpolicy/checklistevaluationform.html'
         }).when('/evaluation/hardpolicychecklist/:groupId/:evaluationId', {
             templateUrl: 'views/hardpolicy/checklistevaluationdetails.html'
+        }).when('/loans/restructurecredit/:clientId', {
+            templateUrl: 'views/loans/restructurecredits.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
