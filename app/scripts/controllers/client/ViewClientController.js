@@ -16,7 +16,7 @@
             scope.showRecurring = false;
             scope.updateDefaultSavings = false;
             scope.charges = [];
-            scope.clientContactInformation = {};
+            scope.clientContactInformation = null;
             scope.legalform = 'm_client';
 
             scope.collaterals = [];
