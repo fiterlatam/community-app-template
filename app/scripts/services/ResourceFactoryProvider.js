@@ -569,7 +569,7 @@
 
                     restructurecreditsResource: defineResource(apiVer + "/restructurecredits/:clientId/:anotherresource",{clientId:'@clientId', anotherresource: '@anotherresource'},{
                      get: {method: 'GET',params:{}},
-                     save: {method: 'POST',params:{}},
+                     save: {method: 'POST',params:{anotherresource: '@anotherresource'}},
                      template: {method: 'GET',params:{anotherresource:'template'}},
                      reject:{method:'POST',params:{command:'reject'}},
                      approve:{method:'POST',params:{command:'approve'}}

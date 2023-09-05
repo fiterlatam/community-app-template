@@ -82,7 +82,7 @@
                         <label class="control-label col-sm-2 width20" style="text-align: left;"> {{ 'label.heading.disbursementdate' | translate }}</label>
                         <div class="col-sm-3 paddedbottom10 paddedtop">
 
-                            <input id="expectedDisbursementDate" sort type="text" name="expecteddisbursementon" datepicker-pop="dd MMMM yyyy" ng-model="date.disburesementDate"
+                            <input id="expectedDisbursementDate" sort type="text" name="expecteddisbursementon" datepicker-pop="dd MMMM yyyy" ng-model="formData.disbursementDate"
                                    is-open="opened1" min="minDate"  class="form-control" required />
                         </div>
 
@@ -98,8 +98,72 @@
                     <button class="btn btn-success" ng-click="submit()">{{'label.button.submit' | translate}}</button>
                 </div>
             </form>
+
+            <div ng-if="requestData">
+                <h4>{{'loanStatusType.submitted.and.pending.approval' | translate}}</h4>
+
+                <div class="alert alert-info">
+                    <span>{{'label.input.product' | translate}}<span
+                            class="pull-right">{{requestData.productName}}</span></span>
+                </div>
+                <div class="alert alert-info">
+                    <span>{{'label.input.totalLoanAmount' | translate}}<span
+                            class="pull-right fa-bold">{{requestData.totalLoanAmount}}</span></span>
+                </div>
+                <div class="alert alert-info">
+                    <span>{{'label.input.status' | translate}}<span
+                            class="pull-right">{{requestData.status.code |translate}}</span></span>
+                </div>
+                <div class="alert alert-info">
+                    <span>{{'label.input.addedBy' | translate}}<span
+                            class="pull-right">{{requestData.requestedByUser}}</span></span>
+                </div>
+                <div class="alert alert-info">
+                    <span>{{'label.heading.disbursementdate' | translate}}<span
+                            class="pull-right">{{resolveDateTime(requestData.newDisbursementDate)}}</span></span>
+                </div>
+
+                <div class="alert alert-info">
+                    <span>{{'label.createdon' | translate}}<span
+                            class="pull-right">{{resolveDateTime(requestData.dateRequested)}}</span></span>
+                </div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>{{'label.input.product'|translate}}</th>
+                        <th>{{'label.input.totalLoanAmount'|translate}}</th>
+                        <th>{{'label.heading.disbursementdate'|translate}}</th>
+                        <th>{{'label.account.maturity.date'|translate}}</th>
+                    </tr>
+                    <tr ng-repeat="loan in requestData.loanMappingData">
+                        <td>{{loan.loanProduct}}</td>
+                        <td>{{loan.outstandingBalance}}</td>
+                        <td>{{loan.disbursementDate|DateFormat}}</td>
+                        <td>{{loan.maturityDate|DateFormat}}</td>
+                    </tr>
+                </table>
+
+                <div class="text-center">
+                    <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+                    <button class="btn btn-success" ng-click="processRequest('approve')">{{'label.button.approve' | translate}}</button>
+                    <button class="btn btn-danger" ng-click="processRequest('reject')">{{'label.button.reject' | translate}}</button>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <script type="text/ng-template" id="processRequest.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.confirm' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <api-validate></api-validate>
+            <div>{{'are.you.sure'|translate}} {{action}}</div>
+            <br>
+            <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' 	| translate}}</button>
+            <button class="btn btn-primary" ng-click="processRequest()">	{{'label.button.confirm' | translate}}</button>
+        </div>
+    </script>
 </div>
 
 
