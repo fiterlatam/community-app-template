@@ -341,40 +341,8 @@
                                 <div class="control-label col-sm-3">
                                     <h3><strong>{{ 'label.heading.contact.information' | translate }}</strong>&nbsp</h3>
                                 </div>
-
                             </div>
-
                             <div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2" for="mobileNo">{{'label.input.mobilenumber' |
-                                    translate}}</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" required="required"
-                                               ng-pattern="/^[0-9]+$/" class="form-control"/>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <span ng-show="createclientform.mobileNo.$invalid && createclientform.mobileNo.$dirty">
-                                            <small class="required" ng-show="createclientform.mobileNo.$error.pattern">
-                                                {{'label.mustbenumeric' | translate}}
-                                            </small>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2" for="homeNumber">{{'label.input.homeNumber' |
-                                    translate}}</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" id="homeNumber" name="homeNumber"
-                                               ng-model="formData.homeNumber"
-                                               ng-pattern="/^[0-9]+$/" class="form-control"/>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="homeNumber"/>
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
                                         <label>{{ 'label.input.client.area' | translate }}<span
@@ -393,22 +361,6 @@
 
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
-                                        <label>{{ 'label.input.client.publicservice' | translate }}<span
-                                                class="required">*</span></label>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <select id="serviceId" multiple
-                                                ng-model="formData.serviceId" class="form-control" required="required"
-                                                ng-options="service.id as service.name for service in publicServiceOptions "
-                                                value="{{service.id}}"></select>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="serviceId"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2">
                                         <label>{{ 'label.input.client.housingtype' | translate }}<span
                                                 class="required">*</span></label>
                                     </div>
@@ -420,6 +372,52 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="housing"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.residenceYears' | translate }}<span
+                                            class="required">*</span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="residenceYears" class="form-control" name="residenceYears"
+                                               ng-model="formData.residenceYears" required late-validate number=true/>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="residenceYears"></form-validate>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.communityYears' | translate }}<span
+                                            class="required">*</span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="communityYears" class="form-control" name="communityYears"
+                                               ng-model="formData.communityYears" required late-validate number=true/>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="residenceYears"></form-validate>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="control-label col-sm-2">
+                                        <label>{{ 'label.input.client.publicservice' | translate }}<span
+                                                class="required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <table>
+                                            <tr ng-repeat="publicServiceOption in publicServiceOptions">
+                                                <td>
+                                                    <input id="{{publicServiceOption.id}}" type="checkbox" name='publicService' data-ng-model="publicServiceChecks[publicServiceOption.id]" data-ng-change="checkPublicService(publicServiceOption.id)">
+                                                    &nbsp;&nbsp;<label>{{publicServiceOption.name}}</label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="publicService"></form-validate>
                                     </div>
                                 </div>
 
@@ -457,21 +455,6 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-sm-2"
-                                           for="age">{{ 'label.input.residenceYears' | translate }}</label>
-                                    <div class="col-sm-3">
-                                        <input type="number" id="residenceYears" name="residenceYears"
-                                               ng-model="formData.residenceYears"
-                                               class="form-control">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform"
-                                                       valattribute="residenceYears"/>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2"
                                            for="village">{{ 'label.input.village' | translate }}</label>
                                     <div class="col-sm-3">
                                         <input type="text" id="village" name="village" ng-model="formData.village"
@@ -480,7 +463,6 @@
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="village"/>
                                     </div>
-
                                 </div>
 
                                 <div class="form-group">
@@ -494,9 +476,7 @@
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="reference"/>
                                     </div>
-
                                 </div>
-
                                 <div class="form-group">
                                     <label class="control-label col-sm-2"
                                            for="reference">{{ 'label.input.street' | translate }}</label>
@@ -507,9 +487,7 @@
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="street"/>
                                     </div>
-
                                 </div>
-
                                 <div class="form-group">
                                     <label class="control-label col-sm-2"
                                            for="reference">{{ 'label.input.avenue' | translate }}</label>
@@ -520,100 +498,112 @@
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="avenue"/>
                                     </div>
-
                                 </div>
 
                                 <div class="form-group">
                                     <label class="control-label col-sm-2"
-                                           for="homeNo">{{ 'label.input.houseNumber' | translate }}</label>
+                                           for="reference">{{ 'label.input.streetNumber' | translate }}</label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="homeNo" name="homeNo" ng-model="formData.houseNumber"
+                                        <input type="text" id="streetNumber" name="street" ng-model="formData.streetNumber"
                                                class="form-control">
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="homeNo"/>
+                                        <form-validate valattributeform="createclientform" valattribute="streetNumber"/>
                                     </div>
-
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="reference">{{ 'label.input.colony' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="colony" name="colony" ng-model="formData.colony"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="colony"/>
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="reference">{{ 'label.input.colony' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input type="text" id="colony" name="colony" ng-model="formData.colony"
-                                           class="form-control">
-                                </div>
-                                <div class="col-sm-2">
-                                    <form-validate valattributeform="createclientform" valattribute="colony"/>
-                                </div>
-
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="reference">{{ 'label.input.sector' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input type="text" id="sector" name="sector" ng-model="formData.sector"
-                                           class="form-control">
-                                </div>
-                                <div class="col-sm-2">
-                                    <form-validate valattributeform="createclientform" valattribute="sector"/>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="reference">{{ 'label.input.sector' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="sector" name="sector" ng-model="formData.sector"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="sector"/>
+                                    </div>
                                 </div>
 
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="reference">{{ 'label.input.batch' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input type="text" id="batch" name="batch" ng-model="formData.batch"
-                                           class="form-control">
-                                </div>
-                                <div class="col-sm-2">
-                                    <form-validate valattributeform="createclientform" valattribute="batch"/>
-                                </div>
-
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="reference">{{ 'label.input.square' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input type="text" id="square" name="square" ng-model="formData.square"
-                                           class="form-control">
-                                </div>
-                                <div class="col-sm-2">
-                                    <form-validate valattributeform="createclientform" valattribute="square"/>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="reference">{{ 'label.input.batch' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="batch" name="batch" ng-model="formData.batch"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="batch"/>
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="reference">{{ 'label.input.zone' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input type="text" id="zone" name="zone" ng-model="formData.zone"
-                                           class="form-control">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="reference">{{ 'label.input.square' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="square" name="square" ng-model="formData.square"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="square"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <form-validate valattributeform="createclientform" valattribute="zone"/>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="reference">{{ 'label.input.zone' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="zone" name="zone" ng-model="formData.zone"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="zone"/>
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="reference">{{ 'label.input.lightDeviceNumber' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input type="text" id="lightDeviceNumber" name="lightDeviceNumber"
-                                           ng-model="formData.lightDeviceNumber"
-                                           class="form-control">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="reference">{{ 'label.input.lightDeviceNumber' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="lightDeviceNumber" name="lightDeviceNumber"
+                                               ng-model="formData.lightDeviceNumber"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="lightDeviceNumber"></form-validate>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <form-validate valattributeform="createclientform"
-                                                   valattribute="lightDeviceNumber"/>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="mobileNo">{{'label.input.mobilenumber' |
+                                    translate}}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" required="required" class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="mobileNo"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="homeNumber">{{'label.input.homeNumber' |
+                                    translate}}</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="homeNumber" name="homeNumber" ng-model="formData.homeNumber" class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="homeNumber"/>
+                                    </div>
                                 </div>
 
                             </div>

@@ -1156,21 +1156,6 @@
 				<!--Contact information-->
 				<uib-tab ng-show="clientContactInformation" heading="{{'label.heading.contact.information' | translate}}" >
 					<div ng-show="clientContactInformation">
-
-<!--						private final String department;-->
-<!--						private final String municipality;-->
-<!--						private final String village;-->
-<!--						private final String referenceHousingData;-->
-<!--						private final String street;-->
-<!--						private final String avenue;-->
-<!--						private final String houseNumber;-->
-<!--						private final String colony;-->
-<!--						private final String sector;-->
-<!--						private final String batch;-->
-<!--						private final String square;-->
-<!--						private final String zone;-->
-<!--						private final String lightMeterNumber;-->
-<!--						private final String homePhone;-->
 						<div class="row" style="margin-right: auto; margin-left: auto">
 							<div class="col-md-5 m-1  alert alert-info">
 								<span>{{'label.input.client.area'| translate}}<span class="pull-right">{{clientContactInformation.area}}</span></span>
@@ -1184,7 +1169,11 @@
 							</div>
 
 							<div class="col-md-5 m-1  alert alert-info">
-								<span>{{'label.input.client.publicservice'| translate}}<span class="pull-right">{{clientContactInformation.serviceTypes}}</span></span>
+								<span>{{'label.input.communityYears'| translate}}<span class="pull-right">{{clientContactInformation.communityYears}}</span></span>
+							</div>
+
+							<div class="col-md-5 m-1  alert alert-info">
+								<span>{{'label.input.client.publicservice'| translate}}<span class="pull-right"><span ng-repeat="publicServiceType in clientContactInformation.publicServiceTypes track by $index">{{publicServiceType.name}}, </span></span></span>
 							</div>
 
 							<div class="col-md-5 m-1  alert alert-info">
@@ -1212,7 +1201,11 @@
 							</div>
 
 							<div class="col-md-5 m-1  alert alert-info">
-								<span>{{'label.input.houseNumber'| translate}}<span class="pull-right">{{clientContactInformation.houseNumber}}</span></span>
+								<span>{{'label.input.streetNumber'| translate}}<span class="pull-right">{{clientContactInformation.streetNumber}}</span></span>
+							</div>
+
+							<div class="col-md-5 m-1  alert alert-info">
+								<span>{{'label.input.houseNumber'| translate}}<span class="pull-right">{{clientContactInformation.homePhone}}</span></span>
 							</div>
 
 							<div class="col-md-5 m-1  alert alert-info">
