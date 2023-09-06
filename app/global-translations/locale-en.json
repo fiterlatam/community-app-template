@@ -4503,5 +4503,6 @@
   "label.managemanagecauses" : "Managemanage causes",
   "label.anchor.editcause" : "Edit Cause",
   "validation.msg.creditstanding.mra.not.greater.than.zero" : "MRA must be greater than 0",
+  "error.msg.codevalue.codename.invalid": "There is no associated value for the code with the name `{{params[0].value}}`.",
   "----End---": "--End of file--- "
 }
