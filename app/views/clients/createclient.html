@@ -125,6 +125,54 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div data-ng-switch on="showNonPersonOptions">
+                            <div data-ng-switch-when="false">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="othernames">{{'label.input.othernames' | translate}}
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="othernames" name="othernames" ng-model="formData.othernames"
+                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
+                                               late-Validate/>
+                                    </div>
+                                    <div class="col-sm-2">
+                              <span ng-show="createclientform.othernames.$invalid && createclientform.othernames.$dirty">
+                                 <small class="error required" ng-show="createclientform.othernames.$error.pattern">
+                                    {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}
+                                 </small>
+                              </span>
+                                        <form-validate valattributeform="createclientform" valattribute="othernames"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-switch on="showNonPersonOptions">
+                            <div data-ng-switch-when="false">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"
+                                           for="maidenName">{{'label.input.maidenname' | translate}}
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="maidenName" name="maidenName" ng-model="formData.maidenName"
+                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
+                                               late-Validate/>
+                                    </div>
+                                    <div class="col-sm-2">
+                              <span ng-show="createclientform.maidenName.$invalid && createclientform.maidenName.$dirty">
+                                 <small class="error required" ng-show="createclientform.maidenName.$error.pattern">
+                                    {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}
+                                 </small>
+                              </span>
+                                        <form-validate valattributeform="createclientform" valattribute="maidenName"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div data-ng-switch on="showNonPersonOptions">
                             <div data-ng-switch-when="true">
                                 <div class="form-group">
@@ -269,11 +317,22 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="externalId">{{'label.input.externalid' |
                             translate}}</label>
                             <div class="col-sm-3">
                                 <input type="text" id="externalId" name="externalId" ng-model="formData.externalId"
+                                       class="form-control"/>
+                            </div>
+
+                            <label class="control-label col-sm-2" for="externalId">{{'label.input.loanCycle' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="loanCycle" name="loanCycle" ng-model="formData.loanCycle"
                                        class="form-control"/>
                             </div>
                         </div>
@@ -288,6 +347,118 @@
                                        class="form-control"/>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                   for="groupmem">{{'label.input.groupno' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="groupno" name="groupno"
+                                       ng-model="formData.groupNumber"
+                                       class="form-control"/>
+                            </div>
+
+                            <label class="control-label col-sm-2"
+                                   for="groupmem">{{'label.input.groupmember' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="groupmem" name="groupme"
+                                       ng-model="formData.groupMember"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                   for="groupmem">{{'label.input.statusingroup' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="groupstatus" name="groupstatus"
+                                       ng-model="formData.statusInGroup"
+                                       class="form-control"/>
+                            </div>
+
+                            <label class="control-label col-sm-2"
+                                   for="groupmem">{{'label.input.retirementreason' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="retReason" name="retReason"
+                                       ng-model="formData.retirementReason"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                   for="civilstatus">{{'label.input.civilstatus' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="civilstatus" name="civilstatus"
+                                       ng-model="formData.civilStatus"
+                                       class="form-control"/>
+                            </div>
+
+                            <label class="control-label col-sm-2"
+                                   for="education">{{'label.input.education' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="education" name="education"
+                                       ng-model="formData.educationLevel"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                   for="ethinicity">{{'label.input.ethinicity' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="ethinicity" name="ethinicity"
+                                       ng-model="formData.ethinicity"
+                                       class="form-control"/>
+                            </div>
+
+                            <label class="control-label col-sm-2"
+                                   for="nationality">{{'label.input.nationality' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="nationality" name="nationality"
+                                       ng-model="formData.nationality"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                   for="languages">{{'label.input.languages' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <textarea type="text" rows="3" id="languages" name="languages"
+                                       ng-model="formData.languages"
+                                          class="form-control"></textarea>
+                            </div>
+
+                            <label class="control-label col-sm-2"
+                                   for="econSector">{{'label.input.economicsector' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="econSector" name="econSector"
+                                       ng-model="formData.economicSector"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                   for="languages">{{'label.input.economicactivity' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <textarea type="text" rows="3" id="economicactivity" name="economicactivity"
+                                       ng-model="formData.economicActivity"
+                                          class="form-control"></textarea>
+                            </div>
+                        </div>
+
+
                         <div class="form-group" has-permission="ACTIVATE_CLIENT">
                             <label class="control-label col-sm-2">{{'label.input.active' | translate}}</label>
                             <div class="col-sm-3">
