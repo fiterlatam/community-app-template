@@ -49,10 +49,23 @@
                 scope.formData.publicServices = [];
                 scope.publicServiceChecks = {};
                 scope.publicServiceTypes = [];
+                scope.economicSectorOptions = data.economicSectorData;
+                scope.economicActivities = data.economicActivityData;
+
                 var detailData = data.detailData;
                 if(detailData){
                     scope.formData = {...scope.formData, ...detailData};
+                    if (detailData.economicSector) {
+                        scope.formData.economicSector = Number(detailData.economicSector);
+                        scope.updateActivities();
+                        scope.formData.economicActivity = Number(detailData.economicActivity);
+                    }
                 }
+
+
+
+
+
                 var contactInformation = data.clientContactInformation;
                 if(contactInformation){
                     scope.formData.residenceYears = contactInformation.yearsOfResidence;
@@ -185,6 +198,14 @@
                 }else {
                     scope.showNonPersonOptions = true;
                 }
+            };
+
+            scope.updateActivities = function () {
+                scope.formData.economicActivity = null;
+                console.log("updateActivities: " + scope.formData.economicSector);
+                scope.economicActivityOptions = scope.economicActivities.filter(function (economicActivity) {
+                    return economicActivity.sectorId == scope.formData.economicSector;
+                });
             };
 
             scope.submit = function () {
