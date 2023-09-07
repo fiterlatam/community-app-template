@@ -178,6 +178,7 @@
             resourceFactory.clientResource.get({clientId: routeParams.id}, function (data) {
                 scope.client = data;
                 scope.clientContactInformation = data.clientContactInformation;
+                scope.detailData = data.detailData;
                 scope.collaterals = scope.client.clientCollateralManagements;
                 scope.collateralSize = scope.collaterals.length;
                 scope.isClosedClient = scope.client.status.value == 'Closed';
