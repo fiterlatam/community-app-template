@@ -49,6 +49,10 @@
                 scope.formData.publicServices = [];
                 scope.publicServiceChecks = {};
                 scope.publicServiceTypes = [];
+                var detailData = data.detailData;
+                if(detailData){
+                    scope.formData = {...scope.formData, ...detailData};
+                }
                 var contactInformation = data.clientContactInformation;
                 if(contactInformation){
                     scope.formData.residenceYears = contactInformation.yearsOfResidence;
