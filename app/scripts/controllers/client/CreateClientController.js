@@ -62,6 +62,8 @@
                 scope.housingTypeOptions = data.housingTypeOptions;
                 scope.departamentoOptions = data.departamentoOptions;
                 scope.municipioOptions = data.municipioOptions;
+                scope.economicSectorOptions = data.economicSectorData;
+                scope.economicActivities = data.economicActivityData;
                 scope.formData.publicServices = [];
                 scope.publicServiceChecks = {};
                  for (var i = 0; i < scope.publicServiceOptions.length; i++) {
@@ -215,6 +217,13 @@
                 }, function (data) {
                     scope.staffs = data.staffOptions;
                     scope.savingproducts = data.savingProductOptions;
+                });
+            };
+
+            scope.updateActivities = function () {
+                scope.formData.economicActivity = null;
+                scope.economicActivityOptions = scope.economicActivities.filter(function (economicActivity) {
+                    return economicActivity.sectorId == scope.formData.economicSector;
                 });
             };
 
