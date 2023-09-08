@@ -39,10 +39,13 @@
 
             </div>
             <hr/>
-            <form ng-if="activeLoans && !requestData" class="form-horizontal"
+            <h4 class="text-danger" ng-if="!activeLoans || activeLoans.length<=0">{{'label.heading.noactiveloans' | translate}}</h4>
+
+            <form ng-if="activeLoans && activeLoans.length>0 && !requestData" class="form-horizontal"
                   name="restructureform" novalidate=""
                   rc-submit="submit()">
                 <api-validate></api-validate>
+
                 <fieldset>
                     <div class="form-group">
                         <label class="control-label col-sm-2 width20" style="text-align: left;">{{ 'label.input.product' | translate }}</label>
@@ -93,11 +96,12 @@
 
                 </fieldset>
 
-                <div class="text-center">
-                    <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
-                    <button class="btn btn-success" ng-click="submit()">{{'label.button.submit' | translate}}</button>
-                </div>
+
             </form>
+            <div class="text-center" ng-if="!requestData">
+                <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+                <button class="btn btn-success" ng-click="submit()" ng-disabled="!activeLoans || activeLoans.length<=0">{{'label.button.submit' | translate}}</button>
+            </div>
 
             <div ng-if="requestData">
                 <h4>{{'loanStatusType.submitted.and.pending.approval' | translate}}</h4>
