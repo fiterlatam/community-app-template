@@ -41,6 +41,90 @@
                         remarks: data.clientNonPersonDetails.remarks
                     }
                 };
+                scope.clientAreaOptions = data.clientAreaOptions;
+                scope.publicServiceOptions = data.publicServiceOptions;
+                scope.housingTypeOptions = data.housingTypeOptions;
+                scope.departamentoOptions = data.departamentoOptions;
+                scope.municipioOptions = data.municipioOptions;
+                scope.formData.publicServices = [];
+                scope.publicServiceChecks = {};
+                scope.publicServiceTypes = [];
+                scope.economicSectorOptions = data.economicSectorData;
+                scope.economicActivities = data.economicActivityData;
+
+                var detailData = data.detailData;
+                if(detailData){
+                    scope.formData = {...scope.formData, ...detailData};
+                    if (detailData.economicSector) {
+                        scope.formData.economicSector = Number(detailData.economicSector);
+                        scope.updateActivities();
+                        scope.formData.economicActivity = Number(detailData.economicActivity);
+                    }
+                }
+
+
+
+
+
+                var contactInformation = data.clientContactInformation;
+                if(contactInformation){
+                    scope.formData.residenceYears = contactInformation.yearsOfResidence;
+                    scope.formData.communityYears = contactInformation.communityYears;
+                    scope.formData.village = contactInformation.village;
+                    scope.formData.homeNumber = contactInformation.homePhone;
+                    scope.formData.lightDeviceNumber = contactInformation.lightMeterNumber;
+                    scope.formData.zone = contactInformation.zone;
+                    scope.formData.square = contactInformation.square;
+                    scope.formData.colony = contactInformation.colony;
+                    scope.formData.streetNumber = contactInformation.streetNumber;
+                    scope.formData.avenue = contactInformation.avenue;
+                    scope.formData.street = contactInformation.street;
+                    scope.formData.sector = contactInformation.sector;
+                    scope.formData.batch = contactInformation.batch;
+                    scope.formData.referenceData = contactInformation.referenceHousingData;
+                    scope.publicServiceTypes = contactInformation.publicServiceTypes;
+                    for(var i = 0; i < scope.clientAreaOptions.length; i++){
+                        if(contactInformation.area === scope.clientAreaOptions[i].name){
+                            scope.formData.clientArea = scope.clientAreaOptions[i].id
+                            break;
+                        }
+                    }
+
+                   for(var i = 0; i < scope.departamentoOptions.length; i++){
+                        if(contactInformation.department === scope.departamentoOptions[i].name){
+                            scope.formData.departmentId = scope.departamentoOptions[i].id
+                            break;
+                        }
+                    }
+
+                   for(var i = 0; i < scope.housingTypeOptions.length; i++){
+                        if(contactInformation.housingType === scope.housingTypeOptions[i].name){
+                            scope.formData.housingTypeId = scope.housingTypeOptions[i].id
+                            break;
+                        }
+                    }
+
+                   for(var i = 0; i < scope.municipioOptions.length; i++){
+                        if(contactInformation.municipality === scope.municipioOptions[i].name){
+                            scope.formData.municipalId = scope.municipioOptions[i].id
+                            break;
+                        }
+                    }
+                }
+                for (var i = 0; i < scope.publicServiceOptions.length; i++) {
+                    var serviceId = scope.publicServiceOptions[i].id;
+                    var checked = false;
+                    for (var j = 0; j < scope.publicServiceTypes.length; j++){
+                            if(scope.publicServiceTypes[j].id === serviceId){
+                                   checked = true;
+                            }
+                    }
+                    scope.publicServiceChecks[serviceId] = checked;
+                    scope.formData.publicServices.push({
+                        id: scope.publicServiceOptions[i].id,
+                        checked: checked
+                    });
+                }
 
                 if(data.gender){
                     scope.formData.genderId = data.gender.id;
@@ -99,12 +183,29 @@
 
             });
 
+            scope.checkPublicService = function(serviceId){
+                for (var i = 0; i < scope.formData.publicServices.length; i++) {
+                    if(serviceId == scope.formData.publicServices[i].id){
+                        scope.formData.publicServices[i].checked = scope.publicServiceChecks[serviceId];
+                         break;
+                    }
+                 }
+            }
+
             scope.displayPersonOrNonPersonOptions = function (legalFormId) {
                 if(legalFormId == scope.clientPersonId || legalFormId == null) {
                     scope.showNonPersonOptions = false;
                 }else {
                     scope.showNonPersonOptions = true;
                 }
+            };
+
+            scope.updateActivities = function () {
+                scope.formData.economicActivity = null;
+                console.log("updateActivities: " + scope.formData.economicSector);
+                scope.economicActivityOptions = scope.economicActivities.filter(function (economicActivity) {
+                    return economicActivity.sectorId == scope.formData.economicSector;
+                });
             };
 
             scope.submit = function () {

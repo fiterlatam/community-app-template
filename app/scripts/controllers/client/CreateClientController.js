@@ -28,6 +28,8 @@
             scope.formData.address=[];
             //familymembers
             scope.formData.familyMembers=[];
+            scope.formData.residenceYears = 0;
+            scope.formData.communityYears = 0;
             scope.familyArray=[];
             scope.datatables = [];
             scope.noOfTabs = 1;
@@ -55,6 +57,22 @@
                 scope.clientNonPersonConstitutionOptions = data.clientNonPersonConstitutionOptions;
                 scope.clientNonPersonMainBusinessLineOptions = data.clientNonPersonMainBusinessLineOptions;
                 scope.clientLegalFormOptions = data.clientLegalFormOptions;
+                scope.clientAreaOptions = data.clientAreaOptions;
+                scope.publicServiceOptions = data.publicServiceOptions;
+                scope.housingTypeOptions = data.housingTypeOptions;
+                scope.departamentoOptions = data.departamentoOptions;
+                scope.municipioOptions = data.municipioOptions;
+                scope.economicSectorOptions = data.economicSectorData;
+                scope.economicActivities = data.economicActivityData;
+                scope.formData.publicServices = [];
+                scope.publicServiceChecks = {};
+                 for (var i = 0; i < scope.publicServiceOptions.length; i++) {
+                    scope.publicServiceChecks[scope.publicServiceOptions[i].id] = false;
+                    scope.formData.publicServices.push({
+                        id: scope.publicServiceOptions[i].id,
+                        checked: false
+                    });
+                }
                 scope.datatables = data.datatables;
                 if (!_.isUndefined(scope.datatables) && scope.datatables.length > 0) {
                     scope.noOfTabs = scope.datatables.length + 1;
@@ -123,16 +141,20 @@
 
 
                 }
-
-
                 scope.relationshipIdOptions=data.familyMemberOptions.relationshipIdOptions;
                 scope.genderIdOptions=data.familyMemberOptions.genderIdOptions;
                 scope.maritalStatusIdOptions=data.familyMemberOptions.maritalStatusIdOptions;
                 scope.professionIdOptions=data.familyMemberOptions.professionIdOptions;
-
-
-
             });
+
+            scope.checkPublicService = function(serviceId){
+                for (var i = 0; i < scope.formData.publicServices.length; i++) {
+                    if(serviceId == scope.formData.publicServices[i].id){
+                        scope.formData.publicServices[i].checked = scope.publicServiceChecks[serviceId];
+                         break;
+                    }
+                 }
+            }
 
             scope.updateColumnHeaders = function(columnHeaderData) {
                 var colName = columnHeaderData[0].columnName;
@@ -195,6 +217,13 @@
                 }, function (data) {
                     scope.staffs = data.staffOptions;
                     scope.savingproducts = data.savingProductOptions;
+                });
+            };
+
+            scope.updateActivities = function () {
+                scope.formData.economicActivity = null;
+                scope.economicActivityOptions = scope.economicActivities.filter(function (economicActivity) {
+                    return economicActivity.sectorId == scope.formData.economicSector;
                 });
             };
 
