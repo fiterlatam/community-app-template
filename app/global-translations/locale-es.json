@@ -709,6 +709,7 @@
 	"label.anchor.undoWithdrawn": "Deshacer Retiro",
 	"label.anchor.blacklistClient": "Cliente de la lista negra",
 	"label.anchor.blacklist": "lista negra",
+  	"label.anchor.bank": "baNGk",
 	"label.input.filterbynameaccno": "Filtrar lo que se muestra por nombre/cliente/personal/oficina",
 	"label.input.searchByNameAccNo": "Buscar por nombre/móvil/cliente/id. externo/identificador",
 	"label.input.selectclientimage": "Seleccionar imagen del cliente",
@@ -4336,5 +4337,15 @@
 	"label.input.zone": "Zona",
 	"label.input.lightDeviceNumber": "No. Contador Luz",
 	"label.heading.contact.information": "Datos de Contacto",
+
+	"#Views": "..",
+	"label.view.banks": "Create or Edit or Remove or List Banks",
+	"label.heading.bank": "List of Banks",
+	"label.input.searchByName": "Search by name",
+	"label.input.searchByCode": "Search by code",
+	"label.input.searchByNameOrCode": "Search by name or code",
+	"label.addBank": "Add Bank",
+	"label.input.code": "Code",
+	"label.anchor.createbank": "Create Bank",
 	"----End---": "---Fin del archivo---"
 }

@@ -397,7 +397,11 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'prequalification/IndividualPrequalificatoinController',
             'prequalification/EditGroupPrequalificatoinController',
             'loanAccount/RestructureCreditsController',
-            'hardpolicychecklist/ViewHardPolicyChecklistController'
+            'hardpolicychecklist/ViewHardPolicyChecklistController',
+            'bank/BankController',
+            'bank/CreateBankController',
+            'bank/EditBankController',
+            'bank/ViewBankController'
         ],
         filters: [
             'StatusLookup',
