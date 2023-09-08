@@ -10,6 +10,7 @@
             this.setTenantIdenetifier = function (tenant) {
                 tenantIdentifier = tenant;
             }
+
             this.$get = ['$resource', '$rootScope', function (resource, $rootScope) {
                 var defineResource = function (url, paramDefaults, actions) {
                     var tempUrl = baseUrl;
@@ -83,6 +84,11 @@
 
                     prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
                         get: {method: 'GET', params: {}},
+                    }),
+
+                    prequalificationChecklistResource: defineResource(apiVer + "/prequalification/checklist/:prequalificationId", {prequalificationId:'@prequalificationId'}, {
+                        get: {method: 'GET', params: {}, isArray:true},
+                        validate: {method: 'POST', params: {command: 'validateprequalification'}},
                     }),
                     prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},
@@ -376,6 +382,10 @@
                         getAllCodeValues: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT', params: {} }
                     }),
+                    codeValueNameResource: defineResource(apiVer + "/codes/codevalues/:codeName", {codeName: '@codeName'}, {
+                        getAllCodeValues: {method: 'GET', params: {}, isArray: true},
+                        update: { method: 'PUT', params: {} }
+                    }),
                     hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
                         getAllHooks: {method: 'GET', params: {}, isArray: true},
                         getHook: {method: 'GET', params: {}},
@@ -553,6 +563,14 @@
                         template: {method: 'GET',params:{}},
                         preview:{method:'GET',params:{command:'previewLoanReschedule'}},
                         put: {method: 'POST', params: {command:'reschedule'}},
+                        reject:{method:'POST',params:{command:'reject'}},
+                        approve:{method:'POST',params:{command:'approve'}}
+                    }),
+
+                    restructurecreditsResource: defineResource(apiVer + "/restructurecredits/:clientId/:anotherresource",{clientId:'@clientId', anotherresource: '@anotherresource'},{
+                        get: {method: 'GET',params:{}},
+                        save: {method: 'POST',params:{anotherresource: '@anotherresource'}},
+                        template: {method: 'GET',params:{anotherresource:'template'}},
                         reject:{method:'POST',params:{command:'reject'}},
                         approve:{method:'POST',params:{command:'approve'}}
                     }),
@@ -960,6 +978,9 @@
                     }),
                     transferAgencyResource: defineResource(apiVer + "/agencies/:agencyId/transfer", {agencyId: "@agencyId"}, {
                         transfer: { method: 'PUT'}
+                    }),
+                    loanTrxnsSimulatePaymentResource: defineResource(apiVer + "/loans/:loanId/transactions/simulation", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
                     }),
                 };
             }];

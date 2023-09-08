@@ -13,6 +13,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'SessionManager',
             'Paginator',
             'UIConfigService',
+            'ValidationService',
             'NotificationResponseHeaderProvider'
         ],
 
@@ -51,6 +52,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'loanAccount/CreditBureauSummaryController',
             'loanAccount/CreditReportFetchThitsaWorksController',
             'loanAccount/CreditReportUploadThitsaWorksController',
+            'loanAccount/LoanFuturePaymentController',
             'groups/AssignStaffController',
             'client/ClientController',
             'client/CreateClientCollateralController',
@@ -392,7 +394,10 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'prequalification/PrequalificationsController',
             'prequalification/PrequalificationDetailsController',
             'prequalification/IndividualPrequalificatoinFormController',
-            'prequalification/IndividualPrequalificatoinController'
+            'prequalification/IndividualPrequalificatoinController',
+            'prequalification/EditGroupPrequalificatoinController',
+            'loanAccount/RestructureCreditsController',
+            'hardpolicychecklist/ViewHardPolicyChecklistController'
         ],
         filters: [
             'StatusLookup',
@@ -420,6 +425,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'FormValidateDirective',
             'FormSubmitValidateDirective',
             'ApiValidationDirective',
+            'UiValidationDirective',
             'HasPermissionDirective',
             'ActivitiesDisplayPanelDirective',
             'ScrollbarTopDirective',

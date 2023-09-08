@@ -4,7 +4,10 @@
 
         <div class="content">
             <div class="toolbar">
-                <h3>{{'label.anchor.prequalifications' | translate }}</h3>
+                <ul class="breadcrumb">
+                    <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+                    <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
+                </ul>
             </div>
             <hr/>
             <div class="row">
@@ -32,6 +35,12 @@
                     <div class="alert alert-info">
                         <span>{{'label.input.addedBy'|translate}}: <span class="pull-right">{{groupData.addedBy}}</span></span>
                     </div>
+                    <div class="alert alert-info">
+                        <span>{{'label.input.status'|translate}}: <span class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
+                                                                        uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
+                            {{groupData.status.value}} </span>
+                        </span>
+                    </div>
                     <div class="alert alert-default" ng-if="groupData.comments">
                         <span>{{'label.input.comments'|translate}}: <span class="pull-right">{{groupData.comments}}</span></span>
                     </div>
@@ -39,6 +48,9 @@
 
             </div>
             <hr/>
+            <div class="toolbar" data-ng-show="showValidatePolicies">
+                <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
+            </div>
             <h5 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h5>
             <table class="width100" style="table-layout: fixed"
                    ng-if="groupMembers && groupMembers.length>0">
@@ -49,6 +61,7 @@
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
                     <th>{{'label.input.status' |translate}}</th>
+                    <th data-ng-show="showValidatePolicies" >{{'label.heading.hard.policy.status' |translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' |translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' |translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' |translate}}</th>
@@ -62,18 +75,24 @@
                     <td>{{member.dpi}}</td>
                     <td>{{member.dob|DateFormat}}</td>
                     <td>{{member.workWithPuente}}</td>
-                    <td>{{member.requestedAmount}}</td>
+                    <td>{{member.requestedAmount | number}}</td>
                     <td><i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i></td>
-                    <td ng-if="groupData.groupId">{{member.totalLoanAmount}}</td>
-                    <td ng-if="groupData.groupId">{{member.totalLoanBalance}}</td>
-                    <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance}}</td>
+                    <td data-ng-show="showValidatePolicies"><i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}">{{member.redValidationCount}}</i></td>
+                    <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalLoanBalance | number}}</td>
+                    <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance | number}}</td>
                     <td ng-if="groupData.groupId">{{member.noOfCycles}}</td>
                     <td ng-if="groupData.groupId">{{member.additionalCreditsCount}}</td>
-                    <td ng-if="groupData.groupId">{{member.additionalCreditsSum}}</td>
+                    <td ng-if="groupData.groupId">{{member.additionalCreditsSum | number}}</td>
 
                 </tr>
             </table>
-
+            <hr/>
+            <div>
+                <button data-ng-show="showValidatePolicies" id="validate" class="btn btn-success" ng-click="validateHardPolicy()" type="button" value="validate"
+                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.validate' | translate}}
+                </button>
+            </div>
             <hr/>
             <table class="table" ng-if="prequalificationDocuments.length > 0">
                 <thead>
@@ -98,7 +117,8 @@
                 </tbody>
             </table>
 
-            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()" ng-if="prequalificationDocuments.length<=0">
+
+            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()" ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
                 <api-validate></api-validate>
                 <fieldset>
                     <div class="form-group">

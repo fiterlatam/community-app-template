@@ -6,7 +6,7 @@
             scope.formData = {};
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
-
+            scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
@@ -37,7 +37,7 @@
                     if (!scope.$$phase) {
                         scope.$apply();
                     }
-                    location.path('/prequalificationGroups/newprequalification/new');
+                    location.path('/prequalificationGroups/new');
                 });
             };
 
@@ -52,10 +52,29 @@
                     return 'text-success';
                 }
             }
+            scope.policyCheckColor = function (redValidationCount) {
+                if (redValidationCount > 0){
+                    return 'text-danger';
+                }
+                return 'text-success'
+            }
+            scope.validateHardPolicy = function(){
+                resourceFactory.prequalificationChecklistResource.validate({prequalificationId: routeParams.groupId}, {}, function (data) {
+                    route.reload();
+                });
+            }
 
             scope.onFileSelect = function (files) {
                 scope.formData.file = files[0];
             };
+
+            scope.showSupportDocumentUploadPage = function(){
+                var allowedStatuses =  [400, 200];
+                if(scope.groupData.status){
+                    return allowedStatuses.includes(scope.groupData.status.id)
+                }
+                return false;
+            }
         }
     });
 
