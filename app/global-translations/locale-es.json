@@ -220,6 +220,7 @@
 	"label.heading.createdby": "Creado por",
 	"label.heading.campaign": "Campaña",
 	"label.heading.isactive": "Estado",
+	"label.heading.noactiveloans": "No se encontraron préstamos activos para este cliente",
 	"label.menu.selectloanofficer": "Seleccione personal",
 	"label.menu.selectone": "Seleccione uno",
 	"label.menu.constitution": "Seleccione Constitución",
