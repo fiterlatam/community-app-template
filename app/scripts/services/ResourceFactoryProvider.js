@@ -982,6 +982,13 @@
                     loanTrxnsSimulatePaymentResource: defineResource(apiVer + "/loans/:loanId/transactions/simulation", {loanId: '@loanId'}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    bankResource: defineResource(apiVer + "/banks/:bankId", {bankId: '@bankId'}, {
+                        get: {method: 'GET', params: {}},
+                        getAllBanks: {method: 'GET', params: {}},
+                        create: { method: 'POST'},
+                        update: { method: 'PUT'},
+                        delete: { method: 'DELETE'}
+                    }),
                 };
             }];
         }

@@ -1228,6 +1228,14 @@
             templateUrl: 'views/loans/restructurecredits.html'
         }).when('/viewhardpolicychecklist/:groupId', {
             templateUrl: '/views/hardpolicychecklist/viewhardpolicychecklist.html'
+        }).when('/banks', {
+            templateUrl: 'views/banks/banks.html'
+        }).when('/banks/createbank', {
+            templateUrl: 'views/banks/createBank.html'
+        }).when('/banks/:bankId/viewdetails', {
+            templateUrl: 'views/banks/bankDetails.html'
+        }).when('/banks/:bankId/editbank', {
+            templateUrl: 'views/banks/editBank.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

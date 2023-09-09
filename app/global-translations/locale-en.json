@@ -2537,6 +2537,8 @@
   "label.heading.failurecount":"Failure Count",
   "label.heading.totalrecords":"Total Records",
   "label.heading.blacklist.clients": "Blacklist Clients",
+  "label.heading.bank": "List of Banks",
+  "label.heading.createbank": "Add New Bank",
   "#Anchors": "..",
   "label.anchor.users": "Users",
   "label.anchor.createuser": "Create User",
@@ -4702,5 +4704,19 @@
   "label.heading.prequalification.validation.result": "Group Hard Policies Validation Result",
   "label.heading.hard.policy.status": "Hard Policy",
   "label.input.streetNumber": "Street No.",
+
+  "#Views": "..",
+  "label.view.banks": "Create or Edit or Remove or List Banks",
+  "label.input.searchByName": "Search by name",
+  "label.input.searchByCode": "Search by code",
+  "label.input.searchByNameOrCode": "Search by name or code",
+  "label.addBank": "Add Bank",
+  "label.input.bankcode": "Bank Code",
+  "label.input.bankname": "Bank Name",
+  "label.anchor.bank": "Manage Banks",
+  "label.anchor.createbank": "Create Bank",
+  "label.anchor.bank.details": "Bank Details",
+  "label.anchor.editbank": "Edit Bank",
+  "label.heading.editbank": "Edit Bank",
   "----End---": "--End of file--- "
 }
