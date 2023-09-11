@@ -401,7 +401,11 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'bank/BankController',
             'bank/CreateBankController',
             'bank/EditBankController',
-            'bank/ViewBankController'
+            'bank/ViewBankController',
+            'bank/bankaccount/BankAccountController',
+            'bank/bankaccount/CreateBankAccountController',
+            'bank/bankaccount/EditBankAccountController',
+            'bank/bankaccount/ViewBankAccountController'
         ],
         filters: [
             'StatusLookup',

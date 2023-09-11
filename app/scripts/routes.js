@@ -1236,6 +1236,16 @@
             templateUrl: 'views/banks/bankDetails.html'
         }).when('/banks/:bankId/editbank', {
             templateUrl: 'views/banks/editBank.html'
+        }).when('/bankaccounts', {
+            templateUrl: 'views/banks/bankaccounts/bankAccounts.html'
+        }).when('/bankaccounts/createbankaccount', {
+            templateUrl: 'views/banks/bankaccounts/createBankAccount.html'
+        }).when('/bankaccounts/:bankAccountId/viewdetails', {
+            templateUrl: 'views/banks/bankaccounts/bankAccountDetails.html'
+        }).when('/bankaccounts/:bankAccountId/editbankaccount', {
+            templateUrl: 'views/banks/bankaccounts/editBankAccount.html'
+        }).when('/bankaccounts/:bankAccountId/removebankaccount', {
+            templateUrl: 'views/banks/bankaccounts/bankAccountDetails.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
