@@ -1026,22 +1026,22 @@
 	<hr>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="1"/>{{'label.input.none' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==1" value="1"/>{{'label.input.none' | translate}}
 	    </label>
 	</div>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="2"/>{{'label.input.cash' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==2"  value="2"/>{{'label.input.cash' | translate}}
 	    </label>
 	</div>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="3"/>{{'label.input.periodicaccrual' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==3" value="3"/>{{'label.input.periodicaccrual' | translate}}
 	    </label>
 	</div>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="4"/>{{'label.input.upfrontaccrual' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==4" value="4"/>{{'label.input.upfrontaccrual' | translate}}
 	    </label>
 	</div>
 	<hr>
