@@ -985,9 +985,20 @@
                     bankResource: defineResource(apiVer + "/banks/:bankId", {bankId: '@bankId'}, {
                         get: {method: 'GET', params: {}},
                         getAllBanks: {method: 'GET', params: {}},
-                        create: { method: 'POST'},
+                        save: { method: 'POST'},
                         update: { method: 'PUT'},
                         delete: { method: 'DELETE'}
+                    }),
+                    bankAccountResource: defineResource(apiVer + "/bankaccounts/:bankAccountId", {bankAccountId: '@bankAccountId'}, {
+                        get: {method: 'GET', params: {}},
+                        getAllBankAccounts: {method: 'GET', params: {}},
+                        save: { method: 'POST'},
+                        update: { method: 'PUT'},
+                        delete: { method: 'DELETE'},
+                        template: {method: 'GET',params:{}},
+                    }),
+                    bankAccountTemplateResource: defineResource(apiVer + "/bankaccounts/template", {}, {
+                        get: {method: 'GET', params: {}}
                     }),
                 };
             }];

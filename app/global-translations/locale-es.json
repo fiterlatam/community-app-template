@@ -4341,7 +4341,7 @@
 
 	"#Views": "..",
 	"label.view.banks": "Create or Edit or Remove or List Banks",
-	"label.heading.bank": "List of Banks",
+	"label.heading.banklist": "List of Banks",
 	"label.input.searchByName": "Search by name",
 	"label.input.searchByCode": "Search by code",
 	"label.input.searchByNameOrCode": "Search by name or code",
