@@ -712,6 +712,7 @@
   "label.input.age.limit.block.message": "The client is older the age limit for this loan product: ",
   "label.input.age.limit.warning": "Warning Age Limit ",
   "label.input.age.limit.block": "Block Age Limit ",
+  "label.input.prequalification.duration": "Prequalification Lifespan(Days)",
   "#Search": "..",
   "label.search.scope.all": "All",
   "label.search.scope.clients.and.clientIdentifiers": "Clients",

@@ -25,6 +25,7 @@
                 scope.centersList = data.centerData
                 scope.productsList = data.loanProducts
                 scope.facilitators = data.facilitators
+                scope.formData.prequalilficationTimespan = Number(data.prequalilficationTimespan)
             });
 
             scope.addMemberData = function () {

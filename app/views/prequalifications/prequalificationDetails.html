@@ -24,6 +24,9 @@
                     <div class="alert alert-info" ng-if="groupData.createdAt">
                         <span>{{'label.heading.createdAt'|translate}}: <span class="pull-right">{{groupData.createdAt | DateFormat}}</span></span>
                     </div>
+                    <div class="alert alert-info" ng-if="groupData.prequalilficationTimespan">
+                        <span>{{'label.input.prequalification.duration'|translate}}: <span class="pull-right">{{groupData.prequalilficationTimespan}}</span></span>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="alert alert-info">
@@ -35,7 +38,7 @@
                     <div class="alert alert-info">
                         <span>{{'label.input.addedBy'|translate}}: <span class="pull-right">{{groupData.addedBy}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info h4">
                         <span>{{'label.input.status'|translate}}: <span class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
                              uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
                             {{groupData.status.value}} </span>

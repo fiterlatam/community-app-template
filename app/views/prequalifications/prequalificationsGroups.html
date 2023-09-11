@@ -52,6 +52,7 @@
 <!--                    <th>{{'label.input.portfolio' | translate}}</th>-->
                     <th>{{'label.input.product' | translate}}</th>
                     <th>{{'label.input.addedBy' | translate}}</th>
+                    <th>{{'label.input.status' | translate}}</th>
                     <th>{{'label.heading.action' | translate}}</th>
                 </tr>
                 </thead>
@@ -66,6 +67,7 @@
 <!--                    <td class="pointer">{{client.portforlioName}}</td>-->
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
+                    <td class="pointer">{{client.status.value}}</td>
                     <td class="pointer">
                         <a href="#/prequalification/{{client.id}}/viewdetails" has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
