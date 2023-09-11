@@ -1220,14 +1220,28 @@
             templateUrl: 'views/prequalifications/individualPrequalificationList.html'
         }).when('/prequalifications/individual/create', {
             templateUrl: 'views/prequalifications/individualPrequalification.html'
-        }).when('/evaluation/hardpolicychecklist/:groupId', {
-            templateUrl: 'views/hardpolicy/checklistevaluationform.html'
-        }).when('/evaluation/hardpolicychecklist/:groupId/:evaluationId', {
-            templateUrl: 'views/hardpolicy/checklistevaluationdetails.html'
         }).when('/loans/restructurecredit/:clientId', {
             templateUrl: 'views/loans/restructurecredits.html'
-        }).when('/viewhardpolicychecklist/:groupId', {
-            templateUrl: '/views/hardpolicychecklist/viewhardpolicychecklist.html'
+        }).when('/banks', {
+            templateUrl: 'views/banks/banks.html'
+        }).when('/banks/createbank', {
+            templateUrl: 'views/banks/createBank.html'
+        }).when('/banks/:bankId/viewdetails', {
+            templateUrl: 'views/banks/bankDetails.html'
+        }).when('/banks/:bankId/editbank', {
+            templateUrl: 'views/banks/editBank.html'
+        }).when('/bankaccounts', {
+            templateUrl: 'views/banks/bankaccounts/bankAccounts.html'
+        }).when('/bankaccounts/createbankaccount', {
+            templateUrl: 'views/banks/bankaccounts/createBankAccount.html'
+        }).when('/bankaccounts/:bankAccountId/viewdetails', {
+            templateUrl: 'views/banks/bankaccounts/bankAccountDetails.html'
+        }).when('/bankaccounts/:bankAccountId/editbankaccount', {
+            templateUrl: 'views/banks/bankaccounts/editBankAccount.html'
+        }).when('/bankaccounts/:bankAccountId/removebankaccount', {
+            templateUrl: 'views/banks/bankaccounts/bankAccountDetails.html'
+        }).when('/prequalification/:prequalificationId/validations', {
+            templateUrl: 'views/hardpolicychecklist/viewHardpolicyValidations.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

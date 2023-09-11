@@ -96,6 +96,12 @@
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.validate' | translate}}
                 </button>
             </div>
+
+            <div>
+                <button data-ng-show="!showValidatePolicies" ng-click="validateHardPolicy()" type="button" class="col-md-offset-5"
+                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.prequalification.submitToReview' | translate}}
+                </button>
+            </div>
             <hr/>
             <table class="table" ng-if="prequalificationDocuments.length > 0">
                 <thead>
