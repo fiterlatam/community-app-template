@@ -46,6 +46,7 @@
                     facilitator: data.facilitatorId,
                     groupName: data.groupName,
                     prequalificationNumber: data.prequalificationNumber,
+                    prequalilficationTimespan: data.prequalilficationTimespan,
                     members: data.groupMembers
 
                 }
