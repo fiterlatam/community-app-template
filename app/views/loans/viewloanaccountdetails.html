@@ -210,6 +210,15 @@
                                 <td>{{loandetails.summary.totalVatOnChargeOutstanding | number}}</td>
                                 <td>{{loandetails.summary.totalVatOnChargeOverdue | number}}</td>
                             </tr>
+                            <tr>
+                                <th>{{'label.heading.vatonpenaltycharge' | translate}}</th>
+                                <td>{{loandetails.summary.totalVatOnPenaltyChargeExpected | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnPenaltyChargePaid | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnPenaltyChargeWaived | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnPenaltyChargeWrittenOff | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnPenaltyChargeOutstanding | number}}</td>
+                                <td>{{loandetails.summary.totalVatOnPenaltyChargeOverdue | number}}</td>
+                            </tr>
                             </tbody>
                             <tfoot>
                             <tr>
@@ -580,6 +589,7 @@
                                 <th scope="col">{{'label.heading.penalties' | translate}}</th>
 
                                 <th scope="col">{{'label.heading.vatoncharge' | translate}}</th>
+                                <th scope="col">{{'label.heading.vatonpenaltycharge' | translate}}</th>
 
                                 <th scope="col">{{'label.heading.due' | translate}}</th>
                                 <th scope="col">{{'label.heading.paid' | translate}}</th>
@@ -606,6 +616,7 @@
                                 <td>{{period.feeChargesDue | number}}</td>
                                 <td>{{period.penaltyChargesDue | number}}</td>
                                 <td>{{period.vatOnCharges | number}}</td>
+                                <td>{{period.vatOnPenaltyCharges | number}}</td>
                                 <td>{{period.totalDueForPeriod | number}}</td>
                                 <td>{{period.totalPaidForPeriod | number}}</td>
                                 <td>{{period.totalPaidInAdvanceForPeriod | number}}</td>
@@ -628,6 +639,7 @@
                                 <th>{{loandetails.repaymentSchedule.totalPenaltyChargesCharged | number}}</th>
 
                                 <th>{{loandetails.repaymentSchedule.totalVatOnChargeExpected | number}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalVatOnPenaltyChargeExpected | number}}</th>
 
                                 <th>{{loandetails.repaymentSchedule.totalRepaymentExpected | number}}</th>
                                 <th>{{loandetails.repaymentSchedule.totalRepayment | number}}</th>
@@ -750,8 +762,9 @@
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
                                         <div ng-show="transaction.vatOnCharges>0">{{transaction.vatOnCharges | number}}</div>
+                                        <div ng-show="transaction.vatOnPenaltyCharges>0">{{transaction.vatOnPenaltyCharges | number}}</div>
                                         <div ng-show="transaction.vatOnInterest>0">{{transaction.vatOnInterest | number}}</div>
-                                        <div ng-show="transaction.vatOnInterest<=0 && transaction.vatOnCharges<=0">0</div>
+                                        <div ng-show="transaction.vatOnInterest<=0 && transaction.vatOnCharges<=0 && transaction.vatOnPenaltyCharges<=0">0</div>
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
                                         {{transaction.outstandingLoanBalance | number}}
