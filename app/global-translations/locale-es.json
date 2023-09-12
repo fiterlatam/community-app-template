@@ -4139,5 +4139,6 @@
 	"label.anchor.editcause" : "Editar causal",
 	"validation.msg.creditstanding.mra.not.greater.than.zero" : "MRA debe ser mayor a 0",
 	"error.msg.codevalue.codename.invalid": "No existe un valor asociado para el código con el nombre `{{params[0].value}}`.",
+	"label.heading.vatonpenaltycharge": "Penalidades IVA",
 	"----End---": "---Fin del archivo---"
 }
