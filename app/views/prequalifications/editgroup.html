@@ -85,11 +85,11 @@
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="facilitator"/>
                     </td>
-                    <td class="width14">
+                    <td class="width14" ng-if="editLifespan">
                         <label>{{ 'label.input.prequalification.duration' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
-                    <td class="width36 paddedbottom10">
+                    <td class="width36 paddedbottom10" ng-if="editLifespan">
                         <input type="number" class="form-control" name="grpnm"
                                data-ng-model="formData.prequalilficationTimespan" id="duration" required>
                         <form-validate valattributeform="groupDetailsForm" valattribute="duration"/>
