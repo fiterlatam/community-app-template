@@ -35,6 +35,12 @@
                     scope.formData.outstandingFeeChargesPortion = scope.foreclosuredata.feeChargesPortion;
                     scope.formData.outstandingPenaltyChargesPortion = scope.foreclosuredata.penaltyChargesPortion;
                     scope.formData.foreClosureChargesPortion = scope.foreclosuredata.foreClosureChargesPortion;
+
+                    // add VAT fields
+                    scope.formData.outstandingVatOnInterestPortion = scope.foreclosuredata.vatOnInterest;
+                    scope.formData.outstandingVatOnChargesPortion = scope.foreclosuredata.vatOnCharges;
+                    scope.formData.outstandingVatOnPenaltyChargesPortion = scope.foreclosuredata.vatOnPenaltyCharges;
+
                     scope.calculateTransactionAmount();
                     scope.paymentTypes = scope.foreclosuredata.paymentTypeOptions;
 
@@ -49,6 +55,8 @@
                 transactionAmount += parseFloat(scope.foreclosuredata.penaltyChargesPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.vatOnInterest);
                 transactionAmount += parseFloat(scope.foreclosuredata.vatOnCharges);
+                transactionAmount += parseFloat(scope.foreclosuredata.vatOnPenaltyCharges);
+
                 scope.formData.transactionAmount = $filter('number')(transactionAmount, 2);
                 scope.formData.transactionAmount =  scope.formData.transactionAmount.replace(/,/g,"");
             };
