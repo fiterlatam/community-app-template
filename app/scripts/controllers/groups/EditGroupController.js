@@ -1,17 +1,19 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        EditGroupController: function (scope, resourceFactory, location, routeParams, dateFilter, WizardHandler) {
+        EditGroupController: function (scope, resourceFactory, location, routeParams, dateFilter, WizardHandler,$q) {
             scope.first = {};
             scope.managecode = routeParams.managecode;
             scope.restrictDate = new Date();
             scope.entityformData = {};
             scope.entityformData.datatables={};
+            scope.prequlificationdata = {};
             scope.submittedDatatables = [];
             var submitStatus = [];
             scope.parentOfficesOptions = [];
             scope.responsibleUserOptions = [];
             scope.portfolioCenterOptions = [];
             scope.tf = "HH:mm";
+            scope.available = [];
 
             scope.RequestEntities = function(entity,status){
                 resourceFactory.entityDatatableChecksResource.getAll({limit:-1},function (response) {
@@ -201,9 +203,30 @@
                     this.formData.meetingEndTime = dateFilter(scope.formData.meetingEndTime, scope.tf);
                 }
 
+                if (scope.prequalification) {
+                    this.formData.prequalificationId = scope.prequalification.id;
+                }
+
                 resourceFactory.groupResource.update({groupId: routeParams.id}, this.formData, function (data) {
                     location.path('/viewgroup/' + routeParams.id);
                 });
+            };
+
+            scope.prequalificationOption = function(value){
+                var deferred = $q.defer();
+
+                resourceFactory.prequalificationResource.getAllGroups({
+                    type: 'checked',
+                    searchText:value
+                }, function (data) {
+                    console.log("prequal data: "+ JSON.stringify(data));
+                    deferred.resolve(data.pageItems);
+                });
+                return deferred.promise;
+            };
+
+            scope.viewPrequal = function (item) {
+                scope.prequalification = item;
             };
 
             scope.submitDatatable = function(){
@@ -263,7 +286,7 @@
             };
         }
     });
-    mifosX.ng.application.controller('EditGroupController', ['$scope', 'ResourceFactory', '$location', '$routeParams', 'dateFilter','WizardHandler', mifosX.controllers.EditGroupController]).run(function ($log) {
+    mifosX.ng.application.controller('EditGroupController', ['$scope', 'ResourceFactory', '$location', '$routeParams', 'dateFilter','WizardHandler','$q', mifosX.controllers.EditGroupController]).run(function ($log) {
         $log.info("EditGroupController initialized");
     });
 }(mifosX.controllers || {}));

@@ -162,11 +162,50 @@
                                     <form-validate valattributeform="editgroupform" valattribute="responsibleUserId"/>
                                 </div>
                             </div>
+                            <fieldset>
+                                <legend>{{'label.input.linkprequalification' | translate}}</legend>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="staffId">{{'label.anchor.prequalification.groups' | translate}}</label>
+                                        <div class="col-sm-9 col-md-9">
+                                            <div class="row">
+                                                <div class="col-sm-4 col-md-4">
+                                                    <input id="prequlificationgroup" type="text" ng-model="prequlificationdata.available" class="col-md-4 form-control"
+                                                           typeahead-min-length="2"
+                                                           typeahead-editable="false"
+                                                           uib-typeahead="group as group.groupName for group in prequalificationOption($viewValue)"
+                                                           typeahead-on-select="viewPrequal(prequlificationdata.available)"/>
+                                                    <div data-ng-show="available" class="paddedtop10">
+                                                        <p>{{'label.heading.groupdetails' | translate}}</p>
+                                                        <table class="table">
+                                                            <tr>
+                                                                <td width="35%">{{'label.heading.name' | translate}}</td>
+                                                                <td width="65%">{{prequalification.groupName}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{ 'label.heading.prequalificationnumber' | translate }}</td>
+                                                                <td valign="top">{{prequalification.prequalificationNumber}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{ 'label.input.center' | translate }}</td>
+                                                                <td>{{prequalification.centerName}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
                             <div class="col-md-offset-3">
                                 <a href="#/viewgroup/{{editGroup.id}}" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
                                 <button type="submit" class="btn btn-primary" has-permission='UPDATE_GROUP'>{{'label.button.save' | translate}}</button>
                             </div>
                         </fieldset>
+
                     </form>
                 </div>
                 <div ng-show="managecode == 2">

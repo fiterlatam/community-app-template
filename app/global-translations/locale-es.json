@@ -322,6 +322,7 @@
 	"label.input.city": "Ciudad",
 	"label.input.email": "Correo electrónico",
 	"label.input.prequalification.duration": "Vida útil de la precalificación (Días)",
+	"label.input.linkprequalification": "Grupo de Precalificación de Enlaces",
 	"label.button.previous": "Anterior",
 	"label.button.next": "Siguiente",
 	"label.button.save": "Enviar",
