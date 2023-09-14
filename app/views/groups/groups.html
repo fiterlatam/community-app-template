@@ -47,6 +47,7 @@
                         <th> {{'label.heading.externalid' | translate}}</th>
                         <th>{{'label.heading.status' | translate}}</th>
                         <th>{{'label.heading.office' | translate}}</th>
+                        <th>{{'label.heading.prequalificationnumber' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,6 +60,7 @@
                             </i>
                         </td>
                         <td data-ng-click="routeTo(group.id)">{{group.officeName}}</td>
+                        <td data-ng-click="routeTo(group.id)">{{group.prequalificationNumber}}</td>
                     </tr>
                 </tbody>
             </table>
