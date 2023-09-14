@@ -25,6 +25,7 @@
                 location.path('/viewclient/' + scope.clientId);
             };
             scope.computeTotalBalance = function () {
+                scope.outstandingBalance =0;
                 for (let i=0; i<scope.activeLoans.length; i++) {
                     if (scope.activeLoans[i].selected){
                         scope.outstandingBalance = scope.outstandingBalance+ Number(scope.activeLoans[i].summary.totalOutstanding)
