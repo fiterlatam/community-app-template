@@ -1,0 +1,83 @@
+<div class="content-container" ng-controller="ViewChequeBatchController">
+    <ul class="breadcrumb">
+        <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
+        <li><a href="#/chequebankaccounts">{{'label.anchor.bankcheques' | translate}}</a></li>
+        <li><a href="#/viewchequeaccount/{{batchData.bankAccId}}">{{accountName}}</a></li>
+        <li class="active">{{'label.heading.bank.cheques' | translate}}</li>
+    </ul>
+    <script type="text/ng-template" id="deleteChequeBatch.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.delete' | translate}}</h3>
+        </div>
+        <div class="modal-body ">
+            <api-validate></api-validate>
+            <br>
+            <label class="control-label col-sm-4">Are you sure to delete this batch? </label>
+
+            <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+            <button class="btn btn-primary" ng-click="delete()">{{'label.button.confirm' | translate}}</button>
+        </div>
+    </script>
+    <api-validate></api-validate>
+    <div class="card">
+        <div class="content">
+            <div class="toolbar">
+                <h4 class="pull-left">{{'label.heading.bank.cheques' | translate}} ({{'label.heading.batchNo' | translate}} {{batchData.batchNo}})</h4>
+            </div>
+            <br>
+            <div>
+                <table class="table-bordered table view-table" style="width: 500px">
+                    <tr>
+                        <td>{{'label.heading.bank.account.name' | translate}}</td>
+                        <td>{{batchData.accountName}}</td>
+                    </tr>
+                    <tr class="graybg">
+                        <td>{{'label.heading.bank.name' | translate}}</td>
+                        <td>{{batchData.bankName}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'label.heading.batchNo' | translate}}</td>
+                        <td>{{batchData.batchNo}}</td>
+                    </tr>
+                </table>
+
+                <div class="row">
+                    <div class="col-md-offset-6 col-md-6">
+                        <div class="pull-right">
+                            <a href="#/editchequebatch/{{batchData.id}}" class="btn btn-primary" has-permission='UPDATE_BANKCHEQUE'><i class="fa fa-edit "></i>&nbsp;&nbsp;{{
+                                'label.button.edit' | translate }}</a>
+                            <button type="button" ng-click="deleteChequeBatch()" class="btn btn-danger" has-permission='DELETE_BANKCHEQUE'><i
+                                    class="fa fa-trash-o"></i>&nbsp;&nbsp;{{ 'label.button.delete' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br/>
+            <table class="table">
+                <thead>
+                <tr class="graybg">
+                    <th>{{'label.heading.chequeNo' | translate}}</th>
+                    <th>{{'label.heading.batchNo' | translate}}</th>
+                    <th>{{'label.heading.status' | translate}}</th>
+                    <th>{{'label.heading.description' | translate}}</th>
+                    <th>{{'label.heading.createdon' | translate}}</th>
+                    <th>{{'label.heading.voidedon' | translate}}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="cheque in batchData.cheques" class="pointer-main">
+                    <td>{{cheque.chequeNo}}</td>
+                    <td>{{cheque.batchNo}}</td>
+                    <td>{{cheque.status}}</td>
+                    <td>{{cheque.description}}</td>
+                    <td>{{cheque.createdDate | DateFormat}}</td>
+                    <td>{{cheque.voidedDate | DateFormat}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
