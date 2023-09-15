@@ -406,6 +406,11 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'bank/bankaccount/EditBankAccountController',
             'bank/bankaccount/ViewBankAccountController',
             'hardpolicychecklist/ViewHardpolicyValidationController',
+            'bank/bankcheques/ChequeAccountsController',
+            'bank/bankcheques/ViewChequeAccountController',
+            'bank/bankcheques/CreateChequeBatchController',
+            'bank/bankcheques/EditChequeBatchController',
+            'bank/bankcheques/ViewChequeBatchController',
         ],
         filters: [
             'StatusLookup',

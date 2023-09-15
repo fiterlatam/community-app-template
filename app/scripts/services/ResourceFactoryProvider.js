@@ -1002,6 +1002,15 @@
                     bankAccountTemplateResource: defineResource(apiVer + "/bankaccounts/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
+                        get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
+                    }),
+                   chequeBatchResource: defineResource(apiVer + "/bankcheques/:batchId", {batchId: "@batchId"}, {
+                        get: {method: 'GET', params: {}},
+                        save: { method: 'POST'},
+                        delete: {method: 'DELETE'},
+                        update: {method: 'PUT'}
+                    }),
                 };
             }];
         }

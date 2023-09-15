@@ -1242,6 +1242,16 @@
             templateUrl: 'views/banks/bankaccounts/bankAccountDetails.html'
         }).when('/prequalification/:prequalificationId/validations', {
             templateUrl: 'views/hardpolicychecklist/viewHardpolicyValidations.html'
+        }).when('/chequebankaccounts', {
+           templateUrl: 'views/banks/bankcheques/chequebankaccounts.html'
+        }).when('/viewchequeaccount/:accountId', {
+            templateUrl: 'views/banks/bankcheques/viewchequeaccount.html'
+        }).when('/createchequebatch/:accountId', {
+           templateUrl: 'views/banks/bankcheques/createchequebatch.html'
+        }).when('/viewchequebatch/:batchId', {
+            templateUrl: 'views/banks/bankcheques/viewchequebatch.html'
+         }).when('/editchequebatch/:batchId', {
+           templateUrl: 'views/banks/bankcheques/editchequebatch.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
