@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td>{{ 'label.heading.amount' | translate}}</td>
-                        <td>{{transaction.amount | number}}</td>
+                        <td>{{transaction.currency.displaySymbol}} {{transaction.amount | number}}</td>
                     </tr>
                     <tr class="span2"></tr>
                 </table>

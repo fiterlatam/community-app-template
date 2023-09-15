@@ -4505,5 +4505,10 @@
   "validation.msg.creditstanding.mra.not.greater.than.zero" : "MRA must be greater than 0",
   "error.msg.codevalue.codename.invalid": "There is no associated value for the code with the name `{{params[0].value}}`.",
   "label.heading.vatonpenaltycharge": "Penalty charges VAT",
+  "label.view.principalpaymentdetail": "Principal payment detail",
+  "label.view.interestspayment": "Interests payment",
+  "label.view.vatInterestPayment": "VAT interests payment",
+  "label.view.vatChargesPayment": "VAT charges payment",
+  "label.view.vatPenaltyPayment": "VAT penalty payment",
   "----End---": "--End of file--- "
 }
