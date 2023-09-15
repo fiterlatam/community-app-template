@@ -4140,5 +4140,10 @@
 	"validation.msg.creditstanding.mra.not.greater.than.zero" : "MRA debe ser mayor a 0",
 	"error.msg.codevalue.codename.invalid": "No existe un valor asociado para el código con el nombre `{{params[0].value}}`.",
 	"label.heading.vatonpenaltycharge": "Penalidades IVA",
+	"label.view.principalpaymentdetail": "Detalle de pago de capital",
+	"label.view.interestspayment": "Pago de intereses",
+	"label.view.vatInterestPayment": "Pago de intereses IVA",
+	"label.view.vatChargesPayment": "Pago de cargos IVA",
+	"label.view.vatPenaltyPayment": "Pago de penalidades IVA",
 	"----End---": "---Fin del archivo---"
 }
