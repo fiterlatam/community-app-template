@@ -109,6 +109,53 @@
 					</div>
 				</div>
 	        </div>
+
+			<div data-ng-switch on="showNonPersonOptions">
+				<div data-ng-switch-when="false">
+					<div class="form-group">
+						<label class="control-label col-sm-2"
+							   for="firstlastname">{{'label.input.firstlastname' | translate}}
+							<span class="required">*</span>
+						</label>
+						<div class="col-sm-3">
+							<input type="text" id="firstlastname" name="firstlastname" ng-model="formData.firstlastname"
+								   class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
+								   late-Validate/>
+						</div>
+						<div class="col-sm-2">
+                              <span ng-show="createclientform.firstlastname.$invalid && createclientform.firstlastname.$dirty">
+                                 <small class="error required" ng-show="createclientform.firstlastname.$error.pattern">
+                                    {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}
+                                 </small>
+                              </span>
+							<form-validate valattributeform="createclientform" valattribute="firstlastname"/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div data-ng-switch on="showNonPersonOptions">
+				<div data-ng-switch-when="false">
+					<div class="form-group">
+						<label class="control-label col-sm-2"
+							   for="secondlastname">{{'label.input.secondlastname' | translate}}
+						</label>
+						<div class="col-sm-3">
+							<input type="text" id="secondlastname" name="secondlastname" ng-model="formData.secondlastname"
+								   class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
+								   late-Validate/>
+						</div>
+						<div class="col-sm-2">
+                              <span ng-show="createclientform.secondlastname.$invalid && createclientform.secondlastname.$dirty">
+                                 <small class="error required" ng-show="createclientform.secondlastname.$error.pattern">
+                                    {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}
+                                 </small>
+                              </span>
+							<form-validate valattributeform="createclientform" valattribute="secondlastname"/>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div data-ng-switch on="showNonPersonOptions">
 				<div data-ng-switch-when="true">
 					<div class="form-group">
@@ -562,6 +609,38 @@
 						</div>
 						<div class="col-sm-2">
 							<form-validate valattributeform="createclientform" valattribute="homeNumber"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="control-label col-sm-2">
+							<label>{{ 'label.input.client.department.dpi' | translate }}<span
+									class="required">*</span></label>
+						</div>
+						<div class="col-sm-3">
+							<select id="departmentDpi"
+									ng-model="formData.departmentDpi" class="form-control" required="required"
+									ng-options="department.id as department.name for department in departamentoOptions "
+									value="{{department.id}}"></select>
+						</div>
+						<div class="col-sm-2">
+							<form-validate valattributeform="createclientform" valattribute="departmentDpi"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="control-label col-sm-2">
+							<label>{{ 'label.input.client.municipal.dpi' | translate }}<span
+									class="required">*</span></label>
+						</div>
+						<div class="col-sm-3">
+							<select id="municipalDpi"
+									ng-model="formData.municipalDpi" class="form-control" required="required"
+									ng-options="municipal.id as municipal.name for municipal in municipioOptions "
+									value="{{municipal.id}}"></select>
+						</div>
+						<div class="col-sm-2">
+							<form-validate valattributeform="createclientform" valattribute="municipalDpi"/>
 						</div>
 					</div>
 
