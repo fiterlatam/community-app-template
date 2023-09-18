@@ -85,7 +85,8 @@
                     <td class="pointer">{{client.addedBy}}</td>
                     <td class="pointer">{{client.status.value}}</td>
                     <td class="pointer">
-                        <a href="#/prequalification/{{client.id}}/viewdetails{{prequalificationType==='AGENCY_LEAD_PENDING_APPROVAL'?'?showValidatePolicies=true':''}}" has-permission='VIEW_PREQUALIFICATIONS'>
+                        <a href="#/prequalification/{{client.id}}/viewdetails{{prequalificationType==='AGENCY_LEAD_PENDING_APPROVAL'?'?showValidatePolicies=true':''}}"
+                           has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
                         <a href="#/prequalification/{{client.id}}/edit" has-permission='EDIT_PREQUALIFICATIONS'>
                             <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
