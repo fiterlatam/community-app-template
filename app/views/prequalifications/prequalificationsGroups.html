@@ -27,7 +27,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
                                 <div class="control-label col-sm-6">
                                     <label>{{ 'label.input.status' | translate }}<span
                                             class="required">*</span></label>
@@ -53,7 +53,7 @@
 
                 <div class="col-sm-3">
                     <!-- Only show New Pre-qualification button if type is not existing-->
-                    <a ng-if="prequalificationType !== 'existing'" href="#/prequalifications/newprequalification/{{prequalificationType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
+                    <a ng-if="prequalificationType !== 'existing' && prequalificationType !=='AGENCY_LEAD_PENDING_APPROVAL'" href="#/prequalifications/newprequalification/{{prequalificationType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
                             class="fa fa-plus"></i> {{'label.heading.newgroup.prequalification' | translate}}</a> &nbsp;&nbsp;
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <td class="pointer">{{client.addedBy}}</td>
                     <td class="pointer">{{client.status.value}}</td>
                     <td class="pointer">
-                        <a href="#/prequalification/{{client.id}}/viewdetails" has-permission='VIEW_PREQUALIFICATIONS'>
+                        <a href="#/prequalification/{{client.id}}/viewdetails{{prequalificationType==='AGENCY_LEAD_PENDING_APPROVAL'?'?showValidatePolicies=true':''}}" has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
                         <a href="#/prequalification/{{client.id}}/edit" has-permission='EDIT_PREQUALIFICATIONS'>
                             <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
