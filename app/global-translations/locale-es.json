@@ -644,6 +644,7 @@
 	"label.input.noOfCycles": "Ciclos",
 	"label.input.additionalCreditsCount": "Recuento de créditos adicionales",
 	"label.input.additionalCreditsSum": "Suma de créditos adicionales",
+	"label.input.loanCycle":"Ciclo de prestamo",
 	"label.addtoblacklist": "Agregar Persona",
 	"label.search.scope.all": "Todo",
 	"label.search.scope.clients.and.clientIdentifiers": "Clientes",
