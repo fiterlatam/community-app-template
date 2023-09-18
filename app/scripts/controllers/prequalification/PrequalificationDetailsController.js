@@ -52,6 +52,14 @@
                     return 'text-success';
                 }
             }
+
+            scope.resolveBureaStatus = function (statusId) {
+                if (statusId==='BUREAU_AVAILABLE'){
+                    return 'A';
+                }else {
+                    return 'NA';
+                }
+            }
             scope.policyCheckColor = function (redValidationCount) {
                 if (redValidationCount > 0){
                     return 'text-danger';
@@ -62,6 +70,12 @@
                 resourceFactory.prequalificationChecklistResource.validate({prequalificationId: routeParams.groupId}, {}, function (data) {
                     route.reload();
                 });
+            }
+
+            scope.validateBeaural = function(){
+                resourceFactory.prequalificationChecklistResource.bureauValidation({prequalificationId: routeParams.groupId}, {}, function (data) {
+                    route.reload();
+               });
             }
 
             scope.onFileSelect = function (files) {
