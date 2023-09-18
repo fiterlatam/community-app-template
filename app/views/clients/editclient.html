@@ -93,22 +93,22 @@
 				</div>
 	        </div>
 
-			<div data-ng-switch on="showNonPersonOptions">
-				<div data-ng-switch-when="false">
-					<div class="form-group">
-						<label class="control-label col-sm-2">{{ 'label.input.lastname' | translate }}:<span
-								class="required">*</span></label>
+<!--			<div data-ng-switch on="showNonPersonOptions">-->
+<!--				<div data-ng-switch-when="false">-->
+<!--					<div class="form-group">-->
+<!--						<label class="control-label col-sm-2">{{ 'label.input.lastname' | translate }}:<span-->
+<!--								class="required">*</span></label>-->
 
-						<div class="col-sm-3">
-							<input type="text" id="lastname" name="lastname" ng-model="formData.lastname"  class="form-control" required
-								   late-Validate/>
-						</div>
-						<div class="col-sm-3">
-							<form-validate valattributeform="editclientform" valattribute="lastname"/>
-						</div>
-					</div>
-				</div>
-	        </div>
+<!--						<div class="col-sm-3">-->
+<!--							<input type="text" id="lastname" name="lastname" ng-model="formData.lastname"  class="form-control" required-->
+<!--								   late-Validate/>-->
+<!--						</div>-->
+<!--						<div class="col-sm-3">-->
+<!--							<form-validate valattributeform="editclientform" valattribute="lastname"/>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--	        </div>-->
 
 			<div data-ng-switch on="showNonPersonOptions">
 				<div data-ng-switch-when="false">
@@ -118,7 +118,7 @@
 							<span class="required">*</span>
 						</label>
 						<div class="col-sm-3">
-							<input type="text" id="firstlastname" name="firstlastname" ng-model="formData.firstlastname"
+							<input type="text" id="firstlastname" name="firstlastname" ng-model="formData.lastname"
 								   class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
 								   late-Validate/>
 						</div>

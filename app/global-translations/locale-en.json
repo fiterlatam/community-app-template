@@ -818,6 +818,7 @@
   "label.input.meetingStartTime":"Meeting Start Time",
   "label.input.meetingEndTime":"Meeting End Time",
   "label.input.transfergroup":"Transfer Group",
+  "label.input.loanCycle":"Loan Cycle",
   "#Buttons": "..",
   "label.button.createclient": "Create Client",
   "label.button.showall": "Show Closed",
