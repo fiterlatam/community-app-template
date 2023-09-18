@@ -88,6 +88,7 @@
                     prequalificationChecklistResource: defineResource(apiVer + "/prequalification/checklist/:prequalificationId", {prequalificationId:'@prequalificationId'}, {
                         get: {method: 'GET', params: {}, isArray:true},
                         validate: {method: 'POST', params: {command: 'validateprequalification'}},
+                        bureauValidation: {method: 'POST', params: {command: 'bureauValidation'}},
                     }),
                      prequalificationValidationResource: defineResource(apiVer + "/prequalification/checklist", {prequalificationId:'@prequalificationId'}, {
                         get: {method: 'GET', params: {prequalificationId:'@prequalificationId'}}

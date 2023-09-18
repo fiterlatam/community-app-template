@@ -3,6 +3,7 @@
         PrequalificationsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupsList = [];
+            scope.statusFilter;
             scope.groupsPerPage=20;
             scope.prequalificationType=routeParams.type;
 
@@ -11,12 +12,17 @@
                     offset: ((pageNumber - 1) * scope.groupsPerPage),
                     limit: scope.groupsPerPage,
                     type: routeParams.type,
+                    status: scope.statusFilter,
                     searchText:scope.searchText
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;
                     scope.groupsList = data.pageItems;
                 });
             }
+
+            resourceFactory.prequalificationTemplateResource.get(function (data) {
+                scope.groupStatusOptions = data.groupStatusOptions
+            });
 
             scope.getResultsPage(1);
 
