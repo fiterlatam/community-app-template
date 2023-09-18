@@ -24,6 +24,9 @@
                     <div class="alert alert-info" ng-if="groupData.createdAt">
                         <span>{{'label.heading.createdAt'|translate}}: <span class="pull-right">{{groupData.createdAt | DateFormat}}</span></span>
                     </div>
+                    <!--                    <div class="alert alert-info" ng-if="groupData.prequalilficationTimespan">-->
+                    <!--                        <span>{{'label.input.prequalification.duration'|translate}}: <span class="pull-right">{{groupData.prequalilficationTimespan}}</span></span>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="col-sm-6">
                     <div class="alert alert-info">
@@ -35,7 +38,7 @@
                     <div class="alert alert-info">
                         <span>{{'label.input.addedBy'|translate}}: <span class="pull-right">{{groupData.addedBy}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info h4">
                         <span>{{'label.input.status'|translate}}: <span class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
                                                                         uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
                             {{groupData.status.value}} </span>
@@ -61,6 +64,7 @@
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
                     <th>{{'label.input.status' |translate}}</th>
+                    <th>{{'label.input.bureau.status' | translate}}</th>
                     <th data-ng-show="showValidatePolicies" >{{'label.heading.hard.policy.status' |translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' |translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' |translate}}</th>
@@ -77,6 +81,7 @@
                     <td>{{member.workWithPuente}}</td>
                     <td>{{member.requestedAmount | number}}</td>
                     <td><i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i></td>
+                    <td class="pointer" style="font-size: 25px"> <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i> {{member.bureauCheckStatus? resolveBureaStatus(member.bureauCheckStatus.value):'---'}}</td>
                     <td data-ng-show="showValidatePolicies"><i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}">{{member.redValidationCount}}</i></td>
                     <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
                     <td ng-if="groupData.groupId">{{member.totalLoanBalance | number}}</td>
@@ -92,6 +97,20 @@
                 <button data-ng-show="showValidatePolicies" id="validate" class="btn btn-success" ng-click="validateHardPolicy()" type="button" value="validate"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.validate' | translate}}
                 </button>
+            </div>
+
+            <div>
+                <button data-ng-show="!showValidatePolicies" ng-click="validateHardPolicy()" type="button" class="btn col-md-offset-5"
+                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.prequalification.submitToReview' | translate}}
+                </button>
+
+                <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button" class="btn btn-primary"
+                        has-permission='VALIDATE_BUREAU'>{{'label.button.prequalification.buralValidation' | translate}}
+                </button>
+            </div>
+
+            <div>
+
             </div>
             <hr/>
             <table class="table" ng-if="prequalificationDocuments.length > 0">

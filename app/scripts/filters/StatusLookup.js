@@ -41,7 +41,9 @@
                     "charges.StatusType.active.true": "statusactive",
                     "employees.StatusType.active.true": "statusactive",
                     "prequalification.status.blacklist.checked": "statusApproved",
-                    "prequalification.status.blacklist.rejected": "statusrejected"
+                    "prequalification.status.blacklist.rejected": "statusrejected",
+                    "prequalification.status.expired": "statusexpired",
+                    "BUREAU_AVAILABLE": "text-success"
                 }
 
                 return cssClassNameLookup[input];
