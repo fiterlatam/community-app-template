@@ -91,7 +91,7 @@
                         bureauValidation: {method: 'POST', params: {command: 'bureauValidation'}},
                     }),
                      prequalificationValidationResource: defineResource(apiVer + "/prequalification/checklist", {prequalificationId:'@prequalificationId'}, {
-                        get: {method: 'GET', params: {prequalificationId:'@prequalificationId'}}
+                        get: {method: 'GET', params: {prequalificationId:'@prequalificationId',clientId:'@clientId'}}
                     }),
                     prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},

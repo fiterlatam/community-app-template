@@ -4,6 +4,7 @@
 
             scope.groupData = {};
             scope.formData = {};
+            scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
@@ -12,7 +13,10 @@
                 scope.groupMembers = data.groupMembers;
             });
 
-            resourceFactory.entityDocumentsResource.getAllDocuments({entity: 'prequalifications',entityId: routeParams.groupId}, function (data) {
+            resourceFactory.entityDocumentsResource.getAllDocuments({
+                entity: 'prequalifications',
+                entityId: routeParams.groupId
+            }, function (data) {
                 for (var l in data) {
 
                     var bldocs = {};
@@ -30,8 +34,13 @@
 
             scope.submit = function () {
                 Upload.upload({
-                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId+ '/comment',
-                    data: {name:scope.groupData.groupName, description : scope.formData.description, comment : scope.formData.comments, file: scope.formData.file},
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: {
+                        name: scope.groupData.groupName,
+                        description: scope.formData.description,
+                        comment: scope.formData.comments,
+                        file: scope.formData.file
+                    },
                 }).then(function (data) {
                     // to fix IE not refreshing the model
                     if (!scope.$$phase) {
@@ -42,52 +51,104 @@
             };
 
             scope.resolveMemberStatus = function (statusId) {
-                if (statusId==='ACTIVE'){
+                if (statusId === 'ACTIVE') {
                     return 'text-danger';
                 }
-                if (statusId==='INACTIVE'){
+                if (statusId === 'INACTIVE') {
                     return 'text-warning';
                 }
-                if (statusId==='NONE'){
+                if (statusId === 'NONE') {
                     return 'text-success';
                 }
             }
 
             scope.resolveBureaStatus = function (statusId) {
-                if (statusId==='BUREAU_AVAILABLE'){
+                if (statusId === 'BUREAU_AVAILABLE') {
                     return 'A';
-                }else {
+                } else {
                     return 'NA';
                 }
             }
             scope.policyCheckColor = function (redValidationCount) {
-                    if (redValidationCount > 0){
-                         return 'text-danger';
-                    }
-                    return 'text-success'
+                if (redValidationCount > 0) {
+                    return 'text-danger';
+                }
+                return 'text-success'
             }
-            scope.validateHardPolicy = function(){
+            scope.validateHardPolicy = function () {
                 resourceFactory.prequalificationChecklistResource.validate({prequalificationId: routeParams.groupId}, {}, function (data) {
                     route.reload();
-               });
+                });
             }
 
-            scope.validateBeaural = function(){
+            scope.validateBeaural = function () {
                 resourceFactory.prequalificationChecklistResource.bureauValidation({prequalificationId: routeParams.groupId}, {}, function (data) {
                     route.reload();
-               });
+                });
             }
 
             scope.onFileSelect = function (files) {
                 scope.formData.file = files[0];
             };
 
-            scope.showSupportDocumentUploadPage = function(){
-                var allowedStatuses =  [400, 200];
-                if(scope.groupData.status){
+            scope.showSupportDocumentUploadPage = function () {
+                var allowedStatuses = [400, 200];
+                if (scope.groupData.status) {
                     return allowedStatuses.includes(scope.groupData.status.id)
                 }
                 return false;
+            }
+
+
+            scope.viewHardPolicyValidation = function (memberId) {
+                resourceFactory.prequalificationValidationResource.get({
+                    prequalificationId: routeParams.groupId,
+                    clientId: memberId
+                }, function (data) {
+                    scope.memberHardPolicyResults = data
+
+                    $uibModal.open({
+                        templateUrl: 'viewMemberHardPolicy.html',
+                        controller: ViewMemberHardPolicyCtrl
+                    });
+                });
+            }
+
+            var ViewMemberHardPolicyCtrl = function ($scope, $uibModalInstance) {
+                $scope.memberResults = scope.memberHardPolicyResults;
+
+                $scope.checkValidationColor = function (colorName) {
+                    if(colorName){
+                        if('RED' === colorName.toUpperCase()){
+                            return 'text-danger';
+                        }
+
+                        if('YELLOW' === colorName.toUpperCase()){
+                            return 'text-warning';
+                        }
+
+                        if('GREEN' === colorName.toUpperCase()){
+                            return 'text-success';
+                        }
+
+                        if('GREEN' === colorName.toUpperCase()){
+                            return 'text-success';
+                        }
+
+                        if('ORANGE' === colorName.toUpperCase()){
+                            return 'text-warning';
+                        }
+                    }
+                    return '';
+                }
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            scope.routeTo = function (path) {
+                location.path(path);
             }
         }
     });

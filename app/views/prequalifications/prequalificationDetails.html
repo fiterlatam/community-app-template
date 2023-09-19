@@ -13,76 +13,94 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="alert alert-info">
-                        <span>{{'label.input.prequalification.number'|translate}}: <span class="pull-right">{{groupData.prequalificationNumber}}</span></span>
+                        <span>{{'label.input.prequalification.number' | translate}}: <span
+                                class="pull-right">{{groupData.prequalificationNumber}}</span></span>
                     </div>
                     <div class="alert alert-info">
-                        <span>{{'label.input.groupname'|translate}}: <span class="pull-right">{{groupData.groupName}}</span></span>
+                        <span>{{'label.input.groupname' | translate}}: <span
+                                class="pull-right">{{groupData.groupName}}</span></span>
                     </div>
                     <div class="alert alert-info">
-                        <span>{{'label.input.productname'|translate}}: <span class="pull-right">{{groupData.productName}}</span></span>
+                        <span>{{'label.input.productname' | translate}}: <span
+                                class="pull-right">{{groupData.productName}}</span></span>
                     </div>
                     <div class="alert alert-info" ng-if="groupData.createdAt">
-                        <span>{{'label.heading.createdAt'|translate}}: <span class="pull-right">{{groupData.createdAt | DateFormat}}</span></span>
+                        <span>{{'label.heading.createdAt' | translate}}: <span
+                                class="pull-right">{{groupData.createdAt | DateFormat}}</span></span>
                     </div>
-<!--                    <div class="alert alert-info" ng-if="groupData.prequalilficationTimespan">-->
-<!--                        <span>{{'label.input.prequalification.duration'|translate}}: <span class="pull-right">{{groupData.prequalilficationTimespan}}</span></span>-->
-<!--                    </div>-->
+                    <!--                    <div class="alert alert-info" ng-if="groupData.prequalilficationTimespan">-->
+                    <!--                        <span>{{'label.input.prequalification.duration'|translate}}: <span class="pull-right">{{groupData.prequalilficationTimespan}}</span></span>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="col-sm-6">
                     <div class="alert alert-info">
-                        <span>{{'label.input.agency'|translate}}: <span class="pull-right">{{groupData.agencyName}}</span></span>
+                        <span>{{'label.input.agency' | translate}}: <span
+                                class="pull-right">{{groupData.agencyName}}</span></span>
                     </div>
                     <div class="alert alert-info">
-                        <span>{{'label.input.center'|translate}}: <span class="pull-right">{{groupData.centerName}}</span></span>
+                        <span>{{'label.input.center' | translate}}: <span
+                                class="pull-right">{{groupData.centerName}}</span></span>
                     </div>
                     <div class="alert alert-info">
-                        <span>{{'label.input.addedBy'|translate}}: <span class="pull-right">{{groupData.addedBy}}</span></span>
+                        <span>{{'label.input.addedBy' | translate}}: <span
+                                class="pull-right">{{groupData.addedBy}}</span></span>
                     </div>
                     <div class="alert alert-info h4">
-                        <span>{{'label.input.status'|translate}}: <span class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
-                             uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
+                        <span>{{'label.input.status' | translate}}: <span
+                                class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
+                                uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
                             {{groupData.status.value}} </span>
                         </span>
                     </div>
                     <div class="alert alert-default" ng-if="groupData.comments">
-                        <span>{{'label.input.comments'|translate}}: <span class="pull-right">{{groupData.comments}}</span></span>
+                        <span>{{'label.input.comments' | translate}}: <span
+                                class="pull-right">{{groupData.comments}}</span></span>
                     </div>
                 </div>
 
             </div>
             <hr/>
             <div class="toolbar" data-ng-show="showValidatePolicies">
-                <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
+                <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
+                    ng-click="routeTo('/prequalification/'+groupId+'/validations')"
+                    class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
             </div>
             <h5 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h5>
             <table class="width100" style="table-layout: fixed"
                    ng-if="groupMembers && groupMembers.length>0">
                 <tr>
-                    <th>{{'label.input.name'|translate}}</th>
-                    <th>{{'label.input.dpi'|translate}}</th>
-                    <th>{{'label.input.dateofbirth'|translate}}</th>
+                    <th>{{'label.input.name' | translate}}</th>
+                    <th>{{'label.input.dpi' | translate}}</th>
+                    <th>{{'label.input.dateofbirth' | translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
-                    <th>{{'label.input.amount.requested'|translate}}</th>
-                    <th>{{'label.input.status' |translate}}</th>
+                    <th>{{'label.input.amount.requested' | translate}}</th>
+                    <th>{{'label.input.status' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
-                    <th data-ng-show="showValidatePolicies" >{{'label.heading.hard.policy.status' |translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' |translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' |translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' |translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.noOfCycles' |translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsCount' |translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsSum' |translate}}</th>
+                    <th data-ng-show="showValidatePolicies">{{'label.heading.hard.policy.status' | translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' | translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' | translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' | translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.noOfCycles' | translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsCount' | translate}}</th>
+                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsSum' | translate}}</th>
                 </tr>
 
                 <tr ng-repeat="member in groupMembers">
                     <td>{{member.name}}</td>
                     <td>{{member.dpi}}</td>
-                    <td>{{member.dob|DateFormat}}</td>
+                    <td>{{member.dob | DateFormat}}</td>
                     <td>{{member.workWithPuente}}</td>
                     <td>{{member.requestedAmount | number}}</td>
-                    <td><i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i></td>
-                    <td class="pointer" style="font-size: 25px"> <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i> {{member.bureauCheckStatus? resolveBureaStatus(member.bureauCheckStatus.value):'---'}}</td>
-                    <td data-ng-show="showValidatePolicies"><i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}">{{member.redValidationCount}}</i></td>
+                    <td>
+                        <i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i>
+                    </td>
+                    <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
+                                                                   class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
+                        {{member.bureauCheckStatus ? resolveBureaStatus(member.bureauCheckStatus.value) : '---'}}
+                    </td>
+                    <td data-ng-show="showValidatePolicies">
+                        <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
+                           ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
                     <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
                     <td ng-if="groupData.groupId">{{member.totalLoanBalance | number}}</td>
                     <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance | number}}</td>
@@ -94,17 +112,22 @@
             </table>
             <hr/>
             <div>
-                <button data-ng-show="showValidatePolicies" id="validate" class="btn btn-success" ng-click="validateHardPolicy()" type="button" value="validate"
-                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.validate' | translate}}
+                <button data-ng-show="showValidatePolicies" id="validate" class="btn btn-success"
+                        ng-click="validateHardPolicy()" type="button" value="validate"
+                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
+                    {{'label.button.validate' | translate}}
                 </button>
             </div>
 
             <div>
-                <button data-ng-show="!showValidatePolicies" ng-click="validateHardPolicy()" type="button" class="btn col-md-offset-5"
-                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>{{'label.button.prequalification.submitToReview' | translate}}
+                <button data-ng-show="!showValidatePolicies" ng-click="validateHardPolicy()" type="button"
+                        class="btn col-md-offset-5"
+                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
+                    {{'label.button.prequalification.submitToReview' | translate}}
                 </button>
 
-                <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button" class="btn btn-primary"
+                <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button"
+                        class="btn btn-primary"
                         has-permission='VALIDATE_BUREAU'>{{'label.button.prequalification.buralValidation' | translate}}
                 </button>
             </div>
@@ -128,7 +151,8 @@
                     <td>{{document.description}}</td>
                     <td>{{document.fileName}}</td>
                     <td>
-                        <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i class="fa fa-cloud-download"></i></a>&nbsp;
+                        <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
+                                class="fa fa-cloud-download"></i></a>&nbsp;
                         <!--                        <a ng-show="document.fileIsImage" ng-click="previewDocument(document.docUrl,document.fileName)"><i class="fa fa-eye"></i></a>-->
                         <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
                     </td>
@@ -137,7 +161,8 @@
             </table>
 
 
-            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()" ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
+            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()"
+                  ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
                 <api-validate></api-validate>
                 <fieldset>
                     <div class="form-group">
@@ -159,7 +184,8 @@
 
                         <div class="col-sm-3">
                             <input id="concentDocs" type="file" ngf-select="onFileSelect($files)"
-                                   name="concentDocs" accept="zip,application/zip,application/x-zip,application/x-zip-compressed"
+                                   name="concentDocs"
+                                   accept="zip,application/zip,application/x-zip,application/x-zip-compressed"
                                    ng-model="formData.fileUpload"
                                    required="required" class="form-control" late-Validate/>
                         </div>
@@ -194,4 +220,46 @@
 
         </div>
     </div>
+
+    <script type="text/ng-template" id="viewMemberHardPolicy.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.member.hardpolicy' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div ng-repeat=" results in memberResults.rows">
+                    <div ng-repeat="member in results track by $index" ng-if="member.toUpperCase()==='RED'" >
+                        <div class="alert alert-info">
+                                                        <span class="h4">{{memberResults.columnHeaders[$index] |translate}}
+                                <span class="pull-right {{checkValidationColor(member)}}">{{member}}</span></span>
+                        </div>
+
+                    </div>
+
+                </div>
+<!--                <table class="table table-striped">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th ng-repeat="header in memberResults.columnHeaders">-->
+<!--                            <span>{{header | translate}}</span>-->
+<!--                        </th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr id="{{$index}}" data-ng-click="highlight($index)"-->
+<!--                        ng-repeat="row in memberResults.rows track by $index">-->
+<!--                        <td ng-repeat="col in row track by $index">-->
+<!--                            <span class="{{checkValidationColor(col)}}">{{col}}</span>-->
+<!--                        </td>-->
+<!--                    <tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+            </div>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-warning" ng-click="cancel()">{{'label.button.close' | translate}}</button>
+            </div>
+
+        </div>
+    </script>
 </div>
