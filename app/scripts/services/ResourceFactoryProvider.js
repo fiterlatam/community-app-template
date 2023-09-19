@@ -1012,6 +1012,9 @@
                         delete: {method: 'DELETE'},
                         update: {method: 'PUT'}
                     }),
+                   searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
                 };
             }];
         }
