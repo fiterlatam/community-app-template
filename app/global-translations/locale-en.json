@@ -4713,6 +4713,7 @@
   "label.heading.futurepayment.agreement": "Agreement",
   "label.heading.prequalification.validation.result": "Group Hard Policies Validation Result",
   "label.heading.hard.policy.status": "Hard Policy",
+  "label.heading.member.hardpolicy": "Member Hard Policy Results",
   "label.input.streetNumber": "Street No.",
   "#Views": "..",
   "label.view.banks": "Create or Edit or Remove or List Banks",
