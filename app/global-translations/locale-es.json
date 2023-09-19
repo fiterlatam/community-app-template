@@ -4409,5 +4409,6 @@
 	"label.heading.bank.cheques": "Lista de cheques",
 	"label.heading.chequeNo": "Número de cheque",
 	"label.heading.voidedon": "Anulado el",
+	"label.input.searchbychequeno": "Cheque No.",
 	"----End---": "---Fin del archivo---"
 }
