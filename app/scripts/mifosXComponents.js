@@ -411,6 +411,9 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'bank/bankcheques/CreateChequeBatchController',
             'bank/bankcheques/EditChequeBatchController',
             'bank/bankcheques/ViewChequeBatchController',
+            'bank/bankcheques/ViewChequeController',
+            'bank/bankcheques/ReassignChequeController',
+            'bank/bankcheques/VoidChequeController',
         ],
         filters: [
             'StatusLookup',

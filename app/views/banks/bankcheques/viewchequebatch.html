@@ -53,7 +53,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <label class="control-label col-sm-2">{{'label.heading.chequeNo' | translate}}</label>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <input type="text" id="chequeNo" name="chequeNo" ng-model="formData.chequeNo" class="form-control" placeholder="{{'label.input.searchbychequeno' | translate}}"/>
                                         </div>
                                         <label class="control-label col-sm-2">{{'label.input.status' | translate}}</label>
@@ -98,18 +98,18 @@
                     <th>{{'label.heading.status' | translate}}</th>
                     <th>{{'label.heading.description' | translate}}</th>
                     <th>{{'label.heading.createdon' | translate}}</th>
-                    <th>{{'label.heading.voidedon' | translate}}</th>
+                    <th>{{'label.heading.createdby' | translate}}</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr class="pointer-main" dir-paginate="cheque in cheques | orderBy:'chequeNo':reverse | itemsPerPage: chequesPerPage" total-items="totalCheques" pagination-id="cheques">
-                    <td>{{cheque.chequeNo}}</td>
-                    <td>{{cheque.batchNo}}</td>
-                    <td>{{cheque.status.value}}</td>
-                    <td>{{cheque.description}}</td>
-                    <td>{{cheque.createdDate | DateFormat}}</td>
-                    <td>{{cheque.voidedDate | DateFormat}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.chequeNo}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.batchNo}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.status.value}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.description}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.createdDate | DateFormat}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.createdByUsername}}</td>
                 </tr>
                 </tbody>
             </table>

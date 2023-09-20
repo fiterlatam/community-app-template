@@ -32,6 +32,10 @@
                 });
             };
 
+            scope.routeTo = function (chequeId){
+                location.path('/viewdetails/' + scope.batchId + '/cheque/' + chequeId);
+            };
+
             scope.cheques = [];
             scope.actualCheques = [];
             scope.formData = {};
