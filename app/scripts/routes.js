@@ -1252,7 +1252,13 @@
             templateUrl: 'views/banks/bankcheques/viewchequebatch.html'
          }).when('/editchequebatch/:batchId', {
            templateUrl: 'views/banks/bankcheques/editchequebatch.html'
-        });
+        }).when('/viewdetails/:batchId/cheque/:chequeId', {
+           templateUrl: 'views/banks/bankcheques/viewchequedetails.html'
+        }).when('/reassigncheque/:batchId/cheque/:chequeId', {
+           templateUrl: 'views/banks/bankcheques/reassigncheque.html'
+        }).when('/voidcheque/:batchId/cheque/:chequeId', {
+           templateUrl: 'views/banks/bankcheques/voidcheque.html'
+         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };
