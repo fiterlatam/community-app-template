@@ -112,7 +112,7 @@
             </table>
             <hr/>
             <div>
-                <button data-ng-show="showValidatePolicies" id="validate" class="btn btn-success"
+                <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
                         ng-click="validateHardPolicy()" type="button" value="validate"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
                     {{'label.button.validate' | translate}}
@@ -120,7 +120,7 @@
             </div>
 
             <div>
-                <button data-ng-show="!showValidatePolicies" ng-click="validateHardPolicy()" type="button"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"  ng-click="validateHardPolicy()" type="button"
                         class="btn col-md-offset-5"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
                     {{'label.button.prequalification.submitToReview' | translate}}
