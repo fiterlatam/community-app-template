@@ -40,7 +40,7 @@
     		            </tr>
     		        </thead>
     		        <tbody>
-    		            <tr ng-repeat="job in jobs | orderBy:'displayName':reverse" class="pointer-main">
+    		            <tr ng-repeat="job in jobs | orderBy:'executionOrder':reverse | filter: {active: true}" class="pointer-main">
     		                <td><input type="checkbox" ng-model="job.checkbox" ng-change="runJobSelected(job.jobId, job.checkbox)"/></td>
     		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.displayName}}</td>
     		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.nextRunTime}}</td>
