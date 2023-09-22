@@ -374,6 +374,7 @@
 	"label.button.submitandprint": "Enviar e imprimir",
 	"label.button.addjournalentry": "Añadir entradas de diario",
 	"label.button.validate": "Validar",
+	"label.input.previous.date": "Fecha de Precalificación Anterior",
 	"label.button.pattern": "Patrón",
 	"label.button.dividends": "Dividendos",
 	"label.button.postdividends": "Post Dividendos",
