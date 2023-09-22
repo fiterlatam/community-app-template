@@ -4432,7 +4432,6 @@
 	"label.heading.old.chequeNo": "cheque antiguon",
 	"label.heading.new.chequeNo": "Nuevo cheque",
 	"label.select.new.cheque": "Seleccionar nuevo cheque",
-
 	"label.anchor.disburse.loans.by.cheques": "“Desembolsar Prestamos con cheques",
 	"label.view.disburse.loans.by.cheques": "Desembolsar múltiples préstamos mediante cheques",
 	"label.menu.disbursementmethod": "Método de desembolso",
@@ -4451,6 +4450,13 @@
 	"label.heading.disbursementAmount": "Monto de desembolso",
 	"label.heading.guaranteeamount": "Monto de garantía",
 	"error.message.insufficient.amount.of.cheques": "El número de cheques no es suficiente, deseleccione algunos préstamos",
-
+	"label.input.adminfee": "Rangos de cuota administrativa",
+	"label.heading.adminfee.min": "Días adicionales desde",
+	"label.heading.adminfee.max": "Días adicionales hasta",
+	"label.heading.adminfee.rate": "% de Tasa",
+	"label.heading.adminfee.actions": "Acciones",
+	"label.input.chargetype": "Tipo de cargo",
+	"chargeDisbursementType.regular": "Regular",
+	"chargeDisbursementType.addOn": "Cuota administrativa",
 	"----End---": "---Fin del archivo---"
 }
