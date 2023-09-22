@@ -8,6 +8,9 @@
                 scope.accountName = accountName;
                 scope.batchData.accountName = scope.accountName;
                 scope.bankAccId = scope.batchData.bankAccId;
+                resourceFactory.chequeBatchTemplateResource.get({bankAccId: scope.bankAccId}, function (data) {
+                    scope.statusOptions = data.statusOptions;
+                });
             });
 
             var DeleteChequeBatchController = function ($scope, $uibModalInstance) {
@@ -28,6 +31,37 @@
                     controller: DeleteChequeBatchController
                 });
             };
+
+            scope.routeTo = function (chequeId){
+                location.path('/viewdetails/' + scope.batchId + '/cheque/' + chequeId);
+            };
+
+            scope.cheques = [];
+            scope.actualCheques = [];
+            scope.formData = {};
+            scope.searchResults = [];
+            scope.chequesPerPage = 20;
+            scope.getResultsPage = function (pageNumber) {
+               resourceFactory.searchChequeResource.get({
+                    offset: ((pageNumber - 1) * scope.chequesPerPage),
+                    limit: scope.chequesPerPage,
+                    paged: 'true',
+                    orderBy: 'chequeNo',
+                    sortOrder: 'ASC',
+                    batchId: scope.batchId,
+                    chequeNo: scope.formData.chequeNo,
+                    status: scope.formData.status
+                }, function (data) {
+                    scope.totalCheques = data.totalFilteredRecords;
+                    scope.cheques = data.pageItems;
+               });
+            }
+            scope.getResultsPage(1);
+
+            scope.search = function () {
+                 scope.getResultsPage(1);
+            }
+
         }
     });
 

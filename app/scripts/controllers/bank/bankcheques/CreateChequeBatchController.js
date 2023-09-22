@@ -16,7 +16,7 @@
                 scope.formData.from = data.from;
            });
            scope.submit = function (){
-            resourceFactory.chequeBatchResource.save(this.formData, function (data) {
+            resourceFactory.chequeBatchResource.createBatch(this.formData, function (data) {
                 location.path('/viewchequeaccount/' + scope.bankAccId);
                 });
            }

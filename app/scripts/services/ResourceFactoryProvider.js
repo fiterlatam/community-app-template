@@ -1006,11 +1006,18 @@
                     chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
                         get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
                     }),
-                   chequeBatchResource: defineResource(apiVer + "/bankcheques/:batchId", {batchId: "@batchId"}, {
+                   chequeBatchResource: defineResource(apiVer + "/bankcheques/:batchId", {chequeId: "@chequeId", batchId: "@batchId"}, {
                         get: {method: 'GET', params: {}},
-                        save: { method: 'POST'},
+                        save: { method: 'POST', params: {}},
                         delete: {method: 'DELETE'},
-                        update: {method: 'PUT'}
+                        update: {method: 'PUT'},
+                        createBatch:  { method: 'POST', params: {commandParam: 'createbatch'}},
+                        reassign: {method: 'POST', params: {commandParam: 'reassigncheque', chequeId: "@chequeId"}},
+                        voidCheque: {method: 'POST', params: {commandParam: 'voidcheque', chequeId: "@chequeId"}},
+                        authorizeVoidance: {method: 'POST', params: {commandParam: 'authorizevoidance', chequeId: "@chequeId"}},
+                    }),
+                   searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
+                        get: {method: 'GET', params: {}}
                     }),
                 };
             }];
