@@ -1242,6 +1242,8 @@
             templateUrl: 'views/banks/bankaccounts/bankAccountDetails.html'
         }).when('/prequalification/:prequalificationId/validations', {
             templateUrl: 'views/hardpolicychecklist/viewHardpolicyValidations.html'
+        }).when('/prequalification/:prequalificationId/requalification', {
+            templateUrl: 'views/prequalifications/requalification.html'
         }).when('/chequebankaccounts', {
            templateUrl: 'views/banks/bankcheques/chequebankaccounts.html'
         }).when('/viewchequeaccount/:accountId', {
