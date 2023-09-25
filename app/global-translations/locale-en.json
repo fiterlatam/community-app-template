@@ -4843,5 +4843,6 @@
   "label.input.chargetype": "Charge Type",
   "chargeDisbursementType.regular": "Normal",
   "chargeDisbursementType.addOn": "Administrative Fee",
+  "label.input.days.limit.addOn": "Limit of days for administrative fee",
   "----End---": "--End of file--- "
 }

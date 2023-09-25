@@ -4458,5 +4458,6 @@
 	"label.input.chargetype": "Tipo de cargo",
 	"chargeDisbursementType.regular": "Regular",
 	"chargeDisbursementType.addOn": "Cuota administrativa",
+	"label.input.days.limit.addOn": "Límite de días para cuota administrativa",
 	"----End---": "---Fin del archivo---"
 }
