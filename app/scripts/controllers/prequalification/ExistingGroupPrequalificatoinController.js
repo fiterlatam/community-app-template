@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, validationService, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        ExistingGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, validationService, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.agenciesList = [];
             scope.portfoliosList = [];
@@ -11,9 +11,9 @@
             scope.yesNo = [{value: "YES", name: "Yes"}, {value: "NO", name: "No"}];
             scope.restrictDate = new Date();
             scope.formData = {};
-            scope.formData.members = [];
+            // scope.formData.members = [];
             scope.membersForm = {
-                workWithPuente: "YES"
+               workWithPuente: "YES"
             };
             scope.memberDetailsForm;
             scope.groupData;
@@ -26,6 +26,47 @@
                 scope.productsList = data.loanProducts
                 scope.facilitators = data.facilitators
                 scope.formData.prequalilficationTimespan = Number(data.prequalilficationTimespan)
+            });
+
+            resourceFactory.prequalificationResource.get({groupId: routeParams.prequalificationId}, function (data) {
+                var prevDate = dateFilter(data.createdAt, scope.df);
+
+                scope.previousPrequalificationDate = dateFilter(new Date(prevDate), scope.df) ;
+
+                if (data.openingDate) {
+                    var editDate = dateFilter(data.openingDate, scope.df);
+                    scope.first.date = new Date(editDate);
+                }
+
+                let membersList = [];
+                if(data.groupMembers){
+                    data.groupMembers.forEach(member => {
+                        let memberDets = {}
+                        if (member.dob) {
+                            var dobDate = dateFilter(member.dob, scope.df);
+                            memberDets.dob = dateFilter(new Date(dobDate), scope.df);
+                        }
+                        memberDets.puente = member.workWithPuente;
+                        memberDets.amount = member.requestedAmount;
+                        memberDets.name = member.name;
+                        memberDets.dpi = member.dpi;
+                        memberDets.locale = scope.optlang.code;
+                        memberDets.dateFormat = scope.df;
+                        membersList.push(memberDets);
+                    });
+                }
+
+                scope.formData =
+                    {
+                        previousPrequalification: data.id,
+                        agencyId: data.agencyId,
+                        productId: data.productId,
+                        centerId: data.centerId,
+                        facilitator: data.facilitatorId,
+                        groupName: data.groupName+"-NUEVO",
+                        prequalilficationTimespan: data.prequalilficationTimespan,
+                        members: membersList
+                    }
             });
 
             scope.addMemberData = function () {
@@ -41,7 +82,7 @@
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
                     scope.membersForm = {
-                        workWithPuente: "YES"
+                       workWithPuente: "YES"
                     };
                     scope.memberDetailsForm.$setUntouched();
                     scope.memberDetailsForm.$setPristine();
@@ -50,9 +91,9 @@
                 this.uiValidationErrors = uiValidationErrors;
             }
 
-            scope.removeMember = function (index) {
+           scope.removeMember = function (index) {
                 scope.formData.members.splice(index,1);
-            };
+           };
 
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];
@@ -142,7 +183,7 @@
         }
     });
 
-    mifosX.ng.application.controller('NewGroupPrequalificatoinController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', 'ValidationService', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.NewGroupPrequalificatoinController]).run(function ($log) {
-        $log.info("NewGroupPrequalificatoinController initialized");
+    mifosX.ng.application.controller('ExistingGroupPrequalificatoinController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', 'ValidationService', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.ExistingGroupPrequalificatoinController]).run(function ($log) {
+        $log.info("ExistingGroupPrequalificatoinController initialized");
     });
 }(mifosX.controllers || {}));

@@ -12,7 +12,7 @@
                     offset: ((pageNumber - 1) * scope.groupsPerPage),
                     limit: scope.groupsPerPage,
                     type: routeParams.type,
-                    status: scope.statusFilter,
+                    status: routeParams.type==='AGENCY_LEAD_PENDING_APPROVAL'?'AGENCY_LEAD_PENDING_APPROVAL': scope.statusFilter,
                     searchText:scope.searchText
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;

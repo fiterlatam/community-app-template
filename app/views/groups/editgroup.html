@@ -1,244 +1,283 @@
 <div class="content-container" ng-controller="EditGroupController">
-<div class="content-container" data-ng-controller="MemberManageController">
-    <ul class="breadcrumb">
-        <li><a href="#/groups">{{'label.anchor.groups' | translate}}</a></li>
-        <li><a href="#/viewgroup/{{group.id}}">{{'label.anchor.viewgroup' | translate}}</a></li>
-    </ul>
-    <wizard current-step="step" on-finish="submitDatatable()">
-        <div class="card well">
-         <wz-step wz-title="{{'label.heading.details' | translate}}">
-                <div ng-show="managecode == 1">
-               
-                    <form name="editgroupform" novalidate="" class="form-horizontal" ng-submit="updateGroup()">
-                        <fieldset>
-                            <api-validate></api-validate>
-                            <legend>{{'label.heading.editgroup' | translate}}</legend>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="name">{{'label.input.name' | translate}}<span
-                                        class="required">*</span></label>
+    <div class="content-container" data-ng-controller="MemberManageController">
+        <ul class="breadcrumb">
+            <li><a href="#/groups">{{'label.anchor.groups' | translate}}</a></li>
+            <li><a href="#/viewgroup/{{group.id}}">{{'label.anchor.viewgroup' | translate}}</a></li>
+        </ul>
+        <wizard current-step="step" on-finish="submitDatatable()">
+            <div class="card well">
+                <wz-step wz-title="{{'label.heading.details' | translate}}">
+                    <div ng-show="managecode == 1">
 
-                                <div class="col-sm-3">
-                                    <input ng-autofocus="true" type="text" id="name" name="name" placeholder="{{editGroup.name}}"
-                                           ng-model="formData.name" class="form-control" required late-Validate/>
-                                </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="name"/>
-                                </div>
-                            </div>
-                            <div class="form-group info">
-                                <label class="control-label col-sm-2" for="staffId">{{'label.input.staff' | translate}}</label>
-
-                                <div class="col-sm-3">
-                                    <select chosen="editGroup.staffOptions" id="staffId" ng-model="formData.staffId"
-                                            data-ng-options="staff.id as staff.displayName for staff in editGroup.staffOptions"
-                                            value="{{staff.id}}" class="form-control">
-                                        <option value="">{{'label.menu.selectstaff' | translate}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="externalid">{{'label.input.externalid' | translate}}</label>
-
-                                <div class="col-sm-3">
-                                    <input type="text" id="externalId" ng-model="formData.externalId" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{'label.input.submittedon' | translate}}:</label>
-
-                                <div class="col-sm-3">
-                                    <input id="submittedon" type="text" name="submittedon" datepicker-pop="dd MMMM yyyy"
-                                           ng-model="first.submitondate" is-open="opened1" min="'2000-01-01'" max="restrictDate" class="form-control"/>
-                                </div>
-                            </div>
-                            <div ng-hide="editGroup.status.value == 'Pending'">
+                        <form name="editgroupform" novalidate="" class="form-horizontal" ng-submit="updateGroup()">
+                            <fieldset>
+                                <api-validate></api-validate>
+                                <legend>{{'label.heading.editgroup' | translate}}</legend>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-2">{{'label.input.activationdate' | translate}}<span class="required">*</span></label>
+                                    <label class="control-label col-sm-2" for="name">{{'label.input.name' | translate}}<span
+                                            class="required">*</span></label>
 
                                     <div class="col-sm-3">
-                                        <input type="text" datepicker-pop="dd MMMM yyyy" ng-model="first.date" is-open="opened"
-                                               min="'2000-01-01'" max="restrictDate" class="form-control" readonly/>
+                                        <input ng-autofocus="true" type="text" id="name" name="name" placeholder="{{editGroup.name}}"
+                                               ng-model="formData.name" class="form-control" required late-Validate/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="name"/>
                                     </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>{{'label.input.company.fieldset.custom' | translate}}</legend>
-                            <!--portfolio center name-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.portfolioCenter' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <select id="portfolioCenterId" ng-model="formData.centerId" class="form-control" name="centerId" disabled
-                                            ng-options="centerOption.id as centerOption.name for centerOption in centerOptions"
-                                            value="{{centerOption.id}}"></select>
+                                <div class="form-group info">
+                                    <label class="control-label col-sm-2" for="staffId">{{'label.input.staff' | translate}}</label>
+
+                                    <div class="col-sm-3">
+                                        <select chosen="editGroup.staffOptions" id="staffId" ng-model="formData.staffId"
+                                                data-ng-options="staff.id as staff.displayName for staff in editGroup.staffOptions"
+                                                value="{{staff.id}}" class="form-control">
+                                            <option value="">{{'label.menu.selectstaff' | translate}}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="portfolioCenterId"/>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="externalid">{{'label.input.externalid' | translate}}</label>
+
+                                    <div class="col-sm-3">
+                                        <input type="text" id="externalId" ng-model="formData.externalId" class="form-control"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--group location -->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.grouplocation' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <select id="grpLocation" ng-model="formData.groupLocation" class="form-control" name="grpLocation"
-                                            ng-options="location.id as location.code |translate for location in centerGroupLocations"
-                                            value="{{location.id}}"></select>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{'label.input.submittedon' | translate}}:</label>
+
+                                    <div class="col-sm-3">
+                                        <input id="submittedon" type="text" name="submittedon" datepicker-pop="dd MMMM yyyy"
+                                               ng-model="first.submitondate" is-open="opened1" min="'2000-01-01'" max="restrictDate" class="form-control"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editcentergroupform" valattribute="grpLocation"/>
+                                <div ng-hide="editGroup.status.value == 'Pending'">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">{{'label.input.activationdate' | translate}}<span class="required">*</span></label>
+
+                                        <div class="col-sm-3">
+                                            <input type="text" datepicker-pop="dd MMMM yyyy" ng-model="first.date" is-open="opened"
+                                                   min="'2000-01-01'" max="restrictDate" class="form-control" readonly/>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--legacy center group number-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.legacyGroupNumber' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input id="groupLegacyNumber" type="text" name="legacyNumber" ng-model="formData.legacyNumber" class="form-control"/>
+                            </fieldset>
+                            <fieldset>
+                                <legend>{{'label.input.company.fieldset.custom' | translate}}</legend>
+                                <!--portfolio center name-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.portfolioCenter' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <select id="portfolioCenterId" ng-model="formData.centerId" class="form-control" name="centerId" disabled
+                                                ng-options="centerOption.id as centerOption.name for centerOption in centerOptions"
+                                                value="{{centerOption.id}}"></select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="portfolioCenterId"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--latitude-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.groupLatitude' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input id="latitude" type="text" name="latitude" ng-model="formData.latitude" class="form-control"/>
+                                <!--group location -->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.grouplocation' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <select id="grpLocation" ng-model="formData.groupLocation" class="form-control" name="grpLocation"
+                                                ng-options="location.id as location.code |translate for location in centerGroupLocations"
+                                                value="{{location.id}}"></select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editcentergroupform" valattribute="grpLocation"/>
+                                    </div>
                                 </div>
-                                <!--longitude-->
-                                <label class="control-label col-sm-2">{{ 'label.input.groupLongitude' | translate }}</label>
-                                <div class="col-sm-3">
-                                    <input id="longitude" type="text" name="longitude" ng-model="formData.longitude" class="form-control"/>
+                                <!--legacy center group number-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.legacyGroupNumber' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input id="groupLegacyNumber" type="text" name="legacyNumber" ng-model="formData.legacyNumber" class="form-control"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--formation date-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.groupformationdate' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <input id="formationDate" name="formationDate" sort type="text" datepicker-pop="dd MMMM yyyy" ng-model="formData.formationDate"
-                                           class="form-control" is-open="opened" min="minDate" max="restrictDate" required late-Validate/>
+                                <!--latitude-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.groupLatitude' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input id="latitude" type="text" name="latitude" ng-model="formData.latitude" class="form-control"/>
+                                    </div>
+                                    <!--longitude-->
+                                    <label class="control-label col-sm-2">{{ 'label.input.groupLongitude' | translate }}</label>
+                                    <div class="col-sm-3">
+                                        <input id="longitude" type="text" name="longitude" ng-model="formData.longitude" class="form-control"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="formationDate"/>
+                                <!--formation date-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.groupformationdate' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input id="formationDate" name="formationDate" sort type="text" datepicker-pop="dd MMMM yyyy" ng-model="formData.formationDate"
+                                               class="form-control" is-open="opened" min="minDate" max="restrictDate" required late-Validate/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="formationDate"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--size-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.groupSize' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <input id="size" type="text" name="size" ng-model="formData.size" class="form-control" required late-Validate/>
+                                <!--size-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.groupSize' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input id="size" type="text" name="size" ng-model="formData.size" class="form-control" required late-Validate/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="size"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="size"/>
+                                <!--meeting start / end-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.meetingStartTime' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input id="meetingStartTime" type="time" placeholder="HH:MM:SS" name="meetingStartTime" ng-model="formData.meetingStartTime"
+                                               class="form-control" ng-change="startTimeChanged()" required late-Validate/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="meetingStartTime"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--meeting start / end-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.meetingStartTime' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <input id="meetingStartTime" type="time" placeholder="HH:MM:SS" name="meetingStartTime" ng-model="formData.meetingStartTime"
-                                           class="form-control" ng-change="startTimeChanged()" required late-Validate/>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.meetingEndTime' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input id="meetingEndTime" type="time" placeholder="HH:MM:SS" name="meetingEndTime" ng-model="formData.meetingEndTime"
+                                               class="form-control" disabled late-Validate/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="meetingEndTime"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="meetingStartTime"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.meetingEndTime' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <input id="meetingEndTime" type="time" placeholder="HH:MM:SS" name="meetingEndTime" ng-model="formData.meetingEndTime"
-                                           class="form-control" disabled late-Validate/>
-                                </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="meetingEndTime"/>
-                                </div>
-                            </div>
-                            <!--responsible user-->
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">{{ 'label.input.groupResponsibleUser' | translate }}<span class="required">*</span></label>
-                                <div class="col-sm-3">
-                                    <select id="responsibleUserId" ng-model="formData.responsibleUserId" class="form-control" required late-Validate name="responsibleUserId"
-                                            ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')'
+                                <!--responsible user-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">{{ 'label.input.groupResponsibleUser' | translate }}<span class="required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <select id="responsibleUserId" ng-model="formData.responsibleUserId" class="form-control" required late-Validate name="responsibleUserId"
+                                                ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')'
 									for responsibleUser in responsibleUserOptions"
-                                            value="{{responsibleUser.id}}" required late-Validate></select>
+                                                value="{{responsibleUser.id}}" required late-Validate></select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <form-validate valattributeform="editgroupform" valattribute="responsibleUserId"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="editgroupform" valattribute="responsibleUserId"/>
+                                <fieldset>
+                                    <legend>{{'label.input.linkprequalification' | translate}}</legend>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2" for="staffId">{{'label.anchor.prequalification.groups' | translate}}</label>
+                                            <div class="col-sm-9 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <input id="prequlificationgroup" type="text" ng-model="prequlificationdata.available" class="col-md-4 form-control"
+                                                               typeahead-min-length="2"
+                                                               typeahead-editable="false"
+                                                               uib-typeahead="group as group.groupName for group in prequalificationOption($viewValue)"
+                                                               typeahead-on-select="viewPrequal(prequlificationdata.available)"/>
+                                                        <div data-ng-show="available" class="paddedtop10">
+                                                            <p>{{'label.heading.groupdetails' | translate}}</p>
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <td width="35%">{{'label.heading.name' | translate}}</td>
+                                                                    <td width="65%">{{prequalification.groupName}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>{{ 'label.heading.prequalificationnumber' | translate }}</td>
+                                                                    <td valign="top">{{prequalification.prequalificationNumber}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>{{ 'label.input.center' | translate }}</td>
+                                                                    <td>{{prequalification.centerName}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+                                <div class="col-md-offset-3">
+                                    <a href="#/viewgroup/{{editGroup.id}}" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
+                                    <button type="submit" class="btn btn-primary" has-permission='UPDATE_GROUP'>{{'label.button.save' | translate}}</button>
                                 </div>
-                            </div>
-                            <div class="col-md-offset-3">
-                                <a href="#/viewgroup/{{editGroup.id}}" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
-                                <button type="submit" class="btn btn-primary" has-permission='UPDATE_GROUP'>{{'label.button.save' | translate}}</button>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div ng-show="managecode == 2">
-                    <legend>{{'label.heading.activate.group' | translate}}</legend>
-                    <form class="form-horizontal card well">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2">{{ 'label.input.enteractivationdate' | translate }}<span
+                            </fieldset>
+
+                        </form>
+                    </div>
+                    <div ng-show="managecode == 2">
+                        <legend>{{'label.heading.activate.group' | translate}}</legend>
+                        <form class="form-horizontal card well">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">{{ 'label.input.enteractivationdate' | translate }}<span
                                         class="required">*</span></label>
-                            <div class="col-sm-3">
-                                <input id="activationDate" type="text" datepicker-pop="dd MMMM yyyy" ng-model="first.date"
-                                       is-open="opened" min="mindate" max="restrictDate" required class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button id="save1"  wz-next class="btn btn-primary pull-right" ng-show="isEntityDatatables">
-                                {{'label.button.proceed' | translate}}
-                            </button>
-
-                            <div class="col-sm-3 col-md-offset-2" ng-hide="isEntityDatatables">
-                                <a id="cancel" href="#/viewgroup/{{editGroup.id}}" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
-                                <button id="save" type="button" class="btn btn-primary" wz-next ><i
-                                        class="fa fa-check-sign " has-permission='ACTIVATE_GROUP'></i>{{ 'label.button.activate' | translate }}
-                                </button>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-            </wz-step>
-            <wz-step ng-if="isEntityDatatables" ng-repeat="datatable in datatables" wz-title="{{datatable.registeredTableName}}">
-                <div class="card-content">
-                    <form class="form-horizontal">
-                        <div ng-show="submittedDatatables.length>0" uib-alert type="success">
-                            <span ng-repeat="table in submittedDatatables"><i class="fa fa-check"></i>Entry in ` {{table}} ` has been made successfully. If the inputs are changed, the datatable entries will be updated.<br></span>
-                        </div>
-                        <api-validate></api-validate>
-                        <fieldset>
-                            <!--<legend>{{datatable.registeredTableName}}</legend>-->
-                            <div class="form-group" ng-repeat="columnHeader in datatable.columnHeaders">
-                                <label class="control-label col-sm-3">{{ columnHeader.columnName | prettifyDataTableColumn }}
-                                    <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
-                                </label>
                                 <div class="col-sm-3">
-                                    <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text"
-                                           ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]" class="form-control"/>
-                                    <input ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text"
-                                           datepicker-pop="dd MMMM yyyy" ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].dateType.date"
-                                           is-open="opened{{$index}}" class="form-control"/>
-                                    <div ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
-                                        <div class="form-group">
-                                            <input type="text" datepicker-pop="dd MMMM yyyy"
-                                                   ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].dateTimeType.date"
-                                                   is-open="opened{{$index}}" class="form-control"/>
+                                    <input id="activationDate" type="text" datepicker-pop="dd MMMM yyyy" ng-model="first.date"
+                                           is-open="opened" min="mindate" max="restrictDate" required class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button id="save1"  wz-next class="btn btn-primary pull-right" ng-show="isEntityDatatables">
+                                    {{'label.button.proceed' | translate}}
+                                </button>
+
+                                <div class="col-sm-3 col-md-offset-2" ng-hide="isEntityDatatables">
+                                    <a id="cancel" href="#/viewgroup/{{editGroup.id}}" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
+                                    <button id="save" type="button" class="btn btn-primary" wz-next ><i
+                                            class="fa fa-check-sign " has-permission='ACTIVATE_GROUP'></i>{{ 'label.button.activate' | translate }}
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </wz-step>
+                <wz-step ng-if="isEntityDatatables" ng-repeat="datatable in datatables" wz-title="{{datatable.registeredTableName}}">
+                    <div class="card-content">
+                        <form class="form-horizontal">
+                            <div ng-show="submittedDatatables.length>0" uib-alert type="success">
+                                <span ng-repeat="table in submittedDatatables"><i class="fa fa-check"></i>Entry in ` {{table}} ` has been made successfully. If the inputs are changed, the datatable entries will be updated.<br></span>
+                            </div>
+                            <api-validate></api-validate>
+                            <fieldset>
+                                <!--<legend>{{datatable.registeredTableName}}</legend>-->
+                                <div class="form-group" ng-repeat="columnHeader in datatable.columnHeaders">
+                                    <label class="control-label col-sm-3">{{ columnHeader.columnName | prettifyDataTableColumn }}
+                                        <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text"
+                                               ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]" class="form-control"/>
+                                        <input ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text"
+                                               datepicker-pop="dd MMMM yyyy" ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].dateType.date"
+                                               is-open="opened{{$index}}" class="form-control"/>
+                                        <div ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
+                                            <div class="form-group">
+                                                <input type="text" datepicker-pop="dd MMMM yyyy"
+                                                       ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].dateTimeType.date"
+                                                       is-open="opened{{$index}}" class="form-control"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="time" placeholder="HH:MM:SS"
+                                                       ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].dateTimeType.time" class="form-control"/>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="time" placeholder="HH:MM:SS"
-                                                   ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].dateTimeType.time" class="form-control"/>
+                                        <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
+                                                       value="true"/>
+                                                {{'label.input.true' | translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
+                                                       value="false"/>
+                                                {{'label.input.false' | translate}}
+                                            </label>
                                         </div>
-                                    </div>
-                                    <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
-                                        <label class="radio-inline">
-                                            <input type="radio" ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
-                                                   value="true"/>
-                                            {{'label.input.true' | translate}}
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
-                                                   value="false"/>
-                                            {{'label.input.false' | translate}}
-                                        </label>
-                                    </div>
-                                    <span data-ng-switch on="columnHeader.columnDisplayType">
+                                        <span data-ng-switch on="columnHeader.columnDisplayType">
 		                  <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'"
                                   data-ng-switch-when="CODELOOKUP"
                                   ng-model="entityformData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
@@ -254,23 +293,23 @@
 		                     <option value="">{{'label.selectone' | translate}}</option>
 		                  </select>
 		               </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="pull-right" ng-if="!$last">
-                                <button id="save4" type="submit" class="btn btn-primary" wz-next>
-                                    {{'label.button.proceed' | translate}}
-                                </button>
-                            </div>
-                            <div class="col-md-offset-5" ng-if="$last">
+                                <div class="pull-right" ng-if="!$last">
+                                    <button id="save4" type="submit" class="btn btn-primary" wz-next>
+                                        {{'label.button.proceed' | translate}}
+                                    </button>
+                                </div>
+                                <div class="col-md-offset-5" ng-if="$last">
                                     <a id="cancel" href="#/viewgroup/{{editGroup.id}}" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
                                     <button id="save" type="button" class="btn btn-primary" wz-next><i
                                             class="fa fa-check-sign " has-permission='ACTIVATE_GROUP'></i>{{ 'label.button.activate' | translate }}
                                     </button>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </wz-step>
-        </div>
-    </wizard>
-</div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </wz-step>
+            </div>
+        </wizard>
+    </div>

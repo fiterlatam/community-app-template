@@ -85,11 +85,13 @@
                     prequalificationTemplateResource: defineResource(apiVer + "/prequalification/template", {}, {
                         get: {method: 'GET', params: {}},
                     }),
-
                     prequalificationChecklistResource: defineResource(apiVer + "/prequalification/checklist/:prequalificationId", {prequalificationId:'@prequalificationId'}, {
                         get: {method: 'GET', params: {}, isArray:true},
                         validate: {method: 'POST', params: {command: 'validateprequalification'}},
                         bureauValidation: {method: 'POST', params: {command: 'bureauValidation'}},
+                    }),
+                    prequalificationValidationResource: defineResource(apiVer + "/prequalification/checklist", {prequalificationId:'@prequalificationId'}, {
+                        get: {method: 'GET', params: {prequalificationId:'@prequalificationId',clientId:'@clientId'}}
                     }),
                     prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
                         get: {method: 'GET', params: {}},
@@ -981,6 +983,40 @@
                         transfer: { method: 'PUT'}
                     }),
                     loanTrxnsSimulatePaymentResource: defineResource(apiVer + "/loans/:loanId/transactions/simulation", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    bankResource: defineResource(apiVer + "/banks/:bankId", {bankId: '@bankId'}, {
+                        get: {method: 'GET', params: {}},
+                        getAllBanks: {method: 'GET', params: {}},
+                        save: { method: 'POST'},
+                        update: { method: 'PUT'},
+                        delete: { method: 'DELETE'}
+                    }),
+                    bankAccountResource: defineResource(apiVer + "/bankaccounts/:bankAccountId", {bankAccountId: '@bankAccountId'}, {
+                        get: {method: 'GET', params: {}},
+                        getAllBankAccounts: {method: 'GET', params: {}},
+                        save: { method: 'POST'},
+                        update: { method: 'PUT'},
+                        delete: { method: 'DELETE'},
+                        template: {method: 'GET',params:{}},
+                    }),
+                    bankAccountTemplateResource: defineResource(apiVer + "/bankaccounts/template", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
+                        get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
+                    }),
+                    chequeBatchResource: defineResource(apiVer + "/bankcheques/:batchId", {chequeId: "@chequeId", batchId: "@batchId"}, {
+                        get: {method: 'GET', params: {}},
+                        save: { method: 'POST', params: {}},
+                        delete: {method: 'DELETE'},
+                        update: {method: 'PUT'},
+                        createBatch:  { method: 'POST', params: {commandParam: 'createbatch'}},
+                        reassign: {method: 'POST', params: {commandParam: 'reassigncheque', chequeId: "@chequeId"}},
+                        voidCheque: {method: 'POST', params: {commandParam: 'voidcheque', chequeId: "@chequeId"}},
+                        authorizeVoidance: {method: 'POST', params: {commandParam: 'authorizevoidance', chequeId: "@chequeId"}},
+                    }),
+                    searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
                         get: {method: 'GET', params: {}}
                     }),
                 };

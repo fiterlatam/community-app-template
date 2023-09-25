@@ -1,4 +1,4 @@
-<div ng-controller="NewGroupPrequalificatoinController">
+<div ng-controller="ExistingGroupPrequalificatoinController">
     <div>
         <ul class="breadcrumb">
             <li><a href="#/prequalificationsmenu">{{'label.anchor.prequalifications' | translate}}</a></li>
@@ -18,7 +18,7 @@
                         <select id="agency" ng-model="formData.agencyId"
                                 ng-options="agency.id as agency.name for agency in agenciesList" value="{{agency.id}}"
                                 class="form-control width170px" required late-validate>
-                            <!--                            <option style="display:none" value="">{{'label.input.agency' | translate}}</option>-->
+<!--                            <option style="display:none" value="">{{'label.input.agency' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="productId"/>
                     </td>
@@ -59,7 +59,7 @@
                                 ng-options="product.id as product.name for product in productsList"
                                 value="{{product.id}}" required late-validate
                                 class="form-control width170px">
-                            <!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
+<!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="product"/>
                     </td>
@@ -73,20 +73,21 @@
                                 ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitators"
                                 value="{{facilitator.id}}" required late-validate
                                 class="form-control width170px">
-                            <!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
+<!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="facilitator"/>
                     </td>
                 </tr>
-                <tr ng-if="editLifespan">
+                <tr>
+
                     <td class="width14">
-                        <label>{{ 'label.input.prequalification.duration' | translate }}<span
+                        <label>{{ 'label.input.previous.date' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
-                        <input type="number" class="form-control" name="grpnm"
-                               data-ng-model="formData.prequalilficationTimespan" id="duration" required>
-                        <form-validate valattributeform="groupDetailsForm" valattribute="duration"/>
+                        <input type="text" class="form-control" name="prevDate" disabled
+                               data-ng-model="previousPrequalificationDate" id="prevDate" required>
+                        <form-validate valattributeform="groupDetailsForm" valattribute="prevDate"/>
                     </td>
                 </tr>
 
@@ -126,7 +127,7 @@
     <hr/>
 
     <legend>{{ 'label.heading.add.groupmembers' | translate }}</legend>
-
+    
     <ui-validate></ui-validate>
 
     <form name="memberDetailsForm" novalidate="" rc-submit="addMemberData()">

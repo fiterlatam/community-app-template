@@ -39,24 +39,25 @@
                     });
                 }
                 scope.formData =
-                {
-                    agencyId: data.agencyId,
-                    productId: data.productId,
-                    centerId: data.centerId,
-                    facilitator: data.facilitatorId,
-                    groupName: data.groupName,
-                    prequalificationNumber: data.prequalificationNumber,
-                    members: data.groupMembers
+                    {
+                        agencyId: data.agencyId,
+                        productId: data.productId,
+                        centerId: data.centerId,
+                        facilitator: data.facilitatorId,
+                        groupName: data.groupName,
+                        prequalificationNumber: data.prequalificationNumber,
+                        prequalilficationTimespan: data.prequalilficationTimespan,
+                        members: data.groupMembers
 
-                }
+                    }
             });
 
             resourceFactory.prequalificationTemplateResource.get(function (data) {
                 console.log(data.facilitators);
                 scope.agenciesList = data.agencies,
-                scope.centersList = data.centerData,
-                scope.productsList = data.loanProducts,
-                scope.facilitators = data.facilitators
+                    scope.centersList = data.centerData,
+                    scope.productsList = data.loanProducts,
+                    scope.facilitators = data.facilitators
             });
 
             scope.addMemberData = function () {
@@ -72,7 +73,7 @@
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
                     scope.membersForm = {
-                       workWithPuente: "YES"
+                        workWithPuente: "YES"
                     };
                     scope.memberDetailsForm.$setUntouched();
                     scope.memberDetailsForm.$setPristine();
@@ -81,9 +82,9 @@
                 this.uiValidationErrors = uiValidationErrors;
             }
 
-           scope.removeMember = function (index) {
+            scope.removeMember = function (index) {
                 scope.formData.members.splice(index,1);
-           };
+            };
 
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];
