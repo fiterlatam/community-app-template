@@ -1,0 +1,123 @@
+<div class="content-container" ng-controller="DisburseLoanByChequeController">
+    <ul class="breadcrumb">
+        <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
+        <li class="active">{{'label.anchor.disburse.loans.by.cheques' | translate}}</li>
+    </ul>
+    <api-validate></api-validate>
+    <div class="card">
+        <div class="content">
+            <div class="row toolbar">
+                <div class="col-sm-8">
+                    <h4 class="pull-left">{{'label.anchor.disburse.loans.by.cheques' | translate}}</h4>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary pull-right" ng-show="isCollapsed"
+                            ng-click="isCollapsed=!isCollapsed"><i class="fa fa-chevron-down "></i>{{
+                        'label.button.parameters' | translate }}
+                    </button>
+                </div>
+            </div>
+            <br>
+
+            <form ng-submit="search()" class="form-horizontal">
+                <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="pull-left">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="control-label col-sm-4">{{'label.input.agency' | translate }}</label>
+                                            <div class="col-sm-8">
+                                                <select id="agencyId" name="chequeStatusId"
+                                                        ng-model="formData.agencyId"
+                                                        class="form-control"
+                                                        ng-options="agency.id as agency.name for agency in agenciesOptions"
+                                                        value="{{agency.id}}">
+                                                    <option value="">-- {{'label.input.agency' | translate}} --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="control-label col-sm-4">{{'label.heading.chequeNo' | translate}}</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="chequeNo" name="chequeNo" ng-model="formData.chequeNo" class="form-control" placeholder="{{'label.input.searchbychequeno' | translate}}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            <div class="pull-left">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="control-label col-sm-4">{{'label.input.facilitator' | translate }}</label>
+                                            <div class="col-sm-8">
+                                                <select id="facilitatorId" name="facilitatorId"
+                                                        ng-model="formData.facilitatorId"
+                                                        class="form-control"
+                                                        ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitators"
+                                                        value="{{facilitator.id}}">
+                                                    <option value="">-- {{'label.input.facilitator' | translate}} --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="control-label col-sm-4">{{'label.input.status' | translate }}</label>
+                                            <div class="col-sm-8">
+                                                <select id="chequeStatusId" name="chequeStatusId"
+                                                        ng-model="formData.status"
+                                                        class="form-control"
+                                                        ng-options="status.id as status.value for status in statusOptions"
+                                                        value="{{status.id}}">
+                                                    <option value="">-- {{'label.selectstatus' | translate}} --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                </div>
+                <div class="col-md-offset-3 center">
+                    <a ng-click="retrieveOpeningBalances(formData.officeId, formData.currencyCode )" class="btn btn-primary"> {{'label.button.searchdata' | translate}} </a>
+                </div>
+            </form>
+
+            <br/>
+
+            <table class="table">
+                <thead>
+                <tr class="graybg">
+                    <th>{{'label.heading.chequeNo' | translate}}</th>
+                    <th>{{'label.heading.batchNo' | translate}}</th>
+                    <th>{{'label.heading.status' | translate}}</th>
+                    <th>{{'label.heading.description' | translate}}</th>
+                    <th>{{'label.heading.createdon' | translate}}</th>
+                    <th>{{'label.heading.createdby' | translate}}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="pointer-main" ng-repeat="cheque in cheques">
+                        <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.chequeNo}}</td>
+                        <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.batchNo}}</td>
+                        <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.status.value}}</td>
+                        <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.description}}</td>
+                        <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.createdDate | DateFormat}}</td>
+                        <td class="pointer" data-ng-click="routeTo(cheque.id)">{{cheque.createdByUsername}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <div class="col-md-offset-2 paddedleft">
+                <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
+                <button id="save" type="submit" class="btn btn-primary" has-permission='DISBURSEBYCHEQUE_LOAN'>{{'label.button.save' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

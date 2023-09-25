@@ -4817,5 +4817,7 @@
   "label.heading.old.chequeNo": "Old Cheque",
   "label.heading.new.chequeNo": "New Cheque",
   "label.select.new.cheque": "Select new cheque",
+  "label.anchor.disburse.loans.by.cheques": "Disburse Loans by Cheques",
+  "label.view.disburse.loans.by.cheques": "Disburse multiple loans by cheques",
   "----End---": "--End of file--- "
 }
