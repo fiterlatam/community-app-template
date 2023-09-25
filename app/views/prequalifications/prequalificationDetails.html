@@ -52,7 +52,7 @@
                             {{groupData.status.value}} </span>
                         </span>
                     </div>
-                    <div class="alert alert-default" ng-if="groupData.comments">
+                    <div class="alert alert-default h5" ng-if="groupData.comments">
                         <span>{{'label.input.comments' | translate}}: <span
                                 class="pull-right">{{groupData.comments}}</span></span>
                     </div>
@@ -119,11 +119,17 @@
                 </button>
             </div>
 
-            <div>
+            <div class="text-center">
                 <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"  ng-click="validateHardPolicy()" type="button"
-                        class="btn col-md-offset-5"
+                        class="btn btn-primary"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
                     {{'label.button.prequalification.submitToReview' | translate}}
+                </button>
+
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"  ng-click="requestForUpdates()" type="button"
+                        class="btn btn-warning"
+                        has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
+                    {{'label.button.prequalification.requestUpdates' | translate}}
                 </button>
 
                 <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button"
@@ -258,6 +264,34 @@
             <br>
             <div class="text-center">
                 <button class="btn btn-warning" ng-click="cancel()">{{'label.button.close' | translate}}</button>
+            </div>
+
+        </div>
+    </script>
+    <script type="text/ng-template" id="requestForUpdatesView.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.prequalification.requestUpdates' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4"
+                               for="comms">{{'label.input.comments' | translate}}<span
+                                class="required">*</span></label>
+
+                        <div class="col-sm-8">
+                            <textarea type="text" class="form-control" name="grpnm" rows="5"
+                                   placeholder="{{'label.input.comments'|translate}}"
+                                   data-ng-model="updateData.comments" id="comms" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-primary" ng-disabled="!updateData.comments" ng-click="submit()">{{'label.button.submit' | translate}}</button>
+                <button class="btn btn-warning"  ng-click="cancel()">{{'label.button.close' | translate}}</button>
             </div>
 
         </div>
