@@ -80,6 +80,13 @@
                     route.reload();
                 });
             }
+            scope.requestForUpdates = function () {
+                $uibModal.open({
+                    templateUrl: 'requestForUpdatesView.html',
+                    controller: RequestUpdatesCtrl
+                });
+
+            }
 
             scope.validateBeaural = function () {
                 resourceFactory.prequalificationChecklistResource.bureauValidation({prequalificationId: routeParams.groupId}, {}, function (data) {
@@ -141,6 +148,21 @@
                     }
                     return '';
                 }
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var RequestUpdatesCtrl = function ($scope, $uibModalInstance) {
+                $scope.updateData = {};
+
+                $scope.submit = function () {
+                    resourceFactory.prequalificationChecklistResource.requestUpdates({prequalificationId: routeParams.groupId}, {comments:$scope.updateData.comments}, function (data) {
+                        $uibModalInstance.dismiss('cancel');
+                        route.reload();
+                    });
+                };
 
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');

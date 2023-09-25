@@ -859,6 +859,8 @@
   "label.button.undoReject": "Undo Rejection",
   "label.button.undoWithdrawn": "Undo Withdrawal",
   "label.button.showinactive": "Show Inactive Blacklist",
+  "label.button.prequalification.requestUpdates": "Request Updates",
+  "label.heading.prequalification.requestUpdates": "Request Updates",
   "#Misc Labels": "..",
   "label.numofloancycles": "Number of loan cycle(s)",
   "label.lastloanamount": "Last loan amount",
