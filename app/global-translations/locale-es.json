@@ -4462,5 +4462,8 @@
 	"Repayment (at time of disbursement)": "Pago (al momento del desembolso)",
 	"Disbursement": "Desembolso",
 	"Accrual": "Devengo",
+	"validation.msg.ranges.overlap": "Los rangos no pueden superponerse",
+	"validation.msg.charge.ranges.min.greaterorequal.to": "El día desde debe ser menor que el día hasta",
+	"validation.msg.charge.adminFeeRate.cannot.be.blank": "Debe ingresar los rangos para cuota administrativa",
 	"----End---": "---Fin del archivo---"
 }
