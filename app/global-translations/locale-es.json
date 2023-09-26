@@ -126,7 +126,7 @@
 	"label.heading.due": "Debido",
 	"label.heading.paid": "Pagado",
 	"label.heading.waived": "Renunciado",
-	"label.heading.outstanding": "Extraordinario",
+	"label.heading.outstanding": "Pendiente",
 	"label.heading.installmentamount": "Monto de importe",
 	"label.heading.resourceid": "Id. del recurso",
 	"label.heading.details": "Detalles",
@@ -4459,5 +4459,8 @@
 	"chargeDisbursementType.regular": "Regular",
 	"chargeDisbursementType.addOn": "Cuota administrativa",
 	"label.input.days.limit.addOn": "Límite de días para cuota administrativa",
+	"Repayment (at time of disbursement)": "Pago (al momento del desembolso)",
+	"Disbursement": "Desembolso",
+	"Accrual": "Devengo",
 	"----End---": "---Fin del archivo---"
 }
