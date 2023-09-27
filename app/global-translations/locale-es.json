@@ -4433,5 +4433,24 @@
 	"label.heading.new.chequeNo": "Nuevo cheque",
 	"label.select.new.cheque": "Seleccionar nuevo cheque",
 
+	"label.anchor.disburse.loans.by.cheques": "“Desembolsar Prestamos con cheques",
+	"label.view.disburse.loans.by.cheques": "Desembolsar múltiples préstamos mediante cheques",
+	"label.menu.disbursementmethod": "Método de desembolso",
+	"label.heading.isindividualbusinessloan": "¿Es un préstamo comercial individual?",
+	"label.input.isindividualbusinessloan": "¿Es un préstamo comercial individual?",
+	"label.input.approvalstartdate": "Fecha de inicio de aprobación",
+	"label.input.approvalenddate": "Fecha de finalización de la aprobación",
+	"label.input.disbursementstartdate": "Fecha de inicio del desembolso",
+	"label.input.disbursementenddate": "Fecha de finalización del desembolso",
+	"label.button.assigncheques": "Asignar cheques",
+	"label.heading.groupno": "Grupo No.",
+	"label.heading.centerno": "Centro No.",
+	"label.heading.firstinstallmentdate": "Fecha de la primera cuota",
+	"label.heading.groupname":"Nombre del grupo",
+	"label.heading.administrative.expenses":"Gastos administrativos",
+	"label.heading.disbursementAmount": "Monto de desembolso",
+	"label.heading.guaranteeamount": "Monto de garantía",
+	"error.message.insufficient.amount.of.cheques": "El número de cheques no es suficiente, deseleccione algunos préstamos",
+
 	"----End---": "---Fin del archivo---"
 }
