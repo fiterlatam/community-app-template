@@ -230,6 +230,54 @@
                 });
             };
 
+            scope.requestForUpdates = function () {
+                $uibModal.open({
+                    templateUrl: 'requestForUpdatesView.html',
+                    controller: RequestUpdatesCtrl
+                });
+
+            }
+
+            scope.sendToAnalysisUnit = function () {
+                $uibModal.open({
+                    templateUrl: 'analysisConfirmation.html',
+                    controller: AnalysisConfirmationCtrl
+                });
+
+            }
+
+
+            var RequestUpdatesCtrl = function ($scope, $uibModalInstance) {
+                $scope.updateData = {};
+
+                $scope.submit = function () {
+                    resourceFactory.prequalificationChecklistResource.requestUpdates({prequalificationId: scope.group.prequalificationId}, {comments:$scope.updateData.comments}, function (data) {
+                        $uibModalInstance.dismiss('cancel');
+                        route.reload();
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var AnalysisConfirmationCtrl = function ($scope, $uibModalInstance) {
+                $scope.updateData = {};
+
+                $scope.sendGroup = function () {
+                    resourceFactory.prequalificationChecklistResource.sendToAnalysis({prequalificationId: scope.group.prequalificationId}, {}, function (data) {
+                        $uibModalInstance.dismiss('cancel');
+                        route.reload();
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+
         }
     });
     mifosX.ng.application.controller('ViewGroupController', ['$scope', '$routeParams', '$route', '$location', 'ResourceFactory', 'dateFilter', '$uibModal', mifosX.controllers.ViewGroupController]).run(function ($log) {
