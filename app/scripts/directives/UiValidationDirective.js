@@ -8,7 +8,7 @@
                     var template = '<div uib-alert type="danger" ng-show="uiValidationErrors.length > 0">' +
                         '<div ng-repeat="error in uiValidationErrors">' +
                             '<label>' +
-                                '{{error.message}}' +
+                                '{{error.message | translate}}' +
                             '</label>' +
                         '</div></div>';
                     elm.html('').append($compile(template)(scope));

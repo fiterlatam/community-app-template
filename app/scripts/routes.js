@@ -1260,7 +1260,9 @@
            templateUrl: 'views/banks/bankcheques/reassigncheque.html'
         }).when('/voidcheque/:batchId/cheque/:chequeId', {
            templateUrl: 'views/banks/bankcheques/voidcheque.html'
-         });
+        }).when('/disburseloansbycheques', {
+          templateUrl: 'views/loans/disburseloansbycheques.html'
+        });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };

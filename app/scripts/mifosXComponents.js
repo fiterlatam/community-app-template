@@ -415,6 +415,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'bank/bankcheques/ViewChequeController',
             'bank/bankcheques/ReassignChequeController',
             'bank/bankcheques/VoidChequeController',
+            'loanAccount/DisburseLoanByChequeController',
         ],
         filters: [
             'StatusLookup',
