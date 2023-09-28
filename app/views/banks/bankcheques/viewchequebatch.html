@@ -1,9 +1,9 @@
 <div class="content-container" ng-controller="ViewChequeBatchController">
     <ul class="breadcrumb">
         <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-        <li><a href="#/chequebankaccounts">{{'label.anchor.bankcheques' | translate}}</a></li>
+        <li><a href="#/chequebankaccounts">{{'label.heading.bankaccount' | translate}}</a></li>
         <li><a href="#/viewchequeaccount/{{batchData.bankAccId}}">{{accountName}}</a></li>
-        <li class="active">{{'label.heading.bank.cheques' | translate}}</li>
+        <li class="active">{{'label.heading.chequebatch' | translate}}</li>
     </ul>
     <script type="text/ng-template" id="deleteChequeBatch.html">
         <div class="modal-header silver">
@@ -22,7 +22,7 @@
     <div class="card">
         <div class="content">
             <div class="toolbar">
-                <h4 class="pull-left">{{'label.heading.bank.cheques' | translate}} ({{'label.heading.batchNo' | translate}} {{batchData.batchNo}})</h4>
+                <h4 class="pull-left">{{'label.heading.chequebatch' | translate}} ({{'label.heading.batchNo' | translate}} {{batchData.batchNo}})</h4>
             </div>
             <br>
             <div>
