@@ -4400,8 +4400,9 @@
 	"label.heading.view.prequalification": "View Prequalification",
 	"label.heading.group.hard.policies": "Políticas estrictas del grupo",
 	"label.heading.members.hard.policies": "Políticas estrictas para los miembros",
-	"label.anchor.bankcheques": "Administrar cheques",
-	"label.view.bankcheques": "Agregar lotes de cheques nuevos o modificarlos",
+	"label.anchor.bankcheques": "Cheques bancarios",
+	"label.view.bankcheques": "Gestionar cheques bancarios",
+	"label.heading.chequebatch": "lote de cheques bancarios",
 	"label.anchor.list.bank.account": "Cuentas bancarias",
 	"label.input.filter.bank.accounts": "Filtrar por número de cuenta",
 	"label.heading.batchNo": "Lote N º.",
@@ -4414,7 +4415,7 @@
 	"label.button.add.batch": "Agregar lote",
 	"label.button.edit.batch": "Editar lote",
 	"label.heading.cheque.view": "Ver cheques",
-	"label.heading.bank.cheques": "Lista de cheques",
+	"label.heading.bankcheques": "Cheques bancarios",
 	"label.heading.chequeNo": "Número de cheque",
 	"label.heading.voidedon": "Anulado el",
 	"label.input.searchbychequeno": "Cheque No.",
@@ -4469,5 +4470,6 @@
 	"validation.msg.ranges.overlap": "Los rangos no pueden superponerse",
 	"validation.msg.charge.ranges.min.greaterorequal.to": "El día desde debe ser menor que el día hasta",
 	"validation.msg.charge.adminFeeRate.cannot.be.blank": "Debe ingresar los rangos para cuota administrativa",
+	"label.heading.bankAccNo": "Número de cuenta bancaria",
 	"----End---": "---Fin del archivo---"
 }

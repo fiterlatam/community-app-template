@@ -10,7 +10,7 @@
                     accountNumber: scope.searchText,
                 }, function (data) {
                     scope.totalBankAccounts = data.totalFilteredRecords;
-                    scope.bankAccountlist = data.pageItems;
+                    scope.bankAccountList = data.pageItems;
                 });
             }
             scope.getResultsPage();

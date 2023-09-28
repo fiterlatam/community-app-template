@@ -1262,7 +1262,9 @@
            templateUrl: 'views/banks/bankcheques/voidcheque.html'
         }).when('/disburseloansbycheques', {
           templateUrl: 'views/loans/disburseloansbycheques.html'
-        });
+        }).when('/bankcheques', {
+           templateUrl: 'views/banks/bankcheques/bankcheques.html'
+         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };

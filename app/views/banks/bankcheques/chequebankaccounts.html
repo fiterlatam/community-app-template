@@ -1,7 +1,7 @@
 <div class="content-container" ng-controller="ChequeAccountsController">
     <ul class="breadcrumb">
         <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-        <li class="active">{{'label.anchor.bankcheques' | translate}}</li>
+        <li class="active">{{'label.heading.bankaccount' | translate}}</li>
     </ul>
     <api-validate></api-validate>
 
@@ -13,7 +13,7 @@
             <br>
             <div class="row">
                 <div class="col-sm-6">
-                    <form ng-submit="getResultsPage(1)" class="form-horizontal">
+                    <form ng-submit="getResultsPage()" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-md-8">
                                 <div class="input-group">
@@ -30,6 +30,10 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-sm-6">
+                    <a href="#/bankaccounts/createbankaccount" class="btn btn-primary pull-left" has-permission='CREATE_BANKACCOUNT'><i
+                            class="fa fa-plus"></i> {{'label.addBankAccount' | translate}}</a> &nbsp;&nbsp;
+                </div>
             </div>
             <br/>
             <table class="table">
@@ -44,8 +48,7 @@
                 </thead>
 
                 <tbody>
-                <tr dir-paginate="account in bankAccountlist | itemsPerPage: banksPerPage" class="pointer-main"
-                    total-items="totalBanks"  pagination-id="bankAccountlist" >
+                <tr ng-repeat="account in bankAccountList" class="pointer-main">
                     <td class="pointer" data-ng-click="routeTo(account.id)">{{account.accountNumber}}</td>
                     <td class="pointer" data-ng-click="routeTo(account.id)">{{account.bank.name}}</td>
                     <td class="pointer" data-ng-click="routeTo(account.id)">{{account.agency.name}}</td>
@@ -55,10 +58,6 @@
                 </tbody>
 
             </table>
-            <dir-pagination-controls align="center" boundary-links="true"
-                                     template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"
-                                     on-page-change="getResultsPage(newPageNumber)" pagination-id="bankAccountlist">
-            </dir-pagination-controls>
 
         </div>
     </div>
