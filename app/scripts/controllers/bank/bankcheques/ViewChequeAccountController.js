@@ -9,6 +9,11 @@
             scope.routeTo = function (batchId) {
                  location.path('/viewchequebatch/' + batchId);
             };
+           scope.deleteBankAccount = function (bankAccountId) {
+                resourceFactory.bankAccountResource.delete({bankAccountId: bankAccountId}, function (data) {
+                    location.path('chequebankaccounts');
+                });
+            }
         }
     });
 

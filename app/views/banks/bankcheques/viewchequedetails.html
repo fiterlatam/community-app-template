@@ -2,7 +2,7 @@
     <div>
         <ul class="breadcrumb">
             <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-            <li><a href="#/chequebankaccounts">{{'label.anchor.bankcheques' | translate}}</a></li>
+            <li><a href="#/chequebankaccounts">{{'label.heading.bankaccount' | translate}}</a></li>
             <li><a href="#/viewchequebatch/{{chequeData.batchId}}"> (Batch No: {{chequeData.batchNo}})</a></li>
             <li class="active">{{'label.button.view.cheque' | translate}}</li>
         </ul>
@@ -26,14 +26,11 @@
                    data-ng-show="showReassignButton" has-permission='REASSIGN_BANKCHEQUE'><i
                         class="fa fa-edit "></i>{{"label.button.reassign.cheque" | translate}}
                 </a>
-                <a href="#/issuecheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
-                   data-ng-show="showIssueButton" has-permission='ISSUE_BANKCHEQUE'><i
-                        class="fa fa-edit "></i>{{"label.button.issue.cheque" | translate}}
+                <a href="#/approvesingleissuance/{{chequeData.batchId}}/cheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
+                   data-ng-show="showApproveIssuanceButton" has-permission='APPROVEISSUANCE_BANKCHEQUE'><i
+                        class="fa fa-edit "></i>{{"label.button.approve.issuance.cheque" | translate}}
                 </a>
-                <a href="#/issuecheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
-                   data-ng-show="showAuthorizeIssuanceButton" has-permission='ISSUE_BANKCHEQUE'><i
-                        class="fa fa-edit "></i>{{"label.button.issue.authorize.cheque" | translate}}
-                </a>
+
                 <a href="#/printcheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
                    data-ng-show="showPrintButton" has-permission='PRINT_BANKCHEQUE'><i
                         class="fa fa-edit "></i>{{"label.button.print.cheque" | translate}}

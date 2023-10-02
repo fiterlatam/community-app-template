@@ -92,6 +92,11 @@
                                 {{'label.anchor.adhoc' | translate}}</h5>
                             <p class="list-group-item-text">{{'label.view.adhocs' | translate}}</p>
                        </a>
+                        <a class="list-group-item" href="#/approvechequesissuance" has-permission='APPROVEISSUANCE_LOAN'>
+                            <h5 class="list-group-item-heading"><i class="fa fa-money fa fa-large"></i>&nbsp;&nbsp;
+                                {{'label.anchor.approve.cheques.issuance' | translate}}</h5>
+                            <p class="list-group-item-text">{{'label.view.approve.cheques.issuance' | translate}}</p>
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6">
@@ -151,12 +156,12 @@
                                 {{'label.anchor.bank' | translate}}</h5>
                             <p class="list-group-item-text">{{'label.view.banks' | translate}}</p>
                        </a>
-                       <a class="list-group-item" href="#/bankaccounts" has-permission='READ_BANKACCOUNT'>
+                       <a class="list-group-item" href="#/chequebankaccounts" has-permission='READ_BANKACCOUNT'>
                         <h5 class="list-group-item-heading"><i class="fa fa-building fa fa-large"></i>&nbsp;&nbsp;
                             {{'label.anchor.bankaccounts' | translate}}</h5>
                         <p class="list-group-item-text">{{'label.view.bankaccounts' | translate}}</p>
                         </a>
-                        <a class="list-group-item" href="#/chequebankaccounts" has-permission='READ_BANKCHEQUES'>
+                        <a class="list-group-item" href="#/bankcheques" has-permission='READ_BANKCHEQUES'>
                             <h5 class="list-group-item-heading"><i class="fa fa-building fa fa-large"></i>&nbsp;&nbsp;
                                 {{'label.anchor.bankcheques' | translate}}</h5>
                             <p class="list-group-item-text">{{'label.view.bankcheques' | translate}}</p>

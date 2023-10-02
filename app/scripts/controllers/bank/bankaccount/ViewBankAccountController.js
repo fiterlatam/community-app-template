@@ -13,7 +13,7 @@
 
                 resourceFactory.bankAccountResource.delete({bankAccountId: bankAccountId}, function (data) {
                     //scope.bankAccountData = data;
-                    location.path('bankaccounts');
+                    location.path('chequebankaccounts');
                 });
             }
 
