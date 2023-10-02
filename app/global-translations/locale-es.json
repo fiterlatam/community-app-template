@@ -4478,5 +4478,6 @@
 	"label.button.approve.issuance.cheque":  "Aprobar emisión",
 	"label.anchor.approve.cheques.issuance": "Aprobar emisión de cheques",
 	"label.view.approve.cheques.issuance": "Aprobar la emisión de múltiples cheques",
+	"label.heading.exceptions.queue": "Cola de excepciones",
 	"----End---": "---Fin del archivo---"
 }
