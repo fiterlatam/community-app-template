@@ -28,9 +28,15 @@
                         <span>{{'label.heading.createdAt' | translate}}: <span
                                 class="pull-right">{{groupData.createdAt | DateFormat}}</span></span>
                     </div>
-                    <!--                    <div class="alert alert-info" ng-if="groupData.prequalilficationTimespan">-->
-                    <!--                        <span>{{'label.input.prequalification.duration'|translate}}: <span class="pull-right">{{groupData.prequalilficationTimespan}}</span></span>-->
-                    <!--                    </div>-->
+                    <div class="alert alert-info" ng-if="groupData.processType">
+                        <span>{{'label.heading.processtype' | translate}}: <span
+                                class="pull-right">{{groupData.processType}}</span></span>
+                    </div>
+                    <div class="alert alert-info" ng-if="groupData.processQuality">
+                        <span>{{'label.heading.processquality' | translate}}: <span
+                                class="pull-right">{{groupData.processQuality}}</span></span>
+                    </div>
+
                 </div>
                 <div class="col-sm-6">
                     <div class="alert alert-info">
@@ -52,6 +58,23 @@
                             {{groupData.status.value}} </span>
                         </span>
                     </div>
+                    <div class="alert alert-warning h4" ng-if="groupData.lastPrequalificationStatus">
+                        <span>{{'label.heading.previous.status' | translate}}: <span
+                                class="pull-right fa fa-stop {{groupData.lastPrequalificationStatus.code | StatusLookup}}"
+                                uib-tooltip-placement="right" uib-tooltip="{{groupData.lastPrequalificationStatus.value}}">
+                            {{groupData.status.value}} </span>
+                        </span>
+                    </div>
+
+                    <div class="alert alert-info" ng-if="groupData.statusChangedOn ">
+                        <span>{{'label.heading.updatedon' | translate}}: <span
+                                class="pull-right">{{groupData.statusChangedOn | DateFormat}}</span></span>
+                    </div>
+                    <div class="alert alert-info">
+                        <span>{{'label.heading.updatedby' | translate}}: <span
+                                class="pull-right">{{groupData.statusChangedBy}}</span></span>
+                    </div>
+
                     <div class="alert alert-default h5" ng-if="groupData.comments">
                         <span>{{'label.input.comments' | translate}}: <span
                                 class="pull-right">{{groupData.comments}}</span></span>
