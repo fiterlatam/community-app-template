@@ -9,7 +9,7 @@
              scope.showPrintButton = false;
              scope.showReassignButton = false;
              scope.showAuthorizeVoidanceButton = false;
-             scope.showAuthorizeIssuanceButton = false;
+             scope.showApproveIssuanceButton = false;
              scope.showIssueButton = false;
              resourceFactory.searchChequeResource.get({batchId: scope.batchId, chequeId: scope.chequeId}, function (data) {
                  if (data.pageItems.length > 0 ) {
@@ -30,7 +30,7 @@
                         scope.showAuthorizeVoidanceButton = true;
                         break;
                       case 5:
-                          scope.showAuthorizeIssuanceButton = true;
+                          scope.showApproveIssuanceButton = true;
                         break;
                       default:
                     }

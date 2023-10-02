@@ -4854,5 +4854,8 @@
   "validation.msg.charge.ranges.min.greaterorequal.to": "Max must be greater to Min",
   "validation.msg.charge.adminFeeRate.cannot.be.blank": "Fee ranges cannot be blank",
   "label.input.chequeNo": "Cheque No.",
+  "label.button.approve.issuance.cheque":  "Approve Issuance",
+  "label.anchor.approve.cheques.issuance": "Approve Cheques Issuance",
+  "label.view.approve.cheques.issuance": "Approve Multiple Cheques Issuance",
   "----End---": "--End of file--- "
 }

@@ -4471,5 +4471,8 @@
 	"validation.msg.charge.ranges.min.greaterorequal.to": "El día desde debe ser menor que el día hasta",
 	"validation.msg.charge.adminFeeRate.cannot.be.blank": "Debe ingresar los rangos para cuota administrativa",
 	"label.heading.bankAccNo": "Número de cuenta bancaria",
+	"label.button.approve.issuance.cheque":  "Aprobar emisión",
+	"label.anchor.approve.cheques.issuance": "Aprobar emisión de cheques",
+	"label.view.approve.cheques.issuance": "Aprobar la emisión de múltiples cheques",
 	"----End---": "---Fin del archivo---"
 }
