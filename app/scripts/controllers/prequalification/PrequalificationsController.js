@@ -3,7 +3,7 @@
         PrequalificationsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupsList = [];
-            scope.statusFilter;
+            scope.formData = {};
             scope.groupsPerPage=20;
             scope.prequalificationType=routeParams.type;
 
@@ -12,7 +12,7 @@
                     offset: ((pageNumber - 1) * scope.groupsPerPage),
                     limit: scope.groupsPerPage,
                     type: routeParams.type,
-                    status: routeParams.type==='AGENCY_LEAD_PENDING_APPROVAL'?'AGENCY_LEAD_PENDING_APPROVAL': scope.statusFilter,
+                    status: scope.formData.status,
                     searchText:scope.searchText
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;
@@ -20,7 +20,7 @@
                 });
             }
 
-            resourceFactory.prequalificationTemplateResource.get(function (data) {
+            resourceFactory.prequalificationTemplateResource.get({type:routeParams.type},function (data) {
                 scope.groupStatusOptions = data.groupStatusOptions
             });
 
