@@ -785,6 +785,7 @@
   "label.heading.withdrawn": "Client Withdrawn",
   "label.heading.creditrestructure": "Credit Restructuring",
   "label.heading.agency.lead.pending.approval": "Agency Lead Pending Approval",
+  "label.heading.analysis.unit.pending.approval": "Analysis Unit Pending Approval",
   "#Anchors": "..",
   "label.anchor.clients": "Clients",
   "label.anchor.createclient": "Create Client",

@@ -53,7 +53,7 @@
 
                 <div class="col-sm-3">
                     <!-- Only show New Pre-qualification button if type is not existing-->
-                    <a ng-if="prequalificationType !== 'existing' && prequalificationType !=='AGENCY_LEAD_PENDING_APPROVAL'" href="#/prequalifications/newprequalification/{{prequalificationType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
+                    <a ng-if="prequalificationType === 'new'" href="#/prequalifications/newprequalification/{{prequalificationType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
                             class="fa fa-plus"></i> {{'label.heading.newgroup.prequalification' | translate}}</a> &nbsp;&nbsp;
                 </div>
             </div>
