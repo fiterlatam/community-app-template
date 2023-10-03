@@ -70,9 +70,9 @@
                     <th>{{'label.input.product' | translate}}</th>
                     <th>{{'label.input.addedBy' | translate}}</th>
                     <th>{{'label.input.status' | translate}}</th>
-                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.updatedon' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{'label.heading.updatedon' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.heading.processquality' | translate}}</th>
-                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.processtype' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{'label.heading.processtype' | translate}}</th>
                     <th>{{'label.heading.action' | translate}}</th>
                 </tr>
                 </thead>
@@ -89,8 +89,8 @@
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
                     <td class="pointer" >{{client.status.value}}</td>
-                    <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.statusChangedOn|DateFormat}}</td>
-                    <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processType}}</td>
+                    <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.statusChangedOn|DateFormat}}</td>
+                    <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processQuality}}</td>
                     <td class="pointer">
                         <a href="#/prequalification/{{client.id}}/viewdetails{{prequalificationType==='AGENCY_LEAD_PENDING_APPROVAL'||

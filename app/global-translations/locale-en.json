@@ -4861,5 +4861,6 @@
   "label.button.approve.issuance.cheque":  "Approve Issuance",
   "label.anchor.approve.cheques.issuance": "Approve Cheques Issuance",
   "label.view.approve.cheques.issuance": "Approve Multiple Cheques Issuance",
+  "label.heading.exceptions.queue": "Exceptions Queue",
   "----End---": "--End of file--- "
 }
