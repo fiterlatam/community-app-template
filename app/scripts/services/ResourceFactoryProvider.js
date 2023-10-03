@@ -1017,6 +1017,7 @@
                         reassign: {method: 'POST', params: {commandParam: 'reassigncheque', chequeId: "@chequeId"}},
                         voidCheque: {method: 'POST', params: {commandParam: 'voidcheque', chequeId: "@chequeId"}},
                         approveIssuance: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId" }},
+                        authorizeIssuance: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId" }},
                         authorizeVoidance: {method: 'POST', params: {commandParam: 'authorizevoidance', chequeId: "@chequeId"}},
                     }),
                    searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
