@@ -156,6 +156,8 @@
 	"label.heading.fromdate": "Desde la fecha:",
 	"label.heading.interestrate": "Tasa de interés",
 	"label.heading.patternupdate": "Actualización de patrón",
+	"label.heading.agency.lead.pending.approval": "Líder de agencia pendiente de aprobación",
+	"label.heading.analysis.unit.pending.approval": "Unidad de Análisis Pendiente de Aprobación",
 	"label.input.between": "Entre",
 	"label.input.provisioningcriteria": "Criterios de aprovisionamiento",
 	"label.input.floatingratename": "nombre de tasa flotante",
