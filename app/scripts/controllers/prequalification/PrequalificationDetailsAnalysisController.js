@@ -119,30 +119,46 @@
                 $scope.memberResults = scope.memberHardPolicyResults;
 
                 $scope.checkValidationColor = function (colorName) {
-                    if(colorName){
-                        if('RED' === colorName.toUpperCase()){
+                    if (colorName) {
+                        if ('RED' === colorName.toUpperCase()) {
                             return 'text-danger';
                         }
 
-                        if('YELLOW' === colorName.toUpperCase()){
+                        if ('YELLOW' === colorName.toUpperCase()) {
                             return 'text-warning';
                         }
 
-                        if('GREEN' === colorName.toUpperCase()){
+                        if ('GREEN' === colorName.toUpperCase()) {
                             return 'text-success';
                         }
 
-                        if('GREEN' === colorName.toUpperCase()){
+                        if ('GREEN' === colorName.toUpperCase()) {
                             return 'text-success';
                         }
 
-                        if('ORANGE' === colorName.toUpperCase()){
+                        if ('ORANGE' === colorName.toUpperCase()) {
                             return 'text-warning';
                         }
                     }
                     return '';
                 }
 
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var ConfirmationModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.confirm = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
+                        {action: scope.analysisStatus},
+                        function (data) {
+                            route.reload();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                }
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
                 };
@@ -197,7 +213,10 @@
                     "locale": scope.optlang.code,
                 };
                 delete data.isEdit;
-                resourceFactory.prequalificationResource.updateMember({groupId:routeParams.groupId,memberId: member.id}, data, function (data) {
+                resourceFactory.prequalificationResource.updateMember({
+                    groupId: routeParams.groupId,
+                    memberId: member.id
+                }, data, function (data) {
                     if (data.resourceIdentifier) {
                         route.reload();
                         scope.groupMembers[index].isEdit = false;
@@ -205,9 +224,12 @@
                 });
             }
 
-            scope.processAnalysis = function (status) {
-                resourceFactory.prequalificationChecklistResource.processAnalysis({prequalificationId: routeParams.groupId, command:status}, {}, function (data) {
-                    route.reload();
+            scope.processAnalysisRequest = function (status, inMessage) {
+                scope.analysisStatus = status;
+                scope.confirmationMessage = inMessage
+                $uibModal.open({
+                    templateUrl: 'confirmationModal.html',
+                    controller: ConfirmationModalCtrl
                 });
             }
         }
