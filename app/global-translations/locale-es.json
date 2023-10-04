@@ -436,6 +436,7 @@
 	"error.msg.parameter.unsupported": "El parámetro `{{params[0].value}}`, ha sido superado y no es compatible para esta solicitud.",
 	"error.msg.column.mandatory": "Campo obligatorio no proporcionado.",
 	"error.msg.header": "Usted tiene los siguientes errores:",
+	"error.msg.group.prequalification.status.not.changed": "El estado de precalificación `{{params[0].value}}` no ha sido modificado. (El estado no puede permanecer igual que el anterior).",
 	"validation.msg.validation.errors.exist": "Existen errores de validación.",
 	"validation.msg.productivecollectionsheet.staffId.cannot.be.blank": "El personal es obligatorio.",
 	"validation.msg.domain.rule.violation": "Los errores contienen motivo de violación de las reglas de dominio.",
