@@ -1,9 +1,8 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrequalificationDetailsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupData = {};
-            scope.isEdit = false;
             scope.formData = {};
             scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
@@ -153,10 +152,62 @@
             scope.routeTo = function (path) {
                 location.path(path);
             }
+
+            scope.getDifference = function (num1, num2) {
+                return Number(num1) - Number(num2);
+            }
+            scope.resolveTotalRequestedAmount = function () {
+                let total = 0;
+                for (let i = 0; i < scope.groupMembers.length; i++) {
+                    total += scope.groupMembers[i].requestedAmount;
+                }
+                return total;
+            }
+            scope.resolveTotalApprovedAmount = function () {
+                let total = 0;
+                for (let i = 0; i < scope.groupMembers.length; i++) {
+                    total += scope.groupMembers[i].approvedAmount;
+                }
+                return total;
+            }
+
+            scope.editAmount = function (index) {
+                scope.groupMembers[index].isEdit = true;
+            }
+
+            scope.updateApprovedAmount = function (member) {
+
+                if (Number(member.requestedAmount) < Number(member.approvedAmount)) {
+                    console.log("Approved amount cannot be greater than requested amount")
+                    scope.error = true;
+                    scope.errorMsg = "Approved amount cannot be greater than requested amount";
+                    setTimeout(() => {
+                        scope.error = false;
+                        scope.errorMsg = null;
+                    }, 2000);
+
+                    return;
+                }
+
+                var data = {
+                    "approvedAmount": member.approvedAmount,
+                    "id": member.id,
+                    "name": member.name,
+                    "dpi": member.dpi,
+                    "locale": scope.optlang.code,
+                };
+                delete data.isEdit;
+                resourceFactory.prequalificationResource.updateMember({groupId:routeParams.groupId,memberId: member.id}, data, function (data) {
+                    if (data.resourceIdentifier) {
+                        route.reload();
+                        scope.groupMembers[index].isEdit = false;
+                    }
+                });
+            }
         }
     });
 
-    mifosX.ng.application.controller('PrequalificationDetailsController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrequalificationDetailsController]).run(function ($log) {
-        $log.info("PrequalificationDetailsController initialized");
+    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
+        $log.info("PrequalificationDetailsAnalysisController initialized");
     });
 }(mifosX.controllers || {}));

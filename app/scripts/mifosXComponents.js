@@ -397,6 +397,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'prequalification/IndividualPrequalificatoinController',
             'prequalification/EditGroupPrequalificatoinController',
             'prequalification/ExistingGroupPrequalificatoinController',
+            'prequalification/PrequalificationDetailsAnalysisController',
             'loanAccount/RestructureCreditsController',
             'bank/BankController',
             'bank/CreateBankController',

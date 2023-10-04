@@ -1208,12 +1208,16 @@
             templateUrl: 'views/prequalifications/prequalificationsMenu.html'
         }).when('/prequalificationGroups/:type', {
             templateUrl: 'views/prequalifications/prequalificationsGroups.html'
+        }).when('/prequalificationAnalysis/:type', {
+            templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
         }).when('/prequalifications/newprequalification/new', {
             templateUrl: 'views/prequalifications/newgroup.html'
         }).when('/prequalifications/newprequalification/existing', {
             templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
         }).when('/prequalification/:groupId/viewdetails', {
             templateUrl: 'views/prequalifications/prequalificationDetails.html'
+        }).when('/prequalification/:groupId/viewdetailsAnalysis', {
+            templateUrl: 'views/prequalifications/prequalificationDetailsAnalysis.html'
         }).when('/prequalification/:groupId/edit', {
             templateUrl: 'views/prequalifications/editgroup.html'
         }).when('/prequalifications/individualprequalifications', {
