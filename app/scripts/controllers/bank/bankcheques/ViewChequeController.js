@@ -18,10 +18,8 @@
                     switch (status) {
                       case 1:
                         scope.showVoidButton = true;
-                        scope.showIssueButton = true;
                         break;
                       case 2:
-                        scope.showPrintButton = true;
                         scope.showReassignButton = true;
                         break;
                       case 3:
@@ -31,6 +29,12 @@
                         break;
                       case 5:
                           scope.showApproveIssuanceButton = true;
+                        break;
+                      case 6:
+                          scope.showAuthorizeIssuanceButton = true;
+                        break;
+                      case 7:
+                         scope.showPrintButton = true;
                         break;
                       default:
                     }

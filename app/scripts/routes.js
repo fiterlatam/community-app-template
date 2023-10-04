@@ -1272,7 +1272,11 @@
           templateUrl: 'views/banks/bankcheques/approvesinglechequeissuance.html'
         }).when('/approvechequesissuance', {
            templateUrl: 'views/banks/bankcheques/approvechequesissuance.html'
-         });
+        }).when('/authorizechequesissuance', {
+           templateUrl: 'views/banks/bankcheques/authorizechequesissuance.html'
+        }).when('/authorizesingleissuance/:batchId/cheque/:chequeId', {
+           templateUrl: 'views/banks/bankcheques/authorizesinglechequeissuance.html'
+        });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };

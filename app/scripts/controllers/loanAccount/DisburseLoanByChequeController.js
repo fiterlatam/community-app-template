@@ -1,5 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
+
         DisburseLoanByChequeController: function (scope, routeParams, route, location, resourceFactory, http, $uibModal, API_VERSION, $rootScope, dateFilter) {
             scope.isCollapsed = false;
             scope.isChequeAssigned = false;

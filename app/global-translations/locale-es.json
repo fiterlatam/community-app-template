@@ -4485,5 +4485,8 @@
 	"label.anchor.approve.cheques.issuance": "Aprobar emisión de cheques",
 	"label.view.approve.cheques.issuance": "Aprobar la emisión de múltiples cheques",
 	"label.heading.exceptions.queue": "Cola de excepciones",
+	"label.button.authorize.issuance.cheque":  "Autorizar emisión",
+	"label.anchor.authorize.cheques.issuance": "Authorize Cheques Issuance",
+	"label.view.authorize.cheques.issuance": "Authorize Multiple Cheques Issuance",
 	"----End---": "---Fin del archivo---"
 }

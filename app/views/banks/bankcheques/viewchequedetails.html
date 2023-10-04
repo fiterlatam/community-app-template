@@ -31,7 +31,12 @@
                         class="fa fa-edit "></i>{{"label.button.approve.issuance.cheque" | translate}}
                 </a>
 
-                <a href="#/printcheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
+                <a href="#/authorizesingleissuance/{{chequeData.batchId}}/cheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
+                   data-ng-show="showAuthorizeIssuanceButton" has-permission='AUTHORIZEISSUANCE_BANKCHEQUE'><i
+                        class="fa fa-edit "></i>{{"label.button.authorize.issuance.cheque" | translate}}
+                </a>
+
+                <a href="#/printcheque/{{chequeData.batchId}}/cheque/{{chequeData.id}}" class="btn btn-primary btn-offset"
                    data-ng-show="showPrintButton" has-permission='PRINT_BANKCHEQUE'><i
                         class="fa fa-edit "></i>{{"label.button.print.cheque" | translate}}
                 </a>
