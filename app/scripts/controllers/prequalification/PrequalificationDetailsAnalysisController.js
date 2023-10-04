@@ -204,6 +204,12 @@
                     }
                 });
             }
+
+            scope.processAnalysis = function (status) {
+                resourceFactory.prequalificationChecklistResource.processAnalysis({prequalificationId: routeParams.groupId, command:status}, {}, function (data) {
+                    route.reload();
+                });
+            }
         }
     });
 

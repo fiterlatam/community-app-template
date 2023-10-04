@@ -91,6 +91,7 @@
                         requestUpdates: {method: 'POST', params: {command: 'requestUpdates'}},
                         sendToAnalysis: {method: 'POST', params: {command: 'sendToAnalysis'}},
                         bureauValidation: {method: 'POST', params: {command: 'bureauValidation'}},
+                        processAnalysis: {method: 'POST', params: {command: '@command'}},
                     }),
                      prequalificationValidationResource: defineResource(apiVer + "/prequalification/checklist", {prequalificationId:'@prequalificationId'}, {
                         get: {method: 'GET', params: {prequalificationId:'@prequalificationId',clientId:'@clientId'}}

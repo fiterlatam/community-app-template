@@ -195,64 +195,41 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <div class="row alert alert-default m-1">
+                <div class="col-sm-6 text-left">
+                    <button ng-click="processAnalysis('requestupdates')" type="button"
+                            class="btn btn-primary">{{'label.button.sendtoexception' | translate}}
+                    </button>
+                </div>
 
+                <div class="col-sm-6 text-right">
+                    <button ng-click="processAnalysis('sendtoagency')" type="button"
+                            class="btn btn-primary">{{'label.button.sendtoagency' | translate}}
+                    </button>
+                </div>
+            </div>
 
-            <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()"
-                  ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
-                <api-validate></api-validate>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                               for="comments">{{'label.heading.comments' | translate}}</label>
+            <div class="row alert alert-warning m-1">
 
-                        <div class="col-sm-3">
-                                <textarea id="comments" rows="4" ng-model="formData.comments"
-                                          class="form-control" required></textarea>
-                        </div>
-                    </div>
-                    <hr/>
-                    <legend>{{'label.anchor.uploadDocuments' | translate}}</legend>
+                <div class="col-sm-6 text-left">
+                    <button ng-click="processAnalysis('requestupdates')" type="button"
+                            class="btn btn-warning">{{'label.button.delaytoaccounting' | translate}}
+                    </button>
+                </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                               for="concentDocs">{{'label.input.supportingDocuments' | translate}}<span
-                                class="required">*</span></label>
-
-                        <div class="col-sm-3">
-                            <input id="concentDocs" type="file" ngf-select="onFileSelect($files)"
-                                   name="concentDocs"
-                                   accept="zip,application/zip,application/x-zip,application/x-zip-compressed"
-                                   ng-model="formData.fileUpload"
-                                   required="required" class="form-control" late-Validate/>
-                        </div>
-                        <div class="col-sm-3">
-                            <form-validate valattributeform="prequalForm" valattribute="concentDocs"/>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                               for="description">{{'label.input.description' | translate}}</label>
-
-                        <div class="col-sm-3">
-                                <textarea id="description" rows="2" ng-model="formData.description"
-                                          class="form-control"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="col-md-offset-3">
-                        <a id="cancel" href="#/prequalificationsmenu">
-                            <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}
-                            </button>
-                        </a>
-                        <button id="save" type="submit" has-permission='UPDATE_PREQUALIFICATIONS'
-                                class="btn btn-primary">{{'label.button.save' | translate}}
-                        </button>
-                    </div>
-
-                </fieldset>
-            </form>
+                <div class="col-sm-6 text-right">
+                    <button ng-click="processAnalysis('rejectanalysis')" type="button"
+                            class="btn btn-danger">{{'label.button.reject' | translate}}
+                    </button>
+                </div>
+            </div>
+            <div class="alert alert-success m-1 text-center">
+                    <button ng-click="processAnalysis('approveanalysis')" type="button"
+                            class="btn btn-success">{{'label.button.approve' | translate}}
+                    </button>
+            </div>
         </div>
     </div>
 
