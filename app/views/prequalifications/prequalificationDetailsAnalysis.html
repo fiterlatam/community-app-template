@@ -87,10 +87,18 @@
                         <span>{{'label.heading.updatedby' | translate}}: <span
                                 class="pull-right">{{groupData.statusChangedBy}}</span></span>
                     </div>
-
-                    <div class="alert alert-default h5" ng-if="groupData.comments">
+                    <div class="alert alert-info">
                         <span>{{'label.input.comments' | translate}}: <span
                                 class="pull-right">{{groupData.comments}}</span></span>
+                    </div>
+
+                    <div class="">
+                        <span>{{'label.input.addcomments' | translate}}: <span
+                                class="pull-right">
+                            <textarea rows="3" type="text" class="form-control" name="comms"
+                                   placeholder="{{'label.input.comments'|translate}}"
+                                      ng-model="formData.comments" id="comms" required></textarea>
+                        </span></span>
                     </div>
                 </div>
 

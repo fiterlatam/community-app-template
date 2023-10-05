@@ -153,7 +153,7 @@
                 $scope.confirm = function () {
                     resourceFactory.prequalificationChecklistResource.processAnalysis(
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
-                        {action: scope.analysisStatus},
+                        {action: scope.analysisStatus,comments:scope.formData.comments},
                         function (data) {
                             route.reload();
                             $uibModalInstance.dismiss('okay');

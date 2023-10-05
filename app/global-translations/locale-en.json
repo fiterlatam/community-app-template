@@ -301,6 +301,7 @@
   "label.heading.contact.information": "Contact Information",
   "label.input.repeat": "Repeat",
   "label.input.comments": "Comments",
+  "label.input.addcomments": "Add Comments",
   "label.input.closurereasons": "Closure reasons",
   "label.input.enteractivationdate": "Enter activation date:",
   "label.input.filterbynameorstatusoroffice": "Filter by name, status, or office",

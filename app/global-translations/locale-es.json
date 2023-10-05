@@ -283,6 +283,7 @@
 	"label.input.observations": "Observacaiones",
 	"label.input.repeat": "Repetir",
 	"label.input.comments": "Comentarios",
+	"label.input.addcomments": "Añadir Comentarios",
 	"label.input.closurereasons": "Motivos de cierre",
 	"label.input.enteractivationdate": "Introduzca la fecha de activación:",
 	"label.input.filterbynameorstatusoroffice": "Filtrar por nombre, estado, u oficina",
