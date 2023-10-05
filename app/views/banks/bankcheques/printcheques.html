@@ -118,45 +118,63 @@
             </div>
             <br/>
             <form novalidate="">
-                <table class="table">
-                    <thead>
-                    <tr class="graybg">
-                        <th>
-                            <div class="checkbox form-group">
-                                <label for="isAllChequesSelected">
-                                    <input type="checkbox" id="isAllChequesSelected" name="isAllChequesSelected" ng-model="isAllChequesSelected" data-ng-change="selectAllCheques()">
-                                </label>
-                            </div>
-                        </th>
-                        <th>{{'label.heading.chequeNo' | translate}}</th>
-                        <th>{{'label.heading.batchNo' | translate}}</th>
-                        <th>{{'label.heading.bankAccNo' | translate}}</th>
-                        <th>{{'label.heading.status' | translate}}</th>
-                        <th>{{'label.heading.description' | translate}}</th>
-                        <th>{{'label.heading.createdon' | translate}}</th>
-                        <th>{{'label.heading.createdby' | translate}}</th>
-                    </tr>
-                    </thead>
+                <div scroll>
+                    <table style="width: 1200px;white-space:nowrap" class="table table-bordered" data-anchor>
+                        <thead>
+                        <tr class="graybg">
+                            <th>
+                                <div class="checkbox form-group">
+                                    <label for="isAllChequesSelected">
+                                        <input type="checkbox" id="isAllChequesSelected" name="isAllChequesSelected" ng-model="isAllChequesSelected" data-ng-change="selectAllCheques()">
+                                    </label>
+                                </div>
+                            </th>
+                            <th>{{'label.heading.chequeNo' | translate}}</th>
+                            <th>{{'label.heading.status' | translate}}</th>
+                            <th>{{'label.heading.batchNo' | translate}}</th>
+                            <th>{{'label.heading.bankAccNo' | translate}}</th>
+                            <th>{{'label.heading.bank.name' | translate}}</th>
+                            <th>{{'label.heading.loanaccount' | translate}}</th>
+                            <th>{{'label.input.totalLoanAmount' | translate}}</th>
+                            <th>{{'label.heading.guaranteeamount' | translate}}</th>
+                            <th>{{'label.heading.clientno' | translate}}</th>
+                            <th>{{'label.heading.clientname' | translate}}</th>
+                            <th>{{'label.heading.groupno' | translate}}</th>
+                            <th>{{'label.heading.groupname' | translate}}</th>
+                            <th >{{'label.heading.description' | translate}}</th>
+                            <th>{{'label.heading.createdon' | translate}}</th>
+                            <th>{{'label.heading.createdby' | translate}}</th>
+                        </tr>
+                        </thead>
 
-                    <tbody>
-                    <tr dir-paginate="cheque in cheques | orderBy:'chequeNo':reverse | itemsPerPage: chequesPerPage" total-items="totalCheques" pagination-id="cheques">
-                        <td>
-                            <div class="checkbox form-group">
-                                <label for="isSelected">
-                                    <input type="checkbox" id="isSelected" name="isSelected" ng-model="cheque.isSelected">
-                                </label>
-                            </div>
-                        </td>
-                        <td>{{cheque.chequeNo}}</td>
-                        <td>{{cheque.batchNo}}</td>
-                        <td>{{cheque.bankAccNo}}</td>
-                        <td>{{cheque.status.value}}</td>
-                        <td>{{cheque.description}}</td>
-                        <td>{{cheque.createdDate | DateFormat}}</td>
-                        <td>{{cheque.createdByUsername}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                        <tr dir-paginate="cheque in cheques | orderBy:'chequeNo':reverse | itemsPerPage: chequesPerPage" total-items="totalCheques" pagination-id="cheques">
+                            <td>
+                                <div class="checkbox form-group">
+                                    <label for="isSelected">
+                                        <input type="checkbox" id="isSelected" name="isSelected" ng-model="cheque.isSelected">
+                                    </label>
+                                </div>
+                            </td>
+                            <td>{{cheque.chequeNo}}</td>
+                            <td>{{cheque.status.value}}</td>
+                            <td>{{cheque.batchNo}}</td>
+                            <td>{{cheque.bankAccNo}}</td>
+                            <td>{{cheque.bankName}}</td>
+                            <td>{{cheque.loanAccNo}}</td>
+                            <td>{{cheque.loanAmount}}</td>
+                            <td>{{cheque.guaranteeAmount}}</td>
+                            <td>{{cheque.clientNo}}</td>
+                            <td>{{cheque.clientName}}</td>
+                            <td>{{cheque.groupNo}}</td>
+                            <td>{{cheque.groupName}}</td>
+                            <td>{{cheque.description}}</td>
+                            <td>{{cheque.createdDate | DateFormat}}</td>
+                            <td>{{cheque.createdByUsername}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <dir-pagination-controls boundary-links="true"  pagination-id="cheques" template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html" on-page-change="getResultsPage(newPageNumber)"></dir-pagination-controls>
                 <div class="col-md-offset-2 paddedleft">
                     <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>

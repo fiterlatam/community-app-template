@@ -4484,5 +4484,8 @@
 	"label.button.authorize.issuance.cheque":  "Autorizar emisión",
 	"label.anchor.authorize.cheques.issuance": "Autorizar emisión de cheques",
 	"label.view.authorize.cheques.issuance": "Autorizar la emisión de múltiples cheques",
+	"label.button.print.cheques":  "Imprimir cheques",
+	"label.anchor.print.cheques": "Imprimir cheques",
+	"label.view.print.cheques": "Imprimir múltiples cheques bancarios",
 	"----End---": "---Fin del archivo---"
 }

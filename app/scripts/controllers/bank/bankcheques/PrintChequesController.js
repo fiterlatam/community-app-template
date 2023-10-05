@@ -73,7 +73,7 @@
             }
 
             scope.processCsvData = function () {
-              var headers = ['Bank Acc No.', 'Bank Name', 'Cheque No.', 'Amount', 'Description', 'Batch No.', 'Client No.'];
+              var headers = ['Bank Acc No.', 'Bank Name', 'Cheque No.', 'Amount', 'Description', 'Batch No.', 'Client No.',  'Group No.', 'Loan Acc No.', 'Loan Amount'];
               var selectedCheques = [];
                 for(var i = 0; i < scope.cheques.length; i++){
                   if(scope.cheques[i].isSelected){
@@ -83,7 +83,8 @@
               var csvData = [];
               csvData.push(headers);
               for (let i = 0; i < selectedCheques.length; i++) {
-                 var row = [selectedCheques[i].bankAccNo, selectedCheques[i].bankName, selectedCheques[i].chequeNo, selectedCheques[i].amount, selectedCheques[i].description, selectedCheques[i].batchNo, selectedCheques[i].clientAccNo];
+                 var row = [selectedCheques[i].bankAccNo, selectedCheques[i].bankName, selectedCheques[i].chequeNo, selectedCheques[i].amount,
+                 selectedCheques[i].description, selectedCheques[i].batchNo, selectedCheques[i].clientNo, selectedCheques[i].groupNo, selectedCheques[i].loanAccNo, selectedCheques[i].loanAmount];
                  csvData.push(row);
               }
               var date = new Date();
