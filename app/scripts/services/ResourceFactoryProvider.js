@@ -91,16 +91,18 @@
                         requestUpdates: {method: 'POST', params: {command: 'requestUpdates'}},
                         sendToAnalysis: {method: 'POST', params: {command: 'sendToAnalysis'}},
                         bureauValidation: {method: 'POST', params: {command: 'bureauValidation'}},
+                        processAnalysis: {method: 'POST', params: {command: '@command'}},
                     }),
                      prequalificationValidationResource: defineResource(apiVer + "/prequalification/checklist", {prequalificationId:'@prequalificationId'}, {
                         get: {method: 'GET', params: {prequalificationId:'@prequalificationId',clientId:'@clientId'}}
                     }),
-                    prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId", {groupId: '@groupId',anotherResource: '@anotherResource'}, {
+                    prequalificationResource: defineResource(apiVer + "/prequalification/:anotherResource/:groupId/:memberId", {groupId: '@groupId',anotherResource: '@anotherResource',memberId: '@memberId'}, {
                         get: {method: 'GET', params: {}},
                         prequalifyExistingGroup: {method: 'POST', params: {anotherResource: '@anotherResource'}},
                         getAllGroups: {method: 'GET', params: {limit: 1000}},
                         save: {method: 'POST', params: {}},
                         update: {method: 'PUT', params: {}},
+                        updateMember: {method: 'PUT', params: {}},
                     }),
                     individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/:clientId", {clientId: '@clientId'}, {
                         get: {method: 'GET', params: {}},
