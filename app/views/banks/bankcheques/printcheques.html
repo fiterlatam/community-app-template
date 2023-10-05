@@ -1,7 +1,7 @@
-<div class="content-container" ng-controller="AuthorizeChequesIssuanceController">
+<div class="content-container" ng-controller="PrintChequesController">
     <ul class="breadcrumb">
         <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
-        <li class="active">{{'label.anchor.authorize.cheques.issuance' | translate}}</li>
+        <li class="active">{{'label.anchor.print.cheques' | translate}}</li>
     </ul>
     <api-validate></api-validate>
     <div class="card">
@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-sm-8">
                     <div class="toolbar">
-                        <h4 class="pull-left">{{'label.anchor.authorize.cheques.issuance' | translate}}</h4>
+                        <h4 class="pull-left">{{'label.anchor.print.cheques' | translate}}</h4>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -117,7 +117,7 @@
                 </form>
             </div>
             <br/>
-            <form novalidate="" ng-submit="submit()">
+            <form novalidate="">
                 <table class="table">
                     <thead>
                     <tr class="graybg">
@@ -160,7 +160,7 @@
                 <dir-pagination-controls boundary-links="true"  pagination-id="cheques" template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html" on-page-change="getResultsPage(newPageNumber)"></dir-pagination-controls>
                 <div class="col-md-offset-2 paddedleft">
                     <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
-                    <button ng-disabled="isAuthorizeBtnDisabled()"  id="save" type="submit" class="btn btn-primary" has-permission='AUTHORIZEISSUANCE_BANKCHEQUE'>{{'label.button.authorize.issuance.cheque' | translate}}</button>
+                    <button has-permission='PRINT_BANKCHEQUES' ng-disabled="isExportBtnDisabled()" type="button" class="btn btn-primary" ng-csv="processCsvData()" filename="{{fileName}}" ><i class="fa fa-file "></i>&nbsp;&nbsp;{{'label.button.exportcsv' | translate }}</button>
                 </div>
             </form>
         </div>

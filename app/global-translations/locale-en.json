@@ -4864,7 +4864,10 @@
   "label.view.approve.cheques.issuance": "Approve Multiple Cheques Issuance",
   "label.heading.exceptions.queue": "Exceptions Queue",
   "label.button.authorize.issuance.cheque":  "Authorize Issuance",
-  "label.anchor.authorize.cheques.issuance": "Autorizar emisión de cheques",
-  "label.view.authorize.cheques.issuance": "Autorizar la emisión de múltiples cheques",
+  "label.anchor.authorize.cheques.issuance": "Authorize Cheques Issuance",
+  "label.view.authorize.cheques.issuance": "Authorize Multiple Cheques Issuance",
+  "label.button.print.cheques":  "Print Cheques",
+  "label.anchor.print.cheques": "Print Cheques",
+  "label.view.print.cheques": "Print Multiple Bank Cheques",
   "----End---": "--End of file--- "
 }

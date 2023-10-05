@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        AuthorizeChequesIssuanceController: function (scope, routeParams, route, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        PrintChequesController: function (scope, routeParams, route, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
              scope.bankAccountOptions = [];
              resourceFactory.chequeBatchTemplateResource.get({}, function (data) {
@@ -25,7 +25,7 @@
             scope.cheques = [];
             scope.formData = {};
             scope.chequesPerPage = 100;
-            scope.formData.status = 6;
+            scope.formData.status = 7;
             scope.isAllChequesSelected = false;
             scope.isCollapsed = false;
             scope.getResultsPage = function (pageNumber) {
@@ -61,7 +61,7 @@
                 }
             }
 
-            scope.isAuthorizeBtnDisabled = function(){
+            scope.isExportBtnDisabled = function(){
               var ret = true;
               for (var i = 0; i < scope.cheques.length; i++ ){
                    if(scope.cheques[i].isSelected){
@@ -71,6 +71,32 @@
                }
                return ret;
             }
+
+            scope.processCsvData = function () {
+              var headers = ['Bank Acc No.', 'Bank Name', 'Cheque No.', 'Amount', 'Description', 'Batch No.', 'Client No.'];
+              var selectedCheques = [];
+                for(var i = 0; i < scope.cheques.length; i++){
+                  if(scope.cheques[i].isSelected){
+                     selectedCheques.push(scope.cheques[i]);
+                  }
+               }
+              var csvData = [];
+              csvData.push(headers);
+              for (let i = 0; i < selectedCheques.length; i++) {
+                 var row = [selectedCheques[i].bankAccNo, selectedCheques[i].bankName, selectedCheques[i].chequeNo, selectedCheques[i].amount, selectedCheques[i].description, selectedCheques[i].batchNo, selectedCheques[i].clientAccNo];
+                 csvData.push(row);
+              }
+              var date = new Date();
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var day = date.getDate();
+              var hours = date.getHours();
+              var minutes = date.getMinutes();
+              var seconds = date.getSeconds();
+              var fileName = 'cheques_' + [year, month.toString().padStart(2, '0'), day.toString().padStart(2, '0'), hours.toString().padStart(2, '0'), minutes.toString().padStart(2, '0'), seconds.toString().padStart(2, '0')].join('-');
+              scope.fileName = fileName;
+             return csvData;
+            };
 
             scope.submit = function (){
                   var selectedCheques = [];
@@ -114,7 +140,7 @@
         }
     });
 
-    mifosX.ng.application.controller('AuthorizeChequesIssuanceController', ['$scope', '$routeParams', '$route', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.AuthorizeChequesIssuanceController]).run(function ($log) {
-        $log.info("AuthorizeChequesIssuanceController initialized");
+    mifosX.ng.application.controller('PrintChequesController', ['$scope', '$routeParams', '$route', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrintChequesController]).run(function ($log) {
+        $log.info("PrintChequesController initialized");
     });
 }(mifosX.controllers || {}));
