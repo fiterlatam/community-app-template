@@ -680,6 +680,15 @@
         </div>
     </div>
 
+	<div class="form-group">
+		<label class="control-label col-sm-4">{{
+			'label.input.days.limit.addOn'
+			| translate }}<span class="required">*</span></label>
+		<div class="col-sm-2">
+			<input id="daysLimitForAddOn" type="text" class="form-control"	ng-model="formData.daysLimitAddOn">
+		</div>
+	</div>
+
     <div class="form-group">
         <div class="col-sm-3">
             <input type="checkbox" name="name1" ng-model="formData.allowVariableInstallments"/>
@@ -1055,17 +1064,17 @@
 	<hr>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="1"/>{{'label.input.none' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==1" value="1"/>{{'label.input.none' | translate}}
 	    </label>
 	</div>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="2"/>{{'label.input.cash' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==2" value="2"/>{{'label.input.cash' | translate}}
 	    </label>
 	</div>
 	<div class="radio-inline">
 	    <label>
-	        <input type="radio" ng-model="formData.accountingRule" value="3"/>{{'label.input.periodicaccrual' | translate}}
+	        <input type="radio" ng-model="formData.accountingRule" ng-checked="formData.accountingRule==3" value="3"/>{{'label.input.periodicaccrual' | translate}}
 	    </label>
 	</div>
 	<div class="radio-inline">

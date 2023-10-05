@@ -92,6 +92,9 @@
                 //Rate Module
                 scope.rateOptions = scope.product.rateOptions || [];
                 scope.enableRates = scope.product.isRatesEnabled;
+
+                // Limit of days to apply the addon charges
+                scope.formData.daysLimitAddOn = scope.product.daysLimitAddOn;
             });
 
              scope.$watch('formData',function(newVal){
