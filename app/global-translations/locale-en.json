@@ -407,6 +407,7 @@
   "label.button.sendtoexception": "Send To exception",
   "label.button.sendtoagency": "Send To Agency Leady",
   "label.button.delaytoaccounting": "Delay To Accounting",
+  "label.button.sendToPrevious": "Send To Previous Step",
   "label.button.clientscreenreports": "Client Screen Reports",
   "label.button.summary": "Summary",
   "label.button.updatedefaultsavings": "Update Default Savings",
