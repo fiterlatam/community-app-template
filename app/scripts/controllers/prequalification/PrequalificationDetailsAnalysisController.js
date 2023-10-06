@@ -8,6 +8,7 @@
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
+            scope.prequalificationType = routeParams.prequalificationType;
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
@@ -155,7 +156,7 @@
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
                         {action: scope.analysisStatus,comments:scope.formData.comments},
                         function (data) {
-                            route.reload();
+                            scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
                         });
                 }

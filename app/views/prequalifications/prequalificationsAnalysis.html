@@ -82,7 +82,7 @@
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processQuality}}</td>
                     <td class="pointer">
-                        <a href="#/prequalification/{{client.id}}/viewdetailsAnalysis?showValidatePolicies=true"
+                        <a href="#/prequalification/{{client.id}}/viewdetailsAnalysis?showValidatePolicies=true&prequalificationType={{prequalificationType}}"
                            has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
                     </td>

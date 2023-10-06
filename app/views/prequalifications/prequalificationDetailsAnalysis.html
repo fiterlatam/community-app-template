@@ -117,16 +117,16 @@
                 <tr>
                     <th>{{'label.input.name' | translate}}</th>
                     <th>{{'label.input.amount.requested' | translate}}</th>
-                    <th>{{'label.input.amount.approved' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
                     <th>{{'label.heading.hard.policy.status' | translate}}</th>
-                    <th>{{'label.heading.action' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.action' | translate}}</th>
                 </tr>
 
                 <tr ng-repeat="member in groupMembers">
                     <td>{{member.name}}</td>
                     <td>{{member.requestedAmount | number}}</td>
-                    <td>
+                    <td ng-if="prequalificationType==='analysis'">
                         <input type="number" class="form-control" name="amntApproved"
                                ng-disabled="!groupMembers[$index].isEdit"
                                placeholder="{{'label.input.amount.approved'|translate}}"
@@ -139,7 +139,7 @@
                     <td>
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
                            ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
-                    <td>
+                    <td ng-if="prequalificationType==='analysis'">
                         <div>
                             <div class="col-sm-6" ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)"><i
                                     class="fa fa-pencil-square-o fa-2x"></i></div>
@@ -209,7 +209,7 @@
             </table>
         </div>
         <div>
-            <div class="row alert alert-default m-1">
+            <div class="row alert alert-default m-1" ng-if="prequalificationType==='analysis'">
                 <div class="col-sm-6 text-left">
                     <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
                             class="btn btn-primary">{{'label.button.sendtoexception' | translate}}
@@ -225,9 +225,17 @@
 
             <div class="row alert alert-warning m-1">
 
-                <div class="col-sm-6 text-left">
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='analysis'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
                             class="btn btn-warning">{{'label.button.delaytoaccounting' | translate}}
+                    </button>
+                </div>
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
+                    <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
+                            class="btn btn-warning">{{'label.button.sendToPrevious' | translate}}
+                    </button>
+                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary">{{'label.button.prequalification.sendToAnalysis' | translate}}
                     </button>
                 </div>
 
@@ -237,7 +245,7 @@
                     </button>
                 </div>
             </div>
-            <div class="alert alert-success m-1 text-center">
+            <div class="alert alert-success m-1 text-center" ng-if="prequalificationType==='analysis'">
                 <button ng-click="processAnalysisRequest('approveanalysis', 'label.button.approve')" type="button"
                         class="btn btn-success">{{'label.button.approve' | translate}}
                 </button>

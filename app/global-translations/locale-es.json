@@ -377,6 +377,7 @@
 	"label.button.sendtoexception": "Enviar a fase de Excepción",
 	"label.button.sendtoagency": "Enviar a fase Líder de Agencia",
 	"label.button.delaytoaccounting": "Aplazar a fase de Auxiliar Contable",
+	"label.button.sendToPrevious": "Enviar a la fase anterior",
 	"label.button.clientscreenreports": "Pantalla de informes del cliente",
 	"label.button.summary": "Resumen",
 	"label.button.updatedefaultsavings": "Actualización predeterminada de ahorros",
