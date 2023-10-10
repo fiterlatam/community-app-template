@@ -1010,6 +1010,9 @@
                     chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
                         get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
                     }),
+                    chequeGuaranteeResource: defineResource(apiVer + "/bankcheques/guarantees", {caseId: "@caseId"}, {
+                        getAllGuarantees: {method: 'GET', params: {caseId: "@caseId"}, isArray: true}
+                    }),
                    chequeBatchResource: defineResource(apiVer + "/bankcheques/:batchId", {chequeId: "@chequeId", batchId: "@batchId", commandParam: "@commandParam"}, {
                         get: {method: 'GET', params: {}},
                         save: { method: 'POST', params: {}},
@@ -1021,6 +1024,7 @@
                         approveIssuance: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId" }},
                         authorizeIssuance: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId" }},
                         authorizeVoidance: {method: 'POST', params: {commandParam: 'authorizevoidance', chequeId: "@chequeId"}},
+                        payGuarantees: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId"}},
                     }),
                    searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
                         get: {method: 'GET', params: {}}

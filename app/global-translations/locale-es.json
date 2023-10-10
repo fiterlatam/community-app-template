@@ -4496,5 +4496,11 @@
 	"label.button.print.cheques":  "Imprimir cheques",
 	"label.anchor.print.cheques": "Imprimir cheques",
 	"label.view.print.cheques": "Imprimir múltiples cheques bancarios",
+	"label.anchor.pay.guarantees.by.cheques": "Garantías de pago mediante cheques",
+	"label.view.pay.guarantees.by.cheques": "Pague múltiples garantías mediante chequess",
+	"label.heading.pay.guarantees.by.cheques": "Garantías de pago mediante cheques",
+	"label.input.searchbycaseid": "Buscar por ID de caso",
+	"label.heading.withdrawalreason": "motivo de retiro",
+	"label.heading.caseid": "Case ID",
 	"----End---": "---Fin del archivo---"
 }
