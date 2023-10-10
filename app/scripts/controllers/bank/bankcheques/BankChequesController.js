@@ -15,7 +15,6 @@
             scope.formData = {};
             scope.chequesPerPage = 100;
             scope.getResultsPage = function (pageNumber) {
-            console.log(this.formData);
                resourceFactory.searchChequeResource.get({
                     offset: ((pageNumber - 1) * scope.chequesPerPage),
                     limit: scope.chequesPerPage,
