@@ -4885,5 +4885,7 @@
   "label.input.searchbycaseid": "Search By Case ID",
   "label.heading.withdrawalreason": "Withdrawal reason",
   "label.heading.caseid": "Case ID",
+  "label.input.cheque.agency": "Select Cheque Agency",
+  "label.input.loan.agency": "Select Loan Agency",
   "----End---": "--End of file--- "
 }

@@ -4503,5 +4503,7 @@
 	"label.input.searchbycaseid": "Buscar por ID de caso",
 	"label.heading.withdrawalreason": "motivo de retiro",
 	"label.heading.caseid": "Case ID",
+	"label.input.cheque.agency": "Seleccionar agencia de cheques",
+	"label.input.loan.agency": "Seleccionar agencia de préstamos",
 	"----End---": "---Fin del archivo---"
 }

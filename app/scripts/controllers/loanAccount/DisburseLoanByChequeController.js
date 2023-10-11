@@ -16,10 +16,6 @@
                 scope.groupOptions = data.groupOptions;
                 scope.facilitatorOptions = data.facilitatorOptions;
                 scope.disbursementMethodOptions = data.disbursementMethodOptions;
-                if(scope.agencyOptions.length > 0){
-                    scope.formData.agencyId = scope.agencyOptions[1].id;
-                }
-
             });
 
             scope.searchApprovedLoanAccounts = function () {
@@ -39,7 +35,6 @@
                    if(this.formData.disbursementEndDate){
                       this.formData.disbursementEndDate = dateFilter(this.formData.disbursementEndDate,  scope.df);
                    }
-                    delete this.formData.agencyId;
                    resourceFactory.loanResource.getAllLoans(this.formData, function (data) {
                         scope.approvedLoanAccounts = data.pageItems;
                    });
@@ -49,13 +44,15 @@
                  scope.searchApprovedLoanAccounts();
                  scope.fetchAvailableCheques();
                  scope.isCollapsed = true;
+                 scope.allLoansSelected = false;
+                 console.log(scope.availableCheques);
             }
 
             scope.fetchAvailableCheques = function () {
                 resourceFactory.searchChequeResource.get({
                     orderBy: 'chequeNo',
                     sortOrder: 'ASC',
-                    agencyId: scope.formData.agencyId,
+                    agencyId: scope.formData.checkAgencyId,
                     status: 1
                 }, function (data) {
                         scope.totalAvailableCheques = data.totalFilteredRecords;
@@ -65,18 +62,21 @@
 
             scope.assignCheques = function(){
                 var selectedLoanAccounts = [];
+                console.log(scope.approvedLoanAccounts);
                 for(var i = 0; i < scope.approvedLoanAccounts.length; i++){
                      delete scope.approvedLoanAccounts[i].chequeData;
                      if(scope.approvedLoanAccounts[i].isSelected){
                         selectedLoanAccounts.push(scope.approvedLoanAccounts[i]);
                      }
                 }
+                console.log(selectedLoanAccounts);
+                console.log(scope.availableCheques);
                 scope.uiValidationErrors = [];
                 if(selectedLoanAccounts.length < 1){
                   scope.uiValidationErrors.push({
                         message: 'error.message.select.at.least.one.cheque'
                    });
-                } else if (selectedLoanAccounts.length > this.availableCheques.length){
+                } else if (selectedLoanAccounts.length > scope.availableCheques.length){
                       scope.uiValidationErrors.push({
                           message: 'error.message.insufficient.amount.of.cheques'
                        });
