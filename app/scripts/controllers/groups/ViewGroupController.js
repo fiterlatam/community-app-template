@@ -238,10 +238,10 @@
 
             }
 
-            scope.sendToAnalysisUnit = function () {
+            scope.sendToAgencyUnit = function () {
                 $uibModal.open({
-                    templateUrl: 'analysisConfirmation.html',
-                    controller: AnalysisConfirmationCtrl
+                    templateUrl: 'agencyConfirmation.html',
+                    controller: AgencyConfirmationCtrl
                 });
 
             }
@@ -262,14 +262,17 @@
                 };
             };
 
-            var AnalysisConfirmationCtrl = function ($scope, $uibModalInstance) {
+            var AgencyConfirmationCtrl = function ($scope, $uibModalInstance) {
                 $scope.updateData = {};
 
                 $scope.sendGroup = function () {
-                    resourceFactory.prequalificationChecklistResource.sendToAnalysis({prequalificationId: scope.group.prequalificationId}, {}, function (data) {
-                        $uibModalInstance.dismiss('cancel');
-                        route.reload();
-                    });
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: scope.group.prequalificationId, command: 'sendtoagency'},
+                        {action: 'sendtoagency'},
+                        function (data) {
+                            $uibModalInstance.dismiss('cancel');
+                            route.reload();
+                        });
                 };
 
                 $scope.cancel = function () {

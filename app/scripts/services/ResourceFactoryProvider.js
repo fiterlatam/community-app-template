@@ -90,6 +90,7 @@
                         validate: {method: 'POST', params: {command: 'validateprequalification'}},
                         requestUpdates: {method: 'POST', params: {command: 'requestUpdates'}},
                         sendToAnalysis: {method: 'POST', params: {command: 'sendToAnalysis'}},
+                        sendToAgency: {method: 'POST', params: {command: 'sendtoagency'}},
                         bureauValidation: {method: 'POST', params: {command: 'bureauValidation'}},
                         processAnalysis: {method: 'POST', params: {command: '@command'}},
                     }),
