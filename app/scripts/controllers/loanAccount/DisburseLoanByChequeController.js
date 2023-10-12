@@ -45,8 +45,16 @@
                  scope.fetchAvailableCheques();
                  scope.isCollapsed = true;
                  scope.allLoansSelected = false;
-                 console.log(scope.availableCheques);
+                 scope.uiValidationErrors = [];
             }
+
+             scope.calculateDiffWithZeroDefault = function(value1, value2){
+                  if(value1 && value2){
+                    return (value1 - value2) < 0 ? 0 : (value1 - value2);
+                  }else {
+                     return 0;
+                  }
+              }
 
             scope.fetchAvailableCheques = function () {
                 resourceFactory.searchChequeResource.get({
@@ -62,15 +70,12 @@
 
             scope.assignCheques = function(){
                 var selectedLoanAccounts = [];
-                console.log(scope.approvedLoanAccounts);
                 for(var i = 0; i < scope.approvedLoanAccounts.length; i++){
                      delete scope.approvedLoanAccounts[i].chequeData;
                      if(scope.approvedLoanAccounts[i].isSelected){
                         selectedLoanAccounts.push(scope.approvedLoanAccounts[i]);
                      }
                 }
-                console.log(selectedLoanAccounts);
-                console.log(scope.availableCheques);
                 scope.uiValidationErrors = [];
                 if(selectedLoanAccounts.length < 1){
                   scope.uiValidationErrors.push({
@@ -114,11 +119,21 @@
                 var selectedLoanAccounts = [];
                 for(var i = 0; i < scope.approvedLoanAccounts.length; i++){
                      if(scope.approvedLoanAccounts[i].isSelected){
+                        var requiredGuaranteeAmount = scope.approvedLoanAccounts[i].requiredGuaranteeAmount;
+                        var actualGuaranteeAmount = scope.approvedLoanAccounts[i].actualGuaranteeAmount;
+                        if(scope.calculateDiffWithZeroDefault(requiredGuaranteeAmount, actualGuaranteeAmount) > 0){
+                              scope.uiValidationErrors.push({
+                                message: 'error.message.checks.only.can.be.assigned.if.depositar.less.or.equal.to.zero'
+                              });
+                              return;
+                        }
                          var selectedLoanAccount = {
                             loanId: scope.approvedLoanAccounts[i].id,
                             chequeId: scope.approvedLoanAccounts[i].chequeData.id,
                             description: scope.approvedLoanAccounts[i].description,
-                            guaranteeAmount: scope.approvedLoanAccounts[i].guaranteeAmount,
+                            actualGuaranteeAmount: scope.approvedLoanAccounts[i].actualGuaranteeAmount,
+                            requiredGuaranteeAmount: scope.approvedLoanAccounts[i].requiredGuaranteeAmount,
+                            depositGuaranteeNo: scope.approvedLoanAccounts[i].depositGuaranteeNo,
                             locale: scope.optlang.code
                          }
                         selectedLoanAccounts.push(selectedLoanAccount);
