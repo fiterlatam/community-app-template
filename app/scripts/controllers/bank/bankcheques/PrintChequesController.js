@@ -80,7 +80,7 @@
                       let cheque = {
                           chequeNo: scope.cheques[i].chequeNo,
                           clientName: scope.cheques[i].clientName,
-                          loanAmount: scope.cheques[i].loanAmount
+                          chequeAmount: scope.cheques[i].chequeAmount
                       }
                      selectedCheques.push(cheque);
                   }
@@ -88,7 +88,7 @@
               var csvData = [];
               csvData.push(headers);
               for (let i = 0; i < selectedCheques.length; i++) {
-                 var row = [selectedCheques[i].chequeNo, selectedCheques[i].clientName, selectedCheques[i].loanAmount];
+                 var row = [selectedCheques[i].chequeNo, selectedCheques[i].clientName, selectedCheques[i].chequeAmount];
                  csvData.push(row);
               }
               var date = new Date();

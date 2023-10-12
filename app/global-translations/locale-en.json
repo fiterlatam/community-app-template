@@ -793,6 +793,7 @@
   "label.heading.analysis.unit.pending.approval": "Analysis Unit Pending Approval",
   "label.heading.totalRequestedAmount": "Total Requested Amount",
   "label.heading.totalApprovedAmount": "Total Approved Amount",
+  "label.heading.chequeAmount": "Cheque Amount",
   "label.heading.reducedamount": "Reduced Amount",
   "#Anchors": "..",
   "label.anchor.clients": "Clients",
