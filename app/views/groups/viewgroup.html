@@ -635,10 +635,10 @@
 				</button>
 
 				<button ng-if="group.prequalificationStatus && group.prequalificationStatus.value==='HARD_POLICY_CHECKED'"
-						ng-click="sendToAnalysisUnit()" type="button"
+						ng-click="sendToAgencyUnit()" type="button"
 						class="btn btn-primary"
 						has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
-					{{'label.button.prequalification.sendToAnalysis' | translate}}
+					{{'label.button.sendtoagency' | translate}}
 				</button>
 			</div>
 		</div>
@@ -672,10 +672,10 @@
 		</div>
 	</script>
 
-	<script type="text/ng-template" id="analysisConfirmation.html">
+	<script type="text/ng-template" id="agencyConfirmation.html">
 		<div class="modal-header silver">
 			<h3 class="bolder">{{'label.input.confirmation' | translate}}</h3>
-			<h4><strong class="required">{{ 'label.input.analysisConfirmation' | translate }}&nbsp</b></strong>
+			<h4><strong class="required">{{ 'label.input.agencyConfirmation' | translate }}&nbsp</b></strong>
 			</h4>
 		</div>
 		<div class="modal-footer">
