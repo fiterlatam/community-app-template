@@ -4892,7 +4892,7 @@
   "label.heading.actual.guarantee.amount": "Actual Guarantee Amount",
   "label.heading.required.guarantee.amount": "Required Guarantee Amount",
   "label.heading.return.guarantee.amount": "Return Amount",
-  "label.heading.deposit.guarantee.amount": "Deposit Amount",
+  "label.heading.deposit.guarantee.amount": "To Deposit Amount",
   "label.heading.deposit.number": "Deposit No.",
   "----End---": "--End of file--- "
 }

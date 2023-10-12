@@ -4507,5 +4507,10 @@
 	"label.heading.caseid": "Case ID",
 	"label.input.cheque.agency": "Seleccionar agencia de cheques",
 	"label.input.loan.agency": "Seleccionar agencia de préstamos",
+	"label.heading.actual.guarantee.amount": "Garantía Actual",
+	"label.heading.required.guarantee.amount": "Garantía Requerida",
+	"label.heading.return.guarantee.amount": "Devolver",
+	"label.heading.deposit.guarantee.amount": "Depositar",
+	"label.heading.deposit.number": "Nro Deposito",
 	"----End---": "---Fin del archivo---"
 }
