@@ -27,13 +27,29 @@
                                 <div class="pull-left">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <label class="control-label col-sm-4">{{'label.input.agency' | translate }}</label>
+                                                <label class="control-label col-sm-4">{{'label.input.loan.agency' | translate }}</label>
                                                 <div class="col-sm-8">
-                                                    <select id="agencyId" name="chequeStatusId"
+                                                    <select id="agencyId" name="agencyId"
                                                             ng-model="formData.agencyId"
                                                             class="form-control"
                                                             ng-options="agency.id as agency.name for agency in agencyOptions"
                                                             value="{{agency.id}}">
+                                                        <option value="">-- {{'label.input.loan.agency' | translate}} --</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <label class="control-label col-sm-4">{{'label.input.cheque.agency' | translate }}</label>
+                                                <div class="col-sm-8">
+                                                    <select id="checkAgencyId" name="checkAgencyId"
+                                                            ng-model="formData.checkAgencyId"
+                                                            class="form-control"
+                                                            ng-options="agency.id as agency.name for agency in agencyOptions"
+                                                            value="{{agency.id}}">
+                                                        <option value="">-- {{'label.input.cheque.agency' | translate}} --</option>
                                                     </select>
                                                 </div>
                                             </div>
