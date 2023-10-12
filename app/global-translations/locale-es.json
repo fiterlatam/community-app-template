@@ -160,6 +160,7 @@
 	"label.heading.analysis.unit.pending.approval": "Unidad de Análisis Pendiente de Aprobación",
 	"label.heading.totalRequestedAmount": "Monto Total Solicitado",
 	"label.heading.totalApprovedAmount": "Monto total aprobado",
+	"label.heading.chequeAmount": "Monto del cheque",
 	"label.heading.reducedamount": "Monto Rebajado",
 	"label.input.between": "Entre",
 	"label.input.provisioningcriteria": "Criterios de aprovisionamiento",
