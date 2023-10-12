@@ -189,9 +189,10 @@
 
             <br/>
 
-            <form novalidate="" ng-submit="disburseByCheques()">
+            <form name="disburseByChequesForm" novalidate="" ng-submit="disburseByCheques()">
+                <ui-validate></ui-validate>
+               <div scroll>
                 <table class="table">
-                    <ui-validate></ui-validate>
                     <thead>
                         <tr class="graybg">
                             <th>{{'label.heading.loanaccount' | translate}}</th>
@@ -209,9 +210,16 @@
                                     </label>
                                 </div>
                             </th>
-                            <th>{{'label.heading.guaranteeamount' | translate}}</th>
+                            <th>{{'label.heading.actual.guarantee.amount' | translate}}</th>
+                            <th>{{'label.heading.required.guarantee.amount' | translate}}</th>
+                            <th>{{'label.heading.return.guarantee.amount' | translate}}</th>
+                            <th>{{'label.heading.deposit.guarantee.amount' | translate}}</th>
+                            <th>{{'label.heading.deposit.number' | translate}}</th>
                             <th>{{'label.heading.description' | translate}}</th>
-                            <th ng-show="isChequeAssigned" >{{'label.heading.chequeNo' | translate}}</th>
+                            <th>{{'label.heading.chequeNo' | translate}}</th>
+                            <th><div></div></th>
+                            <th><div></div></th>
+                            <th><div></div></th>
                         </tr>
                     </thead>
 
@@ -234,9 +242,37 @@
                             </td>
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
-                                    <div class="input-group">
-                                        <input id="guaranteeAmount" type="text" class="form-control" name="guaranteeAmount" ng-model="loanAccount.guaranteeAmount" required
+                                    <div class="input-group" style="width: 120px">
+                                        <input id="actualGuaranteeAmount" type="text" name="actualGuaranteeAmount" number-format ng-model="loanAccount.actualGuaranteeAmount" class="form-control" required late-Validate/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" ng-show="loanAccount.isSelected">
+                                    <div class="input-group"  style="width: 120px">
+                                        <input id="requiredGuaranteeAmount" type="text" class="form-control" name="requiredGuaranteeAmount" ng-model="loanAccount.requiredGuaranteeAmount" required="required"
                                                number-format ng-late-Validate>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" ng-show="loanAccount.isSelected">
+                                    <div class="input-group"  style="width: 120px">
+                                        <input id="returnGuaranteeAmount" type="text" class="form-control" name="returnGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.actualGuaranteeAmount, loanAccount.requiredGuaranteeAmount)" disabled>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" ng-show="loanAccount.isSelected">
+                                    <div class="input-group" style="width: 120px">
+                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount)" disabled>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" ng-show="loanAccount.isSelected">
+                                    <div class="input-group" style="width: 100px">
+                                        <input id="depositGuaranteeNo" type="text" class="form-control" name="depositGuaranteeNo" ng-model="loanAccount.depositGuaranteeNo" required ng-late-Validate>
                                     </div>
                                 </div>
                             </td>
@@ -248,14 +284,17 @@
                                     </div>
                                 </div>
                             </td>
-                            <td ng-show="isChequeAssigned">
-                                <i uib-tooltip-placement="right" uib-tooltip="{{loanAccount.chequeData.chequeName}}">
-                                    {{loanAccount.chequeData.chequeNo}}
-                                </i>
+                            <td>
+                                <div ng-show="isChequeAssigned">
+                                    <i uib-tooltip-placement="right" uib-tooltip="{{loanAccount.chequeData.chequeName}}">
+                                        {{loanAccount.chequeData.chequeNo}}
+                                    </i>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+               </div>
                 <br>
                 <div class="col-md-offset-2 paddedleft">
                     <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>

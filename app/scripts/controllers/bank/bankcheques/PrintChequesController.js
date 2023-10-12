@@ -34,7 +34,7 @@
                     limit: scope.chequesPerPage,
                     orderBy: 'chequeNo',
                     sortOrder: 'ASC',
-                    bankAccNo: scope.formData.bankAccNo,
+                    bankAccId: scope.formData.bankAccId,
                     chequeNo: scope.formData.chequeNo,
                     agencyId: scope.formData.agencyId,
                     status: scope.formData.status,
