@@ -4512,5 +4512,8 @@
 	"label.heading.return.guarantee.amount": "Devolver",
 	"label.heading.deposit.guarantee.amount": "Depositar",
 	"label.heading.deposit.number": "Nro Deposito",
+	"label.button.assign": "Asignar",
+	"label.heading.assign.cheques.to.loans": "Asignar cheques de préstamo",
+	"label.heading.select.bank.account": "Por favor seleccione una cuenta bancaria ...",
 	"----End---": "---Fin del archivo---"
 }
