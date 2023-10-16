@@ -35,13 +35,20 @@
                         message: `${scope.membersForm.dpi} DPI provided is invalid`
                     });
                 } else {
+                    for (var i = 0; i < scope.formData.members.length; i++ ){
+                        if (scope.formData.members[i].dpi === scope.membersForm.dpi){
+                             uiValidationErrors.push({message: `${scope.membersForm.dpi} DPI ya está tomada!`});
+                             this.uiValidationErrors = uiValidationErrors;
+                             return;
+                        }
+                    }
                     var reqDate = dateFilter(scope.membersForm.dob, scope.df);
                     scope.membersForm.dob = reqDate;
                     scope.membersForm['locale'] = scope.optlang.code;
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
                     scope.membersForm = {
-                       workWithPuente: "YES"
+                       puente: "YES"
                     };
                     scope.memberDetailsForm.$setUntouched();
                     scope.memberDetailsForm.$setPristine();
