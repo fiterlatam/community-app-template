@@ -96,6 +96,7 @@
                             caseId: scope.guaranteeDataList[i].caseId,
                             chequeId: scope.guaranteeDataList[i].chequeData.id,
                             guaranteeAmount: scope.guaranteeDataList[i].requestedAmount,
+                            guaranteeName: scope.guaranteeDataList[i].clientName,
                          }
                         selectedGuaranteeDataList.push(selectedGuarantee);
                      }
