@@ -1280,7 +1280,15 @@
            templateUrl: 'views/banks/bankcheques/printcheques.html'
         }).when('/payguaranteeswithcheques', {
            templateUrl: 'views/banks/bankcheques/payguaranteeswithcheques.html'
-         });
+         }).when('/committees', {
+            templateUrl: 'views/organization/committees.html'
+        }).when('/createcommittee', {
+            templateUrl: 'views/organization/createcommittee.html'
+        }).when('/viewcommittee/:id', {
+            templateUrl: 'views/organization/viewcommittee.html'
+        }).when('/editcommittee/:id', {
+            templateUrl: 'views/organization/editcommittee.html'
+        });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };
