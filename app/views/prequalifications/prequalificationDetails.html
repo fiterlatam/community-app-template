@@ -110,9 +110,9 @@
                     <td>
                         <i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i>
                     </td>
-                    <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
-                                                                   class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
-                        {{member.bureauCheckStatus ? resolveBureaStatus(member.bureauCheckStatus.value) : '---'}}
+                    <td class="pointer" style="font-size: 25px">
+                        <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
+                        {{member.bureauCheckStatus.code}}
                     </td>
                     <td data-ng-show="showValidatePolicies">
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
