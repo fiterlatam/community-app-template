@@ -58,13 +58,6 @@
                             {{groupData.status.value}} </span>
                         </span>
                     </div>
-                    <div class="alert alert-warning h4" ng-if="groupData.lastPrequalificationStatus">
-                        <span>{{'label.heading.previous.status' | translate}}: <span
-                                class="pull-right fa fa-stop {{groupData.lastPrequalificationStatus.code | StatusLookup}}"
-                                uib-tooltip-placement="right" uib-tooltip="{{groupData.lastPrequalificationStatus.value}}">
-                            {{groupData.status.value}} </span>
-                        </span>
-                    </div>
 
                     <div class="alert alert-info" ng-if="groupData.statusChangedOn ">
                         <span>{{'label.heading.updatedon' | translate}}: <span
