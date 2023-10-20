@@ -4368,6 +4368,7 @@
 	"label.input.batch": "Lote",
 	"label.input.square": "Manzana",
 	"label.input.zone": "Zona",
+	"label.input.guaranteePercentage": "Garantia Requerida",
 	"label.input.lightDeviceNumber": "No. Contador Luz",
 	"label.heading.contact.information": "Datos de Contacto",
 	"#Views": "..",

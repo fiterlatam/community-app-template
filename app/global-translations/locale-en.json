@@ -332,6 +332,7 @@
   "label.input.transfertype": "Transfer Type",
   "label.input.true": "True",
   "label.input.false": "False",
+  "label.input.guaranteePercentage": "Required Guarantee Amount",
   "label.input.repaymentdate": "Repayment date",
   "label.input.confirmation": "Confirmation",
   "label.input.analysisConfirmation": "Are you sure you want to send the Group to Analysis Unit?",
