@@ -184,8 +184,8 @@
                             <th>{{'label.heading.centerName' | translate}}</th>
                             <th>{{'label.heading.groupname' | translate}}</th>
                             <th>{{'label.heading.contract' | translate}}</th>
-                            <th>{{'label.heading.productname' | translate}}</th>
                             <th>{{'label.heading.clientname' | translate}}</th>
+                            <th>{{'label.heading.productname' | translate}}</th>
                             <th>{{'label.heading.firstinstallmentdate' | translate}}</th>
                             <th>{{'label.heading.approvedamount' | translate}}</th>
                             <th>
@@ -235,7 +235,7 @@
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
                                     <div class="input-group"  style="width: 120px">
-                                        <input id="requiredGuaranteeAmount" type="text" class="form-control" name="requiredGuaranteeAmount" ng-model="loanAccount.requiredGuaranteeAmount" required="required"
+                                        <input id="requiredGuaranteeAmount"  disabled type="text" class="form-control" name="requiredGuaranteeAmount" ng-model="loanAccount.requiredGuaranteeAmount" required="required"
                                                number-format ng-late-Validate>
                                     </div>
                                 </div>
