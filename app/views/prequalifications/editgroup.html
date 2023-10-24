@@ -1,7 +1,7 @@
 <div ng-controller="EditGroupPrequalificatoinController">
     <div>
         <ul class="breadcrumb">
-            <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+            <li><a ng-href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
             <li class="active">{{'label.heading.editgroup.prequalification' | translate}}</li>
         </ul>
     </div>
@@ -10,7 +10,7 @@
         <fieldset>
             <legend>{{ 'label.heading.editgroup.prequalification' | translate }}</legend>
             <table class="width100">
-                <tr>
+                <tr ng-if="groupingType==='group'">
                     <td class="width14">
                         <label>{{ 'label.input.agency' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
@@ -38,7 +38,7 @@
                     </td>
 
                 </tr>
-                <tr ng-if="centersList && centersList.length>0">
+                <tr ng-if="centersList && centersList.length>0 && groupingType==='group'">
                     <td class="width14">
                         <label>{{ 'label.input.groupname' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
@@ -72,11 +72,11 @@
                     </td>
                 </tr>
                 <tr ng-if="facilitators && facilitators.length>0">
-                    <td class="width14">
+                    <td class="width14" ng-if="groupingType==='group'">
                         <label>{{ 'label.input.facilitator' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
-                    <td class="width36 paddedbottom10">
+                    <td class="width36 paddedbottom10" ng-if="groupingType==='group'">
                         <select id="facilitator" ng-model="formData.facilitator"
                                 ng-options="facilitator.id as facilitator.firstname + ' ' + facilitator.lastname + ' (' + facilitator.username + ')' for facilitator in facilitators"
                                 value="{{facilitator.id}}" required late-validate
@@ -122,9 +122,9 @@
 
             <hr/>
             <div class="text-center">
-                <a id="cancel" ng-href="#/prequalificationsmenu" class="btn btn-default">{{'label.button.cancel' |
+                <a id="cancel" ng-href="{{ previousPageUrl }}" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || (!formData.group && !formData.groupName)?true:false"
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || ((groupingType!='individual' && !formData.group && !formData.groupName)?true : false)"
                         has-permission='UPDATE_PREQUALIFICATIONS'>{{'label.button.edit' | translate}}</button>
             </div>
         </fieldset>
@@ -182,7 +182,7 @@
                 </td>
 
                 <td class="text-center">
-                    <button id="save" class="btn btn-primary" type="submit"><i class="fa fa-plus" has-permission='CREATE_PREQUALIFICATIONS'> {{'label.button.add' | translate}}</i>
+                    <button id="save" class="btn btn-primary" ng-disabled="formData.members.length==1 && groupingType==='individual'" type="submit"><i class="fa fa-plus" has-permission='CREATE_PREQUALIFICATIONS'> {{'label.button.add' | translate}}</i>
                     </button>
                 </td>
             </tr>

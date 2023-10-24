@@ -9,6 +9,16 @@
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
+            scope.groupingType=routeParams.groupingType;
+            scope.previousPageUrl = "#/prequalificationsmenu";
+            if (routeParams.groupingType == 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType == 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
+
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;

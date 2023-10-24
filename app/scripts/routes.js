@@ -1206,19 +1206,19 @@
             templateUrl: 'views/blacklist/addToBlacklist.html'
         }).when('/prequalificationsmenu', {
             templateUrl: 'views/prequalifications/prequalificationsMenu.html'
-        }).when('/prequalificationGroups/:type', {
+        }).when('/prequalificationGroups/:groupingType/:type', {
             templateUrl: 'views/prequalifications/prequalificationsGroups.html'
         }).when('/prequalificationAnalysis/:type', {
             templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
-        }).when('/prequalifications/newprequalification/new', {
+        }).when('/prequalifications/newprequalification/new/:groupingType', {
             templateUrl: 'views/prequalifications/newgroup.html'
         }).when('/prequalifications/newprequalification/existing', {
             templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
-        }).when('/prequalification/:groupId/viewdetails', {
+        }).when('/prequalification/:groupId/viewdetails/:groupingType', {
             templateUrl: 'views/prequalifications/prequalificationDetails.html'
         }).when('/prequalification/:groupId/viewdetailsAnalysis', {
             templateUrl: 'views/prequalifications/prequalificationDetailsAnalysis.html'
-        }).when('/prequalification/:groupId/edit', {
+        }).when('/prequalification/:groupId/edit/:groupingType', {
             templateUrl: 'views/prequalifications/editgroup.html'
         }).when('/prequalifications/individualprequalifications', {
             templateUrl: 'views/prequalifications/individualPrequalificationList.html'

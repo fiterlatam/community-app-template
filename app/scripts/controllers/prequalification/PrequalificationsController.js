@@ -5,6 +5,7 @@
             scope.groupsList = [];
             scope.formData = {};
             scope.groupsPerPage=20;
+            scope.groupingType=routeParams.groupingType;
             scope.prequalificationType=routeParams.type;
 
             scope.getResultsPage = function (pageNumber) {
@@ -13,7 +14,8 @@
                     limit: scope.groupsPerPage,
                     type: routeParams.type,
                     status: scope.formData.status,
-                    searchText:scope.searchText
+                    searchText:scope.searchText,
+                    groupingType: routeParams.groupingType
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;
                     scope.groupsList = data.pageItems;
