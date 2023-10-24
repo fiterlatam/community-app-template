@@ -21,11 +21,11 @@
             scope.tf = "HH:mm";
             scope.groupingType=routeParams.groupingType;
 
-            if (routeParams.groupingType == 'group'){
+            if (routeParams.groupingType === 'group'){
                 scope.previousPageUrl = "#/prequalificationGroups/group/new";
             }
 
-            if (routeParams.groupingType == 'individual'){
+            if (routeParams.groupingType === 'individual'){
                 scope.previousPageUrl = "#/prequalificationGroups/individual/new";
             }
 
