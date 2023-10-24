@@ -9,6 +9,16 @@
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
+            scope.groupingType = routeParams.groupingType;
+            scope.previousPageUrl = "#/prequalificationsmenu";
+            if (routeParams.groupingType === 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType === 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
+
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
@@ -34,6 +44,9 @@
             });
 
             scope.submit = function () {
+                if (routeParams.groupingType === 'individual'){
+                    scope.groupData.groupName = scope.groupData.prequalificationNumber;
+                }
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
                     data: {
@@ -47,7 +60,14 @@
                     if (!scope.$$phase) {
                         scope.$apply();
                     }
-                    location.path('/prequalificationGroups/new');
+
+                    if (routeParams.groupingType === 'group'){
+                        location.path('/prequalificationGroups/group/new');
+                    }
+
+                    if (routeParams.groupingType === 'individual'){
+                        location.path('/prequalificationGroups/individual/new');
+                    }
                 });
             };
 

@@ -19,6 +19,15 @@
             scope.groupData;
             scope.membersList = [];
             scope.tf = "HH:mm";
+            scope.groupingType=routeParams.groupingType;
+
+            if (routeParams.groupingType === 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType === 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 console.log("Make call for prequalification");
@@ -52,7 +61,7 @@
                 }
             });
 
-            resourceFactory.prequalificationTemplateResource.get(function (data) {
+            resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
                 console.log(data.facilitators);
                 scope.agenciesList = data.agencies,
                 scope.centersList = data.centerData,
@@ -137,9 +146,8 @@
                     }
                 }
 
-
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -149,12 +157,12 @@
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
 
-                // this.formData.members.forEach(function(member){
-                //     member.locale = scope.optlang.code;
-                //     member.dateFormat = scope.df;
-                // })
+                if(scope.groupingType === 'individual'){
+                    this.formData.individual = true;
+                }
+
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -176,6 +184,9 @@
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
+                if(scope.groupingType === 'individual'){
+                    this.formData.individual = true;
+                }
 
                 let eMembers = this.formData.members;
                 let memberArray = [];
@@ -195,7 +206,7 @@
                 });
                 this.formData.members = memberArray;
                 resourceFactory.prequalificationResource.update({groupId: routeParams.groupId},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 

@@ -5,7 +5,7 @@
         <div class="content">
             <div class="toolbar">
                 <ul class="breadcrumb">
-                    <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+                    <li><a ng-href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
                     <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
                 </ul>
             </div>
@@ -228,7 +228,7 @@
                     </div>
 
                     <div class="col-md-offset-3">
-                        <a id="cancel" href="#/prequalificationsmenu">
+                        <a id="cancel" ng-href="{{ previousPageUrl }}">
                             <button type="reset" class="btn btn-default">{{'label.button.cancel' | translate}}
                             </button>
                         </a>
