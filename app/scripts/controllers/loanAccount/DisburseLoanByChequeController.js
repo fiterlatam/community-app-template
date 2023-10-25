@@ -10,6 +10,7 @@
             scope.availableCheques= [];
             scope.formData = {};
             scope.uiValidationErrors = [];
+            scope.bankAccountOptions = [];
             resourceFactory.loanTemplateResource.get({templateType: 'cheque'}, function (data) {
                 scope.agencyOptions = data.agencyOptions;
                 scope.centerOptions = data.centerOptions;
@@ -65,10 +66,16 @@
                 }, function (data) {
                         scope.totalAvailableCheques = data.totalFilteredRecords;
                         scope.availableCheques = data.pageItems;
+                        var bankAccMap = groupBy(scope.availableCheques, 'bankAccId');
+                        for (var [key, value] of  bankAccMap.entries()) {
+                            var chequeData = value[0];
+                            var accountName = chequeData.bankAccNo + ' (' + chequeData.bankName + ')' + ' - ' + chequeData.agencyName + ' (' + value.length + ' Cheques)';
+                            scope.bankAccountOptions.push({bankAccId: chequeData.bankAccId, accountName: accountName });
+                        }
                    });
             }
 
-            scope.assignCheques = function(){
+            scope.assignChequesFromBankAccount = function(bankAccId){
                 var selectedLoanAccounts = [];
                 for(var i = 0; i < scope.approvedLoanAccounts.length; i++){
                      delete scope.approvedLoanAccounts[i].chequeData;
@@ -76,20 +83,30 @@
                         selectedLoanAccounts.push(scope.approvedLoanAccounts[i]);
                      }
                 }
+
+                var availableBankCheques = [];
+                for(var i = 0; i < scope.availableCheques.length; i++){
+                     if(scope.availableCheques[i].bankAccId === bankAccId){
+                        availableBankCheques.push(scope.availableCheques[i]);
+                     }
+                }
+
                 scope.uiValidationErrors = [];
                 if(selectedLoanAccounts.length < 1){
                   scope.uiValidationErrors.push({
                         message: 'error.message.select.at.least.one.cheque'
                    });
-                } else if (selectedLoanAccounts.length > scope.availableCheques.length){
-                      scope.uiValidationErrors.push({
-                          message: 'error.message.insufficient.amount.of.cheques'
-                       });
+                } else if (selectedLoanAccounts.length > availableBankCheques.length){
+                  scope.uiValidationErrors.push({
+                      message: 'error.message.insufficient.amount.of.cheques'
+                   });
                 } else {
                     for (var i = 0; i < scope.approvedLoanAccounts.length; i++ ){
                        if(scope.approvedLoanAccounts[i].isSelected){
-                           scope.approvedLoanAccounts[i].chequeData = scope.availableCheques[i];
-                           var chequeName = scope.approvedLoanAccounts[i].chequeData.chequeNo + ' |' +  scope.approvedLoanAccounts[i].chequeData .batchNo + '| ' +  scope.approvedLoanAccounts[i].chequeData .bankAccNo +  '| ' +  scope.approvedLoanAccounts[i].chequeData.bankName;
+                           scope.availableCheques[i].isAssigned = true;
+                           scope.approvedLoanAccounts[i].chequeData = availableBankCheques[i];
+                           var chequeData = scope.approvedLoanAccounts[i].chequeData;
+                           var chequeName = chequeData.chequeNo + ' |' +  chequeData .batchNo + '| ' +  chequeData .bankAccNo +  '| ' +  chequeData.bankName + '| ' + chequeData.agencyName;
                            scope.approvedLoanAccounts[i].chequeData.chequeName = chequeName;
                        }
                     }
@@ -106,7 +123,6 @@
                      }
                 }
                 return selectedLoanAccounts.length < 1;
-
           }
 
            scope.selectAllLoans = function(){
@@ -114,6 +130,38 @@
                      scope.approvedLoanAccounts[i].isSelected = scope.allLoansSelected;
                 }
             }
+
+            function groupBy(items, key) {
+                  const map = new Map();
+                  items.forEach((item) => {
+                    const keyValue = item[key];
+                    const currArr = map.has(keyValue) ? map.get(keyValue) : [];
+                    currArr.push(item);
+                    map.set(keyValue, currArr);
+                  });
+                  return map;
+            }
+
+            var AssignLoanChequesController = function ($scope, $uibModalInstance) {
+                $scope.bankAccountOptions = scope.bankAccountOptions;
+                if (Array.isArray($scope.bankAccountOptions) &&  $scope.bankAccountOptions.length) {
+                   $scope.bankAccId =  $scope.bankAccountOptions[0].bankAccId;
+                }
+                $scope.assign = function () {
+                   scope.assignChequesFromBankAccount( $scope.bankAccId);
+                    $uibModalInstance.close('delete');
+                };
+                $scope.cancel = function () {
+                    $uibModalInstance.close('cancel');
+                };
+            };
+
+            scope.assignLoanCheques = function () {
+                 $uibModal.open({
+                    templateUrl: 'assignLoanCheques.html',
+                    controller: AssignLoanChequesController
+                });
+            };
 
             scope.disburseByCheques = function(){
                 var selectedLoanAccounts = [];

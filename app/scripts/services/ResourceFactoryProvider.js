@@ -1026,8 +1026,19 @@
                         authorizeIssuance: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId" }},
                         authorizeVoidance: {method: 'POST', params: {commandParam: 'authorizevoidance', chequeId: "@chequeId"}},
                         payGuarantees: {method: 'POST', params: {commandParam: '@commandParam', chequeId: "@chequeId"}},
+                        printCheques: {method: 'POST', params: {commandParam: '@commandParam'}},
                     }),
                    searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
+                        get: {method: 'GET', params: {}}
+                    }),
+                    committeeResource: defineResource(apiVer + "/committees/:committeeId", {committeeId: "@committeeId"}, {
+                        get: {method: 'GET', params: {}, isArray: false},
+                        getAllCommitteesForCurrentUser: {method: 'GET', params: {}},
+                        save: { method: 'POST', params: {}},
+                        update: { method: 'PUT', params: {}},
+                        delete: {method: 'DELETE', params: {}}
+                    }),
+                    committeeTemplateResource: defineResource(apiVer + "/committees/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
                 };

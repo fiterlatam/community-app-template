@@ -19,8 +19,17 @@
             scope.groupData;
             scope.membersList = [];
             scope.tf = "HH:mm";
+            scope.groupingType=routeParams.groupingType;
 
-            resourceFactory.prequalificationTemplateResource.get(function (data) {
+            if (routeParams.groupingType === 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType === 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
+
+            resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
                 scope.agenciesList = data.agencies
                 scope.centersList = data.centerData
                 scope.productsList = data.loanProducts
@@ -35,13 +44,20 @@
                         message: `${scope.membersForm.dpi} DPI provided is invalid`
                     });
                 } else {
+                    for (var i = 0; i < scope.formData.members.length; i++ ){
+                        if (scope.formData.members[i].dpi === scope.membersForm.dpi){
+                             uiValidationErrors.push({message: `${scope.membersForm.dpi} DPI ya está tomada!`});
+                             this.uiValidationErrors = uiValidationErrors;
+                             return;
+                        }
+                    }
                     var reqDate = dateFilter(scope.membersForm.dob, scope.df);
                     scope.membersForm.dob = reqDate;
                     scope.membersForm['locale'] = scope.optlang.code;
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
                     scope.membersForm = {
-                       workWithPuente: "YES"
+                       puente: "YES"
                     };
                     scope.memberDetailsForm.$setUntouched();
                     scope.memberDetailsForm.$setPristine();
@@ -105,9 +121,8 @@
                     }
                 }
 
-
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -116,13 +131,16 @@
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
+                if(scope.groupingType === 'individual'){
+                    this.formData.individual = true;
+                }
 
                 // this.formData.members.forEach(function(member){
                 //     member.locale = scope.optlang.code;
                 //     member.dateFormat = scope.df;
                 // })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 

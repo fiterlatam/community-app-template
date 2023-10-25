@@ -246,7 +246,7 @@
                     }
                 }
 
-                if (data.status.value == "Approved") {
+                if (data.status.value == "Approved" || data.status.value == "Pending Disbursement Authorization") {
                     scope.buttons = { singlebuttons: [
                         {
                             name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
