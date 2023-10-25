@@ -578,6 +578,31 @@
 					        </table>
 					    </div>
 				</uib-tab>
+				<uib-tab heading="{{ 'label.anchor.prequalification.groups' | translate }}">
+					    <div class="">
+					        <table class="table ">
+					            <thead>
+					            <tr>
+					                <th>{{ 'label.heading.groupname' | translate }}</th>
+					                <th>{{ 'label.heading.prequalificationnumber' | translate }}</th>
+					                <th>{{ 'label.heading.status' | translate }}</th>
+					                <th>{{ 'label.heading.createdby' | translate }}</th>
+					                <th>{{ 'label.heading.createdAt' | translate }}</th>
+					                <th></th>
+					            </tr>
+					            </thead>
+					            <tbody>
+					            <tr ng-repeat="prequal in group.prequalificationGroups">
+					                <td>{{prequal.groupName}}</td>
+					                <td><a href="#/prequalification/{{prequal.id}}/viewdetails">{{prequal.prequalificationNumber}}</a></td>
+					                <td>{{prequal.status.value}}</td>
+					                <td>{{prequal.addedBy}}</td>
+					                <td>{{prequal.createdAt |DateFormat}}</td>
+					            </tr>
+					            </tbody>
+					        </table>
+					    </div>
+				</uib-tab>
 				<uib-tab heading="{{groupdatatable.registeredTableName}}"
 						ng-repeat="groupdatatable in groupdatatables" has-permission='READ_{{groupdatatable.registeredTableName}}'
 				     	select="dataTableChange(groupdatatable)">
