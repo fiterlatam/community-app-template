@@ -4912,5 +4912,8 @@
   "validation.msg.committee.users.cannot.be.empty": "Committee users cannot be empty",
   "error.msg.committee.already.exists": "Committee already exists",
   "error.msg.committee.user.already.assigned": "User `{{params[0].value}}` is already assigned to a committee",
+  "confirmation.message.first.part.one": "Are you sure you want to ",
+  "confirmation.message.first.part.two": " this prequalification?",
+  "label.button.prequalification.sendtoexception": "Send to exception",
   "----End---": "--End of file--- "
 }
