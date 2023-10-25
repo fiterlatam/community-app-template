@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrintChequesController: function (scope, routeParams, route, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        PrintChequesController: function (scope, routeParams, route, location, resourceFactory, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope) {
 
              scope.bankAccountOptions = [];
              resourceFactory.chequeBatchTemplateResource.get({}, function (data) {
@@ -103,20 +103,26 @@
              return csvData;
             };
 
-            scope.submit = function (){
-                  var selectedCheques = [];
-                   for(var i = 0; i < scope.cheques.length; i++){
-                        if(scope.cheques[i].isSelected){
-                            var selectedCheque = {
-                               chequeId: scope.cheques[i].id
-                            }
-                           selectedCheques.push(selectedCheque);
-                        }
+             scope.issueCheques = function () {
+               var selectedCheques = [];
+               for(var i = 0; i < scope.cheques.length; i++){
+                   if(scope.cheques[i].isSelected){
+                       var selectedCheque = {
+                          chequeId: scope.cheques[i].id
+                       }
+                      selectedCheques.push(selectedCheque);
                    }
-                  resourceFactory.chequeBatchResource.authorizeIssuance({ commandParam: 'authorizeissuance'}, selectedCheques, function (data) {
-                     route.reload();
-                  });
-            }
+               }
+               var request = {
+                  locale: scope.optlang.code,
+                  selectedCheques: selectedCheques,
+                  actualDisbursementDate: dateFilter(new Date(Date.now()),  scope.df),
+                  dateFormat: scope.df
+                }
+                resourceFactory.chequeBatchResource.printCheques({ commandParam: 'printCheques'}, request, function (data) {
+                    route.reload();
+                });
+             };
 
            scope.$watch('formData.bankAccId',function(){
             delete scope.formData.agencyName;
@@ -140,12 +146,26 @@
                } else {
                    scope.groupOptions = scope.allCenterGroupOptions;
                }
-          });
+            });
+
+            scope.viewPentahoBankCheque = function (chequeId) {
+                  scope.report = true;
+                  scope.formData.outputType = 'PDF';
+                  scope.baseURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent("Print Bank Cheque");
+                  scope.baseURL += "?output-type=" + encodeURIComponent(scope.formData.outputType) + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
+                  var reportParams = "";
+                  var paramName = "R_chequeId";
+                  reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(chequeId);
+                  if (reportParams > "") {
+                      scope.baseURL += "&" + reportParams;
+                  }
+                  scope.viewReportDetails = $sce.trustAsResourceUrl(scope.baseURL);
+              };
 
         }
     });
 
-    mifosX.ng.application.controller('PrintChequesController', ['$scope', '$routeParams', '$route', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrintChequesController]).run(function ($log) {
+    mifosX.ng.application.controller('PrintChequesController', ['$scope', '$routeParams', '$route', '$location', 'ResourceFactory', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope', mifosX.controllers.PrintChequesController]).run(function ($log) {
         $log.info("PrintChequesController initialized");
     });
 }(mifosX.controllers || {}));
