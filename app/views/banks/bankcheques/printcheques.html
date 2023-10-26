@@ -11,7 +11,7 @@
                     <iframe id="rptLoadingFrame" ng-src="{{viewReportDetails}}" frameborder="0" width="100%" height="800px"></iframe>
                 </div>
                 <div class="col-md-13 center">
-                    <a id="back" href="#/printcheques" class="btn btn-default">{{'label.button.back' | translate}}</a>
+                    <a id="back"  ng-click="reloadPage()" class="btn btn-default">{{'label.button.back' | translate}}</a>
                 </div>
             </div>
 
@@ -155,7 +155,6 @@
                                 <th >{{'label.heading.description' | translate}}</th>
                                 <th>{{'label.heading.createdon' | translate}}</th>
                                 <th>{{'label.heading.createdby' | translate}}</th>
-                                <th>{{'label.heading.actions' | translate}}</th>
                             </tr>
                             </thead>
 
@@ -182,11 +181,6 @@
                                 <td>{{cheque.description}}</td>
                                 <td>{{cheque.createdDate | DateFormat}}</td>
                                 <td>{{cheque.createdByUsername}}</td>
-                                <td>
-                                    <span uib-tooltip="{{'label.heading.viewreceipts' | translate }}" ng-click="viewPentahoBankCheque(cheque.id)">
-                                            <i class="fa fa-file-text fa fa-large"></i>
-                                    </span>
-                                </td>
                             </tr>
                             </tbody>
                         </table>

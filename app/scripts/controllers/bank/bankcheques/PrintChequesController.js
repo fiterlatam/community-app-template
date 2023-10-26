@@ -120,9 +120,13 @@
                   dateFormat: scope.df
                 }
                 resourceFactory.chequeBatchResource.printCheques({ commandParam: 'printCheques'}, request, function (data) {
-                    route.reload();
+                    scope.printPentahoBankCheques(selectedCheques);
                 });
              };
+
+           scope.reloadPage = function(){
+                route.reload();
+           }
 
            scope.$watch('formData.bankAccId',function(){
             delete scope.formData.agencyName;
@@ -148,14 +152,18 @@
                }
             });
 
-            scope.viewPentahoBankCheque = function (chequeId) {
+            scope.printPentahoBankCheques = function (selectedCheques) {
+                  var paramValue = ',';
+                  for (var i = 0; i < selectedCheques.length; i++ ){
+                     paramValue = paramValue + selectedCheques[i].chequeId + ',';
+                  }
                   scope.report = true;
                   scope.formData.outputType = 'PDF';
                   scope.baseURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent("Print Bank Cheque");
                   scope.baseURL += "?output-type=" + encodeURIComponent(scope.formData.outputType) + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
                   var reportParams = "";
-                  var paramName = "R_chequeId";
-                  reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(chequeId);
+                  var paramName = "R_selectedCheques";
+                  reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(paramValue);
                   if (reportParams > "") {
                       scope.baseURL += "&" + reportParams;
                   }

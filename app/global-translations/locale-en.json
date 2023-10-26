@@ -4833,7 +4833,7 @@
   "label.button.void":  "Void",
   "label.button.view.cheque": "View Cheque",
   "label.button.void.cheque": "Void Cheque",
-  "label.button.issue.cheque": "Issue/Print",
+  "label.button.issue.cheque": "Issue & Print",
   "label.button.print.cheque": "Print Cheque",
   "label.button.reassign.cheque": "Reassign Cheque",
   "label.button.void.authorize.cheque": "Authorize Voidance",
