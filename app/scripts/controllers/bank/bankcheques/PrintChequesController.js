@@ -159,15 +159,30 @@
                   }
                   scope.report = true;
                   scope.formData.outputType = 'PDF';
-                  scope.baseURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent("Print Bank Cheque");
-                  scope.baseURL += "?output-type=" + encodeURIComponent(scope.formData.outputType) + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
+                  var reportURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent("Print Bank Cheque");
+                  reportURL += "?output-type=" + encodeURIComponent(scope.formData.outputType) + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
                   var reportParams = "";
                   var paramName = "R_selectedCheques";
                   reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(paramValue);
                   if (reportParams > "") {
-                      scope.baseURL += "&" + reportParams;
+                      reportURL += "&" + reportParams;
                   }
-                  scope.viewReportDetails = $sce.trustAsResourceUrl(scope.baseURL);
+                  reportURL = $sce.trustAsResourceUrl(reportURL);
+                  reportURL = $sce.valueOf(reportURL);
+                  http.get(reportURL, {responseType: 'arraybuffer'})
+                    .then(function(response) {
+                        let data = response.data;
+                        let status = response.status;
+                        let headers = response.headers;
+                        let config = response.config;
+                        var contentType = headers('Content-Type');
+                        var file = new Blob([data], {type: contentType});
+                        var fileContent = URL.createObjectURL(file);
+                        scope.reportURL = $sce.trustAsResourceUrl(fileContent);
+                    }).catch(function(error){
+                        $log.error(`Error loading ${scope.reportType} report`);
+                        $log.error(error);
+                    });
               };
 
         }

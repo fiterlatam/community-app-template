@@ -8,7 +8,7 @@
         <div class="content">
             <div ng-show="report" class="col-md-12 alert-block span tab-content">
                 <div id="printcontent">
-                    <iframe id="rptLoadingFrame" ng-src="{{viewReportDetails}}" frameborder="0" width="100%" height="800px"></iframe>
+                    <iframe id="rptLoadingFrame" ng-src="{{reportURL}}" frameborder="0" width="100%" height="800px"></iframe>
                 </div>
                 <div class="col-md-13 center">
                     <a id="back"  ng-click="reloadPage()" class="btn btn-default">{{'label.button.back' | translate}}</a>
