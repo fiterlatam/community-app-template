@@ -4538,5 +4538,6 @@
 	"error.msg.committee.user.already.assigned": "El usuario `{{params[0].value}}` ya está asignado a un comité",
 	"confirmation.message.first.part.one": "¿Está seguro de que desea ",
 	"confirmation.message.first.part.two": " esta precalificación?",
+	"label.button.issue.cheque": "Emitir e imprimir",
 	"----End---": "---Fin del archivo---"
 }
