@@ -169,18 +169,13 @@
                      if(scope.approvedLoanAccounts[i].isSelected){
                         var requiredGuaranteeAmount = scope.approvedLoanAccounts[i].requiredGuaranteeAmount;
                         var actualGuaranteeAmount = scope.approvedLoanAccounts[i].actualGuaranteeAmount;
-                        if(scope.calculateDiffWithZeroDefault(requiredGuaranteeAmount, actualGuaranteeAmount) > 0){
-                              scope.uiValidationErrors.push({
-                                message: 'error.message.checks.only.can.be.assigned.if.depositar.less.or.equal.to.zero'
-                              });
-                              return;
-                        }
                          var selectedLoanAccount = {
                             loanId: scope.approvedLoanAccounts[i].id,
                             chequeId: scope.approvedLoanAccounts[i].chequeData.id,
                             description: scope.approvedLoanAccounts[i].description,
                             actualGuaranteeAmount: scope.approvedLoanAccounts[i].actualGuaranteeAmount,
                             requiredGuaranteeAmount: scope.approvedLoanAccounts[i].requiredGuaranteeAmount,
+                            depositGuaranteeAmount: scope.calculateDiffWithZeroDefault(scope.approvedLoanAccounts[i].requiredGuaranteeAmount, scope.approvedLoanAccounts[i].actualGuaranteeAmount),
                             depositGuaranteeNo: scope.approvedLoanAccounts[i].depositGuaranteeNo,
                             locale: scope.optlang.code
                          }
