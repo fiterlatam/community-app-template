@@ -4861,6 +4861,7 @@
   "label.heading.administrative.expenses":"Administrative Expenses",
   "label.heading.disbursementAmount": "Disbursement Amount",
   "label.heading.guaranteeamount": "Guarantee Amount",
+  "label.heading.committee.approvals": "Committee Approvals",
   "error.message.insufficient.amount.of.cheques": "No of cheques are not enough, please unselect some loans",
   "label.input.adminfee": "Fee Ranges",
   "label.heading.adminfee.min": "Min Arrear Days",

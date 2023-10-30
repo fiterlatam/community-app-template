@@ -53,9 +53,10 @@
                 <tr>
                     <th>{{'label.heading.createdon' | translate}}</th>
                     <th>{{'label.heading.prequalificationnumber' | translate}}</th>
-                    <th>{{'label.input.agency' | translate}}</th>
-                    <th>{{'label.input.group' | translate}}</th>
-                    <th>{{'label.input.center' | translate}}</th>
+                    <th ng-if="!isIndividual">{{'label.input.agency' | translate}}</th>
+                    <th ng-if="!isIndividual">{{'label.input.group' | translate}}</th>
+                    <th ng-if="!isIndividual">{{'label.input.center' | translate}}</th>
+                    <th>{{'label.input.type' | translate}}</th>
                     <th>{{'label.input.product' | translate}}</th>
                     <th>{{'label.input.addedBy' | translate}}</th>
                     <th>{{'label.input.status' | translate}}</th>
@@ -71,10 +72,11 @@
                     total-items="totalGroups"  pagination-id="blacklist" style="word-break: break-word">
                     <td class="pointer">{{client.createdAt |DateFormat}}</td>
                     <td class="pointer" data-ng-click="routeTo('#/prequalification/' + client.id + '/viewdetails')">{{client.prequalificationNumber}}</td>
-                    <td class="pointer">{{client.agencyName}}</td>
-                    <td class="pointer">{{client.groupName}}</td>
-                    <td class="pointer">{{client.centerName}}</small></td>
+                    <td ng-if="!isIndividual" class="pointer">{{client.agencyName}}</td>
+                    <td ng-if="!isIndividual" class="pointer">{{client.groupName}}</td>
+                    <td ng-if="!isIndividual" class="pointer">{{client.centerName}}</small></td>
 <!--                    <td class="pointer">{{client.portforlioName}}</td>-->
+                    <td class="pointer">{{client.prequalificationType.value}}</td>
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
                     <td class="pointer" >{{client.status.value}}</td>

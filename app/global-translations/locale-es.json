@@ -3898,6 +3898,7 @@
 	"label.heading.cashmgmt.cashier.txnAmountCashOut": "Dinero En Efectivo De La",
 	"label.heading.cashmgmt.cashier.txnAmountSettle": "Asentamiento",
 	"label.heading.cashmgmt.cashier.netAmount": "Neto",
+	"label.heading.committee.approvals": "Aprobaciones del Comite",
 	"label.input.cashiername": "Cajero",
 	"label.input.cashierallocationdetails": "Periodo de asignación",
 	"label.input.teller.cashiertxn.txnDate": "Fecha",
