@@ -16,7 +16,7 @@
                         <span>{{'label.input.prequalification.number' | translate}}: <span
                                 class="pull-right">{{groupData.prequalificationNumber}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="groupData.groupName">
                         <span>{{'label.input.groupname' | translate}}: <span
                                 class="pull-right">{{groupData.groupName}}</span></span>
                     </div>
@@ -36,26 +36,26 @@
                         <span>{{'label.heading.processquality' | translate}}: <span
                                 class="pull-right">{{groupData.processQuality}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="resolveTotalRequestedAmount()">
                         <span>{{'label.heading.totalRequestedAmount' | translate}}: <span
                                 class="pull-right">{{resolveTotalRequestedAmount() | number}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
                         <span>{{'label.heading.totalApprovedAmount' | translate}}: <span
                                 class="pull-right">{{resolveTotalApprovedAmount() | number}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
                         <span>{{'label.heading.reducedamount' | translate}}: <span
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
                     </div>
 
                 </div>
                 <div class="col-sm-6">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="groupData.agencyName">
                         <span>{{'label.input.agency' | translate}}: <span
                                 class="pull-right">{{groupData.agencyName}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="groupData.centerName">
                         <span>{{'label.input.center' | translate}}: <span
                                 class="pull-right">{{groupData.centerName}}</span></span>
                     </div>
@@ -236,6 +236,15 @@
                     </button>
                     <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
                             class="btn btn-primary">{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='committeeapprovals'">
+                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.sendToAnalysis')" type="button"
+                            class="btn btn-warning">{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                    <button ng-click="processAnalysisRequest('approveCommittee','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary">{{'label.button.approve' | translate}}
                     </button>
                 </div>
 
