@@ -11,7 +11,7 @@
         <div class="content">
             <api-validate></api-validate>
             <br>
-            <div class="row">
+            <div class="row filterbg m-1">
                 <div class="col-sm-6">
                     <form ng-submit="getResultsPage(1)" class="form-horizontal">
                         <div class="form-group">
@@ -21,14 +21,14 @@
                                         placeholder="{{'label.input.searchByGroupOrGroupNameOrCenter' | translate}}"
                                         class="form-control unstyled"/>
                                     <span class="input-group-btn">
-                                    <button class="btn btn-primary form-control" ng-disabled="!searchText">
+                                    <button class="btn btn-info">
                                         <span class="fa fa-search"></span>
                                     </button>
                                     </span>
                                 </div>
                             </div>
                             <div class="col-md-6" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
-                                <div class="control-label col-sm-6">
+                                <div class="control-label col-sm-6 text-white">
                                     <label>{{ 'label.input.status' | translate }}<span
                                             class="required">*</span></label>
                                 </div>
