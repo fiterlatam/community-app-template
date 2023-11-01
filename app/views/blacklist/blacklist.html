@@ -10,17 +10,17 @@
         </div>
         <div class="content">
             <br>
-            <div class="row">
+            <div class="row filterbg m-1">
                 <div class="col-sm-6">
                     <form ng-submit="getResultsPage(1)" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-md-8">
-                                <div class="input-group">
+                                <div class="input-group form-control">
                                     <input data-ng-model="searchText" type="text"
                                            placeholder="{{'label.input.searchByNameDpi' | translate}}"
                                            class="form-control unstyled"/>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary form-control" ng-disabled="!searchText">
+                                        <button class="btn btn-info form-control">
                                             <span class="fa fa-search"></span>
                                         </button>
                                     </span>
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <div class="checkbox">
+                    <div class="checkbox form-control">
                         <label for="showAll">
                             <input type="checkbox" id="showAll" name="showAll" ng-model="showAll" ng-change="getActiveInactive()">
                             &nbsp;{{'label.button.showinactive' | translate }}
