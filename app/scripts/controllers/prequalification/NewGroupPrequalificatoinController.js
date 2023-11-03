@@ -70,6 +70,18 @@
                 scope.formData.members.splice(index,1);
            };
 
+           scope.updatePresident = function (index) {
+               let members = scope.formData.members;
+               for (var i = 0; i < members.length; i++ ){
+                   if (i !== Number(index)){
+                       console.log("disabling president")
+                       scope.formData.members[i].groupPresident = false;
+                   }else{
+                       scope.formData.members[i].groupPresident = true;
+                   }
+               }
+           };
+
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];
 

@@ -4383,6 +4383,8 @@
 	"label.input.searchByCode": "Search by code",
 	"label.input.searchByNameOrCode": "Search by name or code",
 	"label.input.confirmation": "Confirmación",
+	"label.input.president": "Presidente",
+	"label.anchor.president": "(Presidente)",
 	"label.input.analysisConfirmation": "¿Está seguro de que desea enviar el grupo a la Unidad de Análisis?",
 	"label.input.agencyConfirmation": "¿Está seguro de que desea enviar el grupo a la Unidad de Agencia?",
 	"label.addBank": "Add Bank",
