@@ -73,7 +73,6 @@
             }
 
             scope.processCsvData = function () {
-              var headers = ['Cheque No.','Name', 'Amount'];
               var selectedCheques = [];
                 for(var i = 0; i < scope.cheques.length; i++){
                   if(scope.cheques[i].isSelected){
@@ -86,7 +85,6 @@
                   }
                }
               var csvData = [];
-              csvData.push(headers);
               for (let i = 0; i < selectedCheques.length; i++) {
                  var row = [selectedCheques[i].chequeNo, selectedCheques[i].clientName, selectedCheques[i].chequeAmount];
                  csvData.push(row);
