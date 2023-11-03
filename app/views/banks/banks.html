@@ -49,7 +49,7 @@
                 <tbody>
                 <tr dir-paginate="bank in banklist | itemsPerPage: banksPerPage" class="pointer-main"
                     total-items="totalBanks"  pagination-id="banklist" >
-                    <td class="pointer" data-ng-click="routeTo('/viewblank/'+bank.id)">{{bank.name}}</td>
+                    <td class="pointer" data-ng-click="routeTo('/banks/'+bank.id+'/viewdetails')">{{bank.name}}</td>
                     <td class="pointer">{{bank.code}}</td>
                     <td class="pointer">
                        <!--  <a href="#/banks/{{bank.id}}/removebank" has-permission='DELETE_BANK'>
