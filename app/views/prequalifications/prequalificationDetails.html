@@ -76,7 +76,7 @@
 
             </div>
             <hr/>
-            <div class="toolbar" data-ng-show="showValidatePolicies">
+            <div class="toolbar" data-ng-show="viewPolicyCheckResults">
                 <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
                     ng-click="routeTo('/prequalification/'+groupId+'/validations')"
                     class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
@@ -92,7 +92,7 @@
                     <th>{{'label.input.amount.requested' | translate}}</th>
                     <th>{{'label.input.status' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
-                    <th data-ng-show="showValidatePolicies">{{'label.heading.hard.policy.status' | translate}}</th>
+                    <th data-ng-show="viewPolicyCheckResults">{{'label.heading.hard.policy.status' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' | translate}}</th>
@@ -114,7 +114,7 @@
                         <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
                         {{member.bureauCheckStatus.code}}
                     </td>
-                    <td data-ng-show="showValidatePolicies">
+                    <td data-ng-show="viewPolicyCheckResults">
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
                            ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
                     <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
