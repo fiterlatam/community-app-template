@@ -101,6 +101,7 @@
                     <th>{{'label.input.dateofbirth'|translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
+                    <th ng-if="groupingType !== 'individual'">{{'label.input.president'|translate}}</th>
                     <th></th>
                 </tr>
 
@@ -110,6 +111,13 @@
                     <td>{{member.dob}}</td>
                     <td>{{member.puente}}</td>
                     <td>{{member.amount}}</td>
+                    <td ng-if="groupingType !== 'individual'">
+                        <div class="checkbox form-group">
+                            <label for="isSelected">
+                                <input type="checkbox" id="isSelected" name="isSelected" ng-change="updatePresident($index)" ng-model="formData.members[$index].groupPresident">
+                            </label>
+                        </div>
+                    </td>
                     <td><a ng-click="removeMember($index)" uib-tooltip="{{'label.remove.row' | translate}}"><i class="fa fa-times"></i></a></td>
                 </tr>
             </table>
