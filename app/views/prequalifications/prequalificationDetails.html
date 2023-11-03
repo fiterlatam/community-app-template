@@ -102,7 +102,7 @@
                 </tr>
 
                 <tr ng-repeat="member in groupMembers">
-                    <td>{{member.name}}</td>
+                    <td>{{member.name}} {{member.groupPresident?'label.anchor.president':'' | translate}}</td>
                     <td>{{member.dpi}}</td>
                     <td>{{member.dob | DateFormat}}</td>
                     <td>{{member.workWithPuente}}</td>
