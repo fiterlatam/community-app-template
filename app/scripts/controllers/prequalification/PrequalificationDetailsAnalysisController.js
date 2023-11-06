@@ -173,6 +173,7 @@
             scope.getDifference = function (num1, num2) {
                 return Number(num1) - Number(num2);
             }
+
             scope.resolveTotalRequestedAmount = function () {
                 let total = 0;
                 for (let i = 0; i < scope.groupMembers.length; i++) {
@@ -223,6 +224,10 @@
                         scope.groupMembers[index].isEdit = false;
                     }
                 });
+            }
+
+            scope.assignToSelf = function () {
+               scope.processAnalysisRequest('assigntoself','label.button.assigntoself')
             }
 
             scope.processAnalysisRequest = function (status, inMessage) {
