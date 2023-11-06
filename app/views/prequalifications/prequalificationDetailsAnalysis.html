@@ -49,6 +49,17 @@
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
                     </div>
 
+                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'">
+                        <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> Assign to Myself</button>
+                    </div>
+                    <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
+                        <span>Sub-Status <span class="pull-right">{{groupData.substatus}}</span></span>
+                    </div>
+                    <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
+                        <span>Assigned to <strong class="pull-right">{{groupData.assignedUserName}}</strong></span>
+                    </div>
+
+
                 </div>
                 <div class="col-sm-6">
                     <div class="alert alert-info" ng-if="groupData.agencyName">
@@ -91,7 +102,6 @@
                         <span>{{'label.input.comments' | translate}}: <span
                                 class="pull-right">{{groupData.comments}}</span></span>
                     </div>
-
                     <div class="">
                         <span>{{'label.input.addcomments' | translate}}: <span
                                 class="pull-right">
@@ -100,6 +110,8 @@
                                       ng-model="formData.comments" id="comms" required></textarea>
                         </span></span>
                     </div>
+
+
                 </div>
 
             </div>
@@ -208,7 +220,7 @@
                 </tbody>
             </table>
         </div>
-        <div>
+        <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser">
             <div class="row alert alert-default m-1" ng-if="prequalificationType==='analysis'">
                 <div class="col-sm-6 text-left">
                     <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"

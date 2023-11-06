@@ -145,20 +145,20 @@
                 -->
 
                 <!-- Action buttons related to prequalification individual when current status is HARD_POLICY_CHECKED -->
-                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && groupingType==='individual'"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"
                         ng-click="requestForUpdates()" type="button" class="btn btn-warning"
                        has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
                    {{'label.button.prequalification.requestUpdates' | translate}}
                 </button>
 
-                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && groupingType==='individual' && !hasRedValidations"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && !hasRedValidations"
                         ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')"
                         type="button" class="btn btn-primary"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
                     {{'label.button.sendtoagency' | translate}}
                 </button>
 
-                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && groupingType==='individual' && hasRedValidations"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && hasRedValidations"
                         ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')"
                         type="button" class="btn btn-primary"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
