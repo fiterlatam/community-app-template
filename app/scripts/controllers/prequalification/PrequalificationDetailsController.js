@@ -8,7 +8,7 @@
             scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
-            scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
+            scope.viewPolicyCheckResults = false;
             scope.groupingType = routeParams.groupingType;
             scope.previousPageUrl = "#/prequalificationsmenu";
             if (routeParams.groupingType === 'group'){
@@ -22,6 +22,10 @@
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
+                // Show the results if the status is HARD_POLICY_CHECKED (700) and subsequence
+                if(data.status.id >= 700){
+                   scope.viewPolicyCheckResults = true;
+                }
                 scope.groupMembers = data.groupMembers;
                 if (scope.groupingType === 'individual'){
                     let countRedValidations = 0;
