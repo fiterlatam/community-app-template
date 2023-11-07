@@ -651,7 +651,7 @@
 	"label.input.additionalinformation": "Información adicional",
 	"label.input.changelanguage": "Cambiar el idioma:",
 	"label.input.age.limit.warning": "Límite de edad de advertencia ",
-	"label.input.age.limit.block": "Límite de edad del bloque ",
+	"label.input.age.limit.block": "Límite de edad del bloqueo ",
 	"label.input.dpi": "DPI",
 	"label.heading.dpi": "DPI",
 	"label.input.nit": "NIT",
