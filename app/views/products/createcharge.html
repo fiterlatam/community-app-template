@@ -105,19 +105,25 @@
                     <label class="control-label col-sm-2" for="chargeType">{{'label.input.chargetype' | translate}}<span
                             class="required">*</span></label>
                     <div class="col-sm-3">
-                        <select id="chargeType" name="chargedisbursementtypebyfield" ng-model="formData.chargeDisbursementType"
+                        <select ng-show="formData.chargeTimeType == 1" id="chargeType" name="chargedisbursementtypebyfield" ng-model="formData.chargeDisbursementType"
                                 class="form-control"
                                 ng-change="changeChargeType()" required late-Validate
                                 ng-options="chargeDisbursement.id as chargeDisbursement.code | translate for chargeDisbursement in template.chargeDisbursementTypeOptions"
                                 value="{{chargeDisbursement.id}}" ng-required="chargedisbursementtypebyfield" class="form-control">
                         </select>
+                        <select ng-show="formData.chargeTimeType == 8" id="chargeType" name="chargeinstallmentfeetypebyfield" ng-model="formData.chargeInstallmentFeeType"
+                        class="form-control"
+                        ng-change="changeChargeType()" required late-Validate
+                        ng-options="chargeInstallmentFee.id as chargeInstallmentFee.code | translate for chargeInstallmentFee in template.chargeInstallmentFeeTypeOptions"
+                        value="{{chargeInstallmentFee.id}}" ng-required="chargeinstallmentfeetypebyfield" class="form-control">
+                </select>
                     </div>
                     <div class="col-sm-3">
                         <form-validate valattributeform="createchargeform" valattribute="chargeType"/>
                     </div>
                 </div>
 
-                <div class="form-group" ng-show="formData.chargeDisbursementType == 2"  style="padding-left: 30px;">
+                <div class="form-group" ng-show="formData.chargeDisbursementType == 2 || formData.chargeInstallmentFeeType == 2"  style="padding-left: 30px;">
                     <label><strong>{{ 'label.input.adminfee' | translate }}</strong></label>
                     <table class="width50 table">
                         <tr class="bottomborder graybg">

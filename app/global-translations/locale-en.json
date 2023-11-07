@@ -4874,6 +4874,8 @@
   "label.input.chargetype": "Charge Type",
   "chargeDisbursementType.regular": "Normal",
   "chargeDisbursementType.addOn": "Administrative Fee",
+  "chargeInstallmentFeeType.regular": "Normal",
+  "chargeInstallmentFeeType.addOn": "Administrative Fee",
   "label.input.days.limit.addOn": "Limit of days for administrative fee",
   "validation.msg.ranges.overlap": "Ranges overlap",
   "validation.msg.charge.ranges.min.greaterorequal.to": "Max must be greater to Min",
