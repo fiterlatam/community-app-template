@@ -230,6 +230,57 @@
                 });
             };
 
+            scope.requestForUpdates = function () {
+                $uibModal.open({
+                    templateUrl: 'requestForUpdatesView.html',
+                    controller: RequestUpdatesCtrl
+                });
+
+            }
+
+            scope.sendToAgencyUnit = function () {
+                $uibModal.open({
+                    templateUrl: 'agencyConfirmation.html',
+                    controller: AgencyConfirmationCtrl
+                });
+
+            }
+
+
+            var RequestUpdatesCtrl = function ($scope, $uibModalInstance) {
+                $scope.updateData = {};
+
+                $scope.submit = function () {
+                    resourceFactory.prequalificationChecklistResource.requestUpdates({prequalificationId: scope.group.prequalificationId}, {comments:$scope.updateData.comments}, function (data) {
+                        $uibModalInstance.dismiss('cancel');
+                        route.reload();
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var AgencyConfirmationCtrl = function ($scope, $uibModalInstance) {
+                $scope.updateData = {};
+
+                $scope.sendGroup = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: scope.group.prequalificationId, command: 'sendtoagency'},
+                        {action: 'sendtoagency'},
+                        function (data) {
+                            $uibModalInstance.dismiss('cancel');
+                            route.reload();
+                        });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+
         }
     });
     mifosX.ng.application.controller('ViewGroupController', ['$scope', '$routeParams', '$route', '$location', 'ResourceFactory', 'dateFilter', '$uibModal', mifosX.controllers.ViewGroupController]).run(function ($log) {

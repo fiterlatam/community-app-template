@@ -47,7 +47,7 @@
                             memberDets.dob = dateFilter(new Date(dobDate), scope.df);
                         }
                         memberDets.puente = member.workWithPuente;
-                        memberDets.amount = member.requestedAmount;
+                        memberDets.amount = member.approvedAmount;
                         memberDets.name = member.name;
                         memberDets.dpi = member.dpi;
                         memberDets.locale = scope.optlang.code;
@@ -139,7 +139,8 @@
                         if(scope.membersList[i].dateOfBirth){
                             memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
                         }
-                        memberData.amount = scope.membersList[i].requestedAmount ;
+
+                        memberData.amount = scope.membersList[i].approvedAmount ;
                         memberData.locale = scope.optlang.code;
                         memberData.dateFormat = scope.df;
                         scope.formData.members.push(memberData)

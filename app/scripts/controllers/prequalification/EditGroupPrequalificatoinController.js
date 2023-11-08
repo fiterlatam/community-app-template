@@ -19,6 +19,15 @@
             scope.groupData;
             scope.membersList = [];
             scope.tf = "HH:mm";
+            scope.groupingType=routeParams.groupingType;
+
+            if (routeParams.groupingType === 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType === 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 console.log("Make call for prequalification");
@@ -39,25 +48,25 @@
                     });
                 }
                 scope.formData =
-                    {
-                        agencyId: data.agencyId,
-                        productId: data.productId,
-                        centerId: data.centerId,
-                        facilitator: data.facilitatorId,
-                        groupName: data.groupName,
-                        prequalificationNumber: data.prequalificationNumber,
-                        prequalilficationTimespan: data.prequalilficationTimespan,
-                        members: data.groupMembers
+                {
+                    agencyId: data.agencyId,
+                    productId: data.productId,
+                    centerId: data.centerId,
+                    facilitator: data.facilitatorId,
+                    groupName: data.groupName,
+                    prequalificationNumber: data.prequalificationNumber,
+                    prequalilficationTimespan: data.prequalilficationTimespan,
+                    members: data.groupMembers
 
-                    }
+                }
             });
 
-            resourceFactory.prequalificationTemplateResource.get(function (data) {
+            resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
                 console.log(data.facilitators);
                 scope.agenciesList = data.agencies,
-                    scope.centersList = data.centerData,
-                    scope.productsList = data.loanProducts,
-                    scope.facilitators = data.facilitators
+                scope.centersList = data.centerData,
+                scope.productsList = data.loanProducts,
+                scope.facilitators = data.facilitators
             });
 
             scope.addMemberData = function () {
@@ -73,7 +82,7 @@
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
                     scope.membersForm = {
-                        workWithPuente: "YES"
+                       workWithPuente: "YES"
                     };
                     scope.memberDetailsForm.$setUntouched();
                     scope.memberDetailsForm.$setPristine();
@@ -82,8 +91,20 @@
                 this.uiValidationErrors = uiValidationErrors;
             }
 
-            scope.removeMember = function (index) {
+           scope.removeMember = function (index) {
                 scope.formData.members.splice(index,1);
+           };
+
+            scope.updatePresident = function (index) {
+                let members = scope.formData.members;
+                for (var i = 0; i < members.length; i++ ){
+                    if (i !== Number(index)){
+                        console.log("disabling president")
+                        scope.formData.members[i].groupPresident = false;
+                    }else{
+                        scope.formData.members[i].groupPresident = true;
+                    }
+                }
             };
 
             scope.getGroupsByCenterId = function (centerId) {
@@ -139,7 +160,7 @@
 
 
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -149,12 +170,12 @@
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
 
-                // this.formData.members.forEach(function(member){
-                //     member.locale = scope.optlang.code;
-                //     member.dateFormat = scope.df;
-                // })
+                if(scope.groupingType === 'individual'){
+                    this.formData.individual = true;
+                }
+
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -176,6 +197,9 @@
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
+                if(scope.groupingType === 'individual'){
+                    this.formData.individual = true;
+                }
 
                 let eMembers = this.formData.members;
                 let memberArray = [];
@@ -188,6 +212,7 @@
                         dob : member.dob ? dateFilter(member.dob,  scope.df) : member.dob,
                         amount : member.requestedAmount,
                         puente : member.workWithPuente,
+                        groupPresident : member.groupPresident,
                         id : member.id
                     }
 
@@ -195,7 +220,7 @@
                 });
                 this.formData.members = memberArray;
                 resourceFactory.prequalificationResource.update({groupId: routeParams.groupId},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
