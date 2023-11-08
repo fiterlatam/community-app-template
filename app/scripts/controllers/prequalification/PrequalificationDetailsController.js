@@ -3,16 +3,43 @@
         PrequalificationDetailsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupData = {};
+            scope.isEdit = false;
             scope.formData = {};
+            scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
             scope.prequalificationDocuments = [];
+            scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
+            scope.groupingType = routeParams.groupingType;
+            scope.previousPageUrl = "#/prequalificationsmenu";
+            if (routeParams.groupingType === 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType === 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
+            scope.hasRedValidations = false;
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
+                if (scope.groupingType === 'individual'){
+                    let countRedValidations = 0;
+                    for(const i in scope.groupMembers){
+                        if(scope.groupMembers[i].redValidationCount > 0 || scope.groupMembers[i].activeBlacklistCount > 0){
+                            countRedValidations++;
+                        }
+                    }
+                    if(countRedValidations > 0){
+                        scope.hasRedValidations = true;
+                    }
+                }
             });
 
-            resourceFactory.entityDocumentsResource.getAllDocuments({entity: 'prequalifications',entityId: routeParams.groupId}, function (data) {
+            resourceFactory.entityDocumentsResource.getAllDocuments({
+                entity: 'prequalifications',
+                entityId: routeParams.groupId
+            }, function (data) {
                 for (var l in data) {
 
                     var bldocs = {};
@@ -29,33 +56,181 @@
             });
 
             scope.submit = function () {
+                if (routeParams.groupingType === 'individual'){
+                    scope.groupData.groupName = scope.groupData.prequalificationNumber;
+                }
                 Upload.upload({
-                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId+ '/comment',
-                    data: {name:scope.groupData.groupName, description : scope.formData.description, comment : scope.formData.comments, file: scope.formData.file},
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: {
+                        name: scope.groupData.groupName,
+                        description: scope.formData.description,
+                        comment: scope.formData.comments,
+                        file: scope.formData.file
+                    },
                 }).then(function (data) {
                     // to fix IE not refreshing the model
                     if (!scope.$$phase) {
                         scope.$apply();
                     }
-                    location.path('/prequalificationGroups/newprequalification/new');
+
+                    if (routeParams.groupingType === 'group'){
+                        location.path('/prequalificationGroups/group/new');
+                    }
+
+                    if (routeParams.groupingType === 'individual'){
+                        location.path('/prequalificationGroups/individual/new');
+                    }
                 });
             };
 
             scope.resolveMemberStatus = function (statusId) {
-                if (statusId==='ACTIVE'){
+                if (statusId === 'ACTIVE') {
                     return 'text-danger';
                 }
-                if (statusId==='INACTIVE'){
+                if (statusId === 'INACTIVE') {
                     return 'text-warning';
                 }
-                if (statusId==='NONE'){
+                if (statusId === 'NONE') {
                     return 'text-success';
                 }
+            }
+
+            scope.resolveBureaStatus = function (statusId) {
+                if (statusId === 'BUREAU_AVAILABLE') {
+                    return 'A';
+                } else {
+                    return 'NA';
+                }
+            }
+
+            scope.policyCheckColor = function (redValidationCount) {
+                if (redValidationCount > 0) {
+                    return 'text-danger';
+                }
+                return 'text-success'
+            }
+
+            scope.requestForUpdates = function () {
+                $uibModal.open({
+                    templateUrl: 'requestForUpdatesView.html',
+                    controller: RequestUpdatesCtrl
+                });
+            }
+
+            scope.validateHardPolicy = function () {
+                resourceFactory.prequalificationChecklistResource.validate({prequalificationId: routeParams.groupId}, {}, function (data) {
+                    route.reload();
+                });
+            }
+
+            scope.validateBeaural = function () {
+                resourceFactory.prequalificationChecklistResource.bureauValidation({prequalificationId: routeParams.groupId}, {}, function (data) {
+                    route.reload();
+                });
             }
 
             scope.onFileSelect = function (files) {
                 scope.formData.file = files[0];
             };
+
+            scope.showSupportDocumentUploadPage = function () {
+                var allowedStatuses = [400, 200];
+                if (scope.groupData.status) {
+                    return allowedStatuses.includes(scope.groupData.status.id)
+                }
+                return false;
+            };
+
+            scope.viewHardPolicyValidation = function (memberId) {
+                resourceFactory.prequalificationValidationResource.get({
+                    prequalificationId: routeParams.groupId,
+                    clientId: memberId
+                }, function (data) {
+                    scope.memberHardPolicyResults = data
+
+                    $uibModal.open({
+                        templateUrl: 'viewMemberHardPolicy.html',
+                        controller: ViewMemberHardPolicyCtrl
+                    });
+                });
+            };
+
+            scope.processAnalysisRequest = function (status, inMessage) {
+                scope.analysisStatus = status;
+                scope.confirmationMessage = inMessage
+                $uibModal.open({
+                    templateUrl: 'confirmationModal.html',
+                    controller: ConfirmationModalCtrl
+                });
+            }
+
+            var RequestUpdatesCtrl = function ($scope, $uibModalInstance) {
+                $scope.updateData = {};
+
+                $scope.submit = function () {
+                    resourceFactory.prequalificationChecklistResource.requestUpdates({prequalificationId: routeParams.groupId}, {comments:$scope.updateData.comments}, function (data) {
+                        $uibModalInstance.dismiss('cancel');
+                        route.reload();
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var ViewMemberHardPolicyCtrl = function ($scope, $uibModalInstance) {
+                $scope.memberResults = scope.memberHardPolicyResults;
+
+                $scope.checkValidationColor = function (colorName) {
+                    if(colorName){
+                        if('RED' === colorName.toUpperCase()){
+                            return 'text-danger';
+                        }
+
+                        if('YELLOW' === colorName.toUpperCase()){
+                            return 'text-warning';
+                        }
+
+                        if('GREEN' === colorName.toUpperCase()){
+                            return 'text-success';
+                        }
+
+                        if('GREEN' === colorName.toUpperCase()){
+                            return 'text-success';
+                        }
+
+                        if('ORANGE' === colorName.toUpperCase()){
+                            return 'text-warning';
+                        }
+                    }
+                    return '';
+                }
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var ConfirmationModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.confirm = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
+                        {action: scope.analysisStatus,comments:scope.formData.comments},
+                        function (data) {
+                            scope.routeTo("/prequalificationsmenu");
+                            $uibModalInstance.dismiss('okay');
+                        });
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            scope.routeTo = function (path) {
+                location.path(path);
+            }
         }
     });
 

@@ -23,6 +23,7 @@
             scope.formDat.datatables = [];
             scope.tf = "HH:mm";
             scope.clientData = {};
+            scope.prequlificationdata = {};
             scope.parentOfficesOptions = [];
             scope.responsibleUserOptions = [];
             scope.portfolioCenterOptions = [];
@@ -129,9 +130,24 @@
                 });
                 return deferred.promise;
             };
+            scope.prequalificationOption = function(value){
+                var deferred = $q.defer();
+
+                resourceFactory.prequalificationResource.getAllGroups({
+                    type: 'checked',
+                    searchText:value
+                }, function (data) {
+                    console.log("prequal data: "+ JSON.stringify(data));
+                    deferred.resolve(data.pageItems);
+                });
+                return deferred.promise;
+            };
 
             scope.viewClient = function (item) {
                 scope.client = item;
+            };
+            scope.viewPrequal = function (item) {
+                scope.prequalification = item;
             };
 
             scope.add = function () {
@@ -234,7 +250,9 @@
                 if (scope.first.submitondate) {
                     this.formData.submittedOnDate = dateFilter(scope.first.submitondate, scope.df);
                 }
-
+                if (scope.prequalification) {
+                    this.formData.prequalificationId = scope.prequalification.id;
+                }
                 this.formData.active = this.formData.active || false;
                 if (!_.isUndefined(scope.datatables) && scope.datatables.length > 0) {
                     angular.forEach(scope.datatables, function (datatable, index) {

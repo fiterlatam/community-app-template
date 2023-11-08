@@ -123,6 +123,7 @@
                         </div>
 
                     </div>
+
                     <hr>
                     <button class="btn btn-default pull-left" wz-previous disabled><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
@@ -679,6 +680,7 @@
                             <form-validate valattributeform="Terms" valattribute="limitwarning"/>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-sm-2">{{
                             'label.input.age.limit.block'
@@ -691,6 +693,36 @@
                         </div>
                         <div class="col-sm-2">
                             <form-validate valattributeform="Terms" valattribute="limitblock"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{
+                            'label.input.days.limit.addOn'
+                            | translate }}<span class="required">*</span></label>
+
+                        <div class="col-sm-2">
+                            <input id="daysLimitForAddOn" name="daysForAddOn" class="form-control"
+                                   type="text" ng-pattern="/^[0-9]+$/" ng-model="formData.daysLimitAddOn"
+                                   late-validate number=true required>
+                        </div>
+                        <div class="col-sm-2">
+                            <form-validate valattributeform="Terms" valattribute="daysForAddOn"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{
+                            'label.input.guaranteePercentage'
+                            | translate }}</label>
+
+                        <div class="col-sm-2">
+                            <input id="guaranteePercentage" class="form-control"
+                                   type="number" ng-model="formData.guaranteePercentage"
+                                   late-validate  required>
+                        </div>
+                        <div class="col-sm-2">
+                            <form-validate valattributeform="Terms" valattribute="guaranteePercentage"/>
                         </div>
                     </div>
                     <hr>

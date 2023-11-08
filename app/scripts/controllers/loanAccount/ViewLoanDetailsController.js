@@ -180,7 +180,7 @@
                 else {
                     scope.chargeTableShow = false;
                 }
-                if (scope.status == "Submitted and pending approval" || scope.status == "Active" || scope.status == "Approved") {
+                if (scope.status == "Submitted and pending approval" || scope.status == "Active" || scope.status == "Approved" || scope.status == "Pending Disbursement Authorization") {
                     scope.choice = true;
                 }
                 if (data.status.value == "Submitted and pending approval") {
@@ -246,7 +246,7 @@
                     }
                 }
 
-                if (data.status.value == "Approved") {
+                if (data.status.value == "Approved" || data.status.value == "Pending Disbursement Authorization") {
                     scope.buttons = { singlebuttons: [
                         {
                             name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
@@ -690,7 +690,7 @@
             };
             scope.showDisbursedAmountBasedOnStatus = function(){
                 if(scope.status == 'Submitted and pending approval' ||scope.status == 'Withdrawn by applicant' || scope.status == 'Rejected' ||
-                    scope.status == 'Approved'){
+                    scope.status == 'Approved' || scope.status == 'Pending Disbursement Authorization'){
                     return false;
                 }
                 return true;

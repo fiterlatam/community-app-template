@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        NewGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, validationService, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.agenciesList = [];
             scope.portfoliosList = [];
@@ -12,34 +12,63 @@
             scope.restrictDate = new Date();
             scope.formData = {};
             scope.formData.members = [];
-            scope.membersForm = {};
+            scope.membersForm = {
+               workWithPuente: "YES"
+            };
             scope.memberDetailsForm;
             scope.groupData;
             scope.membersList = [];
             scope.tf = "HH:mm";
+            scope.groupingType=routeParams.groupingType;
 
-            resourceFactory.prequalificationTemplateResource.get(function (data) {
+            if (routeParams.groupingType === 'group'){
+                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+            }
+
+            if (routeParams.groupingType === 'individual'){
+                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+            }
+
+            resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
                 scope.agenciesList = data.agencies
                 scope.centersList = data.centerData
                 scope.productsList = data.loanProducts
                 scope.facilitators = data.facilitators
+                scope.formData.prequalilficationTimespan = Number(data.prequalilficationTimespan)
             });
 
-
-
             scope.addMemberData = function () {
-                var reqDate = dateFilter(scope.membersForm.dob, scope.df);
+                var uiValidationErrors = [];
+                if (!validationService.checkDPI(scope.membersForm.dpi)) {
+                    uiValidationErrors.push({
+                        message: `${scope.membersForm.dpi} DPI provided is invalid`
+                    });
+                } else {
+                    for (var i = 0; i < scope.formData.members.length; i++ ){
+                        if (scope.formData.members[i].dpi === scope.membersForm.dpi){
+                             uiValidationErrors.push({message: `${scope.membersForm.dpi} DPI ya está tomada!`});
+                             this.uiValidationErrors = uiValidationErrors;
+                             return;
+                        }
+                    }
+                    var reqDate = dateFilter(scope.membersForm.dob, scope.df);
+                    scope.membersForm.dob = reqDate;
+                    scope.membersForm['locale'] = scope.optlang.code;
+                    scope.membersForm['dateFormat'] = scope.df;
+                    scope.formData.members.push(scope.membersForm);
+                    scope.membersForm = {
+                       puente: "YES"
+                    };
+                    scope.memberDetailsForm.$setUntouched();
+                    scope.memberDetailsForm.$setPristine();
 
-                scope.membersForm.dob = reqDate;
-                scope.membersForm['locale'] = scope.optlang.code;
-                scope.membersForm['dateFormat'] = scope.df;
-
-                scope.formData.members.push(scope.membersForm);
-                scope.membersForm = {}
-                scope.memberDetailsForm.$setUntouched();
-                scope.memberDetailsForm.$setPristine();
-
+                }
+                this.uiValidationErrors = uiValidationErrors;
             }
+
+           scope.removeMember = function (index) {
+                scope.formData.members.splice(index,1);
+           };
 
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];
@@ -92,9 +121,8 @@
                     }
                 }
 
-
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -104,12 +132,17 @@
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
 
+                if(scope.groupingType === 'individual'){
+                    this.formData.individual = true;
+                }
+
                 // this.formData.members.forEach(function(member){
                 //     member.locale = scope.optlang.code;
                 //     member.dateFormat = scope.df;
                 // })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+
+                    location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
@@ -129,7 +162,8 @@
         }
     });
 
-    mifosX.ng.application.controller('NewGroupPrequalificatoinController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.NewGroupPrequalificatoinController]).run(function ($log) {
+
+    mifosX.ng.application.controller('NewGroupPrequalificatoinController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', 'ValidationService', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.NewGroupPrequalificatoinController]).run(function ($log) {
         $log.info("NewGroupPrequalificatoinController initialized");
     });
 }(mifosX.controllers || {}));

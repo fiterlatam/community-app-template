@@ -21994,3 +21994,7 @@ Interactive Layer
 .m-1{
   margin: 2px !important;
 }
+
+.statusexpired{
+  color: rgba(159, 3, 16, 0.87);
+}

@@ -53,6 +53,8 @@
                     shortName: scope.product.shortName,
                     ageLimitWarning: data.ageLimitWarning,
                     ageLimitBlock: data.ageLimitBlock,
+                    daysLimitAddOn: data.daysLimitAddOn,
+                    guaranteePercentage: data.guaranteePercentage,
                     description: scope.product.description,
                     fundId: scope.product.fundId,
                     description: scope.product.description,

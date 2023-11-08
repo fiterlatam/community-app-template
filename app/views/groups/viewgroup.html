@@ -46,7 +46,7 @@
 						<div class="">
 					    <div class="btn-group pull-right"
 					    	data-ng-hide="group.status.value == 'Closed'">
-					        <a href="#/editgroup/{{group.id}}?managecode=2"
+							<a href="#/editgroup/{{group.id}}?managecode=2"
 					        	class="btn btn-primary" has-permission='UPDATE_GROUP'
 					          	data-ng-hide="group.status.value=='Active'"><i class="fa fa-check"></i>
 					          	{{'label.button.activate' | translate }}
@@ -102,6 +102,12 @@
 		                              {{ 'label.button.unassignstaff' | translate }}
 		                              </a>
 		                          </li>
+								   <li>
+									    <a href="#/prequalification/{{group.prequalificationId}}/viewdetails?showValidatePolicies=true" has-permission='READ_GROUP'>{{'label.button.hardpolicychecklist' | translate }}</a>
+								  </li>
+								  <li>
+									    <a href="#/prequalification/{{group.prequalificationId}}/requalification" has-permission='READ_GROUP'>{{'label.button.requalification' | translate }}</a>
+								  </li>
 								  <li class="{{button.icon}}">
 									  <a href="#/groups/cupo/{{group.id}}">{{'label.cupo' | translate}}</a>
 								  </li>
@@ -196,6 +202,16 @@
 							                </table>
 						                </div>
 				                	</div>
+									<div class="col-md-5" ng-if="group.prequalificationNumber">
+										<div class="alert alert-info" role="alert">
+											<strong>{{'label.heading.prequalificationnumber' | translate}}</strong>  {{group.prequalificationNumber}}
+										</div>
+									</div>
+									<div class="col-md-5" ng-if="group.prequalificationStatus">
+										<div class="alert alert-info" role="alert" style="word-break: break-word">
+											<strong>{{'label.heading.prequalificationstatus' | translate}}</strong>  {{group.prequalificationStatus.value}}
+										</div>
+									</div>
 				                </div>
 								<div>
 									<div class="span gray-head">
@@ -562,6 +578,31 @@
 					        </table>
 					    </div>
 				</uib-tab>
+				<uib-tab heading="{{ 'label.anchor.prequalification.groups' | translate }}">
+					    <div class="">
+					        <table class="table ">
+					            <thead>
+					            <tr>
+					                <th>{{ 'label.heading.groupname' | translate }}</th>
+					                <th>{{ 'label.heading.prequalificationnumber' | translate }}</th>
+					                <th>{{ 'label.heading.status' | translate }}</th>
+					                <th>{{ 'label.heading.createdby' | translate }}</th>
+					                <th>{{ 'label.heading.createdAt' | translate }}</th>
+					                <th></th>
+					            </tr>
+					            </thead>
+					            <tbody>
+					            <tr ng-repeat="prequal in group.prequalificationGroups">
+					                <td>{{prequal.groupName}}</td>
+					                <td><a href="#/prequalification/{{prequal.id}}/viewdetails">{{prequal.prequalificationNumber}}</a></td>
+					                <td>{{prequal.status.value}}</td>
+					                <td>{{prequal.addedBy}}</td>
+					                <td>{{prequal.createdAt |DateFormat}}</td>
+					            </tr>
+					            </tbody>
+					        </table>
+					    </div>
+				</uib-tab>
 				<uib-tab heading="{{groupdatatable.registeredTableName}}"
 						ng-repeat="groupdatatable in groupdatatables" has-permission='READ_{{groupdatatable.registeredTableName}}'
 				     	select="dataTableChange(groupdatatable)">
@@ -609,6 +650,65 @@
 				    	</div>
 				</uib-tab>
 			</uib-tabset>
+
+			<div class="alert alert-default">
+				<button ng-if="group.prequalificationStatus && group.prequalificationStatus.value==='HARD_POLICY_CHECKED'"
+						ng-click="requestForUpdates()" type="button"
+						class="btn btn-warning"
+						has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
+					{{'label.button.prequalification.requestUpdates' | translate}}
+				</button>
+
+				<button ng-if="group.prequalificationStatus && group.prequalificationStatus.value==='HARD_POLICY_CHECKED'"
+						ng-click="sendToAgencyUnit()" type="button"
+						class="btn btn-primary"
+						has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
+					{{'label.button.sendtoagency' | translate}}
+				</button>
+			</div>
 		</div>
 	</div>
+	<script type="text/ng-template" id="requestForUpdatesView.html">
+		<div class="modal-header silver">
+			<h3 class="bolder">{{'label.heading.prequalification.requestUpdates' | translate}}</h3>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div>
+					<div class="form-group">
+						<label class="control-label col-sm-4"
+							   for="comms">{{'label.input.comments' | translate}}<span
+								class="required">*</span></label>
+
+						<div class="col-sm-8">
+                            <textarea type="text" class="form-control" name="grpnm" rows="5"
+									  placeholder="{{'label.input.comments'|translate}}"
+									  data-ng-model="updateData.comments" id="comms" required></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="text-center">
+				<button class="btn btn-primary" ng-disabled="!updateData.comments" ng-click="submit()">{{'label.button.submit' | translate}}</button>
+				<button class="btn btn-warning"  ng-click="cancel()">{{'label.button.close' | translate}}</button>
+			</div>
+
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="agencyConfirmation.html">
+		<div class="modal-header silver">
+			<h3 class="bolder">{{'label.input.confirmation' | translate}}</h3>
+			<h4><strong class="required">{{ 'label.input.agencyConfirmation' | translate }}&nbsp</b></strong>
+			</h4>
+		</div>
+		<div class="modal-footer">
+			<api-validate></api-validate>
+			<br>
+			<button class="btn btn-default" ng-click="cancel()">{{'label.heading.no' | translate}}</button>
+			<button class="btn btn-primary" ng-click="sendGroup()">{{'label.heading.yes' | translate}}
+			</button>
+		</div>
+	</script>
 </div>

@@ -8,40 +8,65 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationGroups/new" has-permission='CREATE_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationGroups/group/new" has-permission='CREATE_PREQUALIFICATIONS'>
                             <h5 class="list-group-item-heading">
-                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.newgroup.prequalification'
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.groupcredit.prequalification'
                             | translate}}</h5>
                         </a>
                     </div>
                     <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationGroups/existing" has-permission='VIEW_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationAnalysis/exceptionsqueue" has-permission='VIEW_ANALYSIS_QUEUE'>
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.agency.lead.pending.approval'
+                            | translate}}</h5>
+                        </a>
+                    </div>
+
+                    <div class="list-group">
+                        <a class="list-group-item" href="#/prequalificationAnalysis/analysis" has-permission='VIEW_ANALYSIS_QUEUE'>
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.analysis.unit.pending.approval'
+                            | translate}}</h5>
+                        </a>
+                    </div>
+<!--                     <div class="list-group">
+                        <a class="list-group-item" href="#/prequalifications/newprequalification/existing" has-permission='VIEW_PREQUALIFICATIONS'>
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.existinggroup.prequalification'
                             | translate}}</h5>
                         </a>
-                    </div>
-                    <div class="list-group">
+
+                    </div> -->
+<!--                     <div class="list-group">
                         <a class="list-group-item" href="#/prequalificationGroups/chanimcredit" has-permission='VIEW_PREQUALIFICATIONS'>
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.chanimcredit.prequalification'
                             | translate}}</h5>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="list-group">
+<!--                     <div class="list-group">
                         <a class="list-group-item" href="#/prequalificationGroups/parallelcredit" has-permission='VIEW_PREQUALIFICATIONS'>
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.parallelcredit.prequalification'
                             | translate}}</h5>
                         </a>
-                    </div>
+                        prequalifications/individualprequalifications
+                        prequalificationGroups/individual/new/
+                    </div> -->
                     <div class="list-group">
-                        <a class="list-group-item" href="#/prequalifications/individualprequalifications" has-permission='VIEW_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationGroups/individual/new/" has-permission='VIEW_PREQUALIFICATIONS'>
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.indidualcredit.prequalification'
+                            | translate}}</h5>
+                        </a>
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item" href="#/prequalificationAnalysis/exceptionsqueue" has-permission='VIEW_EXCEPTIONS_QUEUE'>
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.exceptions.queue'
                             | translate}}</h5>
                         </a>
                     </div>
