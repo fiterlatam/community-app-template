@@ -29,7 +29,7 @@
             scope.submit=function (){
 
                 resourceFactory.bankAccountResource.update({bankAccountId: routeParams.bankAccountId}, this.formData, function (data) {
-                    location.path('bankaccounts' );
+                    location.path('chequebankaccounts' );
                     //location.path('/banks/' + data.resourceId + "/viewdetails");
                 });
             }

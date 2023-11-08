@@ -2,13 +2,13 @@
     <div>
         <ul class="breadcrumb">
             <li><a href="#/prequalificationsmenu">{{'label.anchor.prequalifications' | translate}}</a></li>
-            <li class="active">{{'label.heading.newgroup.prequalification' | translate}}</li>
+            <li class="active">{{'label.heading.existinggroup.prequalification' | translate}}</li>
         </ul>
     </div>
     <api-validate></api-validate>
     <form name="groupDetailsForm" novalidate="" class="well form-inline" ng-submit="requestPrequalification()">
         <fieldset>
-            <legend>{{ 'label.heading.newgroup.prequalification' | translate }}</legend>
+            <legend>{{ 'label.heading.existinggroup.prequalification' | translate }}</legend>
             <table class="width100">
                 <tr>
                     <td class="width14">

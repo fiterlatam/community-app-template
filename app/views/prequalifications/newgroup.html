@@ -10,7 +10,7 @@
         <fieldset>
             <legend>{{ 'label.heading.newgroup.prequalification' | translate }}</legend>
             <table class="width100">
-                <tr>
+                <tr ng-if="groupingType==='group'">
                     <td class="width14">
                         <label>{{ 'label.input.agency' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
@@ -18,7 +18,6 @@
                         <select id="agency" ng-model="formData.agencyId"
                                 ng-options="agency.id as agency.name for agency in agenciesList" value="{{agency.id}}"
                                 class="form-control width170px" required late-validate>
-                            <!--                            <option style="display:none" value="">{{'label.input.agency' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="productId"/>
                     </td>
@@ -38,7 +37,7 @@
                     </td>
 
                 </tr>
-                <tr ng-if="centersList && centersList.length>0">
+                <tr ng-if="centersList && centersList.length>0 && groupingType==='group'">
                     <td class="width14">
                         <label>{{ 'label.input.groupname' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
@@ -59,21 +58,21 @@
                                 ng-options="product.id as product.name for product in productsList"
                                 value="{{product.id}}" required late-validate
                                 class="form-control width170px">
-                            <!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
+<!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="product"/>
                     </td>
 
-                    <td class="width14">
+                    <td class="width14" ng-if="groupingType==='group'">
                         <label>{{ 'label.input.facilitator' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
-                    <td class="width36 paddedbottom10">
+                    <td class="width36 paddedbottom10" ng-if="groupingType==='group'">
                         <select id="facilitator" ng-model="formData.facilitator"
                                 ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitators"
                                 value="{{facilitator.id}}" required late-validate
                                 class="form-control width170px">
-                            <!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
+<!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="facilitator"/>
                     </td>
@@ -116,9 +115,9 @@
 
             <hr/>
             <div class="text-center">
-                <a id="cancel" ng-href="#/prequalificationsmenu" class="btn btn-default">{{'label.button.cancel' |
+                <a id="cancel" ng-href="{{ previousPageUrl }}" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || (!formData.group && !formData.groupName)?true:false"
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || ((groupingType!='individual' && !formData.group && !formData.groupName)?true : false)"
                         has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.save' | translate}}</button>
             </div>
         </fieldset>
@@ -169,7 +168,7 @@
                 </td>
 
                 <td class="text-center">
-                    <button id="save" class="btn btn-primary" type="submit"><i class="fa fa-plus" has-permission='CREATE_PREQUALIFICATIONS'> {{'label.button.add' | translate}}</i>
+                    <button id="save" class="btn btn-primary" ng-disabled="formData.members.length==1 && groupingType==='individual'" type="submit"><i class="fa fa-plus" has-permission='CREATE_PREQUALIFICATIONS'> {{'label.button.add' | translate}}</i>
                     </button>
                 </td>
             </tr>

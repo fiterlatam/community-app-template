@@ -1206,15 +1206,19 @@
             templateUrl: 'views/blacklist/addToBlacklist.html'
         }).when('/prequalificationsmenu', {
             templateUrl: 'views/prequalifications/prequalificationsMenu.html'
-        }).when('/prequalificationGroups/:type', {
+        }).when('/prequalificationGroups/:groupingType/:type', {
             templateUrl: 'views/prequalifications/prequalificationsGroups.html'
-        }).when('/prequalifications/newprequalification/new', {
+        }).when('/prequalificationAnalysis/:type', {
+            templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
+        }).when('/prequalifications/newprequalification/new/:groupingType', {
             templateUrl: 'views/prequalifications/newgroup.html'
         }).when('/prequalifications/newprequalification/existing', {
             templateUrl: 'views/prequalifications/existingGroupPrequalification.html'
-        }).when('/prequalification/:groupId/viewdetails', {
+        }).when('/prequalification/:groupId/viewdetails/:groupingType', {
             templateUrl: 'views/prequalifications/prequalificationDetails.html'
-        }).when('/prequalification/:groupId/edit', {
+        }).when('/prequalification/:groupId/viewdetailsAnalysis', {
+            templateUrl: 'views/prequalifications/prequalificationDetailsAnalysis.html'
+        }).when('/prequalification/:groupId/edit/:groupingType', {
             templateUrl: 'views/prequalifications/editgroup.html'
         }).when('/prequalifications/individualprequalifications', {
             templateUrl: 'views/prequalifications/individualPrequalificationList.html'
@@ -1245,21 +1249,45 @@
         }).when('/prequalification/:prequalificationId/requalification', {
             templateUrl: 'views/prequalifications/requalification.html'
         }).when('/chequebankaccounts', {
-            templateUrl: 'views/banks/bankcheques/chequebankaccounts.html'
+           templateUrl: 'views/banks/bankcheques/chequebankaccounts.html'
         }).when('/viewchequeaccount/:accountId', {
             templateUrl: 'views/banks/bankcheques/viewchequeaccount.html'
         }).when('/createchequebatch/:accountId', {
-            templateUrl: 'views/banks/bankcheques/createchequebatch.html'
+           templateUrl: 'views/banks/bankcheques/createchequebatch.html'
         }).when('/viewchequebatch/:batchId', {
             templateUrl: 'views/banks/bankcheques/viewchequebatch.html'
-        }).when('/editchequebatch/:batchId', {
-            templateUrl: 'views/banks/bankcheques/editchequebatch.html'
+         }).when('/editchequebatch/:batchId', {
+           templateUrl: 'views/banks/bankcheques/editchequebatch.html'
         }).when('/viewdetails/:batchId/cheque/:chequeId', {
-            templateUrl: 'views/banks/bankcheques/viewchequedetails.html'
+           templateUrl: 'views/banks/bankcheques/viewchequedetails.html'
         }).when('/reassigncheque/:batchId/cheque/:chequeId', {
-            templateUrl: 'views/banks/bankcheques/reassigncheque.html'
+           templateUrl: 'views/banks/bankcheques/reassigncheque.html'
         }).when('/voidcheque/:batchId/cheque/:chequeId', {
-            templateUrl: 'views/banks/bankcheques/voidcheque.html'
+           templateUrl: 'views/banks/bankcheques/voidcheque.html'
+        }).when('/disburseloansbycheques', {
+          templateUrl: 'views/loans/disburseloansbycheques.html'
+        }).when('/bankcheques', {
+          templateUrl: 'views/banks/bankcheques/bankcheques.html'
+        }).when('/approvesingleissuance/:batchId/cheque/:chequeId', {
+          templateUrl: 'views/banks/bankcheques/approvesinglechequeissuance.html'
+        }).when('/approvechequesissuance', {
+           templateUrl: 'views/banks/bankcheques/approvechequesissuance.html'
+        }).when('/authorizechequesissuance', {
+           templateUrl: 'views/banks/bankcheques/authorizechequesissuance.html'
+        }).when('/authorizesingleissuance/:batchId/cheque/:chequeId', {
+           templateUrl: 'views/banks/bankcheques/authorizesinglechequeissuance.html'
+        }).when('/printcheques', {
+           templateUrl: 'views/banks/bankcheques/printcheques.html'
+        }).when('/payguaranteeswithcheques', {
+           templateUrl: 'views/banks/bankcheques/payguaranteeswithcheques.html'
+         }).when('/committees', {
+            templateUrl: 'views/organization/committees.html'
+        }).when('/createcommittee', {
+            templateUrl: 'views/organization/createcommittee.html'
+        }).when('/viewcommittee/:id', {
+            templateUrl: 'views/organization/viewcommittee.html'
+        }).when('/editcommittee/:id', {
+            templateUrl: 'views/organization/editcommittee.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
