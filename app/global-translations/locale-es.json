@@ -637,6 +637,7 @@
 	"label.anchor.save": "Guardar",
 	"label.anchor.prequalifications": "Precalificación de Créditos",
 	"label.anchor.prequalification.details": "Detalles de precalificación",
+	"label.anchor.substatus": "Subestado",
 	"label.input.searchbyuser": "Búsqueda por usuario",
 	"label.input.clienttemplate": "Plantilla de cliente",
 	"label.input.loanaccounttemplate": "Plantillas de cuentas del préstamo",

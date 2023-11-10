@@ -4810,6 +4810,7 @@
   "label.heading.group.hard.policies": "Group Hard Policies",
   "label.heading.members.hard.policies": "Members Hard Policies",
   "label.anchor.bankcheques": "Bank Cheques",
+  "label.anchor.substatus": "Sub Status",
   "label.view.bankcheques": "Manage bank cheques",
   "label.anchor.list.bank.account": "Bank Accounts",
   "label.input.filter.bank.accounts": "Filter By Account No",
