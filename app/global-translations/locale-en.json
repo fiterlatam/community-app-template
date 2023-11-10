@@ -1664,6 +1664,7 @@
   "label.input.closedondate": "Closed on",
   "label.input.loanofficerunassigneddate": "Unassigned on",
   "label.input.facilitator": "Facilitator",
+  "label.input..select.facilitator": "Select Facilitator",
   "label.input.paymenttype": "Payment types",
   "label.heading.paymenttypes": "Payment types",
   "label.anchor.paymenttypes": "Payment types",

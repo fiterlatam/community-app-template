@@ -62,12 +62,22 @@
             });
 
             resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
-                console.log(data.facilitators);
-                scope.agenciesList = data.agencies,
-                scope.centersList = data.centerData,
-                scope.productsList = data.loanProducts,
-                scope.facilitators = data.facilitators
+                scope.agenciesList = data.agencies;
+                scope.centersList = data.centerData;
+                scope.productsList = data.loanProducts;
+                scope.facilitators = data.facilitators;
             });
+
+            scope.$watch('formData.agencyId',function(){
+                scope.onAgencyChange();
+            });
+             scope.onAgencyChange = function(){
+                  delete scope.formData.centerId;
+                  delete scope.centersList;
+                  resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType, agencyId: scope.formData.agencyId},function (data) {
+                    scope.centersList = data.centerData;
+                  });
+            }
 
             scope.addMemberData = function () {
                 var uiValidationErrors = [];
