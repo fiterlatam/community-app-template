@@ -5,7 +5,7 @@
         <div class="content">
             <div class="toolbar">
                 <ul class="breadcrumb">
-                    <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+                    <li><a href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
                     <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@
                         <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> Assign to Myself</button>
                     </div>
                     <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
-                        <span>Sub-Status <span class="pull-right">{{groupData.substatus}}</span></span>
+                        <span>{{'label.anchor.substatus'|translate}} <span class="pull-right">{{groupData.substatus}}</span></span>
                     </div>
                     <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
                         <span>Assigned to <strong class="pull-right">{{groupData.assignedUserName}}</strong></span>

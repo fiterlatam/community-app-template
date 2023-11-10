@@ -9,6 +9,7 @@
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
+            scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
