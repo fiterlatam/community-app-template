@@ -433,7 +433,7 @@
   "label.heading.clientshardpolicychecklist": "Clients Hard Policy Checklist",
   "label.button.createhardpolicychecklist": "Create Checklist",
   "label.button.edithardpolicychecklist": "Edit Checklist",
-  "label.button.prequalification.buralValidation": "Bureau Validation",
+  "label.button.prequalification.buralValidation": "Validate Bureaus",
   "label.button.requalification": "Prequalify",
   "label.button.assigntoself": "Assign To Self",
   "label.input.previous.date": "Previous Prequalification Date",
@@ -735,6 +735,7 @@
   "label.input.prequalification.duration": "Prequalification Lifespan(Days)",
   "label.input.linkprequalification": "Link Prequalification Group",
   "label.input.bureau.status": "Bureau Status",
+  "label.input.blacklist.status": "Blacklist",
   "#Search": "..",
   "label.search.scope.all": "All",
   "label.search.scope.clients.and.clientIdentifiers": "Clients",
@@ -4926,5 +4927,7 @@
   "confirmation.message.first.part.one": "Are you sure you want to ",
   "confirmation.message.first.part.two": " this prequalification?",
   "label.button.prequalification.sendtoexception": "Send to exception",
+  "label.button.validate.blacklist": "validate blacklist",
+  "label.validate.hard.policy": "Validate Hard Policy",
   "----End---": "--End of file--- "
 }
