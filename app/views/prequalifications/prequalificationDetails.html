@@ -90,7 +90,7 @@
                     <th>{{'label.input.dateofbirth' | translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested' | translate}}</th>
-                    <th>{{'label.input.status' | translate}}</th>
+                    <th>{{'label.input.blacklist.status' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
                     <th data-ng-show="viewPolicyCheckResults">{{'label.heading.hard.policy.status' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' | translate}}</th>
@@ -131,7 +131,7 @@
                 <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
                         ng-click="validateHardPolicy()" type="button" value="validate"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
-                    {{'label.button.validate' | translate}}
+                    {{'label.validate.hard.policy' | translate}}
                 </button>
             </div>
 
