@@ -864,6 +864,8 @@
 	"validation.msg.client.withdrawalReasonId.cannot.be.blank": "El motivo de retiro del cliente no puede estar en blanco",
 	"validation.msg.client.rejectionDate.cannot.be.blank": "La fecha de rechazo del cliente no puede estar en blanco",
 	"validation.msg.client.withdrawalDate.cannot.be.blank": "La Fecha de Compensación del Cliente no puede estar en blanco",
+	"validation.msg.identifier.dpi.chars.not.valid": "DPI enviado no válido. Proporcione un formato correcto del DPI.",
+	"validation.msg.client.dateOfBirth.is.greater.than.date" : "La fecha de nacimiento del cliente no puede ser mayor que la fecha enviada por el cliente.",
 	"label.heading.addmember": "Añadir miembro",
 	"label.heading.addrole": "Añadir rol",
 	"label.heading.viewsmscampaign": "Ver campaña de SMS",

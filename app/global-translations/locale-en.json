@@ -514,6 +514,7 @@
   "error.msg.code.identifier.not.found": "Code with identifier `{{params[0].value}}` does not exist.",
   "error.msg.configuration.property.invalid": "Global configuration property with name `{{params[0].value}}` does not exist.",
   "validation.msg.configuration.cannot.edit.consult.documentation": "Uneditable configuration. Consult documentation.",
+  "validation.msg.identifier.dpi.chars.not.valid": "Invalid DPI submitted. Please provide a correct format of the dpi.",
   "error.msg.permission.code.invalid": "Permission with code `{{params[0].value}}` does not exist.",
   "error.msg.role.id.invalid": "Role with identifier `{{params[0].value}}` does not exist.",
   "error.msg.role.associated.with.users": "This role associated with users can not be modified.",

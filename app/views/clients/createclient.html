@@ -235,10 +235,14 @@
                                    ng-show="showNonPersonOptions">{{'label.input.incorporationdate' | translate}}<span
                                     class="required">*</span></label>
                             <div class="col-sm-3">
-                                <input id="dateofbirth" type="text" name="dateofbirth" datepicker-pop="dd MMMM yyyy"
+                                <input id="dob" type="text" name="dateofbirth" datepicker-pop="dd MMMM yyyy"
                                        ng-model="first.dateOfBirth" is-open="opened1" required min="minDate"
                                        max="restrictDate"
                                        class="form-control"/>
+
+                                <div class="col-sm-2">
+                                    <form-validate valattributeform="createclientform" valattribute="dob"/>
+                                </div>
                             </div>
                             <div data-ng-switch on="showNonPersonOptions">
                                 <div data-ng-switch-when="false">
@@ -312,13 +316,13 @@
                             <div data-ng-switch-when="true">
                                 <div class="form-group">
                                     <label class="control-label col-sm-2">{{'label.input.constitution' | translate}}<span
-                                            class="required"></span></label>
+                                            class="required">*</span></label>
                                     <div class="col-sm-3">
                                         <select id="constitutionId" name="constitution"
                                                 ng-model="formData.clientNonPersonDetails.constitutionId"
                                                 class="form-control"
                                                 ng-options="constitution.id as constitution.name for constitution in clientNonPersonConstitutionOptions"
-                                                value="{{constitution.id}}">
+                                                value="{{constitution.id}} ">
                                             <option value="">--{{'label.menu.constitution' | translate}}--</option>
                                         </select>
                                     </div>
@@ -352,10 +356,13 @@
                             </div>
 
                             <label class="control-label col-sm-2" for="externalId">{{'label.input.loanCycle' |
-                            translate}}</label>
+                            translate}}<span class="required">*</span></label>
                             <div class="col-sm-3">
                                 <input type="text" id="loanCycle" name="loanCycle" ng-model="formData.loanCycle" required late-validate
                                        class="form-control"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <form-validate valattributeform="createclientform" valattribute="loanCycle"/>
                             </div>
                         </div>
 
@@ -971,11 +978,11 @@ l-sm-3">
 
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
-                                        <label>{{ 'label.input.gender' | translate }}</label>
+                                        <label>{{ 'label.input.gender' | translate }}<span class="required">*</span></label>
                                     </div>
                                     <div class="col-sm-3">
                                         <select chosen="genderIdOptions" id="genderIdOption"
-                                                ng-model="familyArray[$index].genderId" class="form-control"
+                                                ng-model="familyArray[$index].genderId" class="form-control" required
                                                 ng-options="genderIdOption.id as genderIdOption.name for genderIdOption in genderIdOptions track by genderIdOption.id"
                                                 value="formData.genderId"></select>
                                     </div>
