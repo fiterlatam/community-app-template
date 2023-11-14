@@ -20,6 +20,8 @@
             scope.membersList = [];
             scope.tf = "HH:mm";
             scope.groupingType=routeParams.groupingType;
+            scope.isAgencySelected = false;
+            scope.isCenterSelected = false;
 
             if (routeParams.groupingType === 'group'){
                 scope.previousPageUrl = "#/prequalificationGroups/group/new";
@@ -30,12 +32,24 @@
             }
 
             resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
-                scope.agenciesList = data.agencies
-                scope.centersList = data.centerData
-                scope.productsList = data.loanProducts
-                scope.facilitators = data.facilitators
+                scope.agenciesList = data.agencies;
+                scope.centersList = data.centerData;
+                scope.facilitators = data.facilitators;
+                scope.productsList = data.loanProducts;
                 scope.formData.prequalilficationTimespan = Number(data.prequalilficationTimespan)
             });
+
+            scope.$watch('formData.agencyId',function(){
+                scope.onAgencyChange();
+            });
+
+            scope.onAgencyChange = function(){
+              delete scope.formData.centerId;
+              delete scope.centersList;
+              resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType, agencyId: scope.formData.agencyId},function (data) {
+                scope.centersList = data.centerData;
+              });
+            }
 
             scope.addMemberData = function () {
                 var uiValidationErrors = [];

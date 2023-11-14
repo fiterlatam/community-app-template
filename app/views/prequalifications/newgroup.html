@@ -18,7 +18,7 @@
                         <select id="agency" ng-model="formData.agencyId"
                                 ng-options="agency.id as agency.name for agency in agenciesList" value="{{agency.id}}"
                                 class="form-control width170px" required late-validate>
-<!--                            <option style="display:none" value="">{{'label.input.agency' | translate}}</option>-->
+                            <option style="display:none" value="">{{'label.input.agency' | translate}}</option>
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="productId"/>
                     </td>
@@ -32,7 +32,7 @@
                                 ng-options="pcenter.id as pcenter.name for pcenter in centersList"
                                 value="{{pcenter.id}}"
                                 class="form-control width170px" required="true" late-Validate>
-                            <!--                            <option style="display:none" value="">{{'label.input.select.center' | translate}}</option>-->
+                                <option style="display:none" value="">{{'label.input.select.center' | translate}}</option>
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="centerId"/>
                     </td>
@@ -59,7 +59,7 @@
                                 ng-options="product.id as product.name for product in productsList"
                                 value="{{product.id}}" required late-validate
                                 class="form-control width170px">
-<!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
+                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="product"/>
                     </td>
@@ -73,7 +73,7 @@
                                 ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitators"
                                 value="{{facilitator.id}}" required late-validate
                                 class="form-control width170px">
-<!--                            <option style="display:none" value="">{{'label.input.selectproduct' | translate}}</option>-->
+                            <option style="display:none" value="">{{'label.input..select.facilitator' | translate}}</option>
                         </select>
                         <form-validate valattributeform="groupDetailsForm" valattribute="facilitator"/>
                     </td>
@@ -127,7 +127,7 @@
                 <a id="cancel" ng-href="{{ previousPageUrl }}" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
                 <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || ((groupingType!='individual' && !formData.group && !formData.groupName)?true : false)"
-                        has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.save' | translate}}</button>
+                        has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.validate.blacklist' | translate}}</button>
             </div>
         </fieldset>
     </form>
