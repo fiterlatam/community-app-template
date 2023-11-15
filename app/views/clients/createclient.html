@@ -563,9 +563,9 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="clientArea"
-                                                ng-model="formData.clientArea" class="form-control" required="required"
+                                                ng-model="formData.clientArea" class="form-control" required
                                                 ng-options="area.id as area.name for area in clientAreaOptions "
-                                                value="{{area.id}}"></select>
+                                                value="{{area.id}}" late-validate=""></select>
                                     </div>
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="clientArea"/>
@@ -579,9 +579,9 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="housing"
-                                                ng-model="formData.housingTypeId" class="form-control" required="required"
+                                                ng-model="formData.housingTypeId" class="form-control" required
                                                 ng-options="housing.id as housing.name for housing in housingTypeOptions "
-                                                value="{{housing.id}}"></select>
+                                                value="{{housing.id}}" late-validate=""></select>
                                     </div>
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="housing"/>
@@ -610,7 +610,7 @@
                                                ng-model="formData.communityYears" required late-validate number=true/>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="residenceYears"></form-validate>
+                                        <form-validate valattributeform="createclientform" valattribute="communityYears"></form-validate>
                                     </div>
                                 </div>
 
@@ -623,7 +623,9 @@
                                         <table>
                                             <tr ng-repeat="publicServiceOption in publicServiceOptions">
                                                 <td>
-                                                    <input id="{{publicServiceOption.id}}" type="checkbox" name='publicService' data-ng-model="publicServiceChecks[publicServiceOption.id]" data-ng-change="checkPublicService(publicServiceOption.id)">
+                                                    <input id="{{publicServiceOption.id}}" type="checkbox" name='publicService'
+                                                           data-ng-model="publicServiceChecks[publicServiceOption.id]"
+                                                           data-ng-change="checkPublicService(publicServiceOption.id)">
                                                     &nbsp;&nbsp;<label>{{publicServiceOption.name}}</label>
                                                 </td>
                                             </tr>
@@ -641,7 +643,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="department"
-                                                ng-model="formData.departmentId" class="form-control" required="required"
+                                                ng-model="formData.departmentId" class="form-control" required late-validate
                                                 ng-options="department.id as department.name for department in departamentoOptions "
                                                 value="{{department.id}}"></select>
                                     </div>
@@ -657,7 +659,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="municipal"
-                                                ng-model="formData.municipalId" class="form-control" required="required"
+                                                ng-model="formData.municipalId" class="form-control" required late-validate
                                                 ng-options="municipal.id as municipal.name for municipal in municipioOptions "
                                                 value="{{municipal.id}}"></select>
                                     </div>
@@ -801,7 +803,8 @@
                                     <label class="control-label col-sm-2" for="mobileNo">{{'label.input.mobilenumber' |
                                     translate}}<span class="required">*</span></label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" required="required" class="form-control"/>
+                                        <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" required late-validate
+                                               class="form-control"/>
                                     </div>
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="mobileNo"/>
@@ -826,7 +829,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="departmentDpi"
-                                                ng-model="formData.departmentDpi" class="form-control" required="required"
+                                                ng-model="formData.departmentDpi" class="form-control" required late-validate
                                                 ng-options="department.id as department.name for department in departamentoOptions "
                                                 value="{{department.id}}"></select>
                                     </div>
@@ -842,7 +845,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="municipalDpi"
-                                                ng-model="formData.municipalDpi" class="form-control" required="required"
+                                                ng-model="formData.municipalDpi" class="form-control" required late-validate
                                                 ng-options="municipal.id as municipal.name for municipal in municipioOptions "
                                                 value="{{municipal.id}}"></select>
                                     </div>
@@ -982,9 +985,13 @@ l-sm-3">
                                     </div>
                                     <div class="col-sm-3">
                                         <select chosen="genderIdOptions" id="genderIdOption"
-                                                ng-model="familyArray[$index].genderId" class="form-control" required
+                                                ng-model="familyArray[$index].genderId" class="form-control" required late-validate
                                                 ng-options="genderIdOption.id as genderIdOption.name for genderIdOption in genderIdOptions track by genderIdOption.id"
                                                 value="formData.genderId"></select>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform" valattribute="genderIdOption"/>
                                     </div>
                                 </div>
 
