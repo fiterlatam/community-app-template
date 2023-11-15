@@ -135,7 +135,7 @@
                                     </label>
                                     <div class="col-sm-3">
                                         <input type="text" id="firstlastname" name="firstlastname" ng-model="formData.lastname"
-                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
+                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/" required
                                                late-Validate/>
                                     </div>
                                     <div class="col-sm-2">
@@ -338,7 +338,7 @@
                                     translate}}</label>
                                     <div class="col-sm-3">
                               <textarea type="text" id="remarks" ng-model="formData.clientNonPersonDetails.remarks"
-                                        rows="4" class="form-control"/>
+                                        rows="4" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -795,7 +795,7 @@
                                                class="form-control">
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="lightDeviceNumber"></form-validate>
+                                        <form-validate valattributeform="createclientform" valattribute="lightDeviceNumber"/>>
                                     </div>
                                 </div>
 
@@ -896,8 +896,7 @@
                                            for="firstName">{{'label.input.firstname' | translate
                                         }}</label>
 
-                                    <div class="co                                <div class="form-group" ng-show="isActive">
-l-sm-3">
+                                    <div class="col-sm-3">
                                         <input type="text" id="firstName" name="firstName"
                                                ng-model="familyArray[$index].firstName" class="form-control">
                                     </div>
