@@ -46,9 +46,15 @@
                                 <select id="legalFormId" ng-model="formData.legalFormId" class="form-control"
                                         ng-options="legalForm.id as legalForm.value for legalForm in clientLegalFormOptions"
                                         value="{{legalForm.id}}"
-                                        ng-change="displayPersonOrNonPersonOptions(formData.legalFormId)" late-Validate>
-                                    <option value="">--{{'label.menu.legalForm' | translate}}--</option>
+                                        ng-change="displayPersonOrNonPersonOptions(formData.legalFormId)" late-Validate required>
+                                    <option value=''>--{{'label.menu.legalForm' | translate}}--</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <small class="required error"
+                                      ng-if="isSubmitted && (!formData.legalFormId || formData.legalFormId.length<=0)">
+                                                                        {{'label.requiredfield' | translate}}
+                              </small>
                             </div>
                         </div>
                         <div data-ng-switch on="showNonPersonOptions">
@@ -568,8 +574,10 @@
                                                 value="{{area.id}}" late-validate=""></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="clientArea"/>
-                                    </div>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.clientArea)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -584,7 +592,10 @@
                                                 value="{{housing.id}}" late-validate=""></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="housing"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.housingTypeId)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -616,8 +627,7 @@
 
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
-                                        <label>{{ 'label.input.client.publicservice' | translate }}<span
-                                                class="required">*</span></label>
+                                        <label>{{ 'label.input.client.publicservice' | translate }}</label>
                                     </div>
                                     <div class="col-sm-3">
                                         <table>
@@ -648,7 +658,10 @@
                                                 value="{{department.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="department"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.departmentId)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -664,7 +677,10 @@
                                                 value="{{municipal.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="municipal"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.municipalId)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -795,7 +811,7 @@
                                                class="form-control">
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="lightDeviceNumber"/>>
+                                        <form-validate valattributeform="createclientform" valattribute="lightDeviceNumber"/>
                                     </div>
                                 </div>
 
@@ -834,7 +850,10 @@
                                                 value="{{department.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="departmentDpi"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.departmentDpi)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -850,7 +869,10 @@
                                                 value="{{municipal.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="municipalDpi"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.municipalDpi)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -1200,7 +1222,7 @@
                                 <a id="cancel" ng-href="{{cancel}}" class="btn btn-default">{{'label.button.cancel' |
                                 translate}}</a>
                                 <button id="save" type="submit" class="btn btn-primary" ng-hide="blockUI"
-                                        has-permission='CREATE_CLIENT'>{{'label.button.save' | translate}}
+                                        has-permission='CREATE_CLIENT' ng-click="onSubmitListener()">{{'label.button.save' | translate}}
                                 </button>
                                 <button class="btn btn-info" ng-show="blockUI"><strong>{{'label.button.processing' |
                                 translate}}</strong></button>

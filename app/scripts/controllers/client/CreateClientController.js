@@ -271,6 +271,9 @@
                 return scope.df;
             };
 
+            scope.onSubmitListener = function () {
+                scope.isSubmitted = true;
+            }
             scope.submit = function () {
                 var reqDate = dateFilter(scope.first.date, scope.df);
 
