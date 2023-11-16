@@ -6265,7 +6265,7 @@ tbody.collapse.in {
 }
 /* line 16, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_breadcrumbs.scss */
 .breadcrumb > li + li:before {
-  content: "/ ";
+  content: "/ ";
   padding: 0 5px;
   color: #ccc;
 }
@@ -14808,7 +14808,7 @@ tbody.collapse.in {
 }
 /* line 16, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_breadcrumbs.scss */
 .breadcrumb > li + li:before {
-  content: "/ ";
+  content: "/ ";
   padding: 0 5px;
   color: #ccc;
 }

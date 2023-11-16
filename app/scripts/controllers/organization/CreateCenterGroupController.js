@@ -31,7 +31,6 @@
                 if(scope.formData.meetingStartTime != null
                         && scope.formData.meetingStartTime != undefined
                         && scope.formData.meetingStartTime != ""){
-
                     var meetingEndTime = new Date(scope.formData.meetingStartTime);
                     var hours = meetingEndTime.getHours();
                     var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod + scope.timePeriodBetweenMeeting;

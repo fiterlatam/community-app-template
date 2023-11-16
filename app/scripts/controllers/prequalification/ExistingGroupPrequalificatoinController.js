@@ -139,6 +139,7 @@
                         if(scope.membersList[i].dateOfBirth){
                             memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
                         }
+
                         memberData.amount = scope.membersList[i].approvedAmount ;
                         memberData.locale = scope.optlang.code;
                         memberData.dateFormat = scope.df;

@@ -43,13 +43,13 @@
                         update: { method: 'PUT'}
                     }),
                     officeImportTemplateResource: defineResource(apiVer + "/offices/bulkimporttemplate", {}, {
-                    		get: {method: 'GET', params: {}}
+                        get: {method: 'GET', params: {}}
                     }),
                     officeChildrenByUserResource: defineResource(apiVer + "/offices/user", {}, {
                         get: {method: 'GET', params: {}, isArray: true}
                     }),
                     importResource: defineResource(apiVer + "/imports", {}, {
-                			getImports: {method: 'GET', params: {}, isArray: true}
+                        getImports: {method: 'GET', params: {}, isArray: true}
                     }),
                     clientResource: defineResource(apiVer + "/clients/:clientId/:anotherresource", {clientId: '@clientId', anotherresource: '@anotherresource', status: '@status'}, {
                         getAllClients: {method: 'GET', params: {limit: 1000, status: '@status'}},
@@ -103,6 +103,7 @@
                         getAllGroups: {method: 'GET', params: {limit: 1000}},
                         save: {method: 'POST', params: {}},
                         update: {method: 'PUT', params: {}},
+
                         updateMember: {method: 'PUT', params: {}},
                     }),
                     individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/:clientId", {clientId: '@clientId'}, {
@@ -397,9 +398,9 @@
 					hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
                         getAllHooks: {method: 'GET', params: {}, isArray: true},
                         getHook: {method: 'GET', params: {}},
-						update: {method: 'PUT', params: {}}
+                        update: {method: 'PUT', params: {}}
                     }),
-					hookTemplateResource: defineResource(apiVer + "/hooks/template", {}, {
+                    hookTemplateResource: defineResource(apiVer + "/hooks/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
                     entityToEntityResource: defineResource(apiVer + "/entitytoentitymapping/:mappingId/:fromId/:toId", {mappingId: '@mappingId'}, {
@@ -649,7 +650,7 @@
                         put: {method: 'PUT', params:{}}
                     }),
                     workingDaysResourceTemplate: defineResource(apiVer + "/workingdays/template", {}, {
-                       get: {method: 'GET', params: {}}
+                        get: {method: 'GET', params: {}}
                     }),
                     passwordPrefTemplateResource: defineResource(apiVer + "/passwordpreferences/template", {}, {
                         get: {method: 'GET', params: {}, isArray : true},
@@ -701,7 +702,7 @@
 
                         get:{method: 'GET',params:{} },
                         delete:{method: 'DELETE',params:{}},
-                            put:{method:'PUT',params:{}}
+                        put:{method:'PUT',params:{}}
 
                     }),
                     familyMembers:defineResource(apiVer+"/clients/:clientId/familymembers/",{},{
@@ -714,8 +715,8 @@
                     familyMemberTemplate:defineResource(apiVer+"/clients/:clientId/familymembers/template",{},{
                         get:{method: 'GET',params:{}}
                     }),
-                   provisioningcriteria: defineResource(apiVer + "/provisioningcriteria/:criteriaId",{criteriaId:'@criteriaId'},{
-                         get: {method: 'GET',params:{}},
+                    provisioningcriteria: defineResource(apiVer + "/provisioningcriteria/:criteriaId",{criteriaId:'@criteriaId'},{
+                        get: {method: 'GET',params:{}},
                         getAll: {method: 'GET',params:{}, isArray : true},
                         template: {method: 'GET',params:{}},
                         post:{method:'POST',params:{}},
@@ -872,7 +873,7 @@
                         delete: {method: 'DELETE', params: {}}
                     }),
 
-					adHocQueryResource: defineResource(apiVer + "/adhocquery/:adHocId", {adHocId: '@adHocId'}, {
+                    adHocQueryResource: defineResource(apiVer + "/adhocquery/:adHocId", {adHocId: '@adHocId'}, {
                         getAllAdHocQuery: {method: 'GET', params: {}, isArray: true},
                         disableAdHocQuery: {method: 'POST'},
                         enableAdHocQuery: {method: 'POST'},
@@ -918,11 +919,11 @@
                         getAll: {method: 'GET', params: {}, isArray: true}
                     }),
                     CausesResource: defineResource(apiVer + "/codecauses/:causeId", {causeId: "@causeId"}, {
-                        retrieveCauses: {method: 'GET', params: {}},                       
+                        retrieveCauses: {method: 'GET', params: {}},
                         retrieveOne: {method: 'GET', params: {}, isArray: false},
                         createCause: {method: 'POST', params: {}},
-                        updateCause: {method: 'PUT', params: {}},                                            
-                        deleteCause: {method: 'DELETE', params: {}}                        
+                        updateCause: {method: 'PUT', params: {}},
+                        deleteCause: {method: 'DELETE', params: {}}
                     }),
                     causesTemplateResource: defineResource(apiVer + "/codecauses/template", {}, {
                         get: {method: 'GET', params: {}}

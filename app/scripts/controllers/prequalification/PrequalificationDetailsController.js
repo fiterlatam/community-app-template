@@ -3,6 +3,7 @@
         PrequalificationDetailsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupData = {};
+
             scope.isEdit = false;
             scope.formData = {};
             scope.groupId = routeParams.groupId;

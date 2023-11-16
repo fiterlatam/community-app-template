@@ -354,23 +354,23 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'client/AddFamilyMembersController',
             'organization/BulkImportOfficesController',
             'client/BulkImportClientsController',
-			'centers/BulkImportCentersController',
-			'organization/BulkImportEmployeeController',
-			'loanAccount/BulkImportLoanAccountsController',
+            'centers/BulkImportCentersController',
+            'organization/BulkImportEmployeeController',
+            'loanAccount/BulkImportLoanAccountsController',
             'loanAccount/BulkImportLoanRepaymentController',
             'loanAccount/BulkImportGuarantorController',
-			'savings/BulkImportSavingsAccountController',
-			'savings/BulkImportSavingsAccountsTransactionsController',
-			'groups/BulkImportGroupController',
-			'deposits/recurring/BulkImportRecurringDepositController',
+            'savings/BulkImportSavingsAccountController',
+            'savings/BulkImportSavingsAccountsTransactionsController',
+            'groups/BulkImportGroupController',
+            'deposits/recurring/BulkImportRecurringDepositController',
             'deposits/recurring/BulkImportRecurringDepositTransactionsController',
-			'shares/BulkImportShareAccountController',
-			'deposits/fixed/BulkImportFixedDepositAccountsController',
-			'deposits/fixed/BulkImportFixedDepositTransactionsController',
-			'accounting/BulkImportCOAController',
-			'accounting/BulkImportJournalEntriesController',
-			'user/BulkImportUsersController',
-			'adhocquery/AdHocQueryListController',
+            'shares/BulkImportShareAccountController',
+            'deposits/fixed/BulkImportFixedDepositAccountsController',
+            'deposits/fixed/BulkImportFixedDepositTransactionsController',
+            'accounting/BulkImportCOAController',
+            'accounting/BulkImportJournalEntriesController',
+            'user/BulkImportUsersController',
+            'adhocquery/AdHocQueryListController',
             'adhocquery/CreateAdHocQueryController',
             'adhocquery/ViewAdHocQueryController',
             'adhocquery/EditAdHocQueryController',
@@ -469,7 +469,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
     };
 
     return function() {
-      console.log();
+        console.log();
         var defer = Q.defer();
         require(_.reduce(_.keys(components), function (list, group) {
             return list.concat(_.map(components[group], function (name) {

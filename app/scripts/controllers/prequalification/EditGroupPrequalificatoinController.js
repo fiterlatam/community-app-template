@@ -167,6 +167,7 @@
                     }
                 }
 
+
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
