@@ -4930,5 +4930,6 @@
   "label.button.prequalification.sendtoexception": "Send to exception",
   "label.button.validate.blacklist": "validate blacklist",
   "label.validate.hard.policy": "Validate Hard Policy",
+  "label.input.payment.tolerance.limit": "Payment Tolerance Limit",
   "----End---": "--End of file--- "
 }
