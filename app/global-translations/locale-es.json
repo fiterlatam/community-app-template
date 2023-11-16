@@ -4556,5 +4556,6 @@
 	"label.input.blacklist.status": "Lista negra",
 	"label.validate.hard.policy": "Validar Política Dura",
 	"label.input.payment.tolerance.limit": "Límite de tolerancia de pago",
+	"label.input.select.supervision" : "Seleccione Supervisión",
 	"----End---": "---Fin del archivo---"
 }

@@ -51,6 +51,19 @@
 							<form-validate valattributeform="createportfolioform" valattribute="responsibleUserId"/>
 						</div>
 					</div>
+
+					<!-- Supervision -->
+					<div class="form-group">
+						<label class="control-label col-sm-2">{{ 'label.input.select.supervision' | translate }}<span class="required">*</span></label>
+						<div class="col-sm-3">
+							<select id="supervisionId" ng-model="formData.supervisionId" class="form-control" required late-Validate name="supervisionId"
+									ng-options="supervision.id as supervision.name for supervision in supervisionOptions"
+									value="{{supervision.id}}"></select>
+						</div>
+						<div class="col-sm-3">
+							<form-validate valattributeform="createportfolioform" valattribute="supervisionId"/>
+						</div>
+					</div>
 					<!--cancel / submit buttons-->
     		        <div class="col-md-offset-3">
     		            <a id="cancel" href="#/portfolios">

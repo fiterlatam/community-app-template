@@ -9,9 +9,11 @@
             resourceFactory.portfolioTemplateResource.get(requestParams, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
+                scope.supervisionOptions = data.supervisionOptions;
                 scope.formData = {
                     parentId: scope.parentOfficesOptions[0].id,
-                    responsibleUserId: scope.responsibleUserOptions[0].id
+                    responsibleUserId: scope.responsibleUserOptions[0].id,
+                    supervisionId: scope.supervisionOptions[0].id
                 }
             });
 
