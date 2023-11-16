@@ -7,22 +7,23 @@
             <br>
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationGroups/group/new" has-permission='CREATE_PREQUALIFICATIONS'>
+                    <div class="list-group" has-permission='VIEW_GROUP_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationGroups/group/new" >
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.groupcredit.prequalification'
                             | translate}}</h5>
                         </a>
                     </div>
-                    <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationAnalysis/exceptionsqueue" has-permission='VIEW_ANALYSIS_QUEUE'>
+                    <div class="list-group" has-permission='VIEW_AGENCY_LEAD'>
+                        <a class="list-group-item" href="#/prequalificationAnalysis/agency" >
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.agency.lead.pending.approval'
                             | translate}}</h5>
                         </a>
                     </div>
-                    <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationAnalysis/analysis" has-permission='VIEW_ANALYSIS_QUEUE'>
+
+                    <div class="list-group" has-permission='VIEW_ANALYSIS_QUEUE'>
+                        <a class="list-group-item" href="#/prequalificationAnalysis/analysis" >
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.analysis.unit.pending.approval'
                             | translate}}</h5>
@@ -44,27 +45,25 @@
                     </div> -->
                 </div>
 
-                <div class="col-sm-6">
-<!--                     <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationGroups/parallelcredit" has-permission='VIEW_PREQUALIFICATIONS'>
-                            <h5 class="list-group-item-heading">
-                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.parallelcredit.prequalification'
-                            | translate}}</h5>
-                        </a>
-                        prequalifications/individualprequalifications
-                        prequalificationGroups/individual/new/
-                    </div> -->
+                <div class="col-sm-6" has-permission='VIEW_INDIVIDUALPREQUALIFICATIONS'>
                     <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationGroups/individual/new/" has-permission='VIEW_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationGroups/individual/new/" >
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.indidualcredit.prequalification'
                             | translate}}</h5>
                         </a>
                     </div>
-                    <div class="list-group">
-                        <a class="list-group-item" href="#/prequalificationAnalysis/exceptionsqueue" has-permission='VIEW_EXCEPTIONS_QUEUE'>
+                    <div class="list-group" has-permission='VIEW_EXCEPTIONS_QUEUE'>
+                        <a class="list-group-item" href="#/prequalificationAnalysis/exceptionsqueue" >
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.exceptions.queue'
+                            | translate}}</h5>
+                        </a>
+                    </div>
+                    <div class="list-group" has-permission='VIEW_COMMITTEE_APPROVALS'>
+                        <a class="list-group-item" href="#/prequalificationAnalysis/committeeapprovals?individual={{true}}" >
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.committee.approvals'
                             | translate}}</h5>
                         </a>
                     </div>

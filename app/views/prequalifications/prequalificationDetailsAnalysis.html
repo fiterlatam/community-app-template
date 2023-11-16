@@ -5,7 +5,7 @@
         <div class="content">
             <div class="toolbar">
                 <ul class="breadcrumb">
-                    <li><a href="#/prequalificationGroups/new">{{'label.anchor.prequalifications' | translate}}</a></li>
+                    <li><a href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
                     <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
                 </ul>
             </div>
@@ -16,7 +16,7 @@
                         <span>{{'label.input.prequalification.number' | translate}}: <span
                                 class="pull-right">{{groupData.prequalificationNumber}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="groupData.groupName">
                         <span>{{'label.input.groupname' | translate}}: <span
                                 class="pull-right">{{groupData.groupName}}</span></span>
                     </div>
@@ -36,26 +36,37 @@
                         <span>{{'label.heading.processquality' | translate}}: <span
                                 class="pull-right">{{groupData.processQuality}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="resolveTotalRequestedAmount()">
                         <span>{{'label.heading.totalRequestedAmount' | translate}}: <span
                                 class="pull-right">{{resolveTotalRequestedAmount() | number}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
                         <span>{{'label.heading.totalApprovedAmount' | translate}}: <span
                                 class="pull-right">{{resolveTotalApprovedAmount() | number}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
                         <span>{{'label.heading.reducedamount' | translate}}: <span
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
                     </div>
 
+                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'">
+                        <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> Assign to Myself</button>
+                    </div>
+                    <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
+                        <span>{{'label.anchor.substatus'|translate}} <span class="pull-right">{{groupData.substatus}}</span></span>
+                    </div>
+                    <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
+                        <span>Assigned to <strong class="pull-right">{{groupData.assignedUserName}}</strong></span>
+                    </div>
+
+
                 </div>
                 <div class="col-sm-6">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="groupData.agencyName">
                         <span>{{'label.input.agency' | translate}}: <span
                                 class="pull-right">{{groupData.agencyName}}</span></span>
                     </div>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" ng-if="groupData.centerName">
                         <span>{{'label.input.center' | translate}}: <span
                                 class="pull-right">{{groupData.centerName}}</span></span>
                     </div>
@@ -91,7 +102,6 @@
                         <span>{{'label.input.comments' | translate}}: <span
                                 class="pull-right">{{groupData.comments}}</span></span>
                     </div>
-
                     <div class="">
                         <span>{{'label.input.addcomments' | translate}}: <span
                                 class="pull-right">
@@ -100,11 +110,13 @@
                                       ng-model="formData.comments" id="comms" required></textarea>
                         </span></span>
                     </div>
+
+
                 </div>
 
             </div>
             <hr/>
-            <div class="toolbar" data-ng-show="showValidatePolicies">
+            <div class="toolbar">
                 <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
                     ng-click="routeTo('/prequalification/'+groupId+'/validations')"
                     class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
@@ -208,17 +220,17 @@
                 </tbody>
             </table>
         </div>
-        <div>
+        <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser">
             <div class="row alert alert-default m-1" ng-if="prequalificationType==='analysis'">
                 <div class="col-sm-6 text-left">
                     <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
-                            class="btn btn-primary">{{'label.button.sendtoexception' | translate}}
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoexception' | translate}}
                     </button>
                 </div>
 
                 <div class="col-sm-6 text-right">
                     <button ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')" type="button"
-                            class="btn btn-primary">{{'label.button.sendtoagency' | translate}}
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoagency' | translate}}
                     </button>
                 </div>
             </div>
@@ -227,27 +239,36 @@
 
                 <div class="col-sm-6 text-left" ng-if="prequalificationType==='analysis'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
-                            class="btn btn-warning">{{'label.button.delaytoaccounting' | translate}}
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
                     </button>
                 </div>
                 <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
-                            class="btn btn-warning">{{'label.button.sendToPrevious' | translate}}
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
                     </button>
                     <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
-                            class="btn btn-primary">{{'label.button.prequalification.sendToAnalysis' | translate}}
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='committeeapprovals'">
+                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                    <button ng-click="processAnalysisRequest('approveCommittee','label.button.approve')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.approve' | translate}}
                     </button>
                 </div>
 
                 <div class="col-sm-6 text-right">
                     <button ng-click="processAnalysisRequest('rejectanalysis','label.button.reject')" type="button"
-                            class="btn btn-danger">{{'label.button.reject' | translate}}
+                            class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.reject' | translate}}
                     </button>
                 </div>
             </div>
             <div class="alert alert-success m-1 text-center" ng-if="prequalificationType==='analysis'">
                 <button ng-click="processAnalysisRequest('approveanalysis', 'label.button.approve')" type="button"
-                        class="btn btn-success">{{'label.button.approve' | translate}}
+                        class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.approve' | translate}}
                 </button>
             </div>
         </div>

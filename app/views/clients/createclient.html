@@ -46,9 +46,16 @@
                                 <select id="legalFormId" ng-model="formData.legalFormId" class="form-control"
                                         ng-options="legalForm.id as legalForm.value for legalForm in clientLegalFormOptions"
                                         value="{{legalForm.id}}"
-                                        ng-change="displayPersonOrNonPersonOptions(formData.legalFormId)" late-Validate>
-                                    <option value="">--{{'label.menu.legalForm' | translate}}--</option>
+                                        ng-change="displayPersonOrNonPersonOptions(formData.legalFormId)" late-Validate
+                                        required>
+                                    <option value=''>--{{'label.menu.legalForm' | translate}}--</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <small class="required error"
+                                       ng-if="isSubmitted && (!formData.legalFormId || formData.legalFormId.length<=0)">
+                                    {{'label.requiredfield' | translate}}
+                                </small>
                             </div>
                         </div>
                         <div data-ng-switch on="showNonPersonOptions">
@@ -102,29 +109,29 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div data-ng-switch on="showNonPersonOptions">-->
-<!--                            <div data-ng-switch-when="false">-->
-<!--                                <div class="form-group">-->
-<!--                                    <label class="control-label col-sm-2"-->
-<!--                                           for="lastname">{{'label.input.lastname' | translate}}-->
-<!--                                        <span class="required">*</span>-->
-<!--                                    </label>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <input type="text" id="lastname" name="lastname" ng-model="formData.lastname"-->
-<!--                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/" required-->
-<!--                                               late-Validate/>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-2">-->
-<!--                              <span ng-show="createclientform.lastname.$invalid && createclientform.lastname.$dirty">-->
-<!--                                 <small class="error required" ng-show="createclientform.lastname.$error.pattern">-->
-<!--                                    {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}-->
-<!--                                 </small>-->
-<!--                              </span>-->
-<!--                                        <form-validate valattributeform="createclientform" valattribute="lastname"/>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div data-ng-switch on="showNonPersonOptions">-->
+                        <!--                            <div data-ng-switch-when="false">-->
+                        <!--                                <div class="form-group">-->
+                        <!--                                    <label class="control-label col-sm-2"-->
+                        <!--                                           for="lastname">{{'label.input.lastname' | translate}}-->
+                        <!--                                        <span class="required">*</span>-->
+                        <!--                                    </label>-->
+                        <!--                                    <div class="col-sm-3">-->
+                        <!--                                        <input type="text" id="lastname" name="lastname" ng-model="formData.lastname"-->
+                        <!--                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/" required-->
+                        <!--                                               late-Validate/>-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="col-sm-2">-->
+                        <!--                              <span ng-show="createclientform.lastname.$invalid && createclientform.lastname.$dirty">-->
+                        <!--                                 <small class="error required" ng-show="createclientform.lastname.$error.pattern">-->
+                        <!--                                    {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}-->
+                        <!--                                 </small>-->
+                        <!--                              </span>-->
+                        <!--                                        <form-validate valattributeform="createclientform" valattribute="lastname"/>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
 
                         <div data-ng-switch on="showNonPersonOptions">
                             <div data-ng-switch-when="false">
@@ -134,8 +141,9 @@
                                         <span class="required">*</span>
                                     </label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="firstlastname" name="firstlastname" ng-model="formData.lastname"
-                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
+                                        <input type="text" id="firstlastname" name="firstlastname"
+                                               ng-model="formData.lastname"
+                                               class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/" required
                                                late-Validate/>
                                     </div>
                                     <div class="col-sm-2">
@@ -144,7 +152,8 @@
                                     {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}
                                  </small>
                               </span>
-                                        <form-validate valattributeform="createclientform" valattribute="firstlastname"/>
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="firstlastname"/>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +166,8 @@
                                            for="secondlastname">{{'label.input.secondlastname' | translate}}
                                     </label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="secondlastname" name="secondlastname" ng-model="formData.secondlastname"
+                                        <input type="text" id="secondlastname" name="secondlastname"
+                                               ng-model="formData.secondlastname"
                                                class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
                                                late-Validate/>
                                     </div>
@@ -167,7 +177,8 @@
                                     {{'validation.msg.client.name.cannot.start.specialchar.ornumber' | translate}}
                                  </small>
                               </span>
-                                        <form-validate valattributeform="createclientform" valattribute="secondlastname"/>
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="secondlastname"/>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +191,8 @@
                                            for="maidenName">{{'label.input.maidenname' | translate}}
                                     </label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="maidenName" name="maidenName" ng-model="formData.maidenName"
+                                        <input type="text" id="maidenName" name="maidenName"
+                                               ng-model="formData.maidenName"
                                                class="form-control" ng-pattern="/(^[A-z])[A-z.'-]*/"
                                                late-Validate/>
                                     </div>
@@ -217,7 +229,7 @@
                             translate}}<span class="required">*</span></label>
                             <div class="col-sm-3">
                                 <input type="text" id="dpi" name="dpi" ng-model="formData.dpi"
-                                       ng-pattern="/^[0-9]+$/" class="form-control"/>
+                                       ng-pattern="/^[0-9]+$/" class="form-control" required/>
                             </div>
                             <div class="col-sm-2">
                         <span ng-show="createclientform.dpi.$invalid && createclientform.dpi.$dirty">
@@ -225,6 +237,7 @@
                               {{'label.mustbenumeric' | translate}}
                            </small>
                         </span>
+                                <form-validate valattributeform="createclientform" valattribute="dpi"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -235,11 +248,19 @@
                                    ng-show="showNonPersonOptions">{{'label.input.incorporationdate' | translate}}<span
                                     class="required">*</span></label>
                             <div class="col-sm-3">
-                                <input id="dateofbirth" type="text" name="dateofbirth" datepicker-pop="dd MMMM yyyy"
+                                <input id="dob" type="text" name="dateofbirth" datepicker-pop="dd MMMM yyyy"
                                        ng-model="first.dateOfBirth" is-open="opened1" required min="minDate"
                                        max="restrictDate"
                                        class="form-control"/>
                             </div>
+                            <div class="col-sm-2">
+                                <small class="required error"
+                                       ng-if="isSubmitted && (!first.dateOfBirth)">
+                                    {{'label.requiredfield' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div data-ng-switch on="showNonPersonOptions">
                                 <div data-ng-switch-when="false">
                                     <label class="control-label col-sm-2">{{'label.input.gender' | translate}}</label>
@@ -312,13 +333,13 @@
                             <div data-ng-switch-when="true">
                                 <div class="form-group">
                                     <label class="control-label col-sm-2">{{'label.input.constitution' | translate}}<span
-                                            class="required"></span></label>
+                                            class="required">*</span></label>
                                     <div class="col-sm-3">
                                         <select id="constitutionId" name="constitution"
                                                 ng-model="formData.clientNonPersonDetails.constitutionId"
                                                 class="form-control"
                                                 ng-options="constitution.id as constitution.name for constitution in clientNonPersonConstitutionOptions"
-                                                value="{{constitution.id}}">
+                                                value="{{constitution.id}} ">
                                             <option value="">--{{'label.menu.constitution' | translate}}--</option>
                                         </select>
                                     </div>
@@ -334,13 +355,11 @@
                                     translate}}</label>
                                     <div class="col-sm-3">
                               <textarea type="text" id="remarks" ng-model="formData.clientNonPersonDetails.remarks"
-                                        rows="4" class="form-control"/>
+                                        rows="4" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
 
 
                         <div class="form-group">
@@ -352,10 +371,14 @@
                             </div>
 
                             <label class="control-label col-sm-2" for="externalId">{{'label.input.loanCycle' |
-                            translate}}</label>
+                            translate}}<span class="required">*</span></label>
                             <div class="col-sm-3">
-                                <input type="text" id="loanCycle" name="loanCycle" ng-model="formData.loanCycle" required late-validate
+                                <input type="text" id="loanCycle" name="loanCycle" ng-model="formData.loanCycle"
+                                       required late-validate
                                        class="form-control"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <form-validate valattributeform="createclientform" valattribute="loanCycle"/>
                             </div>
                         </div>
 
@@ -455,7 +478,7 @@
                             translate}}</label>
                             <div class="col-sm-3">
                                 <textarea type="text" rows="3" id="languages" name="languages"
-                                       ng-model="formData.languages"
+                                          ng-model="formData.languages"
                                           class="form-control"></textarea>
                             </div>
 
@@ -463,8 +486,10 @@
                                    for="econSector">{{'label.input.economicsector' |
                             translate}}</label>
                             <div class="col-sm-3" ng-if="economicSectorOptions">
-                                <select chosen="sector" id="econSector" ng-model="formData.economicSector" class="form-control"
-                                        ng-options="sector.id as sector.name for sector in economicSectorOptions" ng-change="updateActivities()"
+                                <select chosen="sector" id="econSector" ng-model="formData.economicSector"
+                                        class="form-control"
+                                        ng-options="sector.id as sector.name for sector in economicSectorOptions"
+                                        ng-change="updateActivities()"
                                         value="{{sector.id}}">
                                     <option value="">--{{'label.input.economicsector' | translate}}--</option>
                                 </select>
@@ -476,7 +501,8 @@
                                    for="languages">{{'label.input.economicactivity' |
                             translate}}</label>
                             <div class="col-sm-3">
-                                <select chosen="economicActivity" id="" ng-model="formData.economicActivity" class="form-control"
+                                <select chosen="economicActivity" id="" ng-model="formData.economicActivity"
+                                        class="form-control"
                                         ng-options="activity.id as activity.name for activity in economicActivityOptions"
                                         value="{{activity.id}}">
                                     <option value="">--{{'label.input.economicactivity' | translate}}--</option>
@@ -488,8 +514,8 @@
                             translate}}</label>
                             <div class="col-sm-3">
                                 <input type="text" rows="3" id="familyReference" name="familyReference"
-                                          ng-model="formData.familyReference"
-                                          class="form-control"/>
+                                       ng-model="formData.familyReference"
+                                       class="form-control"/>
                             </div>
                         </div>
 
@@ -556,13 +582,15 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="clientArea"
-                                                ng-model="formData.clientArea" class="form-control" required="required"
+                                                ng-model="formData.clientArea" class="form-control" required
                                                 ng-options="area.id as area.name for area in clientAreaOptions "
-                                                value="{{area.id}}"></select>
+                                                value="{{area.id}}" late-validate=""></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="clientArea"/>
-                                    </div>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.clientArea)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small></div>
                                 </div>
 
                                 <div class="form-group">
@@ -572,12 +600,15 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="housing"
-                                                ng-model="formData.housingTypeId" class="form-control" required="required"
+                                                ng-model="formData.housingTypeId" class="form-control" required
                                                 ng-options="housing.id as housing.name for housing in housingTypeOptions "
-                                                value="{{housing.id}}"></select>
+                                                value="{{housing.id}}" late-validate=""></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="housing"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.housingTypeId)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -586,11 +617,13 @@
                                             class="required">*</span>
                                     </label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="residenceYears" class="form-control" name="residenceYears"
+                                        <input type="text" id="residenceYears" class="form-control"
+                                               name="residenceYears"
                                                ng-model="formData.residenceYears" required late-validate number=true/>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="residenceYears"></form-validate>
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="residenceYears"></form-validate>
                                     </div>
                                 </div>
 
@@ -599,31 +632,36 @@
                                             class="required">*</span>
                                     </label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="communityYears" class="form-control" name="communityYears"
+                                        <input type="text" id="communityYears" class="form-control"
+                                               name="communityYears"
                                                ng-model="formData.communityYears" required late-validate number=true/>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="residenceYears"></form-validate>
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="communityYears"></form-validate>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
-                                        <label>{{ 'label.input.client.publicservice' | translate }}<span
-                                                class="required">*</span></label>
+                                        <label>{{ 'label.input.client.publicservice' | translate }}</label>
                                     </div>
                                     <div class="col-sm-3">
                                         <table>
                                             <tr ng-repeat="publicServiceOption in publicServiceOptions">
                                                 <td>
-                                                    <input id="{{publicServiceOption.id}}" type="checkbox" name='publicService' data-ng-model="publicServiceChecks[publicServiceOption.id]" data-ng-change="checkPublicService(publicServiceOption.id)">
+                                                    <input id="{{publicServiceOption.id}}" type="checkbox"
+                                                           name='publicService'
+                                                           data-ng-model="publicServiceChecks[publicServiceOption.id]"
+                                                           data-ng-change="checkPublicService(publicServiceOption.id)">
                                                     &nbsp;&nbsp;<label>{{publicServiceOption.name}}</label>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="publicService"></form-validate>
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="publicService"></form-validate>
                                     </div>
                                 </div>
 
@@ -634,12 +672,16 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="department"
-                                                ng-model="formData.departmentId" class="form-control" required="required"
+                                                ng-model="formData.departmentId" class="form-control" required
+                                                late-validate
                                                 ng-options="department.id as department.name for department in departamentoOptions "
                                                 value="{{department.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="department"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.departmentId)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -650,12 +692,16 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="municipal"
-                                                ng-model="formData.municipalId" class="form-control" required="required"
+                                                ng-model="formData.municipalId" class="form-control" required
+                                                late-validate
                                                 ng-options="municipal.id as municipal.name for municipal in municipioOptions "
                                                 value="{{municipal.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="municipal"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.municipalId)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -710,7 +756,8 @@
                                     <label class="control-label col-sm-2"
                                            for="reference">{{ 'label.input.streetNumber' | translate }}</label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="streetNumber" name="street" ng-model="formData.streetNumber"
+                                        <input type="text" id="streetNumber" name="street"
+                                               ng-model="formData.streetNumber"
                                                class="form-control">
                                     </div>
                                     <div class="col-sm-2">
@@ -786,7 +833,8 @@
                                                class="form-control">
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="lightDeviceNumber"></form-validate>
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="lightDeviceNumber"/>
                                     </div>
                                 </div>
 
@@ -794,7 +842,9 @@
                                     <label class="control-label col-sm-2" for="mobileNo">{{'label.input.mobilenumber' |
                                     translate}}<span class="required">*</span></label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" required="required" class="form-control"/>
+                                        <input type="text" id="mobileNo" name="mobileNo" ng-model="formData.mobileNo"
+                                               required late-validate
+                                               class="form-control"/>
                                     </div>
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="mobileNo"/>
@@ -805,7 +855,8 @@
                                     <label class="control-label col-sm-2" for="homeNumber">{{'label.input.homeNumber' |
                                     translate}}</label>
                                     <div class="col-sm-3">
-                                        <input type="text" id="homeNumber" name="homeNumber" ng-model="formData.homeNumber" class="form-control"/>
+                                        <input type="text" id="homeNumber" name="homeNumber"
+                                               ng-model="formData.homeNumber" class="form-control"/>
                                     </div>
                                     <div class="col-sm-2">
                                         <form-validate valattributeform="createclientform" valattribute="homeNumber"/>
@@ -819,12 +870,16 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="departmentDpi"
-                                                ng-model="formData.departmentDpi" class="form-control" required="required"
+                                                ng-model="formData.departmentDpi" class="form-control" required
+                                                late-validate
                                                 ng-options="department.id as department.name for department in departamentoOptions "
                                                 value="{{department.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="departmentDpi"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.departmentDpi)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -835,12 +890,16 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select id="municipalDpi"
-                                                ng-model="formData.municipalDpi" class="form-control" required="required"
+                                                ng-model="formData.municipalDpi" class="form-control" required
+                                                late-validate
                                                 ng-options="municipal.id as municipal.name for municipal in municipioOptions "
                                                 value="{{municipal.id}}"></select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form-validate valattributeform="createclientform" valattribute="municipalDpi"/>
+                                        <small class="required error"
+                                               ng-if="isSubmitted && (!formData.municipalDpi)">
+                                            {{'label.requiredfield' | translate}}
+                                        </small>
                                     </div>
                                 </div>
 
@@ -970,13 +1029,20 @@
 
                                 <div class="form-group">
                                     <div class="control-label col-sm-2">
-                                        <label>{{ 'label.input.gender' | translate }}</label>
+                                        <label>{{ 'label.input.gender' | translate }}<span
+                                                class="required">*</span></label>
                                     </div>
                                     <div class="col-sm-3">
                                         <select chosen="genderIdOptions" id="genderIdOption"
-                                                ng-model="familyArray[$index].genderId" class="form-control"
+                                                ng-model="familyArray[$index].genderId" class="form-control" required
+                                                late-validate
                                                 ng-options="genderIdOption.id as genderIdOption.name for genderIdOption in genderIdOptions track by genderIdOption.id"
                                                 value="formData.genderId"></select>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <form-validate valattributeform="createclientform"
+                                                       valattribute="genderIdOption"/>
                                     </div>
                                 </div>
 
@@ -1186,7 +1252,8 @@
                                 <a id="cancel" ng-href="{{cancel}}" class="btn btn-default">{{'label.button.cancel' |
                                 translate}}</a>
                                 <button id="save" type="submit" class="btn btn-primary" ng-hide="blockUI"
-                                        has-permission='CREATE_CLIENT'>{{'label.button.save' | translate}}
+                                        has-permission='CREATE_CLIENT' ng-click="onSubmitListener()">
+                                    {{'label.button.save' | translate}}
                                 </button>
                                 <button class="btn btn-info" ng-show="blockUI"><strong>{{'label.button.processing' |
                                 translate}}</strong></button>

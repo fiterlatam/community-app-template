@@ -7,6 +7,7 @@
             scope.groupsPerPage=20;
             scope.groupingType=routeParams.groupingType;
             scope.prequalificationType=routeParams.type;
+            scope.isIndividual=routeParams.individual;
 
             scope.getResultsPage = function (pageNumber) {
                 var items = resourceFactory.prequalificationResource.getAllGroups({

@@ -9,6 +9,7 @@
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
+            scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
@@ -173,6 +174,7 @@
             scope.getDifference = function (num1, num2) {
                 return Number(num1) - Number(num2);
             }
+
             scope.resolveTotalRequestedAmount = function () {
                 let total = 0;
                 for (let i = 0; i < scope.groupMembers.length; i++) {
@@ -223,6 +225,10 @@
                         scope.groupMembers[index].isEdit = false;
                     }
                 });
+            }
+
+            scope.assignToSelf = function () {
+               scope.processAnalysisRequest('assigntoself','label.button.assigntoself')
             }
 
             scope.processAnalysisRequest = function (status, inMessage) {
