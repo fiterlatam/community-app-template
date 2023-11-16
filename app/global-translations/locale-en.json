@@ -932,7 +932,7 @@
   "error.msg.client.duplicate.dpi": "A client with dpi. `{{params[0].value}}` already exists.",
   "error.msg.client.blacklisted": "This person is blacklisted. REASON: `{{params[0].value}}` ",
   "error.msg.client.already.blacklisted": "A client with dpi. `{{params[0].value}}` is already blacklisted.",
-  "error.msg.client.id.invalid": "Client does not exist.",
+  "error.msg.client.id.invalid": "Failed to retried details of client with id `{{params[0].value}}`: `{{params[1].value}}`.",
   "error.msg.client.not.active.exception": "The Client with ID `{{params[0].value}}` is not active.",
   "validation.msg.clientIdentifier.documentKey.cannot.be.blank": "Identification Number is mandatory.",
   "validation.msg.clientIdentifier.documentTypeId.cannot.be.blank": "Identity document type is mandatory.",
