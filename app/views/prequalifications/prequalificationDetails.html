@@ -76,7 +76,7 @@
 
             </div>
             <hr/>
-            <div class="toolbar" data-ng-show="showValidatePolicies">
+            <div class="toolbar" data-ng-show="viewPolicyCheckResults">
                 <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
                     ng-click="routeTo('/prequalification/'+groupId+'/validations')"
                     class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
@@ -90,9 +90,9 @@
                     <th>{{'label.input.dateofbirth' | translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested' | translate}}</th>
-                    <th>{{'label.input.status' | translate}}</th>
+                    <th>{{'label.input.blacklist.status' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
-                    <th data-ng-show="showValidatePolicies">{{'label.heading.hard.policy.status' | translate}}</th>
+                    <th data-ng-show="viewPolicyCheckResults">{{'label.heading.hard.policy.status' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' | translate}}</th>
                     <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' | translate}}</th>
@@ -114,7 +114,7 @@
                         <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
                         {{member.bureauCheckStatus.code}}
                     </td>
-                    <td data-ng-show="showValidatePolicies">
+                    <td data-ng-show="viewPolicyCheckResults">
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
                            ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
                     <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
@@ -131,7 +131,7 @@
                 <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
                         ng-click="validateHardPolicy()" type="button" value="validate"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
-                    {{'label.button.validate' | translate}}
+                    {{'label.validate.hard.policy' | translate}}
                 </button>
             </div>
 
@@ -145,20 +145,20 @@
                 -->
 
                 <!-- Action buttons related to prequalification individual when current status is HARD_POLICY_CHECKED -->
-                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && groupingType==='individual'"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"
                         ng-click="requestForUpdates()" type="button" class="btn btn-warning"
                        has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
                    {{'label.button.prequalification.requestUpdates' | translate}}
                 </button>
 
-                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && groupingType==='individual' && !hasRedValidations"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && !hasRedValidations"
                         ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')"
                         type="button" class="btn btn-primary"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
                     {{'label.button.sendtoagency' | translate}}
                 </button>
 
-                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && groupingType==='individual' && hasRedValidations"
+                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED' && hasRedValidations"
                         ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')"
                         type="button" class="btn btn-primary"
                         has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>

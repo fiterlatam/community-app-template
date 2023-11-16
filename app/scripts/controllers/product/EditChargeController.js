@@ -103,6 +103,7 @@
                     amount: data.amount,
                     adminFeeRanges: data.chargeRanges,
                     chargeDisbursementType: data.chargeDisbursementType.id,
+                    chargeInstallmentFeeType: data.chargeInstallmentFeeType.id,
                 };
 
                 if(data.incomeOrLiabilityAccount){
