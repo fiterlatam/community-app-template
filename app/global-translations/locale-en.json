@@ -4696,6 +4696,7 @@
   "label.button.createsupervision": "Create supervision",
   "label.addnewsupervisionormodifysupervision": "Add new supervision or modify supervision",
   "label.input.supervision" : "Supervision name",
+  "label.input.select.supervision" : "Select Supervision",
   "label.input.supervisionResponsibleUser": "Responsible",
   "label.heading.loanProductShortName":"Type",
   "label.heading.loanTotalRepayment": "Paid",

@@ -10,10 +10,17 @@
             resourceFactory.supervisionTemplateResource.get(requestParams, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
+                scope.agencyOptions = data.agencyOptions;
             });
 
             resourceFactory.supervisionResource.get({supervisionId: routeParams.id}, function (data) {
-                scope.formData = data;
+                scope.formData = {
+                       id: data.id,
+                       name: data.name,
+                       agencyId: data.agencyId,
+                       responsibleUserId: data.responsibleUserId,
+                       parentId: data.parentId
+                }
             });
 
             scope.submit = function () {
