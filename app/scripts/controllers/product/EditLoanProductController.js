@@ -55,6 +55,7 @@
                     ageLimitBlock: data.ageLimitBlock,
                     daysLimitAddOn: data.daysLimitAddOn,
                     guaranteePercentage: data.guaranteePercentage,
+                    paymentToleranceLimit: data.paymentToleranceLimit,
                     description: scope.product.description,
                     fundId: scope.product.fundId,
                     description: scope.product.description,
