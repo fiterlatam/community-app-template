@@ -10,10 +10,17 @@
             resourceFactory.portfolioTemplateResource.get(requestParams, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
+                scope.supervisionOptions = data.supervisionOptions;
             });
 
             resourceFactory.portfolioResource.get({portfolioId: routeParams.id}, function (data) {
-                scope.formData = data;
+                scope.formData = {
+                   id: data.id,
+                   name: data.name,
+                   supervisionId: data.supervisionId,
+                   responsibleUserId: data.responsibleUserId,
+                   parentId: data.parentId
+                }
             });
 
             scope.submit = function () {
