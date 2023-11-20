@@ -178,6 +178,7 @@
                         var fileContent = URL.createObjectURL(file);
                         scope.reportURL = $sce.trustAsResourceUrl(fileContent);
                     }).catch(function(error){
+                      console.log(JSON.stringify(error))
                         $log.error(`Error loading ${scope.reportType} report`);
                         $log.error(error);
                     });
