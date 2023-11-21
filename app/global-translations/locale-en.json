@@ -4892,6 +4892,7 @@
   "validation.msg.ranges.overlap": "Ranges overlap",
   "validation.msg.charge.ranges.min.greaterorequal.to": "Max must be greater to Min",
   "validation.msg.charge.adminFeeRate.cannot.be.blank": "Fee ranges cannot be blank",
+  "validation.msg.bank.code.exceeds.max.length": "Bank Code exceeds the maximum length expected.",
   "label.input.chequeNo": "Cheque No.",
   "label.button.approve.issuance.cheque":  "Approve Issuance",
   "label.anchor.approve.cheques.issuance": "Approve Cheques Issuance",

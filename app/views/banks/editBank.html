@@ -7,7 +7,7 @@
     <div class="card">
     	<div class="content">
     		<div class="toolbar">
-    			<h4>{{'label.heading.editbank' | translate}}</h4>
+    			<h4>{{'label.anchor.editbank' | translate}}</h4>
     		</div>
     		<br/>
     		<form name="editbankform" novalidate="" class="form-horizontal" ng-controller="EditBankController"
@@ -18,7 +18,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2">{{ 'label.input.bankcode' | translate }}<span class="required">*</span></label>
 							<div class="col-sm-3">
-								<input id="code" ng-autofocus="true" type="text" name="code" ng-model="formData.code" class="form-control" required late-Validate/>
+								<input id="code" maxlength="5" ng-autofocus="true" type="text" name="code" ng-model="formData.code" class="form-control" required late-Validate/>
 								</div>
 								<div class="col-sm-3">
 									<form-validate valattributeform="createbankform" valattribute="code"/>
