@@ -4938,5 +4938,8 @@
   "label.button.validate.blacklist": "validate blacklist",
   "label.validate.hard.policy": "Validate Hard Policy",
   "label.input.payment.tolerance.limit": "Payment Tolerance Limit",
+  "label.heading.editloanfund": "Edit Fund",
+  "label.anchor.editloanfund": "Edit Fund",
+  "label.button.editloanfund": "Edit Fund",
   "----End---": "--End of file--- "
 }
