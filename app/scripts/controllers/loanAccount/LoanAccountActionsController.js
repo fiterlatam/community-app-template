@@ -285,6 +285,20 @@
                     scope.labelName = 'label.input.closedondate';
                     scope.taskPermissionName = 'CLOSE_LOAN';
                     break;
+                 case "editloanfund":
+                    scope.modelName = 'fund';
+                    resourceFactory.loanResource.get({loanId: scope.accountId, template: true, staffInSelectedOfficeOnly:true}, function (data) {
+                        scope.fundOptions = data.fundOptions;
+                        scope.formData.fundId = data.fundId;
+                    });
+                    scope.title = 'label.heading.editloanfund';
+                    scope.labelName = 'label.input.fund';
+                    scope.taskPermissionName = 'UPDATEFUND_LOAN';
+                    scope.editFundField = true;
+                    scope.showNoteField = false;
+                    scope.showDateField = false;
+
+                    break;
                 case "unassignloanofficer":
                     scope.title = 'label.heading.unassignloanofficer';
                     scope.labelName = 'label.input.loanofficerunassigneddate';
