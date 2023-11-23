@@ -104,9 +104,9 @@
                                                 <div class="panel-body">
                                                     <div class="list-group">
                                                         <a ng-repeat="group in center.groupMembers" class="list-group-item">
-                                                            <span>
-                                                                <i href="#/viewgroup/{{group.id}}" uib-tooltip="{{group.status.value}}" class="fa fa-stop fa-2x {{group.status.code | StatusLookup}}" uib-tooltip=""></i>
-                                                                <span class="h5" href="#/viewgroup/{{group.id}}">{{group.name}}</span>
+                                                            <span >
+                                                                <i data-ng-click="goToPage('viewgroup/'+group.id)" uib-tooltip="{{group.status.value}}" class="fa fa-stop fa-2x {{group.status.code | StatusLookup}}" uib-tooltip=""></i>
+                                                                <span class="h5" data-ng-click="goToPage('viewgroup/'+group.id)">{{group.name}}</span>
                                                                 <span class="pull-right">
                                                                   <i class="fa fa-adjust fa-2x" title="Transfer Group" ng-click="transferGroup(group)"></i>
                                                                 </span>

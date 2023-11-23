@@ -103,7 +103,7 @@
 		                              </a>
 		                          </li>
 								   <li>
-									    <a href="#/prequalification/{{group.prequalificationId}}/viewdetails?showValidatePolicies=true" has-permission='READ_GROUP'>{{'label.button.hardpolicychecklist' | translate }}</a>
+									    <a href="#/prequalification/{{group.prequalificationId}}/validations?showValidatePolicies=true" has-permission='READ_GROUP'>{{'label.button.hardpolicychecklist' | translate }}</a>
 								  </li>
 								  <li>
 									    <a href="#/prequalification/{{group.prequalificationId}}/requalification" has-permission='READ_GROUP'>{{'label.button.requalification' | translate }}</a>
@@ -594,7 +594,7 @@
 					            <tbody>
 					            <tr ng-repeat="prequal in group.prequalificationGroups">
 					                <td>{{prequal.groupName}}</td>
-					                <td><a href="#/prequalification/{{prequal.id}}/viewdetails">{{prequal.prequalificationNumber}}</a></td>
+					                <td><a href="#/prequalification/{{prequal.id}}/viewdetails/group?showValidatePolicies=true">{{prequal.prequalificationNumber}}</a></td>
 					                <td>{{prequal.status.value}}</td>
 					                <td>{{prequal.addedBy}}</td>
 					                <td>{{prequal.createdAt |DateFormat}}</td>

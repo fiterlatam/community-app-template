@@ -12,6 +12,8 @@
             scope.restrictDate = new Date();
             scope.formData = {};
             scope.formData.members = [];
+            scope.errorMessage;
+            scope.presidentSelected =false;
             scope.membersForm = {
                workWithPuente: "YES"
             };
@@ -86,12 +88,14 @@
 
            scope.updatePresident = function (index) {
                let members = scope.formData.members;
+               scope.presidentSelected = false;
+
                for (var i = 0; i < members.length; i++ ){
                    if (i !== Number(index)){
-                       console.log("disabling president")
                        scope.formData.members[i].groupPresident = false;
                    }else{
                        scope.formData.members[i].groupPresident = true;
+                       scope.presidentSelected = true;
                    }
                }
            };
@@ -160,6 +164,7 @@
                 if(scope.groupingType === 'individual'){
                     this.formData.individual = true;
                 }
+                scope.errorMessage = undefined;
 
                 // this.formData.members.forEach(function(member){
                 //     member.locale = scope.optlang.code;
