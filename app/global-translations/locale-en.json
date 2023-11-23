@@ -1053,6 +1053,8 @@
   "error.msg.group.prequalification.status.not.changed": "Prequalification status `{{params[0].value}}` Has not been changed. (Status cannot remain the same as the previous).",
   "error.msg.group.prequalification.status.not.complete": "Existing group Prequalification is not completed. Current status is: `{{params[0].value}}`",
   "error.msg.prequalification.assignment.failed": "Failed to assign Prequalification",
+  "label.anchor.president.not.selected": "President of group is not selected",
+  "error.msg.prequalification.not.mapped.exception": "Prequalification `{{params[0].value}}` Should be mapped to a group before validating hard policy checklist",
   "validation.msg.group.clientMembers.cannot.be.empty": "A group cannot have no clients.",
   "error.msg.group.role.already.exists": "Group Role with role `{{params[0].value}}` and client `{{params[1].value}}` and group `{{params[2].value}}` already exists.",
   "error.msg.group.activate.date.cannot.be.before.office.activation.date": "The group activation date cannot be before the office activation date.",
