@@ -4564,5 +4564,8 @@
 	"label.validate.hard.policy": "Validar Política Dura",
 	"label.input.payment.tolerance.limit": "Límite de tolerancia de pago",
 	"label.input.select.supervision" : "Seleccione Supervisión",
+	"label.heading.editloanfund": "Cambiar origen de fondos",
+	"label.anchor.editloanfund": "Cambiar origen de fondos",
+	"label.button.editloanfund": "Cambiar origen de fondos",
 	"----End---": "---Fin del archivo---"
 }

@@ -109,6 +109,9 @@
                     case "recoverguarantee":
                         location.path('/loanaccount/' + accountId + '/recoverguarantee');
                         break;
+                    case "editloanfund":
+                        location.path('/loanaccount/' + accountId + '/editloanfund');
+                        break;
                     case "unassignloanofficer":
                         location.path('/loanaccount/' + accountId + '/unassignloanofficer');
                         break;
@@ -234,6 +237,10 @@
                             {
                                 name: "button.loanscreenreport",
                                 taskPermissionName: 'READ_LOAN'
+                            },
+                            {
+                                name: "button.editloanfund",
+                                taskPermissionName: 'UPDATEFUND_LOAN'
                             }
                         ]
 
@@ -285,6 +292,10 @@
                             {
                                 name: "button.loanscreenreport",
                                 taskPermissionName: 'READ_LOAN'
+                            },
+                            {
+                                name: "button.editloanfund",
+                                taskPermissionName: 'UPDATEFUND_LOAN'
                             }
                         ]
 
@@ -350,6 +361,10 @@
                             {
                                 name: "button.recoverguarantee",
                                 taskPermissionName: 'RECOVERGUARANTEES_LOAN'
+                            },
+                            {
+                                name: "button.editloanfund",
+                                taskPermissionName: 'UPDATEFUND_LOAN'
                             }
                         ]
 
