@@ -9,9 +9,11 @@
             resourceFactory.supervisionTemplateResource.get(requestParams, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
+                scope.agencyOptions = data.agencyOptions;
                 scope.formData = {
                     parentId: scope.parentOfficesOptions[0].id,
-                    responsibleUserId: scope.responsibleUserOptions[0].id
+                    responsibleUserId: scope.responsibleUserOptions[0].id,
+                    agencyId: scope.agencyOptions[0].id
                 }
             });
 

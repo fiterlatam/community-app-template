@@ -158,7 +158,7 @@
                             <div class="col-sm-6" ng-if="groupMembers[$index].isEdit">
                                 <i class="fa btn-primary fa-save fa-2x"
                                    ng-disabled="groupMembers[$index].approvedAmount>member.requestedAmount"
-                                   ng-click="updateApprovedAmount(member)"></i></div>
+                                   ng-click="updateApprovedAmount(groupMembers[$index])"></i></div>
                         </div>
                     </td>
 
@@ -243,6 +243,14 @@
                     </button>
                 </div>
                 <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
+                    <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
+                    </button>
+                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                </div>
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='agency'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
                     </button>
