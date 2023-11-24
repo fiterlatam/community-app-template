@@ -930,6 +930,7 @@
   "error.msg.client.duplicate.externalId": "A client with external id `{{params[0].value}}` already exists.",
   "error.msg.client.duplicate.accountNo": "A client with account no. `{{params[0].value}}` already exists.",
   "error.msg.client.duplicate.dpi": "A client with dpi. `{{params[0].value}}` already exists.",
+  "error.msg.client.already.has.savings.account": "A client with id. `{{params[0].value}}` already has a savings account.",
   "error.msg.client.blacklisted": "This person is blacklisted. REASON: `{{params[0].value}}` ",
   "error.msg.client.already.blacklisted": "A client with dpi. `{{params[0].value}}` is already blacklisted.",
   "error.msg.client.id.invalid": "Failed to retried details of client with id `{{params[0].value}}`: `{{params[1].value}}`.",
