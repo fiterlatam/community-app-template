@@ -830,6 +830,7 @@
 	"error.msg.client.duplicate.externalId": "Un cliente con ID externa `{{params[0].value}}` ya existe.",
 	"error.msg.client.duplicate.accountNo": "Ya existe un cliente con el número de cuenta `{{params[0].value}}`.",
 	"error.msg.client.duplicate.dpi": "Un cliente con dpi. `{{params[0].value}}` ya existe.",
+	"error.msg.client.already.has.savings.account": "Un cliente con id `{{params[0].value}}` ya tiene una cuenta de ahorros.",
 	"error.msg.client.blacklisted": "Esta persona esta en la lista negra. MOTIVO: `{{params[0].value}}` ",
 	"error.msg.client.id.invalid": "No se pudieron recuperar los detalles del cliente con id `{{params[0].value}}`: `{{params[1].value}}`.",
 	"error.msg.client.not.active.exception": "El Cliente con el ID `{{params[0].value}}` no está activo.",
