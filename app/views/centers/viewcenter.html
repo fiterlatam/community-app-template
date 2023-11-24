@@ -106,7 +106,7 @@
                                                         <a ng-repeat="group in center.groupMembers" class="list-group-item">
                                                             <span >
                                                                 <i data-ng-click="goToPage('viewgroup/'+group.id)" uib-tooltip="{{group.status.value}}" class="fa fa-stop fa-2x {{group.status.code | StatusLookup}}" uib-tooltip=""></i>
-                                                                <span class="h5" data-ng-click="goToPage('viewgroup/'+group.id)">{{group.name}}</span>
+                                                                <span class="h5" data-ng-click="goToPage('viewgroup/'+group.id)">{{group.name}} ({{timeDisplayFormat(group.meetingStartTime) +' - '+ timeDisplayFormat(group.meetingEndTime)}})</span>
                                                                 <span class="pull-right">
                                                                   <i class="fa fa-adjust fa-2x" title="Transfer Group" ng-click="transferGroup(group)"></i>
                                                                 </span>
@@ -340,8 +340,8 @@
             <hr/>
             <h5>Group - {{group.name}}</h5>
             <h5>Meeting Day - {{group.meetingDayName}}</h5>
-            <h5>Start Time - {{group.meetingStartTime}}</h5>
-            <h5>End Time - {{group.meetingStartTime}}</h5>
+            <h5>Start Time - {{timeDisplayFormat(group.meetingStartTime)}}</h5>
+            <h5>End Time - {{timeDisplayFormat(group.meetingEndTime)}}</h5>
         </div>
         <div class="modal-body">
             <api-validate></api-validate>

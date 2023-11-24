@@ -154,6 +154,14 @@
             scope.goToPage = function (path) {
                 location.path(path);
             }
+            scope.timeDisplayFormat = function (time) {
+                if (time){
+                    let hour = time[0].toString().padStart(2,'0');
+                    let minute = time[1].toString().padStart(2,'0');
+                    let seconds = time[2].toString().padStart(2,'0');
+                    return hour+':'+minute+':'+seconds;
+                }
+            }
 
             var TransferGroupCtrl = function ($scope, $uibModalInstance) {
                 $scope.group = scope.groupData;
@@ -162,8 +170,20 @@
                     orderBy: 'name',
                     sortOrder: 'ASC'
                 }, function (data) {
-                    $scope.availableCenters = data;
+                    $scope.availableCenters = data.filter(function (el) {
+                        return el.id != routeParams.id ;
+                    });
                 });
+
+                $scope.timeDisplayFormat = function (time) {
+                    if (time){
+                        let hour = time[0].toString().padStart(2,'0');
+                        let minute = time[1].toString().padStart(2,'0');
+                        let seconds = time[2].toString().padStart(2,'0');
+                        return hour+':'+minute+':'+seconds;
+                    }
+                }
+
 
                 $scope.confirmTransfer = function (center) {
                     // $uibModalInstance.dismiss('cancel');
