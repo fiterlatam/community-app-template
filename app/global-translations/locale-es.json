@@ -456,6 +456,7 @@
 	"error.msg.document.file.too.big": "No puede cargar un archivo de más de 5 MB.",
 	"validation.msg.document.fileName.cannot.be.blank": "Seleccione un archivo.",
 	"validation.msg.document.name.cannot.be.blank": "Escriba el nombre del documento.",
+	"validation.msg.group.prequalificationId.cannot.be.blank": "Por favor seleccione una precalificación.",
 	"resourceId.not.integer": "El identificador debe ser un entero.",
 	"error.msg.resource.not.found": "El recurso solicitado no está disponible.",
 	"error.msg.code.identifier.not.found": "El código identificador `{{params[0].value}}` no existe.",
