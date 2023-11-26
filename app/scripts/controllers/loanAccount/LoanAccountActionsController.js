@@ -212,6 +212,9 @@
                         if(data.penaltyChargesPortion>0){
                             scope.showPenaltyPortionDisplay = true;
                         }
+                        if (data.installmentNumber == data.numberOfRepayments  ){
+                            scope.lastPayment = true;
+                        }
                     });
                     scope.title = 'label.heading.loanrepayments';
                     scope.labelName = 'label.input.transactiondate';
