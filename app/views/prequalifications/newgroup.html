@@ -101,7 +101,7 @@
                     <th>{{'label.input.dateofbirth'|translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
-                    <th ng-if="groupingType !== 'individual'">{{'label.input.president'|translate}}</th>
+                    <th ng-if="groupingType != 'individual'">{{'label.input.president'|translate}}</th>
                     <th></th>
                 </tr>
 
@@ -111,7 +111,7 @@
                     <td>{{member.dob}}</td>
                     <td>{{member.puente}}</td>
                     <td>{{member.amount}}</td>
-                    <td ng-if="groupingType !== 'individual'">
+                    <td ng-if="groupingType != 'individual'">
                         <div class="checkbox form-group">
                             <label for="isSelected">
                                 <input type="checkbox" id="isSelected" name="isSelected" ng-change="updatePresident($index)" ng-model="formData.members[$index].groupPresident">
@@ -122,14 +122,14 @@
                 </tr>
             </table>
             <hr/>
-            <span class="text-danger" ng-if="formData.members && formData.members.length>0 && !presidentSelected">{{'label.anchor.president.not.selected'| translate}}</span>
+            <span class="text-danger" ng-if="formData.members && formData.members.length>0 && !presidentSelected && groupingType!='individual' ">{{'label.anchor.president.not.selected'| translate}}</span>
 
             <hr/>
             <div class="text-center">
                 <a id="cancel" ng-href="{{ previousPageUrl }}" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || !presidentSelected ||
-                 ((groupingType!='individual' && !formData.group && !formData.groupName)?true : false)"
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="(formData.members.length<=0 ||
+                 (groupingType!='individual' && !formData.group && !formData.groupName) ||(groupingType!='individual'&& !presidentSelected))"
                         has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.validate.blacklist' | translate}}</button>
             </div>
         </fieldset>
