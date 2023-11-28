@@ -26,10 +26,10 @@
             scope.getResultsPage = function (pageNumber) {
                 if(scope.searchText){
                     var startPosition = (pageNumber - 1) * scope.centersPerPage;
-                    scope.centers = scope.actualCenters.slice(startPosition, startPosition + scope.centersPerPage);
+                    $scope.centers = $scope.actualCenters.slice(startPosition, startPosition + scope.centersPerPage);
                     return;
                 }
-                var items = resourceFactory.centerResource.get({
+                resourceFactory.centerResource.get({
                     offset: ((pageNumber - 1) * scope.centersPerPage),
                     limit: scope.centersPerPage,
                     paged: 'true',
