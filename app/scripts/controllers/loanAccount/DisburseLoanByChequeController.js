@@ -57,6 +57,19 @@
                   }
               }
 
+            scope.calculateDepositAmount = function(requiredGuarantee, actualGuarantee){
+                if(requiredGuarantee !== undefined && actualGuarantee !== undefined){
+                    if(requiredGuarantee === 0){
+                        return 0;
+                    }else {
+
+                        return Math.abs(requiredGuarantee - actualGuarantee);
+                    }
+                }else {
+                   return 0;
+                }
+            }
+
             scope.fetchAvailableCheques = function () {
                 resourceFactory.searchChequeResource.get({
                     orderBy: 'chequeNo',
@@ -175,7 +188,7 @@
                             description: scope.approvedLoanAccounts[i].description,
                             actualGuaranteeAmount: scope.approvedLoanAccounts[i].actualGuaranteeAmount,
                             requiredGuaranteeAmount: scope.approvedLoanAccounts[i].requiredGuaranteeAmount,
-                            depositGuaranteeAmount: scope.calculateDiffWithZeroDefault(scope.approvedLoanAccounts[i].requiredGuaranteeAmount, scope.approvedLoanAccounts[i].actualGuaranteeAmount),
+                            depositGuaranteeAmount: scope.calculateDepositAmount(scope.approvedLoanAccounts[i].requiredGuaranteeAmount, scope.approvedLoanAccounts[i].actualGuaranteeAmount),
                             depositGuaranteeNo: scope.approvedLoanAccounts[i].depositGuaranteeNo,
                             locale: scope.optlang.code
                          }
