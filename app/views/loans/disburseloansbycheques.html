@@ -250,7 +250,7 @@
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
                                     <div class="input-group" style="width: 120px">
-                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount)" disabled>
+                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-value="calculateDepositAmount(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount)" disabled>
                                     </div>
                                 </div>
                             </td>
