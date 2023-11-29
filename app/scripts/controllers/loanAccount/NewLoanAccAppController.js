@@ -132,6 +132,7 @@
                     scope.loanProductChange(loanProductId);
                 });
             }
+
            scope.resolveFrequencyDayOfWeek = function (meetingDay){
                if(meetingDay == 'Lunes'){
                     scope.disableDaySelect = true;
@@ -163,6 +164,7 @@
                     return 4;
                 }
             }
+
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
