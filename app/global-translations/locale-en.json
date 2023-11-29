@@ -3334,6 +3334,7 @@
   "label.anchor.bulkimport": "Bulk import",
   "#Inputs": "..",
   "label.input.selectproduct": "Select product",
+  "label.input.select.prequalification": "Select Prequalification",
   "label.input.allowedproducts": "Allowed products",
   "label.input.restrictedproducts": "Restricted products",
   "label.input.productname": "Product name",
@@ -4945,5 +4946,7 @@
   "label.heading.editloanfund": "Edit Fund",
   "label.anchor.editloanfund": "Edit Fund",
   "label.button.editloanfund": "Edit Fund",
+  "label.tooltip.prequalification": "The name of the prequalification that the loan account is based upon",
+  "label.heading.prequalifications": "Prequalifications",
   "----End---": "--End of file--- "
 }

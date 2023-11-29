@@ -22,6 +22,20 @@
                     <table class="" style="border-spacing: 10px; border-collapse: separate">
                         <tr>
                             <td class="width14">
+                                <label>{{'label.anchor.prequalifications' | translate }}
+                                    <span class="required">*</span>:&nbsp;
+                                </label>
+                                <i class="fa fa-question-circle" uib-tooltip="{{'label.tooltip.prequalification' | translate}}"></i>
+                            </td>
+                            <td class="width36 paddedbottom20">
+                                <select id="prequalificationId" ng-model="prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber for prequalification in prequalificationOptions"
+                                        value="{{prequalification.id}}" ng-change="prequalificationChange(prequalificationId)" class="form-control width170px"
+                                        required="required">
+                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td class="width14">
                                 <label>{{ 'label.input.product' | translate }}
                                     <span class="required">*</span>:&nbsp;
                                 </label>
@@ -30,7 +44,7 @@
                             <td class="width36 paddedbottom20">
                                 <select id="productId" ng-model="formData.productId" class="form-control width170px" ng-options="product.id as product.name for product in products"
                                     value="{{product.id}}" ng-change="loanProductChange(formData.productId)" class="form-control width170px"
-                                    required="required">
+                                    required="required" disabled>
                                     <option style="display:none" value="">{{'label.selectloanproduct' | translate}}
                                     </option>
                                 </select>
@@ -204,7 +218,7 @@
                             </td>
                             <td class="width31 paddedbottom20">
                                 <input type="text" class="form-control" id="principal" name="principal" ng-model="formData.principal" number-format required
-                                    late-Validate/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
+                                    late-Validate disabled/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
                                 <form-validate valattributeform="Terms" valattribute="principal" />
                             </td>
                             <td class="width14">
