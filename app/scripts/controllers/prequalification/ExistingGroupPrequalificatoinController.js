@@ -74,13 +74,7 @@
                     }
             });
 
-            scope.$watch('formData.agencyId',function(){
-                scope.onAgencyChange();
-            });
-
             scope.onAgencyChange = function(){
-                delete scope.formData.centerId;
-                delete scope.centersList;
                 resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType, agencyId: scope.formData.agencyId},function (data) {
                     scope.centersList = data.centerData;
                 });
