@@ -60,9 +60,13 @@
             scope.calculateDepositAmount = function(requiredGuarantee, actualGuarantee){
                 if(requiredGuarantee !== undefined && actualGuarantee !== undefined){
                     if(requiredGuarantee === 0){
+                        // No Guarantee Required
+                        return 0;
+                    }else if(requiredGuarantee < actualGuarantee){
+                        // Actual Client Account Balance is greater than Required Guarantee so no need to deposit 
                         return 0;
                     }else {
-
+                        // Required Guanratee is Greater than available account balance
                         return Math.abs(requiredGuarantee - actualGuarantee);
                     }
                 }else {
