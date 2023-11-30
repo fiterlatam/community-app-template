@@ -1424,6 +1424,31 @@
                         </form>
 
                     </uib-tab>
+					<uib-tab heading="{{ 'label.heading.prequalifications' | translate }}">
+						<div class="">
+							<table class="table ">
+								<thead>
+								<tr>
+									<th>{{ 'label.heading.groupname' | translate }}</th>
+									<th>{{ 'label.heading.prequalificationnumber' | translate }}</th>
+									<th>{{ 'label.heading.status' | translate }}</th>
+									<th>{{ 'label.heading.createdby' | translate }}</th>
+									<th>{{ 'label.heading.createdAt' | translate }}</th>
+									<th></th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="prequal in client.clientPrequalifications">
+									<td>{{prequal.groupName}}</td>
+									<td><a href="#/prequalification/{{prequal.id}}/viewdetails/individual">{{prequal.prequalificationNumber}}</a></td>
+									<td>{{prequal.status.value}}</td>
+									<td>{{prequal.addedBy}}</td>
+									<td>{{prequal.createdAt |DateFormat}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
                 </uib-tabset>
             </div>
         </div>
