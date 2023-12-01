@@ -131,7 +131,37 @@
                     scope.loanProductChange(loanProductId);
                 });
             }
+           scope.resolveFrequencyDayOfWeek = function (meetingDay){
+               if(meetingDay == 'Lunes'){
+                    scope.disableDaySelect = true;
+                    return 1;
+                }if(meetingDay == 'Martes'){
+                   scope.disableDaySelect = true;
+                   return 2;
+                }if(meetingDay == 'Miércoles'){
+                   scope.disableDaySelect = true;
+                   return 3;
+                }if(meetingDay == 'Jueves'){
+                   scope.disableDaySelect = true;
+                   return 4;
+                }
+            } ;
 
+            scope.resolveFrequencyRange = function (centerName){
+                if(centerName.includes('-R1-')){
+                    scope.disableFrequencySelect = true;
+                    return 1;
+                }if(centerName.includes('-R2-')){
+                    scope.disableFrequencySelect = true;
+                    return 2;
+                }if(centerName.includes('-R3-')){
+                    scope.disableFrequencySelect = true;
+                    return 3;
+                }if(centerName.includes('-R4-')){
+                    scope.disableFrequencySelect = true;
+                    return 4;
+                }
+            }
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
@@ -150,6 +180,8 @@
 
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
+                    scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                    scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
