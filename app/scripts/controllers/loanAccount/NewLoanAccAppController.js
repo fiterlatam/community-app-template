@@ -132,6 +132,21 @@
                     scope.loanProductChange(loanProductId);
                 });
             }
+           scope.resolveFrequencyDayOfWeek = function (meetingDay){
+               if(meetingDay == 'Lunes'){
+                    scope.disableDaySelect = true;
+                    return 1;
+                }if(meetingDay == 'Martes'){
+                   scope.disableDaySelect = true;
+                   return 2;
+                }if(meetingDay == 'Miércoles'){
+                   scope.disableDaySelect = true;
+                   return 3;
+                }if(meetingDay == 'Jueves'){
+                   scope.disableDaySelect = true;
+                   return 4;
+                }
+            } ;
 
            scope.resolveFrequencyDayOfWeek = function (meetingDay){
                if(meetingDay == 'Lunes'){
