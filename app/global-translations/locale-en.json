@@ -1058,6 +1058,7 @@
   "error.msg.prequalification.not.mapped.exception": "Prequalification `{{params[0].value}}` Should be mapped to a group before validating hard policy checklist",
   "validation.msg.group.clientMembers.cannot.be.empty": "A group cannot have no clients.",
   "error.msg.group.role.already.exists": "Group Role with role `{{params[0].value}}` and client `{{params[1].value}}` and group `{{params[2].value}}` already exists.",
+  "error.msg.client.pending.loan.request": "Group member `{{params[0].value}}` with DPI `{{params[1].value}}` Does not have any pending loan request for product `{{params[2].value}}`.",
   "error.msg.group.activate.date.cannot.be.before.office.activation.date": "The group activation date cannot be before the office activation date.",
   "validation.msg.group.staffId.cannot.be.blank": "Please select a staff.",
   "validation.msg.group.prequalificationId.cannot.be.blank": "Please Select a Prequalification.",
