@@ -3,6 +3,7 @@
         NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
+            scope.isIndividualJlgLoanAccount = location.search().isIndividualJlgLoanAccount;
             scope.groupId = routeParams.groupId;
             scope.restrictDate = new Date();
             scope.formData = {};
@@ -177,11 +178,12 @@
                 resourceFactory.loanResource.get(scope.inparams, function (data) {
                     scope.loanaccountinfo = data;
                     scope.product = data.product;
-
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
-                    scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
-                    scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                    if(data.group){
+                      scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                      scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                    }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
