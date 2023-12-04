@@ -862,6 +862,43 @@
                 </fieldset>
             </form>
         </wz-step>
+        <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-disabled="{{disabled}}" ng-if="groupId">
+            <form name="Additionals" ng-submit="goNext(Additionals)" class="form-horizontal" >
+                <fieldset>
+                    <api-validate></api-validate>
+                    <!--<h3>{{'label.heading.charges' | translate}}</h3>-->
+                    <hr>
+                    <div ng-show="loanaccountinfo" ng-hide="previewRepayment">
+                        <table ng-show="loanaccountinfo" ng-hide="previewRepayment" class=" width100">
+                            <tr>
+                                <td class="width19">
+                                    <label>{{ 'label.numofloancycles' | translate }}&nbsp;
+                                        <span class="required">*</span>:</label>
+                                </td>
+                                <td class="width31 paddedbottom20">
+                                    <input type="text" class="form-control" id="principal" name="principal" ng-model="formData.principal" number-format required
+                                           late-Validate disabled/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
+                                    <form-validate valattributeform="Terms" valattribute="principal" />
+                                </td>
+                                <td class="width14">
+                                    <label>{{ 'label.input.loanterm' | translate }}&nbsp;
+                                        <span class="required">*</span>:</label>
+                                </td>
+                                <td class="width36 paddedbottom20">
+                                    <input id="loanTermFrequency" class="form-control" name="loanterm" type="text" ng-model="formData.loanTermFrequency" required
+                                           late-Validate/>
+                                    <select ng-disabled="response.uiDisplayConfigurations.loanAccount.isReadOnlyField.loanTermFrequencyType == true" id="loanTermFrequencyType"
+                                            class="form-control" ng-model="formData.loanTermFrequencyType" ng-change="loandetails.loanTermFrequencyValue = formValue(loanaccountinfo.termFrequencyTypeOptions,formData.loanTermFrequencyType)"
+                                            ng-options="termFrequencyType.id as termFrequencyType.value for termFrequencyType in loanaccountinfo.termFrequencyTypeOptions"
+                                            value="{{termFrequencyType.id}}"></select>
+                                    <form-validate valattributeform="Terms" valattribute="loanterm" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </form>
+        </wz-step>
         <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" wz-title="{{datatable.registeredTableName}}" id="dynamicSteps"
             wz-disabled="{{disabled}}">
             <form name="Datatables" class="form-horizontal" ng-submit="submit()">
