@@ -203,7 +203,6 @@ angular.module('notificationWidget', [])
                                 }
                             }
                             $rootScope.errorDetails.push(errorArray);
-                            console.log(errorArray);
                         }
                     }
                     return $q.reject(rejection);

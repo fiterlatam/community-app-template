@@ -4949,5 +4949,7 @@
   "label.button.editloanfund": "Edit Fund",
   "label.tooltip.prequalification": "The name of the prequalification that the loan account is based upon",
   "label.heading.prequalifications": "Prequalifications",
+  "error.msg.prequalification.member.not.selected.exception": "Select at least one member to approve loan",
+  "error.msg.prequalification.submitted.loan.not.found.exception": "No loan found in status submitted and pending approval",
   "----End---": "--End of file--- "
 }

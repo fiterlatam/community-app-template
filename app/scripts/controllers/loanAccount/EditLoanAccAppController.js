@@ -10,6 +10,7 @@
             scope.restrictDate = new Date();
             scope.date = {};
             scope.rateFlag = false;
+            scope.isIndividualJlgLoanAccount = false;
 
             resourceFactory.loanResource.get({loanId: routeParams.id, template: true, associations: 'charges,collateral,meeting,multiDisburseDetails',staffInSelectedOfficeOnly:true}, function (data) {
                 scope.loanaccountinfo = data;
@@ -41,6 +42,7 @@
 
                 if (scope.clientId && scope.groupId) {
                     scope.templateType = 'jlg';
+                    scope.isIndividualJlgLoanAccount = true;
                 }
                 else if (scope.groupId) {
                     scope.templateType = 'group';
