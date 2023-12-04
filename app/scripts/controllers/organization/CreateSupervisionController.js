@@ -4,16 +4,20 @@
             scope.supervisions = [];
             scope.first = {};
             scope.tf = "HH:mm";
-
+            scope.formData = {};
             let requestParams = {orderBy: 'description', sortOrder: 'ASC'};
             resourceFactory.supervisionTemplateResource.get(requestParams, function (data) {
                 scope.parentOfficesOptions = data.parentOfficesOptions;
                 scope.responsibleUserOptions = data.responsibleUserOptions;
                 scope.agencyOptions = data.agencyOptions;
-                scope.formData = {
-                    parentId: scope.parentOfficesOptions[0].id,
-                    responsibleUserId: scope.responsibleUserOptions[0].id,
-                    agencyId: scope.agencyOptions[0].id
+                if(scope.parentOfficesOptions && scope.parentOfficesOptions.length > 0){
+                   scope.formData.parentId = scope.parentOfficesOptions[0].id
+                }
+                if(scope.responsibleUserOptions && scope.responsibleUserOptions.length > 0){
+                   scope.formData.responsibleUserId = scope.responsibleUserOptions[0].id
+                }
+                if(scope.agencyOptions && scope.agencyOptions.length > 0){
+                   scope.formData.agencyId = scope.agencyOptions[0].id
                 }
             });
 

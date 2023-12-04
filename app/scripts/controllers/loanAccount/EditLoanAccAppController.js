@@ -10,6 +10,7 @@
             scope.restrictDate = new Date();
             scope.date = {};
             scope.rateFlag = false;
+            scope.isIndividualJlgLoanAccount = false;
 
             resourceFactory.loanResource.get({loanId: routeParams.id, template: true, associations: 'charges,collateral,meeting,multiDisburseDetails',staffInSelectedOfficeOnly:true}, function (data) {
                 scope.loanaccountinfo = data;
@@ -32,10 +33,16 @@
                     scope.groupId = data.group.id;
                     scope.groupName = data.group.name;
                     scope.formData.groupId = scope.groupId;
+                    if(scope.groupId){
+                        resourceFactory.groupResource.get({groupId: scope.groupId, associations: 'all'}, function (data) {
+                            scope.prequalificationOptions = data.prequalificationGroups;
+                        });
+                    }
                 }
 
                 if (scope.clientId && scope.groupId) {
                     scope.templateType = 'jlg';
+                    scope.isIndividualJlgLoanAccount = true;
                 }
                 else if (scope.groupId) {
                     scope.templateType = 'group';
@@ -63,6 +70,13 @@
                 scope.ratesEnabled= scope.loanaccountinfo.isRatesEnabled;
 
             });
+            scope.prequalificationChange = function (prequalificationId){
+                resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
+                    var loanProductId = data.productId;
+                    scope.totalApprovedAmount = data.totalApprovedAmount;
+                    scope.loanProductChange(loanProductId);
+                });
+            }
 
             scope.loanProductChange = function (loanProductId) {
 
@@ -145,7 +159,7 @@
                 scope.multiDisburseLoan = scope.loanaccountinfo.multiDisburseLoan;
                 scope.formData.productId = scope.loanaccountinfo.loanProductId;
                 scope.formData.fundId = scope.loanaccountinfo.fundId;
-                scope.formData.principal = scope.loanaccountinfo.principal;
+                scope.formData.principal = scope.totalApprovedAmount ?  scope.totalApprovedAmount : scope.loanaccountinfo.principal;
                 scope.formData.loanTermFrequency = scope.loanaccountinfo.termFrequency;
                 scope.formData.loanTermFrequencyType = scope.loanaccountinfo.termPeriodFrequencyType.id;
                 scope.formData.numberOfRepayments = scope.loanaccountinfo.numberOfRepayments;

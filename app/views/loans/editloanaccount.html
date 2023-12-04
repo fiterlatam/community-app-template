@@ -13,13 +13,23 @@
         <legend>{{ 'label.heading.editloanapplication' | translate }}</legend>
 <table class="width100">
     <tr>
+        <td class="width14" ng-hide="isIndividualJlgLoanAccount">
+            <label>{{ 'label.anchor.prequalifications' | translate }}<span class="required">*</span>:&nbsp;</label>
+        </td>
+        <td class="width36 paddedbottom10" ng-hide="isIndividualJlgLoanAccount">
+            <select id="prequailificationId" ng-model="prequailificationId" class="form-control width170px"
+                    ng-options="prequalification.id as prequalification.groupName for prequalification in prequalificationOptions"
+                    value="{{prequalification.id}}" ng-change="prequalificationChange(prequailificationId)">
+                <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}</option>
+            </select>
+        </td>
         <td class="width14">
             <label>{{ 'label.input.product' | translate }}<span class="required">*</span>:&nbsp;</label>
         </td>
         <td class="width36 paddedbottom10">
             <select id="productId" ng-model="formData.productId" class="form-control width170px"
                     ng-options="product.id as product.name for product in loanaccountinfo.productOptions"
-                    value="{{product.id}}" ng-change="loanProductChange(formData.productId)"/>
+                    value="{{product.id}}" ng-change="loanProductChange(formData.productId)" ng-disabled="!isIndividualJlgLoanAccount"/>
             <option style="display:none" value="">{{'label.selectloanproduct' | translate}}</option>
             </select>
         </td>

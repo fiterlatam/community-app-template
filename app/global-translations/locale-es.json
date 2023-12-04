@@ -441,6 +441,7 @@
 	"error.msg.column.mandatory": "Campo obligatorio no proporcionado.",
 	"error.msg.header": "Usted tiene los siguientes errores:",
 	"error.msg.group.prequalification.status.not.changed": "El estado de precalificación `{{params[0].value}}` no ha sido modificado. (El estado no puede permanecer igual que el anterior).",
+	"error.msg.client.pending.loan.request": "Miembro del grupo `{{params[0].value}}` con DPI `{{params[1].value}}` No tiene ninguna solicitud de préstamo pendiente para el producto `{{params[2].value}}`.",
 	"error.msg.group.prequalification.status.not.complete": "La Precalificación del grupo existente no está completa. El estado actual es: `{{params[0].value}}`",
 	"validation.msg.validation.errors.exist": "Existen errores de validación.",
 	"validation.msg.productivecollectionsheet.staffId.cannot.be.blank": "El personal es obligatorio.",
@@ -4570,5 +4571,10 @@
 	"label.anchor.editloanfund": "Cambiar origen de fondos",
 	"label.button.editloanfund": "Cambiar origen de fondos",
 	"label.heading.adjustGuarantee": "Adjust Guarantee",
+	"label.tooltip.prequalification": "El nombre de la precalificación en la que se basa la cuenta del préstamo.",
+	"label.heading.prequalifications": "Precalificaciones",
+	"label.input.select.prequalification": "Seleccionar Precalificación",
+	"error.msg.prequalification.member.not.selected.exception": "Seleccione al menos una miembro para aprobar el préstamo",
+	"error.msg.prequalification.submitted.loan.not.found.exception": "No se encontró ningún préstamo en estado enviado y pendiente de aprobación",
 	"----End---": "---Fin del archivo---"
 }

@@ -20,9 +20,14 @@
             scope.membersList = [];
             scope.tf = "HH:mm";
 
-            resourceFactory.prequalificationTemplateResource.get(function (data) {
-                scope.agenciesList = data.agencies
+            resourceFactory.prequalificationTemplateResource.get({groupId: routeParams.prequalificationId},function (data) {
+                if (data.agencies){
+                    scope.agenciesList = data.agencies
+                }
+                if (data.centerData){
                 scope.centersList = data.centerData
+                }
+
                 scope.productsList = data.loanProducts
                 scope.facilitators = data.facilitators
                 scope.formData.prequalilficationTimespan = Number(data.prequalilficationTimespan)
@@ -68,6 +73,13 @@
                         members: membersList
                     }
             });
+
+            scope.onAgencyChange = function(){
+                resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType, agencyId: scope.formData.agencyId},function (data) {
+                    scope.centersList = data.centerData;
+                });
+            }
+
 
             scope.addMemberData = function () {
                 var uiValidationErrors = [];
@@ -148,7 +160,7 @@
 
 
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('#/prequalificationGroups/group/new');
                 });
             }
 
@@ -163,7 +175,7 @@
                 //     member.dateFormat = scope.df;
                 // })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('prequalification/' + data.resourceId + '/viewdetails');
+                    location.path('#/prequalificationGroups/group/new');
                 });
             }
 

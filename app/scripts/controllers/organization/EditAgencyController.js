@@ -44,7 +44,7 @@
                 scope.formData.nonBusinessDay2 = data.nonBusinessDay2.id;
                 scope.formData.halfBusinessDay1 = data.halfBusinessDay1.id;
                 scope.formData.halfBusinessDay2 = data.halfBusinessDay2.id;
-
+                scope.formData.parentId = data.parentId;
                 if (data.openHourMorning) {
                     var date = new Date();
                     scope.formData.openHourMorning = new Date(date.getFullYear(), date.getMonth(), date.getDay(), data.openHourMorning[0], data.openHourMorning[1], 0);
