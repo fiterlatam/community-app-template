@@ -21,6 +21,34 @@
                     <hr>
                     <table class="" style="border-spacing: 10px; border-collapse: separate">
                         <tr>
+                            <td class="width14" ng-hide="isIndividualJlgLoanAccount">
+                                <label>{{'label.anchor.prequalifications' | translate }}
+                                    <span class="required">*</span>:&nbsp;
+                                </label>
+                                <i class="fa fa-question-circle" uib-tooltip="{{'label.tooltip.prequalification' | translate}}"></i>
+                            </td>
+                            <td class="width36 paddedbottom20" ng-hide="isIndividualJlgLoanAccount">
+                                <select id="prequalificationId" ng-model="prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber for prequalification in prequalificationOptions"
+                                        value="{{prequalification.id}}" ng-change="prequalificationChange(prequalificationId)" class="form-control width170px"
+                                        required="required">
+                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td class="width14">
+                                <label>{{'label.anchor.prequalifications' | translate }}
+                                    <span class="required">*</span>:&nbsp;
+                                </label>
+                                <i class="fa fa-question-circle" uib-tooltip="{{'label.tooltip.prequalification' | translate}}"></i>
+                            </td>
+                            <td class="width36 paddedbottom20">
+                                <select id="prequalificationId" ng-model="prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber for prequalification in prequalificationOptions"
+                                        value="{{prequalification.id}}" ng-change="prequalificationChange(prequalificationId)" class="form-control width170px"
+                                        required="required">
+                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
+                                    </option>
+                                </select>
+                            </td>
                             <td class="width14">
                                 <label>{{ 'label.input.product' | translate }}
                                     <span class="required">*</span>:&nbsp;
@@ -30,7 +58,7 @@
                             <td class="width36 paddedbottom20">
                                 <select id="productId" ng-model="formData.productId" class="form-control width170px" ng-options="product.id as product.name for product in products"
                                     value="{{product.id}}" ng-change="loanProductChange(formData.productId)" class="form-control width170px"
-                                    required="required">
+                                    required="required" ng-disabled="!isIndividualJlgLoanAccount">
                                     <option style="display:none" value="">{{'label.selectloanproduct' | translate}}
                                     </option>
                                 </select>
@@ -204,7 +232,7 @@
                             </td>
                             <td class="width31 paddedbottom20">
                                 <input type="text" class="form-control" id="principal" name="principal" ng-model="formData.principal" number-format required
-                                    late-Validate/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
+                                    late-Validate ng-disabled="!isIndividualJlgLoanAccount"/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
                                 <form-validate valattributeform="Terms" valattribute="principal" />
                             </td>
                             <td class="width14">
@@ -245,12 +273,14 @@
                                     ng-options="repaymentFrequencyType.id as repaymentFrequencyType.value for repaymentFrequencyType in loanaccountinfo.termFrequencyTypeOptions"
                                     ng-disabled="!loanaccountinfo.product.allowAttributeOverrides.repaymentEvery" value="{{repaymentFrequencyType.id}}"></select>&nbsp;
                                 <span ng-show="formData.repaymentFrequencyType == 2">on</span>
-                                <select id="repaymentFrequencyNthDayType" class="form-control" ng-model="formData.repaymentFrequencyNthDayType" ng-change="loandetails.repaymentFrequencyNthDayValue = formValue(loanaccountinfo.repaymentFrequencyNthDayTypeOptions,formData.repaymentFrequencyNthDayType)"
+                                <select id="repaymentFrequencyNthDayType" class="form-control" ng-disabled="disableFrequencySelect"
+                                        ng-model="formData.repaymentFrequencyNthDayType" ng-change="loandetails.repaymentFrequencyNthDayValue = formValue(loanaccountinfo.repaymentFrequencyNthDayTypeOptions,formData.repaymentFrequencyNthDayType)"
                                     ng-options="repaymentFrequencyNthDayType.id as repaymentFrequencyNthDayType.value for repaymentFrequencyNthDayType in loanaccountinfo.repaymentFrequencyNthDayTypeOptions"
                                     ng-show="formData.repaymentFrequencyType == 2" value="{{repaymentFrequencyNthDayType.id}}">
                                     <option value="">{{'label.selecton' | translate}}</option>
                                 </select>&nbsp;
-                                <select id="repaymentFrequencyDayOfWeekType" class="form-control" ng-model="formData.repaymentFrequencyDayOfWeekType" ng-change="loandetails.repaymentFrequencyDayOfWeekValue = formValue(loanaccountinfo.repaymentFrequencyDaysOfWeekTypeOptions,formData.repaymentFrequencyDayOfWeekType)"
+                                <select id="repaymentFrequencyDayOfWeekType" class="form-control"  ng-disabled="disableDaySelect"
+                                        ng-model="formData.repaymentFrequencyDayOfWeekType" ng-change="loandetails.repaymentFrequencyDayOfWeekValue = formValue(loanaccountinfo.repaymentFrequencyDaysOfWeekTypeOptions,formData.repaymentFrequencyDayOfWeekType)"
                                     ng-options="repaymentFrequencyDayOfWeekType.id as repaymentFrequencyDayOfWeekType.value for repaymentFrequencyDayOfWeekType in loanaccountinfo.repaymentFrequencyDaysOfWeekTypeOptions"
                                     ng-show="formData.repaymentFrequencyType == 2" value="{{repaymentFrequencyDayOfWeekType.id}}">
                                     <option value="">{{'label.selectday' | translate}}</option>

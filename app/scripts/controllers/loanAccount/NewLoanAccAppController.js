@@ -3,6 +3,7 @@
         NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
+            scope.isIndividualJlgLoanAccount = location.search().isIndividualJlgLoanAccount;
             scope.groupId = routeParams.groupId;
             scope.restrictDate = new Date();
             scope.formData = {};
@@ -102,7 +103,6 @@
 
             resourceFactory.loanResource.get(scope.inparams, function (data) {
                 scope.products = data.productOptions;
-                console.log(scope.products);
                 scope.ratesEnabled = data.isRatesEnabled;
 
                 if (data.clientName) {
@@ -112,6 +112,73 @@
                     scope.groupName = data.group.name;
                 }
             });
+
+            if(scope.groupId){
+                resourceFactory.groupResource.get({groupId: scope.groupId, associations: 'all'}, function (data) {
+                    scope.prequalificationOptions = data.prequalificationGroups;
+                });
+            }
+
+            if(scope.clientId){
+              resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
+                 scope.prequalificationOptions = data.clientPrequalifications;
+              });
+            }
+
+            scope.prequalificationChange = function (prequalificationId){
+                resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
+                    var loanProductId = data.productId;
+                    scope.totalApprovedAmount = data.totalApprovedAmount;
+                    scope.loanProductChange(loanProductId);
+                });
+            }
+           scope.resolveFrequencyDayOfWeek = function (meetingDay){
+               if(meetingDay == 'Lunes'){
+                    scope.disableDaySelect = true;
+                    return 1;
+                }if(meetingDay == 'Martes'){
+                   scope.disableDaySelect = true;
+                   return 2;
+                }if(meetingDay == 'Miércoles'){
+                   scope.disableDaySelect = true;
+                   return 3;
+                }if(meetingDay == 'Jueves'){
+                   scope.disableDaySelect = true;
+                   return 4;
+                }
+            } ;
+
+           scope.resolveFrequencyDayOfWeek = function (meetingDay){
+               if(meetingDay == 'Lunes'){
+                    scope.disableDaySelect = true;
+                    return 1;
+                }if(meetingDay == 'Martes'){
+                   scope.disableDaySelect = true;
+                   return 2;
+                }if(meetingDay == 'Miércoles'){
+                   scope.disableDaySelect = true;
+                   return 3;
+                }if(meetingDay == 'Jueves'){
+                   scope.disableDaySelect = true;
+                   return 4;
+                }
+            } ;
+
+            scope.resolveFrequencyRange = function (centerName){
+                if(centerName.includes('-R1-')){
+                    scope.disableFrequencySelect = true;
+                    return 1;
+                }if(centerName.includes('-R2-')){
+                    scope.disableFrequencySelect = true;
+                    return 2;
+                }if(centerName.includes('-R3-')){
+                    scope.disableFrequencySelect = true;
+                    return 3;
+                }if(centerName.includes('-R4-')){
+                    scope.disableFrequencySelect = true;
+                    return 4;
+                }
+            }
 
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
@@ -128,9 +195,12 @@
                 resourceFactory.loanResource.get(scope.inparams, function (data) {
                     scope.loanaccountinfo = data;
                     scope.product = data.product;
-
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
+                    if(data.group){
+                      scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                      scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                    }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
@@ -211,7 +281,7 @@
                 scope.multiDisburseLoan = scope.loanaccountinfo.multiDisburseLoan;
                 scope.formData.productId = scope.loanaccountinfo.loanProductId;
                 scope.formData.fundId = scope.loanaccountinfo.fundId;
-                scope.formData.principal = scope.loanaccountinfo.principal;
+                scope.formData.principal = scope.totalApprovedAmount ? scope.totalApprovedAmount : scope.loanaccountinfo.principal;
                 scope.formData.loanTermFrequency = scope.loanaccountinfo.termFrequency;
                 scope.formData.loanTermFrequencyType = scope.loanaccountinfo.termPeriodFrequencyType.id;
                 scope.loandetails.loanTermFrequencyValue = scope.loanaccountinfo.termPeriodFrequencyType.value;

@@ -154,6 +154,14 @@
             scope.goToPage = function (path) {
                 location.path(path);
             }
+            scope.timeDisplayFormat = function (time) {
+                if (time){
+                    let hour = time[0].toString().padStart(2,'0');
+                    let minute = time[1].toString().padStart(2,'0');
+                    let seconds = time[2].toString().padStart(2,'0');
+                    return hour+':'+minute+':'+seconds;
+                }
+            }
 
             var TransferGroupCtrl = function ($scope, $uibModalInstance) {
                 $scope.group = scope.groupData;
@@ -162,8 +170,52 @@
                     orderBy: 'name',
                     sortOrder: 'ASC'
                 }, function (data) {
-                    $scope.availableCenters = data;
+                    $scope.availableCenters = data.filter(function (el) {
+                        return el.id != routeParams.id ;
+                    });
                 });
+                $scope.centers = [];
+                $scope.centersPerPage =20
+                $scope.actualCenters = [];
+                $scope.searchText = "";
+                $scope.searchResults = [];
+
+                $scope.getResultsPage = function (pageNumber) {
+                    if ($scope.searchText) {
+                        var startPosition = (pageNumber - 1) * $scope.centersPerPage;
+                        $scope.centers = $scope.actualCenters.slice(startPosition, startPosition + $scope.centersPerPage);
+                        return;
+                    }
+                    var items = resourceFactory.centerResource.get({
+                        offset: ((pageNumber - 1) * $scope.centersPerPage),
+                        limit: $scope.centersPerPage,
+                        paged: 'true',
+                        orderBy: 'id',
+                        sortOrder: 'ASC'
+                    }, function (data) {
+                        $scope.centers = data.pageItems;
+                    });
+                }
+                $scope.timeDisplayFormat = function (time) {
+                    if (time){
+                        let hour = time[0].toString().padStart(2,'0');
+                        let minute = time[1].toString().padStart(2,'0');
+                        let seconds = time[2].toString().padStart(2,'0');
+                        return hour+':'+minute+':'+seconds;
+                    }
+                }
+
+                $scope.getResultsPage(1);
+
+                $scope.timeDisplayFormat = function (time) {
+                    if (time){
+                        let hour = time[0].toString().padStart(2,'0');
+                        let minute = time[1].toString().padStart(2,'0');
+                        let seconds = time[2].toString().padStart(2,'0');
+                        return hour+':'+minute+':'+seconds;
+                    }
+                }
+
 
                 $scope.confirmTransfer = function (center) {
                     // $uibModalInstance.dismiss('cancel');
@@ -177,6 +229,46 @@
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
                 };
+
+                $scope.search = function () {
+                    $scope.actualCenters = [];
+                    $scope.searchResults = [];
+                    $scope.filterText = "";
+                    var searchString = $scope.searchText;
+                    searchString = searchString.replace(/(^"|"$)/g, '');
+                    var exactMatch=false;
+                    var n = searchString.localeCompare($scope.searchText);
+                    if(n!=0)
+                    {
+                        exactMatch=true;
+                    }
+                    if(!$scope.searchText){
+                        $scope.getResultsPage(1);
+                    } else {
+                        resourceFactory.globalSearch.search({query: searchString ,  resource: "groups",exactMatch: exactMatch}, function (data) {
+                            var arrayLength = data.length;
+                            for (var i = 0; i < arrayLength; i++) {
+                                var result = data[i];
+                                var center = {};
+                                center.status = {};
+                                center.subStatus = {};
+                                if(result.entityType  == 'CENTER') {
+                                    center.name = result.entityName;
+                                    center.id = result.entityId;
+                                    center.accountNo = result.entityAccountNo;
+                                    center.officeName = result.parentName;
+                                    center.status.value = result.entityStatus.value;
+                                    center.status.code = result.entityStatus.code;
+                                    center.externalId = result.entityExternalId;
+                                    $scope.actualCenters.push(center);
+                                }
+                            }
+                            var numberOfCenters = $scope.actualCenters.length;
+                            $scope.totalCenters = numberOfCenters;
+                            $scope.centers = $scope.actualCenters.slice(0, scope.centersPerPage);
+                        });
+                    }
+                }
             }
 
             var ConfirmTransferCtrl = function ($scope, $uibModalInstance) {
