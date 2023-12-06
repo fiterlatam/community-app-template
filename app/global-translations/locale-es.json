@@ -4570,5 +4570,10 @@
 	"label.heading.editloanfund": "Cambiar origen de fondos",
 	"label.anchor.editloanfund": "Cambiar origen de fondos",
 	"label.button.editloanfund": "Cambiar origen de fondos",
+	"label.tooltip.prequalification": "El nombre de la precalificación en la que se basa la cuenta del préstamo.",
+	"label.heading.prequalifications": "Precalificaciones",
+	"label.input.select.prequalification": "Seleccionar Precalificación",
+	"error.msg.prequalification.member.not.selected.exception": "Seleccione al menos una miembro para aprobar el préstamo",
+	"error.msg.prequalification.submitted.loan.not.found.exception": "No se encontró ningún préstamo en estado enviado y pendiente de aprobación",
 	"----End---": "---Fin del archivo---"
 }

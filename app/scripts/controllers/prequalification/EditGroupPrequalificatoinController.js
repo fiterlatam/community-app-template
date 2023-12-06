@@ -31,7 +31,6 @@
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 console.log("Make call for prequalification");
-                console.log(data);
                 //scope.offices = data.allowedParents;
                 scope.id = data.id;
                 if (data.openingDate) {

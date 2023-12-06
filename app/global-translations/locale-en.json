@@ -3335,6 +3335,7 @@
   "label.anchor.bulkimport": "Bulk import",
   "#Inputs": "..",
   "label.input.selectproduct": "Select product",
+  "label.input.select.prequalification": "Select Prequalification",
   "label.input.allowedproducts": "Allowed products",
   "label.input.restrictedproducts": "Restricted products",
   "label.input.productname": "Product name",
@@ -4946,5 +4947,9 @@
   "label.heading.editloanfund": "Edit Fund",
   "label.anchor.editloanfund": "Edit Fund",
   "label.button.editloanfund": "Edit Fund",
+  "label.tooltip.prequalification": "The name of the prequalification that the loan account is based upon",
+  "label.heading.prequalifications": "Prequalifications",
+  "error.msg.prequalification.member.not.selected.exception": "Select at least one member to approve loan",
+  "error.msg.prequalification.submitted.loan.not.found.exception": "No loan found in status submitted and pending approval",
   "----End---": "--End of file--- "
 }
