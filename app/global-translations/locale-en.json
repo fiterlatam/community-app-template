@@ -4954,5 +4954,8 @@
   "label.heading.prequalifications": "Prequalifications",
   "error.msg.prequalification.member.not.selected.exception": "Select at least one member to approve loan",
   "error.msg.prequalification.submitted.loan.not.found.exception": "No loan found in status submitted and pending approval",
+  "label.heading.additionals": "Additionals",
+  "label.heading.additional.property.name": "Property Name",
+  "label.heading.additional.property.value": "Property Value",
   "----End---": "--End of file--- "
 }

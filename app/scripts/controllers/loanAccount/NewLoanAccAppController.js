@@ -34,6 +34,7 @@
             if (scope.clientId) {
                 scope.inparams.clientId = routeParams.clientId;
                 scope.formData.clientId = routeParams.clientId;
+                scope.isIndividualLoan = true;
             }
 
 
@@ -177,6 +178,13 @@
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
+                if(scope.clientId && !scope.groupId && scope.formData.caseId){
+                    delete scope.loanAdditionalData;
+                    delete scope.formData.caseId;
+                    resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: loanProductId, clientId: scope.clientId, caseId: scope.formData.caseId}, function(data){
+                        scope.loanAdditionalData = data;
+                    });
+                }
                 scope.inparams.productId = loanProductId;
                 resourceFactory.clientcollateralTemplateResource.getAllCollaterals({
                     clientId: routeParams.clientId,
@@ -265,6 +273,7 @@
             scope.previewClientLoanAccInfo = function () {
                 scope.previewRepayment = false;
                 scope.charges = scope.loanaccountinfo.charges || [];
+                scope.additionals = scope.loanaccountinfo.additionals || [];
                 scope.formData.disbursementData = scope.loanaccountinfo.disbursementDetails || [];
                 scope.collaterals = [];
 
@@ -617,6 +626,17 @@
                     location.path('/viewloanaccount/' + data.loanId);
                 });
             };
+
+           scope.searchByCaseId = function () {
+               var caseId = this.searchText;
+               if(scope.clientId && caseId){
+                    delete scope.loanAdditionalData;
+                    resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
+                        scope.loanAdditionalData = data;
+                        scope.formData.caseId = caseId;
+                    });
+                }
+           }
 
             scope.cancel = function () {
                 if (scope.groupId) {
