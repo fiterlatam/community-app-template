@@ -17,7 +17,6 @@
             <form name="Details" novalidate="" ng-submit="goNext(Details)" class="form-inline">
                 <fieldset>
                     <api-validate></api-validate>
-                    <!--<h3>{{'label.heading.details' | translate}}</h3>-->
                     <hr>
                     <table class="" style="border-spacing: 10px; border-collapse: separate">
                         <tr>
@@ -29,22 +28,7 @@
                             </td>
                             <td class="width36 paddedbottom20" ng-hide="isIndividualJlgLoanAccount">
                                 <select id="prequalificationId" ng-model="prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber for prequalification in prequalificationOptions"
-                                        value="{{prequalification.id}}" ng-change="prequalificationChange(prequalificationId)" class="form-control width170px"
-                                        required="required">
-                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
-                                    </option>
-                                </select>
-                            </td>
-                            <td class="width14">
-                                <label>{{'label.anchor.prequalifications' | translate }}
-                                    <span class="required">*</span>:&nbsp;
-                                </label>
-                                <i class="fa fa-question-circle" uib-tooltip="{{'label.tooltip.prequalification' | translate}}"></i>
-                            </td>
-                            <td class="width36 paddedbottom20">
-                                <select id="prequalificationId" ng-model="prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber for prequalification in prequalificationOptions"
-                                        value="{{prequalification.id}}" ng-change="prequalificationChange(prequalificationId)" class="form-control width170px"
-                                        required="required">
+                                        value="{{prequalification.id}}" ng-change="prequalificationChange(prequalificationId)" class="form-control width170px">
                                     <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
                                     </option>
                                 </select>
