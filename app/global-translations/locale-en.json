@@ -4947,6 +4947,7 @@
   "label.heading.editloanfund": "Edit Fund",
   "label.anchor.editloanfund": "Edit Fund",
   "label.button.editloanfund": "Edit Fund",
+  "label.heading.adjustGuarantee": "Adjust Guarantee",
   "label.tooltip.prequalification": "The name of the prequalification that the loan account is based upon",
   "label.heading.prequalifications": "Prequalifications",
   "error.msg.prequalification.member.not.selected.exception": "Select at least one member to approve loan",

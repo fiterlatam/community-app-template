@@ -143,91 +143,63 @@
 		                          </li>
 		                      </ul>
 		                    </span>
-                            </div>
-                            <div class="toolbar"><br/></div>
-                        </div>
-                        <div class="">
-                            <div class="row client">
-                                <div class="col-sm-9 col-md-9 ">
-                                    <div data-ng-show="group.status.value=='Closed'">
-                                        <h3>{{'label.heading.groupclosed' | translate}}</h3>
-                                    </div>
-                                    <div id="center" class="row">
-                                        <div class="col-md-7">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title ng-binding">
-                                                        {{ 'label.heading.clients' | translate }}</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="list-group">
-                                                        <a href="#/viewgroup/{{group.id}}"
-                                                           ng-repeat="group in center.groupMembers"
-                                                           class="list-group-item">
-                                                            <i uib-tooltip="{{group.status.value}}"
-                                                               class="fa fa-stop {{group.status.code | StatusLookup}}"
-                                                               uib-tooltip=""></i> {{group.name}}
-                                                        </a>
-                                                        <div class="col-md-12 primarydiv"
-                                                             data-ng-hide="group.status.value == 'Closed'">
-                                                            <a href="#/addmember?groupId={{group.id}}&officeId={{group.officeId}}"
-                                                               class="btn btn-primary pull-right"
-                                                               has-permission='CREATE_CLIENT'>
-                                                                <i class="fa fa-plus-sign-alt "></i>{{ 'label.button.add' | translate
-                                                                }}</a>
-                                                            <a href="#/membermanage/{{group.id}}"
-                                                               class="btn btn-primary pull-right"
-                                                               has-permission='ASSOCIATECLIENTS_GROUP'>
-                                                                <i class="fa fa-edit "></i>{{'label.button.managemembers' | translate
-                                                                }}</a>
-                                                            <a href="#/transferclients/{{group.id}}"
-                                                               class="btn btn-primary pull-right"
-                                                               has-permission='TRANSFERCLIENTS_GROUP'>
-                                                                <i class="fa fa-arrow-right "></i>{{'label.button.transferclients' | translate
-                                                                }}</a>
-                                                        </div>
-                                                        <table class="table table-condensed marginbottom0"
-                                                               style="display:inline-table;">
-                                                            <thead>
-                                                            <tr class="graybg">
-                                                                <th>{{'label.heading.accnum' | translate}}</th>
-                                                                <th>{{'label.heading.name' | translate}}</th>
-                                                                <th>{{ 'label.heading.actions' | translate }}</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr class="pointer-main"
-                                                                ng-repeat="member in group.clientMembers">
-                                                                <td class="pointer"
-                                                                    data-ng-click="routeToMem(member.id)">
-                                                                    <i class="fa fa-stop {{member.status.code | StatusLookup}}"
-                                                                       uib-tooltip="{{member.status.value}}"></i>
-                                                                    {{member.accountNo}}
-                                                                </td>
-                                                                <td class="pointer"
-                                                                    data-ng-click="routeToMem(member.id)">
-                                                                    {{member.displayName}}
-                                                                </td>
-                                                                </td>
-                                                                <td><a class="btn btn-primary btn-sm"
-                                                                       ng-href="#/newindividualjlgloanaccount/{{group.id}}/{{member.id}}"
-                                                                       data-ng-show="isActiveMember(member.status.code)"><i
-                                                                        class="fa fa-plus "></i>{{ 'label.button.jlgloanapplication' | translate
-                                                                    }}</a></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 meeting">
-                                            <div class="alert alert-warning" role="alert">
-                                                <table>
-                                                    <tr>
-                                                        <th>{{ 'label.heading.nextmeetingon' | translate }}</th>
-                                                        <td><span
-                                                                class="padded-td">{{group.collectionMeetingCalendar.nextTenRecurringDates[0] | DateFormat}}&nbsp;
+					    </div>
+					    <div class="toolbar"> <br/> </div>
+						</div>
+						<div class="">
+						<div class="row client">
+				            <div class="col-sm-9 col-md-9 ">
+				                <div data-ng-show="group.status.value=='Closed'">
+						            <h3>{{'label.heading.groupclosed' | translate}}</h3>
+						        </div>
+				                <div id="center" class="row">
+				                	<div class="col-md-7">
+				                		<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title ng-binding">{{ 'label.heading.clients' | translate }}</h3>
+											</div>
+											<div class="panel-body">
+												<div class="list-group">
+													<a href="#/viewgroup/{{group.id}}" ng-repeat="group in center.groupMembers" class="list-group-item">
+										  				<i uib-tooltip="{{group.status.value}}" class="fa fa-stop {{group.status.code | StatusLookup}}" uib-tooltip=""></i> {{group.name}}
+										  			</a>
+										  			<div class="col-md-12 primarydiv" data-ng-hide="group.status.value == 'Closed'">
+											            <a href="#/addmember?groupId={{group.id}}&officeId={{group.officeId}}" class="btn btn-primary pull-right" has-permission='CREATE_CLIENT'>
+											                <i class="fa fa-plus-sign-alt "></i>{{ 'label.button.add' | translate }}</a>
+											            <a href="#/membermanage/{{group.id}}" class="btn btn-primary pull-right" has-permission='ASSOCIATECLIENTS_GROUP'>
+											                <i class="fa fa-edit "></i>{{'label.button.managemembers' | translate }}</a>
+											            <a href="#/transferclients/{{group.id}}" class="btn btn-primary pull-right" has-permission='TRANSFERCLIENTS_GROUP'>
+											                <i class="fa fa-arrow-right "></i>{{'label.button.transferclients' | translate }}</a>
+											        </div>
+											        <table class="table table-condensed marginbottom0" style="display:inline-table;">
+											            <thead>
+												            <tr class="graybg">
+												                <th>{{'label.heading.accnum' | translate}}</th>
+												                <th>{{'label.heading.name' | translate}}</th>
+												                <th>{{ 'label.heading.actions' | translate }}</th>
+												            </tr>
+											            </thead>
+											            <tbody>
+												            <tr class="pointer-main" ng-repeat="member in group.clientMembers">
+												                <td class="pointer" data-ng-click="routeToMem(member.id)">
+												                	<i class="fa fa-stop {{member.status.code | StatusLookup}}" uib-tooltip="{{member.status.value}}"></i>
+												                		{{member.accountNo}}
+												                </td>
+												                <td class="pointer" data-ng-click="routeToMem(member.id)">{{member.displayName}}</td>
+												                </td>
+												            </tr>
+											            </tbody>
+											        </table>
+												</div>
+											</div>
+									    </div>
+				                	</div>
+				                	<div class="col-md-5 meeting">
+				                		<div class="alert alert-warning" role="alert">
+							                <table>
+							                    <tr>
+									                <th>{{ 'label.heading.nextmeetingon' | translate }}</th>
+									                <td><span class="padded-td">{{group.collectionMeetingCalendar.nextTenRecurringDates[0] | DateFormat}}&nbsp;
 							                            <a href="#/editcalendar/{{entityType | lowercase}}/{{entityId}}/{{group.collectionMeetingCalendar.id}}"
                                                            ng-show="group.collectionMeetingCalendar && editMeeting"><i
                                                                 class="fa fa-edit "></i></a>
