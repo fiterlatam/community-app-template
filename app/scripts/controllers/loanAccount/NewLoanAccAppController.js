@@ -3,6 +3,7 @@
         NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
+            scope.isIndividualJlgLoanAccount = location.search().isIndividualJlgLoanAccount;
             scope.groupId = routeParams.groupId;
             scope.restrictDate = new Date();
             scope.formData = {};
@@ -121,13 +122,25 @@
             if(scope.clientId){
               resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
                  scope.prequalificationOptions = data.clientPrequalifications;
+                 scope.clientData = data;
               });
             }
 
             scope.prequalificationChange = function (prequalificationId){
                 resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
                     var loanProductId = data.productId;
-                    scope.totalApprovedAmount = data.totalApprovedAmount;
+                    if(scope.clientId){
+                        var groupMembers = data.groupMembers;
+                        if(groupMembers.length > 0){
+                            for(var i = 0; i < groupMembers.length; i++){
+                                if(groupMembers[i].dpi == scope.clientData.dpiNumber){
+                                   scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
+                                }
+                            }
+                        }
+                    } else {
+                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                    }
                     scope.loanProductChange(loanProductId);
                 });
             }
@@ -177,11 +190,12 @@
                 resourceFactory.loanResource.get(scope.inparams, function (data) {
                     scope.loanaccountinfo = data;
                     scope.product = data.product;
-
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
-                    scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
-                    scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                    if(data.group){
+                      scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                      scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                    }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
