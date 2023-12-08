@@ -49,7 +49,7 @@
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
                     </div>
 
-                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'">
+                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'" has-permission="ASSIGN_PREQUALIFICATIONS">
                         <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> Assign to Myself</button>
                     </div>
                     <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
