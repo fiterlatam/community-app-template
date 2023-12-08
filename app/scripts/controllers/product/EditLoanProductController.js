@@ -107,6 +107,7 @@
                     installmentAmountInMultiplesOf: scope.product.installmentAmountInMultiplesOf,
                     canDefineInstallmentAmount : scope.product.canDefineInstallmentAmount,
                     isEqualAmortization : scope.product.isEqualAmortization,
+                    requireCommitteeApproval : data.requireCommitteeApproval,
                 };
 
                 if (scope.product.isInterestRecalculationEnabled) {

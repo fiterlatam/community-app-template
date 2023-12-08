@@ -1031,6 +1031,16 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <input type="checkbox" name="requireCommitteeApproval" ng-model="formData.requireCommitteeApproval"/>
+                            {{'label.input.requireCommitteeApproval' | translate}}
+                            <i class="fa fa-question-circle"
+                               uib-tooltip="{{'label.tooltip.loanproduct.requireCommitteeApproval' | translate}}"
+                               tooltip-append-to-body="true"></i>
+                        </div>
+                    </div>
+
 
                     <h3>{{ 'label.heading.interestRecalculation' | translate }}</h3>
                     <hr>
