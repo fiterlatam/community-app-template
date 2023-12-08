@@ -85,10 +85,22 @@
                 scope.ratesEnabled= scope.loanaccountinfo.isRatesEnabled;
 
             });
+
             scope.prequalificationChange = function (prequalificationId){
                 resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
                     var loanProductId = data.productId;
-                    scope.totalApprovedAmount = data.totalApprovedAmount;
+                    if(scope.clientId){
+                        var groupMembers = data.groupMembers;
+                        if(groupMembers.length > 0){
+                            for(var i = 0; i < groupMembers.length; i++){
+                                if(groupMembers[i].dpi == scope.clientData.dpiNumber){
+                                   scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
+                                }
+                            }
+                        }
+                    } else {
+                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                    }
                     scope.loanProductChange(loanProductId);
                 });
             }
