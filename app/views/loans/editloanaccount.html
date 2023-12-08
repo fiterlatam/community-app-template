@@ -16,10 +16,10 @@
         <td class="width14" ng-hide="isIndividualJlgLoanAccount">
             <label>{{ 'label.anchor.prequalifications' | translate }}<span class="required">*</span>:&nbsp;</label>
         </td>
-        <td class="width36 paddedbottom10" ng-hide="isIndividualJlgLoanAccount">
-            <select id="prequailificationId" ng-model="prequailificationId" class="form-control width170px"
-                    ng-options="prequalification.id as prequalification.groupName for prequalification in prequalificationOptions"
-                    value="{{prequalification.id}}" ng-change="prequalificationChange(prequailificationId)">
+        <td class="width36 paddedbottom10">
+            <select id="prequalificationId" ng-model="formData.prequalificationId" class="form-control width170px"
+                    ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in prequalificationOptions"
+                    value="{{prequalification.id}}" ng-change="prequalificationChange(formData.prequalificationId)">
                 <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}</option>
             </select>
         </td>
@@ -166,7 +166,7 @@
                         class="required">*</span>:</label></td>
                 <td class="width31 paddedbottom10">
                     <input type="text" class="form-control" id="principal" name="principal" ng-model="formData.principal"
-                           number-format required late-Validate/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
+                           number-format required ng-disabled="true" late-Validate/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
                     <form-validate valattributeform="editloanaccountform" valattribute="principal"/>
                 </td>
                 <td class="width14"><label>{{ 'label.input.loanterm' | translate }}&nbsp;<span class="required">*</span>:</label>
