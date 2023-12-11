@@ -29,8 +29,7 @@
                             <td class="width36 paddedbottom20">
                                 <select id="prequalificationId" ng-model="formData.prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in prequalificationOptions"
                                         value="{{prequalification.id}}" ng-change="prequalificationChange(formData.prequalificationId)" class="form-control width170px">
-                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
-                                    </option>
+                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}</option>
                                 </select>
                             </td>
                             <td class="width14">
@@ -860,7 +859,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-disabled="{{!isIndividualLoan}}">
+        <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-disabled="{{prequalificationType !== 'INDIVIDUAL'}}">
             <form name="Additionals" ng-submit="goNext(Additionals)" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>
@@ -898,10 +897,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="(propertyName, propertyValue) in loanAdditionalData">
-                                    <td>{{propertyName}}</td>
-                                    <td>{{propertyValue}}</td>
-                                    <td>{{ 'label.description.additional.' + propertyName | translate}}</td>
+                                <tr ng-repeat="(propertyName, propertyValue) in formData.loanAdditionalData">
+                                    <td class="paddedbottom10">{{propertyName}}</td>
+                                    <td class="paddedbottom10">
+                                        <div ng-show="isAdditionalDateProperty(propertyName)">
+                                            <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
+                                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"
+                                            />
+                                        </div>
+                                        <div ng-hide="isAdditionalDateProperty(propertyName)">
+                                            <input id="{{propertyName}}" class="form-control" type="text" name="{{propertyName}}"
+                                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" />
+                                        </div>
+                                    </td>
+                                    <td class="paddedbottom10">{{ 'label.description.additional.' + propertyName | translate}}</td>
                                 </tr>
                             </tbody>
                         </table>
