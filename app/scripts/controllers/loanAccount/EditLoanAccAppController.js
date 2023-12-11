@@ -10,7 +10,6 @@
             scope.restrictDate = new Date();
             scope.date = {};
             scope.rateFlag = false;
-            scope.isIndividualJlgLoanAccount = false;
 
             resourceFactory.loanResource.get({loanId: routeParams.id, template: true, associations: 'charges,collateral,meeting,multiDisburseDetails',staffInSelectedOfficeOnly:true}, function (data) {
                 scope.loanaccountinfo = data;
@@ -27,6 +26,23 @@
                     scope.clientId = data.clientId;
                     scope.clientName = data.clientName;
                     scope.formData.clientId = scope.clientId;
+                    resourceFactory.clientResource.get({clientId: scope.clientId}, function (clientData) {
+                        scope.clientData = clientData;
+                        scope.prequalificationOptions = clientData.clientPrequalifications;
+                        if(scope.loanaccountinfo.prequalificationData && scope.loanaccountinfo.prequalificationData.id){
+                            scope.formData.prequalificationId = scope.loanaccountinfo.prequalificationData.id;
+                            var addExisting = false;
+                            var matchingExists = false
+                            for(var i = 0; i < scope.prequalificationOptions.length; i++){
+                                if(scope.prequalificationOptions[i].id ==  scope.formData.prequalificationId){
+                                    matchingExists = true;
+                                }
+                            }
+                            if(!matchingExists){
+                                scope.prequalificationOptions.push(scope.loanaccountinfo.prequalificationData);
+                            }
+                        }
+                    });
                 }
 
                 if (data.group) {
@@ -42,7 +58,6 @@
 
                 if (scope.clientId && scope.groupId) {
                     scope.templateType = 'jlg';
-                    scope.isIndividualJlgLoanAccount = true;
                 }
                 else if (scope.groupId) {
                     scope.templateType = 'group';
@@ -70,10 +85,22 @@
                 scope.ratesEnabled= scope.loanaccountinfo.isRatesEnabled;
 
             });
+
             scope.prequalificationChange = function (prequalificationId){
                 resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
                     var loanProductId = data.productId;
-                    scope.totalApprovedAmount = data.totalApprovedAmount;
+                    if(scope.clientId){
+                        var groupMembers = data.groupMembers;
+                        if(groupMembers.length > 0){
+                            for(var i = 0; i < groupMembers.length; i++){
+                                if(groupMembers[i].dpi == scope.clientData.dpiNumber){
+                                   scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
+                                }
+                            }
+                        }
+                    } else {
+                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                    }
                     scope.loanProductChange(loanProductId);
                 });
             }

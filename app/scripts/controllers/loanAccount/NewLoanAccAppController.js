@@ -3,7 +3,6 @@
         NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
-            scope.isIndividualJlgLoanAccount = location.search().isIndividualJlgLoanAccount;
             scope.groupId = routeParams.groupId;
             scope.restrictDate = new Date();
             scope.formData = {};
