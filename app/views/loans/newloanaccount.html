@@ -29,8 +29,7 @@
                             <td class="width36 paddedbottom20">
                                 <select id="prequalificationId" ng-model="formData.prequalificationId" ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in prequalificationOptions"
                                         value="{{prequalification.id}}" ng-change="prequalificationChange(formData.prequalificationId)" class="form-control width170px">
-                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}
-                                    </option>
+                                    <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}</option>
                                 </select>
                             </td>
                             <td class="width14">
@@ -850,6 +849,72 @@
                         </table>
                     </div>
                     <br>
+                    <hr><button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-disabled="{{prequalificationType !== 'INDIVIDUAL'}}">
+            <form name="Additionals" ng-submit="goNext(Additionals)" class="form-horizontal">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-horizontal">
+                                <div class="pull-left">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <div class="input-group" style="width: 400px">
+                                                <input data-ng-model="searchText" type="text"
+                                                       placeholder="{{'label.input.searchbycaseid' | translate}}"
+                                                       class="form-control unstyled"/>
+                                                <span class="input-group-btn">
+                                            <button type="button" ng-click="searchByCaseId()"  class="btn btn-primary form-control" ng-disabled="!searchText">
+                                                <span class="fa fa-search"></span>
+                                            </button>
+                                        </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div ng-show="loanaccountinfo" ng-hide="previewRepayment">
+                        <table class="table-bordered table view-table table-striped" ng-show="loanaccountinfo" ng-hide="previewRepayment">
+                            <thead>
+                                <tr class="graybg">
+                                    <th>{{'label.heading.additional.property.name' | translate}}</th>
+                                    <th>{{'label.heading.additional.property.value' | translate}}</th>
+                                    <th>{{'label.heading.description' | translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(propertyName, propertyValue) in formData.loanAdditionalData">
+                                    <td class="paddedbottom10">{{propertyName}}</td>
+                                    <td class="paddedbottom10">
+                                        <div ng-show="isAdditionalDateProperty(propertyName)">
+                                            <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
+                                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"
+                                            />
+                                        </div>
+                                        <div ng-hide="isAdditionalDateProperty(propertyName)">
+                                            <input id="{{propertyName}}" class="form-control" type="text" name="{{propertyName}}"
+                                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" />
+                                        </div>
+                                    </td>
+                                    <td class="paddedbottom10">{{ 'label.description.additional.' + propertyName | translate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <hr>
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
@@ -860,6 +925,7 @@
                 </fieldset>
             </form>
         </wz-step>
+
         <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" wz-title="{{datatable.registeredTableName}}" id="dynamicSteps"
             wz-disabled="{{disabled}}">
             <form name="Datatables" class="form-horizontal" ng-submit="submit()">

@@ -110,6 +110,9 @@
                         save: {method: 'POST', params: {}},
                         update: {method: 'PUT', params: {}},
                     }),
+                    individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/loanAdditionalData", {clientId: '@clientId'}, {
+                        loanAdditionalData: {method: 'GET', params: {}},
+                    }),
                     clientChargesResource: defineResource(apiVer + "/clients/:clientId/charges/:resourceType", {clientId: '@clientId', resourceType: '@resourceType'}, {
                         getCharges: {method: 'GET'},
                         waive:{method:'POST' , params:{command : 'waive'}}
