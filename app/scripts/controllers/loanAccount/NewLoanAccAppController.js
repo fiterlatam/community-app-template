@@ -25,9 +25,19 @@
             scope.translate = translate;
             scope.rateFlag = false;
             scope.collateralAddedDataArray = [];
+            scope.currentLoans = [];
             scope.collateralsData = {};
             scope.addedCollateral = {};
+            scope.currentLoanData = {};
             scope.product;
+            scope.formData.totalExternalLoanAmount =0;
+            scope.formData.totalInstallments =0
+            scope.institutionTypeOptions = [
+                {id:1,code:"MICROFINANCE",description:"Micro Finance"}
+            ];
+            scope.loanStatusOptions = [
+                {id:1,code:"ACTIVE",description:"ACTIVE"}
+            ];
 
             scope.date.first = new Date();
 
@@ -187,6 +197,7 @@
                 });
                 // scope.datatables = [];
                 resourceFactory.loanResource.get(scope.inparams, function (data) {
+                    console.log("loan product change response: "+ JSON.stringify(data.product))
                     scope.loanaccountinfo = data;
                     scope.product = data.product;
                     scope.validateAgeLimit(loanProductId);
@@ -217,6 +228,22 @@
 
             scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
+            }
+
+            scope.addCurrentLoansDetails = function () {
+                scope.currentLoans.push(scope.currentLoanData);
+                scope.currentLoanData = {}
+
+                scope.calculateTotals();
+            }
+
+            scope.calculateTotals = function (){
+                scope.formData.totalExternalLoanAmount = 0;
+                scope.formData.totalInstallments = 0;
+                angular.forEach(scope.currentLoans, function (currentLoan, index) {
+                    scope.formData.totalExternalLoanAmount += currentLoan.totalLoanBalance;
+                    scope.formData.totalInstallments += currentLoan.charges;
+                });
             }
 
             scope.handleDatatables = function (datatables) {
@@ -624,6 +651,65 @@
                 } else if (scope.clientId) {
                     location.path('/viewclient/' + scope.clientId);
                 }
+            }
+
+            scope.countIndex = function (index) {
+                return Number(index)+1;
+            }
+
+            scope.removeLoan = function (index) {
+                if (scope.currentLoans.length<=1){
+                    scope.currentLoans = []
+                }else{
+                    scope.currentLoans = scope.currentLoans.splice(Number(index)-1, 1)
+                }
+
+                scope.calculateTotals()
+            }
+
+            scope.calculateTotalIncome = function () {
+                scope.formData.totalIncome=0;
+                let monthlyIncome = Number(scope.formData.monthlyIncome?scope.formData.monthlyIncome:0);
+                let otherIncome = Number(scope.formData.otherIncome?scope.formData.otherIncome:0);
+                let businessProfit = Number(scope.formData.businessProfit?scope.formData.businessProfit:0);
+                let clientProfit = Number(scope.formData.clientProfit?scope.formData.clientProfit:0);
+                scope.formData.totalIncome=(monthlyIncome + otherIncome + (businessProfit< clientProfit?businessProfit:clientProfit));
+
+                return scope.formData.totalIncome;
+            }
+
+            scope.calculateTotalExpenditure = function () {
+                scope.formData.totalExpenditures=0;
+                let rentMortgageFee = Number(scope.formData.rentMortgageFee?scope.formData.rentMortgageFee:0);
+                let familyExpenses = Number(scope.formData.familyExpenses?scope.formData.familyExpenses:0);
+                let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
+                scope.formData.totalExpenditures=(rentMortgageFee + familyExpenses + totalInstallments);
+
+                return scope.formData.totalExpenditures;
+            }
+
+            scope.calculateAvailableMonthly = function () {
+                scope.formData.availableMonthly=0;
+                let totalIncome = Number(scope.formData.totalIncome?scope.formData.totalIncome:0);
+                let totalExpenditures = Number(scope.formData.totalExpenditures?scope.formData.totalExpenditures:0);
+                scope.formData.availableMonthly=(totalIncome-totalExpenditures);
+
+                return scope.formData.availableMonthly;
+            }
+
+            scope.calculatePaymentCapacity = function () {
+                scope.formData.paymentCapacity=0;
+                let monthlyPaymentCapacity = Number(scope.formData.monthlyPaymentCapacity?scope.formData.monthlyPaymentCapacity:0);
+                let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
+                scope.formData.paymentCapacity=(24/(monthlyPaymentCapacity<availableMonthly?monthlyPaymentCapacity:monthlyPaymentCapacity));
+
+                return scope.formData.paymentCapacity;
+            }
+
+            scope.calculateBusinessProfit = function (sales, purchases) {
+                scope.formData.businessProfit=0;
+                scope.formData.businessProfit=Number(sales?sales:0) - Number(purchases?purchases:0);
+                return scope.formData.businessProfit;
             }
         }
     });
