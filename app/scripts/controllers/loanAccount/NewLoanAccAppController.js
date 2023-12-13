@@ -268,6 +268,7 @@
                 scope.currentLoans.push(scope.currentLoanData);
                 scope.currentLoanData = {}
 
+                scope.formData.externalLoans = scope.currentLoans;
                 scope.calculateTotals();
             }
 

@@ -1604,7 +1604,7 @@
                                                         <td class="width19 paddedbottom20">
                                                             <input type="text" class="form-control" id="institutionName"
                                                                    name="institutionName"
-                                                                   ng-model="currentLoanData.institutionName" required
+                                                                   ng-model="currentLoanData.institutionName"
                                                                    late-Validate/>
                                                             <form-validate valattributeform="currentLoans"
                                                                            valattribute="institutionName"/>
@@ -1633,7 +1633,7 @@
                                                         <td class="width19 paddedbottom20">
                                                             <input type="number" class="form-control"
                                                                    id="totalLoanBalance" name="totalLoanBalance"
-                                                                   ng-model="currentLoanData.totalLoanBalance" required
+                                                                   ng-model="currentLoanData.totalLoanBalance"
                                                                    late-Validate/>
                                                             <form-validate valattributeform="currentLoans"
                                                                            valattribute="totalLoanBalance"/>
@@ -1661,7 +1661,7 @@
                                                         <td class="width19 paddedbottom20">
                                                             <input type="number" class="form-control"
                                                                    id="totalLoanAmount" name="totalLoanAmount"
-                                                                   ng-model="currentLoanData.totalLoanAmount" required
+                                                                   ng-model="currentLoanData.totalLoanAmount"
                                                                    late-Validate/>
                                                             <form-validate valattributeform="currentLoans"
                                                                            valattribute="totalLoanAmount"/>
@@ -1863,8 +1863,8 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.visitBusiness" id="visitBusiness" required
-                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
-                                                value="{{yesno.name}}" class="form-control">
+                                                ng-options="yesno.id as yesno.description for yesno in yesnoOptions"
+                                                value="{{yesno.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="visitBusiness"/>
@@ -1877,8 +1877,8 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.familySupport" id="familySupport" required
-                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
-                                                value="{{yesno.name}}" class="form-control">
+                                                ng-options="yesno.id as yesno.description for yesno in yesnoOptions"
+                                                value="{{yesno.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="familySupport"/>
