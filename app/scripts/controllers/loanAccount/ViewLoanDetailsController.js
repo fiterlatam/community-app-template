@@ -166,6 +166,19 @@
                 scope.status = data.status.value;
                 scope.chargeAction = data.status.value == "Submitted and pending approval" ? true : false;
                 scope.decimals = data.currency.decimalPlaces;
+                scope.loandetails = data;
+                if(scope.loandetails.loanAdditionalData){
+                    scope.loanAdditionalData = scope.loandetails.loanAdditionalData;
+                    delete scope.loanAdditionalData.id;
+                    scope.caseId = scope.loandetails.loanAdditionalData.caseId;
+                    scope.prequalificationId = scope.loandetails.prequalificationData.id;
+                    resourceFactory.prequalificationResource.get({groupId:  scope.prequalificationId}, function (prequalificationData) {
+                        if (prequalificationData.prequalificationType) {
+                            scope.prequalificationType = prequalificationData.prequalificationType.value;
+                        }
+                    });
+                }
+
                 if (scope.loandetails.charges) {
                     scope.charges = scope.loandetails.charges;
                     for (var i in scope.charges) {
@@ -718,6 +731,11 @@
                 }
                 return false;
             };
+
+            scope.isAdditionalDateProperty = function(propertyName){
+                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fechaFin"];
+                return dateFields.includes(propertyName);
+            }
 
             scope.showAddDeleteTrancheButtons = function(action){
                 scope.return = true;
