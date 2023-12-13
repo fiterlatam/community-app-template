@@ -37,6 +37,16 @@
                     if(countRedValidations > 0){
                         scope.hasRedValidations = true;
                     }
+                } else if (scope.groupingType === 'group'){
+                    let countRedValidations = data.redValidationCount || 0;
+                    for(const i in scope.groupMembers){
+                        if(scope.groupMembers[i].redValidationCount > 0 || scope.groupMembers[i].activeBlacklistCount > 0){
+                            countRedValidations++;
+                        }
+                    }
+                    if(countRedValidations > 0){
+                        scope.hasRedValidations = true;
+                    }
                 }
             });
 
