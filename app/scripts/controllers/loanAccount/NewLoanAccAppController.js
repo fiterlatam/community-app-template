@@ -574,6 +574,18 @@
                     }
                 }
 
+                if(this.formData.loanAdditionalData){
+                    this.formData.loanAdditionalData.caseId = this.formData.caseId;
+                    for (var propertyName in this.formData.loanAdditionalData) {
+                        if (this.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                            if(scope.isAdditionalDateProperty(propertyName)){
+                                var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                scope.formData.loanAdditionalData[propertyName] = dateFilter(propertyValue, scope.df);
+                            }
+                        }
+                    }
+                }
+
                 if (this.formData.syncRepaymentsWithMeeting) {
                     this.formData.calendarId = scope.loanaccountinfo.calendarOptions[0].id;
                 }
@@ -650,7 +662,7 @@
            }
 
            scope.isAdditionalDateProperty = function(propertyName){
-                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fechaFin"];
+               var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fechaFin"];
                 return dateFields.includes(propertyName);
            }
 

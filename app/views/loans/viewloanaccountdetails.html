@@ -936,7 +936,7 @@
                                     <td class="paddedbottom10">{{propertyName}}</td>
                                     <td class="paddedbottom10">
                                         <div ng-show="isAdditionalDateProperty(propertyName)">
-                                            {{formData.loanAdditionalData[propertyName] | DateFormat}}
+                                            {{loanAdditionalData[propertyName] | DateFormat}}
                                         </div>
                                         <div ng-hide="isAdditionalDateProperty(propertyName)">
                                             {{propertyValue}}
