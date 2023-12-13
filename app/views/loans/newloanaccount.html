@@ -1017,10 +1017,11 @@
                                             <span class="required">*</span>:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
-                                        <input type="number" class="form-control" id="loanCycles" name="principal"
-                                               ng-model="formData.loanCycleCompleted"
-                                               number-format required
-                                               late-Validate/>
+                                        <select ng-model="formData.loanCycleCompleted" id="loanCycleCompleted"
+                                                ng-options="cycle.id as cycle.description for cycle in loanCycleCompletedOptions"
+                                                value="{{cycle.id}}" class="form-control">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
                                         <form-validate valattributeform="Additionals" valattribute="loanCycles"/>
                                     </td>
                                     <td class="width14">
@@ -1029,7 +1030,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.earlyCancellationReason" id="earlyCancellationReason"
-                                                ng-options="reason.id as reason.code for reason in cancellationReasonOptions"
+                                                ng-options="reason.id as reason.description for reason in cancellationReasonOptions"
                                                 value="{{reason.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1042,7 +1043,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.sourceOfFunds" id="sourceOfFunds"
-                                                ng-options="fund.id as fund.code for fund in sourceOfFundsOptions"
+                                                ng-options="fund.id as fund.description for fund in sourceOfFundsOptions"
                                                 value="{{fund.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1095,7 +1096,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.position" id="position"
-                                                ng-options="position.id as position.code for position in groupPositionOptions"
+                                                ng-options="position.id as position.description for position in groupPositionOptions"
                                                 value="{{position.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1150,7 +1151,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.maritalStatus" id="maritalStatus"
-                                                ng-options="status.id as status.code for status in maritalStatusOptions"
+                                                ng-options="status.id as status.description for status in maritalStatusOptions"
                                                 value="{{status.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1163,7 +1164,7 @@
                                     <td class="width19 paddedbottom20">
 
                                         <select ng-model="formData.educationLevel" id="educationLevel"
-                                                ng-options="level.id as level.code for level in educationLevelOptions"
+                                                ng-options="level.id as level.description for level in educationLevelOptions"
                                                 value="{{level.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1241,7 +1242,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.jobType" id="jobType" required
-                                                ng-options="jobtype.id as jobtype.code for jobtype in jobTypeOptions"
+                                                ng-options="jobtype.id as jobtype.description for jobtype in jobTypeOptions"
                                                 value="{{jobtype.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1257,7 +1258,7 @@
                                     <td class="width19 paddedbottom20">
 
                                         <select ng-model="formData.occupancyClassification" id="occupancyClassification"
-                                                ng-options="classification.id as classification.code for classification in classificationOptions"
+                                                ng-options="classification.id as classification.description for classification in classificationOptions"
                                                 value="{{classification.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1270,8 +1271,8 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.actsOwnBehalf" id="actsOwnBehalf"
-                                                ng-options="yesno.id as yesno.code for yesno in yesnoOptions"
-                                                value="{{yesno.code}}" class="form-control">
+                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
+                                                value="{{yesno.name}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="actsOwnBehalf"/>
@@ -1296,8 +1297,8 @@
                                     <td class="width19 paddedbottom20">
 
                                         <select ng-model="formData.politicallyExposed" id="politicallyExposed"
-                                                ng-options="yesno.id as yesno.code for yesno in yesnoOptions"
-                                                value="{{yesno.code}}" class="form-control">
+                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
+                                                value="{{yesno.name}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals"
@@ -1345,7 +1346,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.housingType" id="housingType" required
-                                                ng-options="housingType.id as housingType.code for housingType in housingTypeOptions"
+                                                ng-options="housingType.id as housingType.description for housingType in housingTypeOptions"
                                                 value="{{status.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1483,8 +1484,9 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.currentLoans" id="currentLoans"
-                                                ng-options="yesno.id as yesno.code for yesno in yesnoOptions"
-                                                value="{{yesno.code}}" class="form-control">
+                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
+
+                                                value="{{yesno.name}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals"
@@ -1492,8 +1494,8 @@
                                     </td>
 
                                 </tr>
-                                <!--                                <tr ng-if="formData.currentLoans ==='YES'">-->
-                                <tr>
+
+                                <tr ng-if="formData.currentLoans ==='YES'">
                                     <td colspan="6">
                                         <div class="alert alert-info">
                                             <h4>{{'label.heading.currentLoanDetails' | translate}}</h4>
@@ -1548,7 +1550,7 @@
                                                         <td class="width19 paddedbottom20">
                                                             <select ng-model="currentLoanData.institutionType"
                                                                     id="institutionType"
-                                                                    ng-options="type.id as type.code for type in institutionTypeOptions"
+                                                                    ng-options="type.id as type.description for type in institutionTypeOptions"
                                                                     value="{{type.id}}" class="form-control">
                                                                 <option value="">{{'label.selectone' | translate}}
                                                                 </option>
@@ -1605,7 +1607,7 @@
                                                         <td class="width19 paddedbottom20">
                                                             <select ng-model="currentLoanData.loanStatus"
                                                                     id="loanStatus"
-                                                                    ng-options="status.id as status.code for status in loanStatusOptions"
+                                                                    ng-options="status.id as status.description for status in loanStatusOptions"
                                                                     value="{{type.id}}" class="form-control">
                                                                 <option value="">{{'label.selectone' | translate}}
                                                                 </option>
@@ -1663,7 +1665,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.clientType" id="clientType" required
-                                                ng-options="clientType.id as clientType.code for clientType in clientTypeOptions"
+                                                ng-options="clientType.id as clientType.description for clientType in clientTypeOptions"
                                                 value="{{clientType.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1703,7 +1705,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.businessLocation" id="businessLocation"
-                                                ng-options="location.id as location.code for location in businessLocationOptions"
+                                                ng-options="location.id as location.description for location in businessLocationOptions"
                                                 value="{{location.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1711,11 +1713,11 @@
                                     </td>
 
                                     <td class="width14">
-                                        <label class="ml-2">{{ 'label.input.houseHoldGoods' | translate }}&nbsp;<span class="required">*</span>:</label>
+                                        <label class="ml-2">{{ 'label.input.businessExperience' | translate }}&nbsp;<span class="required">*</span>:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.businessExperience" id="businessExperience" required
-                                                ng-options="experience.id as experience.code for experience in businessExperienceOptions"
+                                                ng-options="experience.id as experience.description for experience in businessExperienceOptions"
                                                 value="{{experience.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1794,8 +1796,8 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.visitBusiness" id="visitBusiness" required
-                                                ng-options="yesno.id as yesno.code for yesno in yesnoOptions"
-                                                value="{{yesno.code}}" class="form-control">
+                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
+                                                value="{{yesno.name}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="visitBusiness"/>
@@ -1808,8 +1810,8 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.familySupport" id="familySupport" required
-                                                ng-options="yesno.id as yesno.code for yesno in yesnoOptions"
-                                                value="{{yesno.code}}" class="form-control">
+                                                ng-options="yesno.name as yesno.description for yesno in yesnoOptions"
+                                                value="{{yesno.name}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="familySupport"/>
@@ -1820,7 +1822,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.businessEvolution" id="businessEvolution" required
-                                                ng-options="evolution.id as evolution.code for evolution in businessEvolutionOptions"
+                                                ng-options="evolution.id as evolution.description for evolution in businessEvolutionOptions"
                                                 value="{{evolution.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1880,7 +1882,7 @@
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <select ng-model="formData.loanPurpose" id="loanPurpose" required
-                                                ng-options="loanPurpose.id as loanPurpose.code for loanPurpose in loanPurposeOption"
+                                                ng-options="loanPurpose.id as loanPurpose.description for loanPurpose in loanPurposeOptions"
                                                 value="{{loanPurpose.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
@@ -1985,35 +1987,35 @@
                             <table ng-show="loanaccountinfo" ng-hide="previewRepayment" class=" width100">
                                 <tr>
                                     <td class="width14">
-                                        <label class="ml-2">{{ 'label.input.totalIncome' | translate }}&nbsp;<span class="required">*</span>:</label>
+                                        <label class="ml-2">{{ 'label.input.totalIncome' | translate }}&nbsp;:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
 
                                         <input type="number" class="form-control" id="totalIncome"
-                                               name="totalIncome" required
+                                               name="totalIncome" disabled
                                                ng-model="calculateTotalIncome()"
                                                late-Validate/>
                                         <form-validate valattributeform="Additionals" valattribute="totalIncome"/>
                                     </td>
 
                                     <td class="width14">
-                                        <label class="ml-2">{{ 'label.input.totalExpenditures' | translate }}&nbsp;<span class="required">*</span>:</label>
+                                        <label class="ml-2">{{ 'label.input.totalExpenditures' | translate }}&nbsp;:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
 
                                         <input type="number" class="form-control" id="totalExpenditures"
-                                               name="totalExpenditures" required
+                                               name="totalExpenditures" disabled
                                                ng-model="calculateTotalExpenditure()"
                                                late-Validate/>
                                         <form-validate valattributeform="Additionals" valattribute="totalExpenditures"/>
                                     </td>
                                     <td class="width14">
-                                        <label class="ml-2">{{ 'label.input.availableMonthly' | translate }}&nbsp;<span class="required">*</span>:</label>
+                                        <label class="ml-2">{{ 'label.input.availableMonthly' | translate }}&nbsp;:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
 
                                         <input type="number" class="form-control" id="availableMonthly"
-                                               name="availableMonthly" required
+                                               name="availableMonthly" disabled
                                                ng-model="calculateAvailableMonthly()"
                                                late-Validate/>
                                         <form-validate valattributeform="Additionals" valattribute="availableMonthly"/>
@@ -2021,19 +2023,51 @@
                                 </tr>
                                 <tr>
                                     <td class="width14">
-                                        <label class="ml-2">{{ 'label.input.paymentCapacity' | translate }}&nbsp;<span class="required">*</span>:</label>
+                                        <label class="ml-2">{{ 'label.input.paymentCapacity' | translate }}&nbsp;:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
 
                                         <input type="number" class="form-control" id="paymentCapacity"
-                                               name="paymentCapacity" required
+                                               name="paymentCapacity" disabled
                                                ng-model="calculatePaymentCapacity()"
                                                late-Validate/>
                                         <form-validate valattributeform="Additionals" valattribute="paymentCapacity"/>
                                     </td>
+
+                                    <td class="width14">
+                                        <label class="ml-2">{{ 'label.input.facValue' | translate }}&nbsp;:</label>
+                                    </td>
+                                    <td class="width19 paddedbottom20">
+
+                                        <input type="number" class="form-control" id="facValue"
+                                               name="facValue" disabled
+                                               ng-model="calculateFacValue()"
+                                               late-Validate/>
+                                        <form-validate valattributeform="Additionals" valattribute="facValue"/>
+                                    </td>
+
+                                    <td class="width14">
+                                        <label class="ml-2">{{ 'label.input.debtLevel' | translate }}&nbsp;:</label>
+                                    </td>
+                                    <td class="width19 paddedbottom20">
+
+                                        <input type="number" class="form-control" id="debtLevel"
+                                               name="debtLevel" disabled
+                                               ng-model="calculateDebtLevel()"
+                                               late-Validate/>
+                                        <form-validate valattributeform="Additionals" valattribute="debtLevel"/>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
+
+                        <hr>
+                        <button class="btn btn-default pull-left" wz-previous>
+                            <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                        </button>
+                        <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
                     </div>
                 </fieldset>
             </form>

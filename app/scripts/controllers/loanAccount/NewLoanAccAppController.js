@@ -202,6 +202,11 @@
                     scope.product = data.product;
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
+
+                    if (data.product.ownerTypeOption.value ==='Group'){
+                        scope.fetchAdditinalDataTemplate();
+                    }
+
                     if(data.group){
                       scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
                       scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
@@ -228,6 +233,32 @@
 
             scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
+            }
+
+            scope.fetchAdditinalDataTemplate = function () {
+                resourceFactory.loanResource.get({
+                    resourceType: 'template',
+                    templateType: 'groupAdditionals'
+                }, function (data) {
+                    console.log("\n\ngroup additional data: \n\n"+ JSON.stringify(data))
+                    scope.loanCycleCompletedOptions = data.loanCycleCompletedOptions || [];
+                    scope.loanPurposeOptions = data.loanPurposeOptions || [];
+                    scope.businessEvolutionOptions = data.businessEvolutionOptions || [];
+                    scope.yesnoOptions = data.yesnoOptions || [];
+                    scope.businessExperienceOptions = data.businessExperienceOptions || [];
+                    scope.businessLocationOptions = data.businessLocationOptions || [];
+                    scope.clientTypeOptions = data.clientTypeOptions || [];
+                    scope.loanStatusOptions = data.loanStatusOptions || [];
+                    scope.institutionTypeOptions = data.institutionTypeOptions || [];
+                    scope.housingTypeOptions = data.housingTypeOptions || [];
+                    scope.classificationOptions = data.classificationOptions || [];
+                    scope.jobTypeOptions = data.jobTypeOptions || [];
+                    scope.educationLevelOptions = data.educationLevelOptions || [];
+                    scope.maritalStatusOptions = data.maritalStatusOptions || [];
+                    scope.groupPositionOptions = data.groupPositionOptions || [];
+                    scope.sourceOfFundsOptions = data.sourceOfFundsOptions || [];
+                    scope.cancellationReasonOptions = data.cancellationReasonOptions || [];
+                });
             }
 
             scope.addCurrentLoansDetails = function () {
@@ -701,9 +732,29 @@
                 scope.formData.paymentCapacity=0;
                 let monthlyPaymentCapacity = Number(scope.formData.monthlyPaymentCapacity?scope.formData.monthlyPaymentCapacity:0);
                 let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
-                scope.formData.paymentCapacity=(24/(monthlyPaymentCapacity<availableMonthly?monthlyPaymentCapacity:monthlyPaymentCapacity));
+                let proposedFee = Number(scope.formData.proposedFee?scope.formData.proposedFee:0);
+                let minimumCapacity = monthlyPaymentCapacity < availableMonthly ? monthlyPaymentCapacity : availableMonthly;
+                scope.formData.paymentCapacity=(proposedFee/ minimumCapacity);
 
                 return scope.formData.paymentCapacity;
+            }
+
+            scope.calculateFacValue = function () {
+                scope.formData.facValue=0;
+                let facilitatorProposedValue = Number(scope.formData.facilitatorProposedValue?scope.formData.facilitatorProposedValue:0);
+                let inventories = Number(scope.formData.inventories?scope.formData.inventories:0);
+                scope.formData.facValue=(facilitatorProposedValue/ inventories);
+
+                return scope.formData.facValue;
+            }
+
+            scope.calculateDebtLevel = function () {
+                scope.formData.debtLevel=0;
+                let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
+                let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
+                scope.formData.debtLevel=(totalInstallments/ availableMonthly);
+
+                return scope.formData.debtLevel;
             }
 
             scope.calculateBusinessProfit = function (sales, purchases) {
