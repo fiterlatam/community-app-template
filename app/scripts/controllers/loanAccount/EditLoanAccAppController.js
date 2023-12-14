@@ -16,6 +16,16 @@
                 scope.loanaccountinfo = data;
                 if(scope.loanaccountinfo.loanAdditionalData){
                     scope.formData.loanAdditionalData = scope.loanaccountinfo.loanAdditionalData;
+                    if(scope.formData.loanAdditionalData){
+                        for (var propertyName in scope.formData.loanAdditionalData) {
+                            if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                                if(scope.isAdditionalDateProperty(propertyName)){
+                                    var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                    scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
+                                }
+                            }
+                        }
+                    }
                     scope.formData.caseId = scope.formData.loanAdditionalData.caseId;
                 }
 
@@ -267,7 +277,6 @@
 
                 if(scope.clientId && scope.formData.caseId){
                     scope.searchText = scope.formData.caseId;
-                    scope.searchByCaseId();
                 }
             };
 
@@ -459,8 +468,17 @@
                 if(this.formData.interestCalculationPeriodType == 0){
                     this.formData.allowPartialPeriodInterestCalcualtion = false;
                 }
+
                 if(this.formData.loanAdditionalData){
                     this.formData.loanAdditionalData.caseId = this.formData.caseId;
+                    for (var propertyName in this.formData.loanAdditionalData) {
+                        if (this.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                            if(scope.isAdditionalDateProperty(propertyName)){
+                                var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                scope.formData.loanAdditionalData[propertyName] = dateFilter(propertyValue, scope.df);
+                            }
+                        }
+                    }
                 }
                 resourceFactory.loanResource.put({loanId: routeParams.id}, this.formData, function (data) {
                     location.path('/viewloanaccount/' + data.loanId);

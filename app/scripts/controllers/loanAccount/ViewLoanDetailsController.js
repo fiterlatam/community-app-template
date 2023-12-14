@@ -169,7 +169,6 @@
                 scope.loandetails = data;
                 if(scope.loandetails.loanAdditionalData){
                     scope.loanAdditionalData = scope.loandetails.loanAdditionalData;
-                    delete scope.loanAdditionalData.id;
                     scope.caseId = scope.loandetails.loanAdditionalData.caseId;
                     scope.prequalificationId = scope.loandetails.prequalificationData.id;
                     resourceFactory.prequalificationResource.get({groupId:  scope.prequalificationId}, function (prequalificationData) {
