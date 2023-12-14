@@ -84,7 +84,7 @@
                             </td>
                             <td>
                                 <input type="text" class="form-control" id="details[{{$index}}].principal"
-                                       ng-change="addTrancheAmounts()" ng-model="details.principal">
+                                       ng-change="addTrancheAmounts()" ng-model="details.principal" number-format>
                             </td>
                             <td>
                                 <a ng-click="deleteTranches($index);addTrancheAmounts();"><i
@@ -118,7 +118,7 @@
                         translate}}<span class="required">*</span></label>
 
                     <div class="col-sm-3">
-                        <input id="transactionAmount" type="text" name="amount" ng-model="formData.transactionAmount"
+                        <input id="transactionAmount" type="text" name="transactionAmount" ng-model="formData.transactionAmount"
                                class="form-control"
                                number-format required late-Validate>
                     </div>
@@ -165,7 +165,7 @@
 
                     <div class="col-sm-3">
                         <input id="writeOffAmount" type="text" name="amount" ng-model="writeOffAmount"
-                               class="form-control" readonly>
+                               class="form-control" number-format readonly>
                     </div>
                 </div>
 
@@ -180,7 +180,7 @@
 
                     <div class="col-sm-3">
                         <input id="transactionAmount" type="text" class="form-control" name="amount"
-                               ng-model="formData.fixedEmiAmount">
+                               ng-model="formData.fixedEmiAmount" number-format>
                     </div>
                 </div>
 
@@ -293,7 +293,7 @@
                         class="required">*</span></label>
 
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="amount" ng-model="formData.amount">
+                    <input type="text" class="form-control" id="amount" ng-model="formData.amount" number-format>
                 </div>
             </div>
             <div class="form-group" ng-show="showEditChargeDueDate">

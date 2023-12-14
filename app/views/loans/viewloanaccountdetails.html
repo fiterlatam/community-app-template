@@ -122,9 +122,9 @@
                         </tr>
                     </table>
                     <div ng-show="loandetails.summary">
-                        <h3>{{'label.heading.currentBalance' | translate}}: {{loandetails.currency.displaySymbol}} {{loandetails.summary.totalOutstanding | number}}</h3>
+                        <h3>{{'label.heading.currentBalance' | translate}}: {{loandetails.currency.displaySymbol}} {{loandetails.summary.totalOutstanding | FormatByLocale}}</h3>
                         <br>
-                    <b>{{'label.heading.arrearsby' | translate}}: <span class="padded-td">{{loandetails.summary.totalOverdue | number}}<span
+                    <b>{{'label.heading.arrearsby' | translate}}: <span class="padded-td">{{loandetails.summary.totalOverdue | FormatByLocale}}<span
                                     data-ng-hide="loandetails.summary.totalOverdue>=0">{{'label.heading.notprovided' | translate}}</span></span></b>
                     <br>
                         <br>
@@ -147,51 +147,51 @@
                             <tbody>
                             <tr>
                                 <th>{{'label.heading.principal' | translate}}</th>
-                                <td>{{loandetails.summary.principalDisbursed | number}}</td>
-                                <td>{{loandetails.summary.principalPaid | number}}</td>
+                                <td>{{loandetails.summary.principalDisbursed | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.principalPaid | FormatByLocale}}</td>
                                 <td>&nbsp;</td>
-                                <td>{{loandetails.summary.principalWrittenOff | number}}</td>
-                                <td>{{loandetails.summary.principalOutstanding | number}}</td>
-                                <td>{{loandetails.summary.principalOverdue | number}}</td>
+                                <td>{{loandetails.summary.principalWrittenOff | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.principalOutstanding | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.principalOverdue | FormatByLocale}}</td>
                             </tr>
                             <tr>
                                 <th>{{'label.heading.interest' | translate}}</th>
-                                <td>{{loandetails.summary.interestCharged | number}}</td>
-                                <td>{{loandetails.summary.interestPaid | number}}</td>
-                                <td>{{loandetails.summary.interestWaived | number}}</td>
-                                <td>{{loandetails.summary.interestWrittenOff | number}}</td>
-                                <td>{{loandetails.summary.interestOutstanding | number}}</td>
-                                <td>{{loandetails.summary.interestOverdue | number}}</td>
+                                <td>{{loandetails.summary.interestCharged | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.interestPaid | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.interestWaived | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.interestWrittenOff | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.interestOutstanding | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.interestOverdue | FormatByLocale}}</td>
                             </tr>
                             <tr>
                                 <th>{{'label.heading.fees' | translate}}</th>
-                                <td>{{loandetails.summary.feeChargesCharged | number}}</td>
-                                <td>{{loandetails.summary.feeChargesPaid | number}}</td>
-                                <td>{{loandetails.summary.feeChargesWaived | number}}</td>
-                                <td>{{loandetails.summary.feeChargesWrittenOff | number}}</td>
-                                <td>{{loandetails.summary.feeChargesOutstanding | number}}</td>
-                                <td>{{loandetails.summary.feeChargesOverdue | number}}</td>
+                                <td>{{loandetails.summary.feeChargesCharged | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.feeChargesPaid | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.feeChargesWaived | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.feeChargesWrittenOff | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.feeChargesOutstanding | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.feeChargesOverdue | FormatByLocale}}</td>
                             </tr>
 
                             <tr>
                                 <th>{{'label.heading.penalties' | translate}}</th>
-                                <td>{{loandetails.summary.penaltyChargesCharged | number}}</td>
-                                <td>{{loandetails.summary.penaltyChargesPaid | number}}</td>
-                                <td>{{loandetails.summary.penaltyChargesWaived | number}}</td>
-                                <td>{{loandetails.summary.penaltyChargesWrittenOff | number}}</td>
-                                <td>{{loandetails.summary.penaltyChargesOutstanding | number}}</td>
-                                <td>{{loandetails.summary.penaltyChargesOverdue | number}}</td>
+                                <td>{{loandetails.summary.penaltyChargesCharged | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.penaltyChargesPaid | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.penaltyChargesWaived | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.penaltyChargesWrittenOff | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.penaltyChargesOutstanding | FormatByLocale}}</td>
+                                <td>{{loandetails.summary.penaltyChargesOverdue | FormatByLocale}}</td>
                             </tr>
                             </tbody>
                             <tfoot>
                             <tr>
                                 <th>{{'label.heading.total' | translate}}</th>
-                                <th>{{loandetails.summary.totalExpectedRepayment | number}}</th>
-                                <th>{{loandetails.summary.totalRepayment | number}}</th>
-                                <th>{{loandetails.summary.totalWaived | number}}</th>
-                                <th>{{loandetails.summary.totalWrittenOff | number}}</th>
-                                <th>{{loandetails.summary.totalOutstanding | number}}</th>
-                                <th>{{loandetails.summary.totalOverdue | number}}</th>
+                                <th>{{loandetails.summary.totalExpectedRepayment | FormatByLocale}}</th>
+                                <th>{{loandetails.summary.totalRepayment | FormatByLocale}}</th>
+                                <th>{{loandetails.summary.totalWaived | FormatByLocale}}</th>
+                                <th>{{loandetails.summary.totalWrittenOff | FormatByLocale}}</th>
+                                <th>{{loandetails.summary.totalOutstanding | FormatByLocale}}</th>
+                                <th>{{loandetails.summary.totalOverdue | FormatByLocale}}</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -207,19 +207,19 @@
                         </tr>
                         <tr>
                             <th class="table-bold-loan">{{'label.heading.proposedamount' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.proposedPrincipal | number}}</span></td>
+                            <td><span class="padded-td">{{loandetails.proposedPrincipal | FormatByLocale}}</span></td>
                         </tr>
                         <tr ng-show="showApprovedAmountBasedOnStatus()">
                             <th class="table-bold-loan">{{'label.heading.approvedamount' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.approvedPrincipal | number}}</span></td>
+                            <td><span class="padded-td">{{loandetails.approvedPrincipal | FormatByLocale}}</span></td>
                         </tr>
                         <tr ng-show="showDisbursedAmountBasedOnStatus()">
                             <th class="table-bold-loan">{{'label.heading.disburseamount' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.principal | number}}</span></td>
+                            <td><span class="padded-td">{{loandetails.principal | FormatByLocale}}</span></td>
                         </tr>
                         <tr>
                             <th class="table-bold-loan">{{'label.heading.arrearsby' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.summary.totalOverdue | number}}<span
+                            <td><span class="padded-td">{{loandetails.summary.totalOverdue | FormatByLocale}}<span
                                     data-ng-hide="loandetails.summary.totalOverdue>=0">{{'label.heading.notprovided' | translate}}</span></span>
                             </td>
                         </tr>
@@ -260,15 +260,15 @@
                         </tr>
                         <tr>
                             <th class="table-bold-loan">{{'label.heading.proposedamount' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.proposedPrincipal | number}}</span></td>
+                            <td><span class="padded-td">{{loandetails.proposedPrincipal | FormatByLocale}}</span></td>
                         </tr>
                         <tr ng-show="showApprovedAmountBasedOnStatus()">
                             <th class="table-bold-loan">{{'label.heading.approvedamount' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.approvedPrincipal | number}}</span></td>
+                            <td><span class="padded-td">{{loandetails.approvedPrincipal | FormatByLocale}}</span></td>
                         </tr>
                         <tr ng-show="showDisbursedAmountBasedOnStatus()">
                             <th class="table-bold-loan">{{'label.heading.disburseamount' | translate}}</th>
-                            <td><span class="padded-td">{{loandetails.principal | number}}</span></td>
+                            <td><span class="padded-td">{{loandetails.principal | FormatByLocale}}</span></td>
                         </tr>
                     </table>
                     <table class="table table-striped table-bordered" ng-show="loandetails.summary">
@@ -277,7 +277,7 @@
                         </tr>
                         <tr>
                             <th>{{'label.heading.numberOfRepayments' | translate}}</th>
-                            <td>{{loandetails.numberOfRepayments | number }}</td>
+                            <td>{{loandetails.numberOfRepayments | FormatByLocale }}</td>
                         </tr>
                         <!--<tr>-->
                             <!--<th>{{'label.heading.numberOfMissedPayments' | translate}}</th>-->
@@ -408,7 +408,7 @@
                             </tr>
                             <tr data-ng-show="loandetails.canDefineInstallmentAmount">
                                 <td>{{'label.input.fixedemiamount' | translate}}</td>
-                                <td><span class="padded-td">{{loandetails.fixedEmiAmount| number}}</span></td>
+                                <td><span class="padded-td">{{loandetails.fixedEmiAmount| FormatByLocale}}</span></td>
                             </tr>
                             <tr data-ng-show="loandetails.isTopup">
                                 <td>{{'label.input.isTopup' | translate}}</td>
@@ -416,11 +416,11 @@
                             </tr>
                             <tr data-ng-show="loandetails.isTopup">
                                 <td>{{'label.heading.loanIdToClose' | translate}}</td>
-                                <td><span class="padded-td"><a href="#/viewloanaccount/{{loandetails.closureLoanId| number}}">{{loandetails.closureLoanAccountNo}}</a></span></td>
+                                <td><span class="padded-td"><a href="#/viewloanaccount/{{loandetails.closureLoanId| FormatByLocale}}">{{loandetails.closureLoanAccountNo}}</a></span></td>
                             </tr>
                             <tr data-ng-show="loandetails.isTopup">
                                 <td>{{'label.heading.topupAmount' | translate}}</td>
-                                <td><span class="padded-td">{{loandetails.topupAmount| number}}</span></td>
+                                <td><span class="padded-td">{{loandetails.topupAmount| FormatByLocale}}</span></td>
                             </tr>
                             <tr>
                                 <td>{{ 'label.input.recalculateinterest' | translate }}</td>
@@ -498,23 +498,23 @@
                             <tr ng-repeat="period in loandetails.originalSchedule.periods">
                                 <td>{{period.dueDate | DateFormat}}</td>
 
-                                <td>{{period.principalDue | number}}</td>
-                                <td>{{period.principalLoanBalanceOutstanding | number}}</td>
-                                <td>{{period.interestOriginalDue | number}}</td>
-                                <td>{{period.feeChargesDue | number}}</td>
-                                <td>{{period.penaltyChargesDue | number}}</td>
-                                <td>{{period.totalOutstandingForPeriod | number}}</td>
+                                <td>{{period.principalDue | FormatByLocale}}</td>
+                                <td>{{period.principalLoanBalanceOutstanding | FormatByLocale}}</td>
+                                <td>{{period.interestOriginalDue | FormatByLocale}}</td>
+                                <td>{{period.feeChargesDue | FormatByLocale}}</td>
+                                <td>{{period.penaltyChargesDue | FormatByLocale}}</td>
+                                <td>{{period.totalOutstandingForPeriod | FormatByLocale}}</td>
                             </tr>
                             </tbody>
                             <tfoot class="ui-widget-header">
                             <tr>
                                 <th >{{'label.heading.total' | translate}}</th>
-                                <th>{{loandetails.originalSchedule.totalPrincipalExpected | number}}</th>
+                                <th>{{loandetails.originalSchedule.totalPrincipalExpected | FormatByLocale}}</th>
                                 <th>&nbsp;</th>
-                                <th>{{loandetails.originalSchedule.totalInterestCharged | number}}</th>
-                                <th>{{loandetails.originalSchedule.totalFeeChargesCharged | number}}</th>
-                                <th>{{loandetails.originalSchedule.totalPenaltyChargesCharged | number}}</th>
-                                <th>{{loandetails.originalSchedule.totalRepaymentExpected | number}}</th>
+                                <th>{{loandetails.originalSchedule.totalInterestCharged | FormatByLocale}}</th>
+                                <th>{{loandetails.originalSchedule.totalFeeChargesCharged | FormatByLocale}}</th>
+                                <th>{{loandetails.originalSchedule.totalPenaltyChargesCharged | FormatByLocale}}</th>
+                                <th>{{loandetails.originalSchedule.totalRepaymentExpected | FormatByLocale}}</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -564,18 +564,18 @@
                                     <div ng-show="period.obligationsMetOnDate"><i class="fa fa-check "></i></div>
                                 </td>
 
-                                <td>{{period.principalDue | number}}</td>
-                                <td>{{period.principalLoanBalanceOutstanding | number}}</td>
-                                <td>{{period.interestOriginalDue | number}}</td>
-                                <td>{{period.feeChargesDue | number}}</td>
-                                <td>{{period.penaltyChargesDue | number}}</td>
+                                <td>{{period.principalDue | FormatByLocale}}</td>
+                                <td>{{period.principalLoanBalanceOutstanding | FormatByLocale}}</td>
+                                <td>{{period.interestOriginalDue | FormatByLocale}}</td>
+                                <td>{{period.feeChargesDue | FormatByLocale}}</td>
+                                <td>{{period.penaltyChargesDue | FormatByLocale}}</td>
 
-                                <td>{{period.totalDueForPeriod | number}}</td>
-                                <td>{{period.totalPaidForPeriod | number}}</td>
-                                <td>{{period.totalPaidInAdvanceForPeriod | number}}</td>
-                                <td>{{period.totalPaidLateForPeriod | number}}</td>
-                                <td data-ng-show="isWaived">{{period.totalWaivedForPeriod | number}}</td>
-                                <td>{{period.totalOutstandingForPeriod | number}}</td>
+                                <td>{{period.totalDueForPeriod | FormatByLocale}}</td>
+                                <td>{{period.totalPaidForPeriod | FormatByLocale}}</td>
+                                <td>{{period.totalPaidInAdvanceForPeriod | FormatByLocale}}</td>
+                                <td>{{period.totalPaidLateForPeriod | FormatByLocale}}</td>
+                                <td data-ng-show="isWaived">{{period.totalWaivedForPeriod | FormatByLocale}}</td>
+                                <td>{{period.totalOutstandingForPeriod | FormatByLocale}}</td>
                             </tr>
                             </tbody>
                             <tfoot class="ui-widget-header">
@@ -584,18 +584,18 @@
                                 <th>{{loandetails.repaymentSchedule.loanTermInDays}}</th>
                                 <th colspan="3">{{'label.heading.total' | translate}}</th>
 
-                                <th>{{loandetails.repaymentSchedule.totalPrincipalExpected | number}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalPrincipalExpected | FormatByLocale}}</th>
                                 <th>&nbsp;</th>
-                                <th>{{loandetails.repaymentSchedule.totalInterestCharged | number}}</th>
-                                <th>{{loandetails.repaymentSchedule.totalFeeChargesCharged | number}}</th>
-                                <th>{{loandetails.repaymentSchedule.totalPenaltyChargesCharged | number}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalInterestCharged | FormatByLocale}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalFeeChargesCharged | FormatByLocale}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalPenaltyChargesCharged | FormatByLocale}}</th>
 
-                                <th>{{loandetails.repaymentSchedule.totalRepaymentExpected | number}}</th>
-                                <th>{{loandetails.repaymentSchedule.totalRepayment | number}}</th>
-                                <th>{{loandetails.repaymentSchedule.totalPaidInAdvance | number}}</th>
-                                <th>{{loandetails.repaymentSchedule.totalPaidLate | number}}</th>
-                                <th data-ng-show="isWaived">{{loandetails.repaymentSchedule.totalWaived | number}}</th>
-                                <th>{{loandetails.repaymentSchedule.totalOutstanding | number}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalRepaymentExpected | FormatByLocale}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalRepayment | FormatByLocale}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalPaidInAdvance | FormatByLocale}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalPaidLate | FormatByLocale}}</th>
+                                <th data-ng-show="isWaived">{{loandetails.repaymentSchedule.totalWaived | FormatByLocale}}</th>
+                                <th>{{loandetails.repaymentSchedule.totalOutstanding | FormatByLocale}}</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -630,13 +630,13 @@
                             <tr ng-repeat="period in loandetails.repaymentSchedule.futurePeriods">
                                 <td>{{period.dueDate | DateFormat}}</td>
 
-                                <td>{{period.principalDue | number}}</td>
-                                <td>{{period.principalLoanBalanceOutstanding | number}}</td>
-                                <td>{{period.interestOriginalDue | number}}</td>
-                                <td>{{period.feeChargesDue | number}}</td>
-                                <td>{{period.penaltyChargesDue | number}}</td>
+                                <td>{{period.principalDue | FormatByLocale}}</td>
+                                <td>{{period.principalLoanBalanceOutstanding | FormatByLocale}}</td>
+                                <td>{{period.interestOriginalDue | FormatByLocale}}</td>
+                                <td>{{period.feeChargesDue | FormatByLocale}}</td>
+                                <td>{{period.penaltyChargesDue | FormatByLocale}}</td>
 
-                                <td>{{period.totalOutstandingForPeriod | number}}</td>
+                                <td>{{period.totalOutstandingForPeriod | FormatByLocale}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -694,22 +694,22 @@
                                         {{transaction.type.value | translate}}
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                        {{transaction.amount | number}}
+                                        {{transaction.amount | FormatByLocale}}
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                        {{transaction.principalPortion | number}}
+                                        {{transaction.principalPortion | FormatByLocale}}
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                        {{transaction.interestPortion | number}}
+                                        {{transaction.interestPortion | FormatByLocale}}
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                        {{transaction.feeChargesPortion | number}}
+                                        {{transaction.feeChargesPortion | FormatByLocale}}
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                        {{transaction.penaltyChargesPortion | number}}
+                                        {{transaction.penaltyChargesPortion | FormatByLocale}}
                                     </td>
                                     <td class="pointer" data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                        {{transaction.outstandingLoanBalance | number}}
+                                        {{transaction.outstandingLoanBalance | FormatByLocale}}
                                     </td>
 
                                     <td> <span uib-tooltip="{{'label.heading.viewreceipts' | translate }}" ng-if="transaction.manuallyReversed!=true" ng-click="viewloantransactionreceipts(transaction.id)">
@@ -744,9 +744,9 @@
                             <tbody>
                             <tr ng-repeat="collateral in loandetails.collateral" class="pointer-main">
                                 <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.id}}</td>
-                                <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.quantity | number}}</td>
-                                <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.total | number}}</td>
-                                <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.totalCollateral | number}}</td>
+                                <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.quantity | FormatByLocale}}</td>
+                                <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.total | FormatByLocale}}</td>
+                                <td class="pointer" data-ng-click="viewLoanCollateral(collateral.id)">{{collateral.totalCollateral | FormatByLocale}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -757,7 +757,7 @@
 
                             <tr>
                                 <td>
-                                    {{'label.input.outstandingloanbalance' | translate}} : &nbsp;{{loandetails.maxOutstandingLoanBalance| number}}&nbsp;
+                                    {{'label.input.outstandingloanbalance' | translate}} : &nbsp;{{loandetails.maxOutstandingLoanBalance| FormatByLocale}}&nbsp;
                                 </td>
                             </tr>
                             <tr>
@@ -786,7 +786,7 @@
                             <tr ng-repeat="disbursementDetail in loandetails.disbursementDetails">
                                 <td>{{disbursementDetail.expectedDisbursementDate | DateFormat}}</td>
                                 <td>{{disbursementDetail.actualDisbursementDate | DateFormat}}</td>
-                                <td>{{disbursementDetail.principal | number}}</td>
+                                <td>{{disbursementDetail.principal | FormatByLocale}}</td>
                                 <td>
                                     <div ng-show="disbursementDetail.actualDisbursementDate != null"><i class="fa fa-check "></i>
                                     </div>
@@ -828,7 +828,7 @@
                             <tr ng-repeat="charge in loandetails.overdueCharges">
                                 <td>{{charge.name}},{{charge.currency.displaySymbol}}</td>
                                 <td>{{charge.chargeCalculationType.value}}</td>
-                                <td>{{charge.amount | number}}</td>
+                                <td>{{charge.amount | FormatByLocale}}</td>
                                 <td>{{charge.chargeTimeType.value}}</td>
                             </tr>
                         </table>
@@ -869,10 +869,10 @@
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeTimeType.value}}</td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.dueDate | DateFormat}}</td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.chargeCalculationType.value}}</td>
-                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amount| number}}</td>
-                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountPaid| number}}</td>
-                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountWaived| number}}</td>
-                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountOutstanding| number}}</td>
+                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amount| FormatByLocale}}</td>
+                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountPaid| FormatByLocale}}</td>
+                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountWaived| FormatByLocale}}</td>
+                                <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.currency.displaySymbol}}{{charge.amountOutstanding| FormatByLocale}}</td>
                                 <td>
                                     <a title="{{'label.edit' | translate}}" class="btn btn-primary" data-ng-show="status=='Submitted and pending approval'"
                                        href="#/loanaccountcharge/{{loandetails.id}}/editcharge/{{charge.id}}"><i
@@ -976,7 +976,7 @@
 
                                 </td>
                                 <td>{{instruction.toAccount.accountNo}}({{instruction.toAccountType.value}})</td>
-                                <td>{{instruction.instructionType.value}}/{{instruction.amount | number}}</td>
+                                <td>{{instruction.instructionType.value}}/{{instruction.amount | FormatByLocale}}</td>
                                 <td>{{instruction.validFrom | DateFormat}} to {{instruction.validTill | DateFormat}}</td>
                                 <td class="select-row:selection">
                                     <a type="button"  class="btn btn-primary" uib-tooltip="{{'label.tooltip.editInstruction' | translate}}" has-permission='UPDATE_STANDINGINSTRUCTION' data-ng-show="instruction.status.value!='Deleted'"  href="#/editstandinginstruction/{{instruction.id}}/list">
