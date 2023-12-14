@@ -10,9 +10,24 @@
             scope.restrictDate = new Date();
             scope.date = {};
             scope.rateFlag = false;
+            scope.showAdditionalInfo = false;
 
             resourceFactory.loanResource.get({loanId: routeParams.id, template: true, associations: 'charges,collateral,meeting,multiDisburseDetails',staffInSelectedOfficeOnly:true}, function (data) {
                 scope.loanaccountinfo = data;
+                if(scope.loanaccountinfo.loanAdditionalData){
+                    scope.formData.loanAdditionalData = scope.loanaccountinfo.loanAdditionalData;
+                    if(scope.formData.loanAdditionalData){
+                        for (var propertyName in scope.formData.loanAdditionalData) {
+                            if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                                if(scope.isAdditionalDateProperty(propertyName)){
+                                    var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                    scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
+                                }
+                            }
+                        }
+                    }
+                    scope.formData.caseId = scope.formData.loanAdditionalData.caseId;
+                }
 
                 if(data.linkedCupo) {
                     scope.formData.cupoId = data.linkedCupo.id;
@@ -26,6 +41,28 @@
                     scope.clientId = data.clientId;
                     scope.clientName = data.clientName;
                     scope.formData.clientId = scope.clientId;
+                    resourceFactory.clientResource.get({clientId: scope.clientId}, function (clientData) {
+                        scope.clientData = clientData;
+                        scope.prequalificationOptions = clientData.clientPrequalifications;
+                        if(scope.loanaccountinfo.prequalificationData && scope.loanaccountinfo.prequalificationData.id){
+                            scope.formData.prequalificationId = scope.loanaccountinfo.prequalificationData.id;
+                            resourceFactory.prequalificationResource.get({groupId:  scope.formData.prequalificationId}, function (prequalificationData) {
+                                if (prequalificationData.prequalificationType) {
+                                    scope.prequalificationType = prequalificationData.prequalificationType.value;
+                                }
+                            });
+
+                            var matchingExists = false
+                            for(var i = 0; i < scope.prequalificationOptions.length; i++){
+                                if(scope.prequalificationOptions[i].id ==  scope.formData.prequalificationId){
+                                    matchingExists = true;
+                                }
+                            }
+                            if(!matchingExists){
+                                scope.prequalificationOptions.push(scope.loanaccountinfo.prequalificationData);
+                            }
+                        }
+                    });
                 }
 
                 if (data.group) {
@@ -68,10 +105,25 @@
                 scope.ratesEnabled= scope.loanaccountinfo.isRatesEnabled;
 
             });
+
             scope.prequalificationChange = function (prequalificationId){
                 resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
                     var loanProductId = data.productId;
-                    scope.totalApprovedAmount = data.totalApprovedAmount;
+                    if(data.prequalificationType){
+                        scope.prequalificationType = data.prequalificationType.value;
+                    }
+                    if(scope.clientId){
+                        var groupMembers = data.groupMembers;
+                        if(groupMembers.length > 0){
+                            for(var i = 0; i < groupMembers.length; i++){
+                                if(groupMembers[i].dpi == scope.clientData.dpiNumber){
+                                   scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
+                                }
+                            }
+                        }
+                    } else {
+                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                    }
                     scope.loanProductChange(loanProductId);
                 });
             }
@@ -221,6 +273,10 @@
                     scope.rateFlag=true;
                 }else{
                     scope.rateFlag=false;
+                }
+
+                if(scope.clientId && scope.formData.caseId){
+                    scope.searchText = scope.formData.caseId;
                 }
             };
 
@@ -412,10 +468,48 @@
                 if(this.formData.interestCalculationPeriodType == 0){
                     this.formData.allowPartialPeriodInterestCalcualtion = false;
                 }
+
+                if(this.formData.loanAdditionalData){
+                    this.formData.loanAdditionalData.caseId = this.formData.caseId;
+                    for (var propertyName in this.formData.loanAdditionalData) {
+                        if (this.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                            if(scope.isAdditionalDateProperty(propertyName)){
+                                var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                scope.formData.loanAdditionalData[propertyName] = dateFilter(propertyValue, scope.df);
+                            }
+                        }
+                    }
+                }
                 resourceFactory.loanResource.put({loanId: routeParams.id}, this.formData, function (data) {
                     location.path('/viewloanaccount/' + data.loanId);
                 });
             };
+
+            scope.isAdditionalDateProperty = function(propertyName){
+                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fechaFin"];
+                return dateFields.includes(propertyName);
+            }
+
+            scope.searchByCaseId = function () {
+                var caseId = this.searchText;
+                if(scope.clientId && caseId){
+                    delete scope.formData.loanAdditionalData;
+                    resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
+                        scope.formData.loanAdditionalData = data;
+                        scope.formData.caseId = caseId;
+                        if(scope.formData.loanAdditionalData){
+                            for (var propertyName in scope.formData.loanAdditionalData) {
+                                if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                                    if(scope.isAdditionalDateProperty(propertyName)){
+                                        var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                        scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
 
             scope.cancel = function () {
                 location.path('/viewloanaccount/' + routeParams.id);

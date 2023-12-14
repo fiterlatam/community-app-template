@@ -49,7 +49,7 @@
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
                     </div>
 
-                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'">
+                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'" has-permission="ASSIGN_PREQUALIFICATIONS">
                         <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> Assign to Myself</button>
                     </div>
                     <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
@@ -130,9 +130,17 @@
                     <th>{{'label.input.name' | translate}}</th>
                     <th>{{'label.input.amount.requested' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.action' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
                     <th>{{'label.heading.hard.policy.status' | translate}}</th>
-                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.action' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                        <div class="checkbox form-group">
+                           <span>{{'label.heading.approve' | translate}}</span> &nbsp;&nbsp;
+                            <label for="isAllMembersSelected">
+                                <input type="checkbox" id="isAllMembersSelected" name="isAllMembersSelected" ng-model="formData.isAllMembersSelected" data-ng-change="selectAllMembers()">
+                            </label>
+                        </div>
+                    </th>
                 </tr>
 
                 <tr ng-repeat="member in groupMembers">
@@ -144,13 +152,6 @@
                                placeholder="{{'label.input.amount.approved'|translate}}"
                                ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
                     </td>
-                    <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
-                                                                   class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
-                        {{member.bureauCheckStatus ? resolveBureaStatus(member.bureauCheckStatus.value) : '---'}}
-                    </td>
-                    <td>
-                        <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
-                           ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
                     <td ng-if="prequalificationType==='analysis'">
                         <div>
                             <div class="col-sm-6" ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)"><i
@@ -159,6 +160,20 @@
                                 <i class="fa btn-primary fa-save fa-2x"
                                    ng-disabled="groupMembers[$index].approvedAmount>member.requestedAmount"
                                    ng-click="updateApprovedAmount(groupMembers[$index])"></i></div>
+                        </div>
+                    </td>
+                    <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
+                                                                   class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
+                        {{member.bureauCheckStatus ? resolveBureaStatus(member.bureauCheckStatus.value) : '---'}}
+                    </td>
+                    <td>
+                        <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
+                           ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
+                    <td ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                        <div class="checkbox form-group">
+                            <label for="isSelected">
+                                <input type="checkbox" id="isSelected" name="isSelected" ng-model="member.isSelected">
+                            </label>
                         </div>
                     </td>
 
@@ -254,8 +269,11 @@
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
                     </button>
-                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                    <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL'" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                    <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL_WITH_EXCEPTIONS'" ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
                     </button>
                 </div>
 
@@ -325,6 +343,7 @@
     </script>
 
     <script type="text/ng-template" id="confirmationModal.html">
+        <api-validate></api-validate>
         <div class="modal-header silver">
             <h3 class="bolder">{{'label.heading.confirm' | translate}}</h3>
         </div>

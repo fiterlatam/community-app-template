@@ -13,13 +13,13 @@
         <legend>{{ 'label.heading.editloanapplication' | translate }}</legend>
 <table class="width100">
     <tr>
-        <td class="width14">
+        <td class="width14" ng-hide="isIndividualJlgLoanAccount">
             <label>{{ 'label.anchor.prequalifications' | translate }}<span class="required">*</span>:&nbsp;</label>
         </td>
         <td class="width36 paddedbottom10">
-            <select id="prequailificationId" ng-model="prequailificationId" class="form-control width170px"
-                    ng-options="prequalification.id as prequalification.groupName for prequalification in prequalificationOptions"
-                    value="{{prequalification.id}}" ng-change="prequalificationChange(prequailificationId)">
+            <select id="prequalificationId" ng-model="formData.prequalificationId" class="form-control width170px"
+                    ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in prequalificationOptions"
+                    value="{{prequalification.id}}" ng-change="prequalificationChange(formData.prequalificationId)">
                 <option style="display:none" value="">{{'label.input.select.prequalification' | translate}}</option>
             </select>
         </td>
@@ -29,7 +29,7 @@
         <td class="width36 paddedbottom10">
             <select id="productId" ng-model="formData.productId" class="form-control width170px"
                     ng-options="product.id as product.name for product in loanaccountinfo.productOptions"
-                    value="{{product.id}}" ng-change="loanProductChange(formData.productId)" disabled/>
+                    value="{{product.id}}" ng-change="loanProductChange(formData.productId)" ng-disabled="!isIndividualJlgLoanAccount"/>
             <option style="display:none" value="">{{'label.selectloanproduct' | translate}}</option>
             </select>
         </td>
@@ -166,7 +166,7 @@
                         class="required">*</span>:</label></td>
                 <td class="width31 paddedbottom10">
                     <input type="text" class="form-control" id="principal" name="principal" ng-model="formData.principal"
-                           number-format required late-Validate/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
+                           number-format required ng-disabled="true" late-Validate/>&nbsp;{{loanaccountinfo.currency.displaySymbol}}
                     <form-validate valattributeform="editloanaccountform" valattribute="principal"/>
                 </td>
                 <td class="width14"><label>{{ 'label.input.loanterm' | translate }}&nbsp;<span class="required">*</span>:</label>
@@ -678,6 +678,70 @@
         </tfoot>
     </table>
 </div>
+<hr/>
+
+<div ng-show="prequalificationType == 'INDIVIDUAL'">
+    <strong>{{ 'label.heading.additionals' | translate}}</strong>
+</div>
+
+<div ng-show="prequalificationType == 'INDIVIDUAL'">
+    <span><a ng-click="showAdditionalInfo=!showAdditionalInfo"><i class="fa fa-circle-arrow-left">{{'label.button.show.loan.additionals' | translate}}</i></a><br><br></span>
+    <div ng-show="showAdditionalInfo">
+        <fieldset>
+            <api-validate></api-validate>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="pull-left">
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <div class="input-group" style="width: 400px">
+                                        <input data-ng-model="searchText" type="text"
+                                               placeholder="{{'label.input.searchbycaseid' | translate}}"
+                                               class="form-control unstyled"/>
+                                        <span class="input-group-btn">
+                                                <button type="button" ng-click="searchByCaseId()"  class="btn btn-primary form-control" ng-disabled="!searchText">
+                                                    <span class="fa fa-search"></span>
+                                                </button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <table class="table-bordered table view-table table-striped">
+                <thead>
+                <tr class="graybg">
+                    <th>{{'label.heading.additional.property.name' | translate}}</th>
+                    <th>{{'label.heading.additional.property.value' | translate}}</th>
+                    <th>{{'label.heading.description' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(propertyName, propertyValue) in formData.loanAdditionalData">
+                    <td class="paddedbottom10">{{propertyName}}</td>
+                    <td class="paddedbottom10">
+                        <div ng-show="isAdditionalDateProperty(propertyName)">
+                            <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
+                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
+                        </div>
+                        <div ng-hide="isAdditionalDateProperty(propertyName)">
+                            <input id="{{propertyValue}}" class="form-control" type="text" name="propertyName"
+                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
+                        </div>
+                    </td>
+                    <td class="paddedbottom10">{{ 'label.description.additional.' + propertyName | translate}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
 <div class="col-md-offset-6">
     <button id="cancel" type="reset" class="btn btn-default" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
     <button id="save" type="submit" class="btn btn-primary" has-permission='UPDATE_LOAN' ng-show="loanaccountinfo">{{'label.button.save' |

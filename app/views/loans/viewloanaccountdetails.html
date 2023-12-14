@@ -921,6 +921,33 @@
                           <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}" type="{{fileType}}"></object>
                         </div>
                     </uib-tab>
+
+                    <uib-tab ng-show="prequalificationType === 'INDIVIDUAL'" heading="{{'label.heading.additionals' | translate}}">
+                        <table class="table-bordered table view-table table-striped">
+                            <thead>
+                                <tr class="graybg">
+                                    <th>{{'label.heading.additional.property.name' | translate}}</th>
+                                    <th>{{'label.heading.additional.property.value' | translate}}</th>
+                                    <th>{{'label.heading.description' | translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(propertyName, propertyValue) in loanAdditionalData">
+                                    <td class="paddedbottom10">{{propertyName}}</td>
+                                    <td class="paddedbottom10">
+                                        <div ng-show="isAdditionalDateProperty(propertyName)">
+                                            {{loanAdditionalData[propertyName] | DateFormat}}
+                                        </div>
+                                        <div ng-hide="isAdditionalDateProperty(propertyName)">
+                                            {{propertyValue}}
+                                        </div>
+                                    </td>
+                                    <td class="paddedbottom10">{{ 'label.description.additional.' + propertyName | translate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+
                     <uib-tab heading="{{ 'label.heading.notes' | translate }}" has-permission='READ_LOANNOTE'>
                         <br/>
 

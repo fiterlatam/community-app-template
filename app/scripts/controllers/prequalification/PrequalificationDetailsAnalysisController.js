@@ -13,6 +13,10 @@
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
+                scope.formData.isAllMembersSelected = true;
+                for (var i = 0; i < scope.groupMembers.length; i++ ){
+                    scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
+                }
             });
 
             resourceFactory.entityDocumentsResource.getAllDocuments({
@@ -153,9 +157,18 @@
             var ConfirmationModalCtrl = function ($scope, $uibModalInstance) {
                 $scope.confirmationMessage = scope.confirmationMessage;
                 $scope.confirm = function () {
+                    var members = [];
+                    var atLeastOneMemberSelected = false;
+                    for (var i = 0; i < scope.groupMembers.length; i++ ){
+                        var isSelected = scope.groupMembers[i].isSelected;
+                        if(isSelected){
+                           atLeastOneMemberSelected = true;
+                        }
+                        members.push({id: scope.groupMembers[i].id, isSelected: isSelected});
+                    }
                     resourceFactory.prequalificationChecklistResource.processAnalysis(
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
-                        {action: scope.analysisStatus,comments:scope.formData.comments},
+                        {action: scope.analysisStatus,comments:scope.formData.comments, members: members},
                         function (data) {
                             scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
@@ -238,6 +251,12 @@
                     templateUrl: 'confirmationModal.html',
                     controller: ConfirmationModalCtrl
                 });
+            }
+
+           scope.selectAllMembers = function(){
+                for (var i = 0; i < scope.groupMembers.length; i++ ){
+                     scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
+                }
             }
         }
     });
