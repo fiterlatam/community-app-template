@@ -440,7 +440,8 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'FormatNumber',
             'TranslateDataTableColumn',
             'SearchFilter',
-            'AddUpTotalFor'
+            'AddUpTotalFor',
+            'FormatByLocale'
         ],
         directives: [
             'DialogDirective',
