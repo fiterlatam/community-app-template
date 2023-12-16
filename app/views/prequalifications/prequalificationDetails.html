@@ -54,8 +54,8 @@
                     <div class="alert alert-info h4">
                         <span>{{'label.input.status' | translate}}: <span
                                 class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
-                                uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
-                            {{groupData.status.value}} </span>
+                                uib-tooltip-placement="right" uib-tooltip="{{groupData.status.code|translate}}">
+                            {{groupData.status.code|translate}} </span>
                         </span>
                     </div>
 
