@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
+        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate, API_VERSION, Upload, $rootScope) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
             scope.groupId = routeParams.groupId;
@@ -29,6 +29,8 @@
             scope.collateralsData = {};
             scope.addedCollateral = {};
             scope.currentLoanData = {};
+            scope.currentLoanDocs = {}
+            scope.loanDocuments = [];
             scope.product;
             scope.formData.totalExternalLoanAmount =0;
             scope.formData.totalInstallments =0
@@ -271,6 +273,25 @@
                 scope.formData.externalLoans = scope.currentLoans;
                 scope.calculateTotals();
             }
+
+            scope.addLoanDocuments = function () {
+                scope.loanDocuments.push(scope.currentLoanDocs);
+                scope.currentLoanDocs = {}
+            }
+
+            scope.onFileSelect = function (files) {
+                scope.currentLoanDocs.file = files[0];
+            };
+
+            scope.removeDoc = function (files) {
+                scope.currentLoanDocs.file = files[0];
+
+                if (scope.loanDocuments.length<=1){
+                    scope.loanDocuments = []
+                }else{
+                    scope.loanDocuments = scope.loanDocuments.splice(Number(index)-1, 1)
+                }
+            };
 
             scope.calculateTotals = function (){
                 scope.formData.totalExternalLoanAmount = 0;
@@ -695,9 +716,26 @@
                     delete scope.formData.datatables;
                 }
                 resourceFactory.loanResource.save(this.formData, function (data) {
-                    location.path('/viewloanaccount/' + data.loanId);
+                    if(data.loanId){
+                        scope.uploadDocuments(data.loanId)
+                    }
                 });
             };
+
+            scope.uploadDocuments = function (loanId){
+                for (let i=0; i<scope.loanDocuments.length; i++){
+                    let loanDocument = scope.loanDocuments[i];
+                    Upload.upload({
+                        url: $rootScope.hostUrl + API_VERSION + '/loans/' + loanId + '/documents',
+                        data: { name : loanDocument.name, description : loanDocument.description, file: loanDocument.file},
+                    }).then(function (data) {
+                        if (!scope.$$phase) {
+                            scope.$apply();
+                        }
+                    });
+                }
+                location.path('/viewloanaccount/' + loanId);
+            }
 
            scope.searchByCaseId = function () {
                var caseId = this.searchText;
@@ -813,7 +851,7 @@
             }
         }
     });
-    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
+    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',  'API_VERSION',  'Upload',  '$rootScope', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
         $log.info("NewLoanAccAppController initialized");
     });
 }(mifosX.controllers || {}));

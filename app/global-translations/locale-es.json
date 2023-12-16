@@ -1342,6 +1342,7 @@
 	"label.heading.addloancharge": "Añadir cobro de préstamo",
 	"label.heading.addloancollateral": "Añadir garantía del préstamo",
 	"label.heading.uploaddocument": "Cargar documento",
+	"label.heading.uploaddocuments": "Cargar documentos",
 	"label.heading.assignloanofficer": "Asignar agente de préstamo",
 	"label.heading.guarantor": "Garante",
 	"label.heading.createguarantor": "Crear Garante",
