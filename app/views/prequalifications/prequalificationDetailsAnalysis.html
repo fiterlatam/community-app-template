@@ -164,7 +164,7 @@
                     </td>
                     <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
                                                                    class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
-                        {{member.bureauCheckStatus ? resolveBureaStatus(member.bureauCheckStatus.value) : '---'}}
+                        {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
                     </td>
                     <td>
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
