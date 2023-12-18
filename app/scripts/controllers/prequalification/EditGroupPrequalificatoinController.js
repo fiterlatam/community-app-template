@@ -20,6 +20,7 @@
             scope.membersList = [];
             scope.tf = "HH:mm";
             scope.groupingType=routeParams.groupingType;
+            scope.presidentSelected =false;
 
             if (routeParams.groupingType === 'group'){
                 scope.previousPageUrl = "#/prequalificationGroups/group/new";
@@ -43,6 +44,9 @@
                         if (member.dob) {
                             var dobDate = dateFilter(member.dob, scope.df);
                             member.dob = new Date(dobDate);
+                        }
+                        if(member.groupPresident){
+                            scope.presidentSelected = true;
                         }
                     });
                 }
@@ -103,14 +107,16 @@
                 scope.formData.members.splice(index,1);
            };
 
-            scope.updatePresident = function (index) {
+          scope.updatePresident = function (index) {
                 let members = scope.formData.members;
+                scope.presidentSelected = false;
                 for (var i = 0; i < members.length; i++ ){
-                    if (i !== Number(index)){
-                        console.log("disabling president")
-                        scope.formData.members[i].groupPresident = false;
-                    }else{
+                    const isGroupPresident = scope.formData.members[i].groupPresident;
+                    if (i === Number(index) && isGroupPresident){
                         scope.formData.members[i].groupPresident = true;
+                        scope.presidentSelected = true;
+                    }else{
+                        scope.formData.members[i].groupPresident = false;
                     }
                 }
             };
@@ -217,7 +223,7 @@
                         name : member.name,
                         dpi : member.dpi,
                         dob : member.dob ? dateFilter(member.dob,  scope.df) : member.dob,
-                        amount : member.requestedAmount,
+                        requestedAmount : member.requestedAmount,
                         puente : member.workWithPuente,
                         groupPresident : member.groupPresident,
                         id : member.id
