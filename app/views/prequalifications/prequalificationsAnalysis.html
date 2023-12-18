@@ -35,7 +35,7 @@
                                 <div class="col-sm-6">
                                 <select id="statusfilter" ng-change="getResultsPage(1)"
                                         ng-model="formData.status" class="form-control"
-                                        ng-options="gpStatus.code as gpStatus.code|translate for gpStatus in groupStatusOptions "
+                                        ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
                                         value="{{gpStatus.id}}">
                                     <option value="">{{'label.all' | translate}}</option>
                                 </select>
