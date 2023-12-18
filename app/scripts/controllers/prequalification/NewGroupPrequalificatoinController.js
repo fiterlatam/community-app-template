@@ -15,7 +15,7 @@
             scope.errorMessage;
             scope.presidentSelected =false;
             scope.membersForm = {
-               workWithPuente: "YES"
+                puente: "YES"
             };
             scope.memberDetailsForm;
             scope.groupData;
@@ -89,13 +89,13 @@
            scope.updatePresident = function (index) {
                let members = scope.formData.members;
                scope.presidentSelected = false;
-
                for (var i = 0; i < members.length; i++ ){
-                   if (i !== Number(index)){
-                       scope.formData.members[i].groupPresident = false;
-                   }else{
+                   const isGroupPresident = scope.formData.members[i].groupPresident;
+                   if (i === Number(index) && isGroupPresident){
                        scope.formData.members[i].groupPresident = true;
                        scope.presidentSelected = true;
+                   }else{
+                       scope.formData.members[i].groupPresident = false;
                    }
                }
            };
@@ -165,11 +165,9 @@
                     this.formData.individual = true;
                 }
                 scope.errorMessage = undefined;
-
-                // this.formData.members.forEach(function(member){
-                //     member.locale = scope.optlang.code;
-                //     member.dateFormat = scope.df;
-                // })
+                this.formData.members.forEach(function(member){
+                    member.dob = dateFilter(new Date(member.dob), scope.df);
+                })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });

@@ -147,8 +147,8 @@
                         var groupMembers = data.groupMembers;
                         if(groupMembers.length > 0){
                             for(var i = 0; i < groupMembers.length; i++){
-                                if(groupMembers[i].dpi == scope.clientData.dpiNumber){
-                                   scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
+                                if(groupMembers[i].dpi === scope.clientData.dpiNumber){
+                                   scope.totalApprovedAmount = groupMembers[i].requestedAmount;
                                 }
                             }
                         }

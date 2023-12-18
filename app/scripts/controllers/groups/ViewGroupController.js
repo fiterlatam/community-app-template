@@ -31,6 +31,7 @@
             };
             resourceFactory.groupResource.get({groupId: routeParams.id, associations: 'all'}, function (data) {
                 scope.group = data;
+                scope.showNonPrequalificationActionBtn = false;
                 if(scope.group.clientMembers){
                     scope.isGroupMembersAvailable = (scope.group.clientMembers.length>0);
                 }
