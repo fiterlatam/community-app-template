@@ -127,7 +127,7 @@
                     <td>
                         <input type="text" class="form-control" name="amount" ng-model="formData.members[$index].requestedAmount" id="amount_{{$index}}" required>
                     </td>
-                    <td>{{member.workWithPuente}}
+                    <td>
                         <select id="puente_{{$index}}" ng-model="formData.members[$index].workWithPuente"
                                 ng-options="item.value as item.name for item in yesNo" value="{{item.value}}"
                                 class="form-control" required>
