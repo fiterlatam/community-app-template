@@ -729,7 +729,7 @@
                     let loanDocument = scope.loanDocuments[i];
                     Upload.upload({
                         url: $rootScope.hostUrl + API_VERSION + '/loans/' + loanId + '/documents',
-                        data: { name : loanDocument.name, description : loanDocument.description, file: loanDocument.file},
+                        data: { name : loanDocument.name, description : loanDocument.description, documentType : loanDocument.documentType, file: loanDocument.file},
                     }).then(function (data) {
                         if (!scope.$$phase) {
                             scope.$apply();
