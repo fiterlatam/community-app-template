@@ -1114,6 +1114,23 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="control-label col-sm-2" for="name">{{'label.input.d' | translate}}<span
+                                        class="required">*</span></label>
+
+                                <div class="col-sm-3">
+                                    <select id="doctype" ng-model="currentLoanDocs.documentType"
+                                            ng-options="documenttype.id as documenttype.name for documenttype in documentTypeOptions"
+                                            value="{{documenttype.id}}" required="required"
+                                            class="form-control">
+                                        <option style="display:none" value="">{{'label.menu.selectone' | translate}}
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <form-validate valattributeform="loandocumentform" valattribute="name"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="control-label col-sm-2"
                                        for="description">{{'label.input.description' | translate}}</label>
 
@@ -1134,7 +1151,7 @@
                             </div>
 
                             <div class="col-md-offset-3">
-                                <button ng-disabled="!currentLoanDocs.name || !currentLoanDocs.file"
+                                <button ng-disabled="!currentLoanDocs.name || !currentLoanDocs.file|| !currentLoanDocs.documentType"
                                         ng-click="addLoanDocuments()"
                                         class="btn btn-primary"><i
                                         class="fa fa-plus-circle"></i> {{'label.button.add' | translate}}
@@ -1232,20 +1249,6 @@
                                         <form-validate valattributeform="Additionals" valattribute="dateRequested"/>
                                     </td>
                                     <td class="width14">
-                                        <label class="ml-2">{{ 'label.input.facilitator' | translate }}&nbsp;
-                                            <span class="required">*</span>:</label>
-                                    </td>
-                                    <td class="width19 paddedbottom20">
-                                        <select id="facilitator" ng-model="formData.facilitator"
-                                                ng-options="loanOfficer.id as loanOfficer.displayName for loanOfficer in loanaccountinfo.loanOfficerOptions | orderBy:'displayName':reverse"
-                                                class="form-control width170px" value="{{loanOfficer.id}}">
-                                            <option value="">{{'label.selectone' | translate}}</option>
-                                        </select>
-                                        <form-validate valattributeform="Additionals" valattribute="facilitator"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="width14">
                                         <label>{{ 'label.input.groupPosition' | translate }}&nbsp;
                                             <span class="required">*</span>:</label>
                                     </td>
@@ -1256,6 +1259,23 @@
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="position"/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td class="width14">
+                                        <label class="ml-2">{{ 'label.input.facilitator' | translate }}&nbsp;
+                                            <span class="required">*</span>:</label>
+                                    </td>
+                                    <td class="width19 paddedbottom20" colspan="2">
+                                        <select id="facilitator" ng-model="formData.facilitator"
+                                                ng-options="responsibleUser.id as  responsibleUser.firstname + ' ' +
+                                                responsibleUser.lastname + ' (' + responsibleUser.username + ')'
+                                                 for responsibleUser in facilitatorOptions | orderBy:'username':reverse"
+                                                class="form-control width170px" value="{{responsibleUser.id}}">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                        <form-validate valattributeform="Additionals" valattribute="facilitator"/>
                                     </td>
                                 </tr>
                             </table>

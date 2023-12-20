@@ -263,6 +263,8 @@
                     scope.groupPositionOptions = data.groupPositionOptions || [];
                     scope.sourceOfFundsOptions = data.sourceOfFundsOptions || [];
                     scope.cancellationReasonOptions = data.cancellationReasonOptions || [];
+                    scope.facilitatorOptions = data.facilitatorOptions || [];
+                    scope.documentTypeOptions = data.documentTypeOptions || [];
                 });
             }
 
