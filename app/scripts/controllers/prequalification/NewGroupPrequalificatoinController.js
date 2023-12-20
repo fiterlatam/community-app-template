@@ -165,9 +165,15 @@
                     this.formData.individual = true;
                 }
                 scope.errorMessage = undefined;
-                this.formData.members.forEach(function(member){
-                    member.dob = dateFilter(new Date(member.dob), scope.df);
-                })
+
+                if(scope.formData.members){
+                    for (var i = 0; i < scope.formData.members.length; i++) {
+                        console.log(scope.formData.members[i]);
+                        if(scope.formData.members[i].dob) {
+                            scope.formData.members[i].dob = dateFilter(new Date(scope.formData.members[i].dob), scope.df);
+                        }
+                    }
+                }
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
