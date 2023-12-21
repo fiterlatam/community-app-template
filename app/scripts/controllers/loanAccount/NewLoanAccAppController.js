@@ -140,6 +140,7 @@
             scope.prequalificationChange = function (prequalificationId){
                 resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
                     var loanProductId = data.productId;
+                    scope.groupId = data.linkedGroupId
                     if(data.prequalificationType){
                         scope.prequalificationType = data.prequalificationType.value;
                     }
@@ -193,6 +194,7 @@
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
                 scope.inparams.productId = loanProductId;
+                scope.inparams.groupId = scope.groupId;
                 resourceFactory.clientcollateralTemplateResource.getAllCollaterals({
                     clientId: routeParams.clientId,
                     prodId: loanProductId
@@ -210,12 +212,16 @@
 
                     if (data.product.ownerTypeOption.value ==='Group'){
                         scope.fetchAdditinalDataTemplate();
+                        if (data.group){
+                            scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                            scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                        }
                     }
 
-                    if(data.group){
-                      scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
-                      scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
-                    }
+                    // if(data.group && scope.product.ownerTypeOption.value ==='Group'){
+                    //
+                    //
+                    // }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;

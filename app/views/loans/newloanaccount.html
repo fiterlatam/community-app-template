@@ -30,7 +30,7 @@
                             <td class="width36 paddedbottom20">
                                 <select id="prequalificationId" ng-model="formData.prequalificationId"
                                         ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in prequalificationOptions"
-                                        value="{{prequalification.id}}"
+                                        value="{{prequalification}}"
                                         ng-change="prequalificationChange(formData.prequalificationId)"
                                         class="form-control width170px">
                                     <option style="display:none" value="">
@@ -338,7 +338,7 @@
                             <td class="paddedbottom20"
                                 ng-hide="response.uiDisplayConfigurations.loanAccount.isHiddenField.repaymentsStartingFromDate == true">
                                 <input id="repaymentsStartingFromDate" type="text" datepicker-pop="dd MMMM yyyy"
-                                       ng-model="date.fourth" is-open="opened3"
+                                       ng-model="date.fourth" is-open="opened3" ng-disabled="disableDaySelect"
                                        min="minDate" class="form-control"/>
                             </td>
                             <td ng-hide="response.uiDisplayConfigurations.loanAccount.isHiddenField.interestChargedFromDate == true">
