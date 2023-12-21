@@ -120,8 +120,8 @@
                                id="dpi_{{$index}}" required>
                     </td>
                     <td>
-                        <input id="dob_{{$index}}" type="text" name="dob" datepicker-pop="dd MMMM yyyy"
-                               ng-model="formData.members[$index].dob" is-open="opened1" min="minDate" max="restrictDate"
+                        <input id="dateOfBirth_{{$index}}" type="text" name="dateOfBirth" datepicker-pop="dd MMMM yyyy"
+                               ng-model="formData.members[$index].dateOfBirth" is-open="opened1" min="minDate" max="restrictDate"
                                class="form-control" required/>
                     </td>
                     <td>
@@ -185,10 +185,10 @@
                     <form-validate valattributeform="memberDetailsForm" valattribute="dpi"/>
                 </td>
                 <td>
-                    <input id="dob" type="text" name="dob" datepicker-pop="dd MMMM yyyy"
-                           ng-model="membersForm.dob" is-open="opened1" min="minDate" max="restrictDate"
+                    <input id="dateOfBirth" type="text" name="dateOfBirth" datepicker-pop="dd MMMM yyyy"
+                           ng-model="membersForm.dateOfBirth" is-open="opened1" min="minDate" max="restrictDate"
                            class="form-control" required/>
-                    <form-validate valattributeform="memberDetailsForm" valattribute="dob"/>
+                    <form-validate valattributeform="memberDetailsForm" valattribute="dateOfBirth"/>
                 </td>
 
                 <td>
