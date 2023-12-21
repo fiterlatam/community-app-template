@@ -10,6 +10,7 @@
             scope.hideAccrualTransactions = false;
             scope.isHideAccrualsCheckboxChecked = true;
             scope.loandetails = [];
+            scope.showNonPrequalificationActionBtn = false;
 
             scope.routeTo = function (loanId, transactionId, transactionTypeId) {
                 if (transactionTypeId == 2 || transactionTypeId == 4 || transactionTypeId == 1) {
@@ -199,28 +200,34 @@
                     scope.choice = true;
                 }
                 if (data.status.value == "Submitted and pending approval") {
-                    scope.buttons = { singlebuttons: [
+                    var singlebuttons = [
                         {
                             name: "button.addloancharge",
                             icon: "fa fa-plus",
                             taskPermissionName: 'CREATE_LOANCHARGE'
                         },
                         {
-                            name: "button.approve",
-                            icon: "fa fa-check",
-                            taskPermissionName: 'APPROVE_LOAN'
-                        },
-                        {
                             name: "button.modifyapplication",
                             icon: "fa fa-pincel-square-o",
                             taskPermissionName: 'UPDATE_LOAN'
-                        },
-                        {
+                        }
+                    ];
+
+                    if(scope.showNonPrequalificationActionBtn){
+                        singlebuttons.push(
+                            {
+                                name: "button.approve",
+                                icon: "fa fa-check",
+                                taskPermissionName: 'APPROVE_LOAN'
+                            },
+                            {
                             name: "button.reject",
                             icon: "fa fa-times",
                             taskPermissionName: 'REJECT_LOAN'
-                        }
-                    ],
+                        });
+                    }
+
+                    scope.buttons = { singlebuttons: singlebuttons,
                         options: [
                             {
                                 name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
@@ -266,28 +273,34 @@
                 }
 
                 if (data.status.value == "Approved" || data.status.value == "Pending Disbursement Authorization") {
-                    scope.buttons = { singlebuttons: [
+                    var singlebuttonsApproved = [
                         {
-                            name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
-                            icon: "fa fa-user",
-                            taskPermissionName: 'UPDATELOANOFFICER_LOAN'
-                        },
-                        {
-                            name: "button.disburse",
-                            icon: "fa fa-flag",
-                            taskPermissionName: 'DISBURSE_LOAN'
-                        },
-                        {
-                            name: "button.disbursetosavings",
-                            icon: "fa fa-flag",
-                            taskPermissionName: 'DISBURSETOSAVINGS_LOAN'
-                        },
-                        {
-                            name: "button.undoapproval",
-                            icon: "fa fa-undo",
-                            taskPermissionName: 'APPROVALUNDO_LOAN'
+                        name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
+                        icon: "fa fa-user",
+                        taskPermissionName: 'UPDATELOANOFFICER_LOAN'
                         }
-                    ],
+                    ];
+
+                    if(scope.showNonPrequalificationActionBtn){
+                        singlebuttonsApproved.push({
+                                name: "button.disburse",
+                                icon: "fa fa-flag",
+                                taskPermissionName: 'DISBURSE_LOAN'
+                            },
+                            {
+                                name: "button.disbursetosavings",
+                                icon: "fa fa-flag",
+                                taskPermissionName: 'DISBURSETOSAVINGS_LOAN'
+                            },
+                            {
+                                name: "button.undoapproval",
+                                icon: "fa fa-undo",
+                                taskPermissionName: 'APPROVALUNDO_LOAN'
+                            });
+                    }
+
+
+                    scope.buttons = { singlebuttons: singlebuttonsApproved,
                         options: [
                             {
                                 name: "button.addloancharge",
