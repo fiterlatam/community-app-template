@@ -67,8 +67,6 @@
                              return;
                         }
                     }
-                    var reqDate = dateFilter(scope.membersForm.dob, scope.df);
-                    scope.membersForm.dob = reqDate;
                     scope.membersForm['locale'] = scope.optlang.code;
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
@@ -142,7 +140,7 @@
                         memberData.name = scope.membersList[i].displayName ;
                         memberData.dpi = scope.membersList[i].dpiNumber ;
                         if(scope.membersList[i].dateOfBirth){
-                            memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
+                            memberData.dateOfBirth = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
                         }
                         memberData.amount = scope.membersList[i].requestedAmount ;
                         memberData.locale = scope.optlang.code;
@@ -165,16 +163,20 @@
                     this.formData.individual = true;
                 }
                 scope.errorMessage = undefined;
-
-                if(scope.formData.members){
-                    for (var i = 0; i < scope.formData.members.length; i++) {
-                        console.log(scope.formData.members[i]);
-                        if(scope.formData.members[i].dob) {
-                            scope.formData.members[i].dob = dateFilter(new Date(scope.formData.members[i].dob), scope.df);
+                var groupMembers = scope.formData.members;
+                if(groupMembers){
+                    for (var i = 0; i < groupMembers.length; i++) {
+                        if(groupMembers[i].dateOfBirth) {
+                            groupMembers[i].dateFormat = scope.df;
+                            groupMembers[i].locale = scope.optlang.code;
+                            groupMembers[i].dob = dateFilter(new Date(groupMembers[i].dateOfBirth), scope.df);
+                            delete groupMembers[i].dateOfBirth;
                         }
                     }
                 }
-                resourceFactory.prequalificationResource.save(this.formData, function (data) {
+                var request =  {...this.formData};
+                request.members = groupMembers;
+                resourceFactory.prequalificationResource.save(request, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
