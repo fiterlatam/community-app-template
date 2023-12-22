@@ -155,7 +155,7 @@
             }
 
             scope.requestPrequalification = function () {
-                console.log("submitting form data")
+                console.log("submitting form data");
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;

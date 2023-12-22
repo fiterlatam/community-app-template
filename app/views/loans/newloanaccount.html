@@ -1073,7 +1073,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-disabled="{{disabled}}">
+        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-disabled="{{prequalificationType !== 'GROUP'}}"">
             <form name="LoanDocuments" class="form-horizontal" ng-submit="goNext(LoanDocuments)">
                 <fieldset>
                     <h3>{{'label.heading.uploaddocuments' | translate}}</h3>
@@ -1114,13 +1114,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="name">{{'label.input.d' | translate}}<span
+                                <label class="control-label col-sm-2" for="name">{{'label.input.document.type' | translate}}<span
                                         class="required">*</span></label>
 
                                 <div class="col-sm-3">
                                     <select id="doctype" ng-model="currentLoanDocs.documentType"
                                             ng-options="documenttype.id as documenttype.name for documenttype in documentTypeOptions"
-                                            value="{{documenttype.id}}" required="required"
+                                            value="{{documenttype.id}}"
                                             class="form-control">
                                         <option style="display:none" value="">{{'label.menu.selectone' | translate}}
                                     </select>
