@@ -168,6 +168,7 @@
                 scope.chargeAction = data.status.value == "Submitted and pending approval" ? true : false;
                 scope.decimals = data.currency.decimalPlaces;
                 scope.loandetails = data;
+                scope.groupLoanAdditionalData = data.groupLoanAdditionalData;
                 if(scope.loandetails.loanAdditionalData){
                     scope.loanAdditionalData = scope.loandetails.loanAdditionalData;
                     scope.caseId = scope.loandetails.loanAdditionalData.caseId;

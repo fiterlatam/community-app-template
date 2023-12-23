@@ -1079,7 +1079,7 @@
                     <h3>{{'label.heading.uploaddocuments' | translate}}</h3>
                     <hr>
                     <api-validate></api-validate>
-                    <form name="currentLoans" class="form-horizontal">
+                    <form name="loandocs" class="form-horizontal">
                         <fieldset>
 
                             <table class="table table-striped" ng-if="loanDocuments && loanDocuments.length>0">
@@ -1120,7 +1120,7 @@
                                 <div class="col-sm-3">
                                     <select id="doctype" ng-model="currentLoanDocs.documentType"
                                             ng-options="documenttype.id as documenttype.name for documenttype in documentTypeOptions"
-                                            value="{{documenttype.id}}" required="required"
+                                            value="{{documenttype.id}}"
                                             class="form-control">
                                         <option style="display:none" value="">{{'label.menu.selectone' | translate}}
                                     </select>
@@ -1310,7 +1310,7 @@
                                     </td>
                                     <td class="width14">
                                         <label class="ml-2">{{ 'label.input.maidenname' | translate }}&nbsp;
-                                            <span class="required">*</span>:</label>
+                                            :</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
                                         <input type="text" class="form-control" id="maidenName" name="maidenName"

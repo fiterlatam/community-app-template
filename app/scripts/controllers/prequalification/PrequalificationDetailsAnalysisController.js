@@ -13,6 +13,9 @@
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
+
+                console.log("group data", JSON.stringify(scope.groupData));
+                console.log("current session data", JSON.stringify(scope.currentSession));
                 scope.formData.isAllMembersSelected = true;
                 for (var i = 0; i < scope.groupMembers.length; i++ ){
                     scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
