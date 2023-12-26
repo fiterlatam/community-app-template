@@ -3011,6 +3011,7 @@
   "label.input.prefixField": "Prefix Field",
   "label.input.prefixcharacter": "Prefix Character",
   "label.input.searchsurveys": "Search Surveys",
+  "label.input.groupPosition": "Position In Group",
   "#Localize system defined codes": "...",
   "Customer Identifier": "Customer identifier",
   "LoanCollateral": "Loan collateral",

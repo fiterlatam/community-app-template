@@ -1583,6 +1583,7 @@
 	"label.input.applicationdate": "Fecha de Inscripción",
 	"label.input.isTopup": "Es préstamo nivelado",
 	"label.input.loanIdToClose": "Escoge préstamo para cerrar",
+	"label.input.groupPosition": "Posición en el grupo",
 	"label.button.addloancharge": "Añadir cobro de préstamo",
 	"label.button.addcollateral": "Añadir garantía",
 	"label.button.guarantor": "Garante",
