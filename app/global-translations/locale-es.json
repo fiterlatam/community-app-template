@@ -4918,7 +4918,12 @@
 	"label.description.additional.whatsapp": "Whatsapp",
 	"label.description.additional.zona_negocio": "Zona negocio",
 	"label.description.additional.zona_vivienda": "Zona vivienda",
+	"label.description.additional.detalle_fiadores": "Detalle fiadores",
+	"label.description.additional.recuperacion_cuentas": "Recuperacion cuentas",
+	"label.description.additional.dpi_solicitante": "DPI solicitante",
+	"label.description.additional.servicios": "Servicios",
 	"label.input.document.type": "Tipo de Documento",
+	"label.heading.prequalification.name": "Nombre de precalificación",
 
 	"----End---": "---Fin del archivo---"
 }

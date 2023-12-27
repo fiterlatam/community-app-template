@@ -5294,5 +5294,12 @@
   "label.description.additional.zona_negocio": "Business area",
   "label.description.additional.zona_vivienda": "Housing area",
   "label.input.document.type": "Document Type",
+  "label.description.additional.detalle_fiadores": "Detail of fasteners",
+  "label.description.additional.recuperacion_cuentas": "Account recovery",
+  "label.description.additional.dpi_solicitante": "Applicant DPI",
+  "label.description.additional.entorno_del_negocio": "Business environment",
+  "label.description.additional.aniosComunidad": "Years community",
+  "label.description.additional.servicios": "Services",
+
   "----End---": "--End of file--- "
 }
