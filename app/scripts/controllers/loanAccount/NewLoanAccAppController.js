@@ -134,6 +134,11 @@
               resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
                  scope.prequalificationOptions = data.clientPrequalifications;
                  scope.clientData = data;
+                 scope.formData.fullName = data.displayName;
+                 scope.formData.phoneNumber = data.mobileNo;
+                 scope.formData.dpi = data.dpiNumber;
+                 scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
+                  console.log("\n\n client data: "+ JSON.stringify(data));
               });
             }
 
@@ -548,6 +553,8 @@
                 var reqSecondDate = dateFilter(scope.date.second, scope.df);
                 var reqThirdDate = dateFilter(scope.date.third, scope.df);
                 var reqFourthDate = dateFilter(scope.date.fourth, scope.df);
+                var reqFifthDate = dateFilter(scope.date.fifth, scope.df);
+                var reqSixthDate = dateFilter(scope.date.sixth, scope.df);
                 if (scope.charges.length > 0) {
                     scope.formData.charges = [];
                     for (var i in scope.charges) {
@@ -585,6 +592,12 @@
 
                 this.formData.interestChargedFromDate = reqThirdDate;
                 this.formData.repaymentsStartingFromDate = reqFourthDate;
+                if (reqFifthDate){
+                    this.formData.dateRequested = reqFifthDate;
+                }
+                if (reqSixthDate){
+                    this.formData.dateOfBirth = reqSixthDate;
+                }
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.loanType = scope.inparams.templateType;
