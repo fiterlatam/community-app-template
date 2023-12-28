@@ -134,6 +134,11 @@
               resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
                  scope.prequalificationOptions = data.clientPrequalifications;
                  scope.clientData = data;
+                 scope.formData.fullName = data.displayName;
+                 scope.formData.phoneNumber = data.mobileNo;
+                 scope.formData.dpi = data.dpiNumber;
+                 scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
+                  console.log("\n\n client data: "+ JSON.stringify(data));
               });
             }
 
