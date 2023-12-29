@@ -22,15 +22,15 @@
             }, function (data) {
                 scope.loanaccountinfo = data;
                 if (data.groupLoanAdditionalData) {
-                    scope.formData.dateRequested=data.groupLoanAdditionalData.dateRequested|| new Date();
+                    scope.formData.dateRequested=new Date(data.groupLoanAdditionalData.dateRequested) || new Date();
+                    scope.formData.dateOfBirth=new Date(data.groupLoanAdditionalData.dateOfBirth) || new Date();
                     scope.formData.loanCycleCompleted=data.groupLoanAdditionalData.loanCycleCompleted;
                     scope.formData.earlyCancellationReason=data.groupLoanAdditionalData.earlyCancellationReason;
                     scope.formData.sourceOfFunds=data.groupLoanAdditionalData.sourceOfFunds;
                     scope.formData.clientLoanRequestNumber=data.groupLoanAdditionalData.clientLoanRequestNumber;
                     scope.formData.position=data.groupLoanAdditionalData.position;
-                    scope.formData.facilitator=data.groupLoanAdditionalData.facilitator;
+                    scope.formData.facilitator=data.groupLoanAdditionalData.facilitatorId;
                     scope.formData.fullName=data.groupLoanAdditionalData.fullName;
-                    scope.formData.dateOfBirth=data.groupLoanAdditionalData.dateOfBirth;
                     scope.formData.maidenName=data.groupLoanAdditionalData.maidenName;
                     scope.formData.maritalStatus=data.groupLoanAdditionalData.maritalStatus;
                     scope.formData.educationLevel=data.groupLoanAdditionalData.educationLevel;
@@ -42,10 +42,12 @@
                     scope.formData.nit=data.groupLoanAdditionalData.nit;
                     scope.formData.jobType=data.groupLoanAdditionalData.jobType;
                     scope.formData.occupancyClassification=data.groupLoanAdditionalData.occupancyClassification;
-                    scope.formData.actsOwnBehalf=data.groupLoanAdditionalData.actsOwnBehalf;
-                    scope.formData.onBehalfOf=data.groupLoanAdditionalData.onBehalfOf;
-                    scope.formData.politicallyExposed=data.groupLoanAdditionalData.politicallyExposed;
-                    scope.formData.politicalPosition=data.groupLoanAdditionalData.politicalPosition;
+                    let onBehalfOf = data.groupLoanAdditionalData.onBehalfOf;
+                    scope.formData.onBehalfOf= onBehalfOf;
+                    scope.formData.actsOwnBehalf=onBehalfOf.length>0?'NO':'YES';
+                    let politicalPosition = data.groupLoanAdditionalData.politicalPosition;
+                    scope.formData.politicalPosition=politicalPosition;
+                    scope.formData.politicallyExposed=politicalPosition.length>0?'YES':'NO';
                     scope.formData.politicalOffice=data.groupLoanAdditionalData.politicalOffice;
                     scope.formData.housingType=data.groupLoanAdditionalData.housingType;
                     scope.formData.rentMortgageFee=data.groupLoanAdditionalData.rentMortgageFee;
@@ -678,7 +680,6 @@
                     resourceType: 'template',
                     templateType: 'groupAdditionals'
                 }, function (data) {
-                    console.log("\n\ngroup additional data: \n\n" + JSON.stringify(data))
                     scope.loanCycleCompletedOptions = data.loanCycleCompletedOptions || [];
                     scope.loanPurposeOptions = data.loanPurposeOptions || [];
                     scope.businessEvolutionOptions = data.businessEvolutionOptions || [];
