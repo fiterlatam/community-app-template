@@ -2,18 +2,17 @@
     mifosX.filters = _.extend(module, {
         FormatByLocale: function ($filter, $locale) {
             return function (input) {
-                if (isNaN(input)) {
-                    return input;
-                } else {
-                    //TODO- Add number formatting also
-                    if (input != "" && input != undefined) {
-                        if ($locale.id == 'es') {
-                            return input.toLocaleString('en');
+                let formattedResult = input;
+                if (!isNaN(input)) {
+                    if (input !== "" && input !== undefined) {
+                        if ($locale.id === 'es') {
+                            formattedResult = input.toLocaleString('en');
                         } else {
-                            return input.toLocaleString($locale.id);
+                            formattedResult = input.toLocaleString($locale.id);
                         }
-                    };
-                };
+                    }
+                }
+                return formattedResult;
             }
         }
     });
