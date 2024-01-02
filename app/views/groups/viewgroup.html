@@ -103,10 +103,14 @@
 		                              </a>
 		                          </li>
 		                          <li>
-		                              <a data-ng-click="unassignStaffGroup()" data-ng-show="group.staffId" has-permission='UNASSIGNSTAFF_GROUP'>
-		                              {{ 'label.button.unassignstaff' | translate }}
-		                              </a>
-		                          </li>
+		                              <a data-ng-click="unassignStaffGroup()" data-ng-show="group.staffId" has-permission='UNASSIGNSTAFF_GROUP'>{{ 'label.button.unassignstaff' | translate }}</a>
+								  </li>
+								  <li>
+									<a href="#/prequalification/{{group.prequalificationId}}/validations?showValidatePolicies=true" has-permission='READ_GROUP'>{{'label.button.hardpolicychecklist' | translate }}</a>
+								  </li>
+								  <li>
+									<a href="#/prequalification/{{group.prequalificationId}}/requalification" has-permission='READ_GROUP'>{{'label.button.requalification' | translate }}</a>
+								  </li>
 								  <li class="{{button.icon}}" data-ng-show="showNonPrequalificationActionBtn">
 									  <a href="#/groups/cupo/{{group.id}}">{{'label.cupo' | translate}}</a>
 								  </li>
