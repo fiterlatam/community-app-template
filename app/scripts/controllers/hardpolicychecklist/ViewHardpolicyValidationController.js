@@ -5,6 +5,9 @@
             resourceFactory.prequalificationValidationResource.get({prequalificationId: routeParams.prequalificationId}, function (data) {
                     scope.prequalification = data.prequalification;
                     scope.members = data.members;
+                    resourceFactory.prequalificationResource.get({groupId: scope.prequalificationId}, function (prequalificationData) {
+                        scope.prequalificationType = prequalificationData.prequalificationType.value;
+                    });
                 });
               scope.checkValidationColor = function (colorName) {
                  if(colorName){

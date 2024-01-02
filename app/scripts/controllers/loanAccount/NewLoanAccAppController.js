@@ -214,19 +214,13 @@
                     scope.product = data.product;
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
-
+                    scope.fetchAdditinalDataTemplate();
                     if (data.product.ownerTypeOption.value ==='Group'){
-                        scope.fetchAdditinalDataTemplate();
                         if (data.group){
                             scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
                             scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
                         }
                     }
-
-                    // if(data.group && scope.product.ownerTypeOption.value ==='Group'){
-                    //
-                    //
-                    // }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;

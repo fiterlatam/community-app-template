@@ -4434,7 +4434,7 @@
 	"label.input.populatedPlace": "Lugar poblado",
 	"label.input.referencePoint": "Punto de referencia",
 	"label.input.relativeNumber": "Número de teléfono relativo",
-	"label.button.show.loan.additionals": "Mostrar préstamos adicionales",
+	"label.button.show.loan.additionals": "Mostrar campos adicionales",
 	"label.heading.contact.information": "Datos de Contacto",
 	"label.input.monthlyIncome": "Ingreso mensual",
 	"label.input.otherIncome": "Otros ingresos",
@@ -4918,7 +4918,12 @@
 	"label.description.additional.whatsapp": "Whatsapp",
 	"label.description.additional.zona_negocio": "Zona negocio",
 	"label.description.additional.zona_vivienda": "Zona vivienda",
+	"label.description.additional.detalle_fiadores": "Detalle fiadores",
+	"label.description.additional.recuperacion_cuentas": "Recuperacion cuentas",
+	"label.description.additional.dpi_solicitante": "DPI solicitante",
+	"label.description.additional.servicios": "Servicios",
 	"label.input.document.type": "Tipo de Documento",
+	"label.heading.prequalification.name": "Nombre de precalificación",
 
 	"----End---": "---Fin del archivo---"
 }
