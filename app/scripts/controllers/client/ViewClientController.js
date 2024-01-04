@@ -18,6 +18,7 @@
             scope.charges = [];
             scope.clientContactInformation = null;
             scope.legalform = 'm_client';
+            scope.showNonPrequalificationActionBtn = false;
 
             scope.collaterals = [];
 

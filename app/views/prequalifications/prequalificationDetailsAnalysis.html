@@ -49,13 +49,13 @@
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
                     </div>
 
-                    <div class="alert alert-info text-right" ng-if="!groupData.substatus || groupData.substatus ==='INVALID'" has-permission="ASSIGN_PREQUALIFICATIONS">
-                        <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> Assign to Myself</button>
+                    <div class="alert alert-info text-right" ng-if="!groupData.assignedUserName" has-permission="ASSIGN_PREQUALIFICATIONS">
+                        <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> {{'label.button.assigntomyself' |translate}}</button>
                     </div>
-                    <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
-                        <span>{{'label.anchor.substatus'|translate}} <span class="pull-right">{{groupData.substatus}}</span></span>
+                    <div class="alert alert-info" ng-if="groupData.assignedUserName">
+                        <span>{{'label.anchor.substatus'|translate}} <span class="pull-right">{{groupData.substatus |translate}}</span></span>
                     </div>
-                    <div class="alert alert-info" ng-if="groupData.substatus && groupData.substatus !=='INVALID'">
+                    <div class="alert alert-info" ng-if="groupData.assignedUserName">
                         <span>Assigned to <strong class="pull-right">{{groupData.assignedUserName}}</strong></span>
                     </div>
 
@@ -77,16 +77,16 @@
                     <div class="alert alert-info h4">
                         <span>{{'label.input.status' | translate}}: <span
                                 class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
-                                uib-tooltip-placement="right" uib-tooltip="{{groupData.status.value}}">
-                            {{groupData.status.value}} </span>
+                                uib-tooltip-placement="right" uib-tooltip="{{groupData.status.code|translate}}">
+                            {{groupData.status.code|translate}} </span>
                         </span>
                     </div>
                     <div class="alert alert-warning h4" ng-if="groupData.lastPrequalificationStatus">
                         <span>{{'label.heading.previous.status' | translate}}: <span
                                 class="pull-right fa fa-stop {{groupData.lastPrequalificationStatus.code | StatusLookup}}"
                                 uib-tooltip-placement="right"
-                                uib-tooltip="{{groupData.lastPrequalificationStatus.value}}">
-                            {{groupData.status.value}} </span>
+                                uib-tooltip="{{groupData.lastPrequalificationStatus.code|translate}}">
+                            {{groupData.lastPrequalificationStatus.code|translate}} </span>
                         </span>
                     </div>
 
@@ -100,13 +100,13 @@
                     </div>
                     <div class="alert alert-info">
                         <span>{{'label.input.comments' | translate}}: <span
-                                class="pull-right">{{groupData.comments}}</span></span>
+                                class="pull-right">{{groupData.latestComments}}</span></span>
                     </div>
                     <div class="">
                         <span>{{'label.input.addcomments' | translate}}: <span
                                 class="pull-right">
                             <textarea rows="3" type="text" class="form-control" name="comms"
-                                   placeholder="{{'label.input.comments'|translate}}"
+                                      placeholder="{{'label.input.comments'|translate}}"
                                       ng-model="formData.comments" id="comms" required></textarea>
                         </span></span>
                     </div>
@@ -135,7 +135,7 @@
                     <th>{{'label.heading.hard.policy.status' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                         <div class="checkbox form-group">
-                           <span>{{'label.heading.approve' | translate}}</span> &nbsp;&nbsp;
+                            <span>{{'label.heading.approve' | translate}}</span> &nbsp;&nbsp;
                             <label for="isAllMembersSelected">
                                 <input type="checkbox" id="isAllMembersSelected" name="isAllMembersSelected" ng-model="formData.isAllMembersSelected" data-ng-change="selectAllMembers()">
                             </label>
@@ -164,7 +164,7 @@
                     </td>
                     <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
                                                                    class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
-                        {{member.bureauCheckStatus ? resolveBureaStatus(member.bureauCheckStatus.value) : '---'}}
+                        {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
                     </td>
                     <td>
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"

@@ -106,15 +106,33 @@
                 </tr>
 
                 <tr ng-repeat="member in formData.members">
-                    <td>{{member.name}}</td>
-                    <td>{{member.dpi}}</td>
-                    <td>{{member.dob}}</td>
-                    <td>{{member.puente}}</td>
-                    <td>{{member.amount}}</td>
-                    <td ng-if="groupingType != 'individual'">
+                    <td>
+                        <input type="text" class="form-control" name="name" ng-model="formData.members[$index].name" id="clientname_{{$index}}" required>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="dpi" ng-model="formData.members[$index].dpi"
+                               id="dpi_{{$index}}" required>
+                    </td>
+                    <td>
+                        <input id="dateOfBirth_{{$index}}" type="text" name="dateOfBirth" datepicker-pop="dd MMMM yyyy"
+                               ng-model="formData.members[$index].dateOfBirth" is-open="opened1" min="minDate" max="restrictDate"
+                               class="form-control" required/>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="amount" ng-model="formData.members[$index].amount" id="amount_{{$index}}" required>
+                    </td>
+                    <td>
+                        <select id="puente_{{$index}}" ng-model="formData.members[$index].puente"
+                                ng-change="updatePresident($index)"
+                                ng-options="item.value as item.name for item in yesNo" value="{{item.value}}"
+                                class="form-control" required>
+                            <option style="display:none" value="">{{'label.input.work.with.puente' | translate}}</option>
+                        </select>
+                    </td>
+                    <td ng-if="groupingType !== 'individual'">
                         <div class="checkbox form-group">
                             <label for="isSelected">
-                                <input type="checkbox" id="isSelected" name="isSelected" ng-change="updatePresident($index)" ng-model="formData.members[$index].groupPresident">
+                                <input type="checkbox" id="isSelected" name="isSelected" ng-model="formData.members[$index].groupPresident" ng-change="updatePresident($index)">
                             </label>
                         </div>
                     </td>
@@ -157,10 +175,10 @@
                     <form-validate valattributeform="memberDetailsForm" valattribute="dpi"/>
                 </td>
                 <td>
-                    <input id="dob" type="text" placeholder="{{'label.input.dob'|translate}}" name="dob" datepicker-pop="dd MMMM yyyy"
-                           ng-model="membersForm.dob" is-open="opened1" min="minDate" max="restrictDate"
+                    <input id="dateOfBirth" type="text" placeholder="{{'label.input.dateofbirth'|translate}}" name="dateOfBirth" datepicker-pop="dd MMMM yyyy"
+                           ng-model="membersForm.dateOfBirth" is-open="opened1" min="minDate" max="restrictDate"
                            class="form-control" required/>
-                    <form-validate valattributeform="memberDetailsForm" valattribute="dob"/>
+                    <form-validate valattributeform="memberDetailsForm" valattribute="dateOfBirth"/>
                 </td>
 
                 <td>
@@ -172,7 +190,7 @@
 
                 <td>
                     <select id="puente" ng-model="membersForm.puente"
-                            ng-options="item.value as item.name for item in yesNo" value="{{group.value}}"
+                            ng-options="item.value as item.name for item in yesNo" value="{{item.value}}"
                             class="form-control" required="required" required>
                         <option style="display:none" value="">{{'label.input.work.with.puente' | translate}}</option>
                     </select>

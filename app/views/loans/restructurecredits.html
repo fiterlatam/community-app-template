@@ -22,7 +22,7 @@
                         <div class="h5">{{'label.heading.loanproduct' | translate}} <span
                                 class="pull-right">{{loan.loanProductName}}</span></div>
                         <div class="h5">{{'label.heading.loanoutstanding' | translate}} <span
-                                class="pull-right">{{loan.currency.code}} {{loan.summary.totalOutstanding | number}}</span>
+                                class="pull-right">{{loan.currency.code}} {{loan.summary.principalOutstanding | number}}</span>
                         </div>
                         <div class="h5">{{'label.heading.disbursementdate' | translate}} -
                             {{loan.timeline.actualDisbursementDate | DateFormat}} <span

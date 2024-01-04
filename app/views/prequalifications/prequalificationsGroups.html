@@ -36,7 +36,7 @@
                                 <div class="col-sm-6">
                                 <select id="statusfilter" ng-change="getResultsPage(1)"
                                         ng-model="formData.status" class="form-control"
-                                        ng-options="gpStatus.value as gpStatus.value for gpStatus in groupStatusOptions "
+                                        ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
                                         value="{{gpStatus.id}}">
                                     <option value="">{{'label.all' | translate}}</option>
                                 </select>
@@ -89,7 +89,7 @@
 <!--                    <td class="pointer">{{client.portforlioName}}</td>-->
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
-                    <td class="pointer" >{{client.status.value}}</td>
+                    <td class="pointer" >{{client.status.code|translate}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.statusChangedOn|DateFormat}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processQuality}}</td>
@@ -97,7 +97,7 @@
                         <a href="#/prequalification/{{client.id}}/viewdetails/{{groupingType}}{{client.status.value==='HARD_POLICY_CHECKED'?'?showValidatePolicies=true':''}}"
                            has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
-                        <a href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='EDIT_PREQUALIFICATIONS'>
+                        <a href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='UPDATE_PREQUALIFICATIONS'>
                             <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
                     </td>
                 </tr>

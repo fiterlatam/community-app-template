@@ -22002,6 +22002,13 @@ Interactive Layer
   margin-left: 2px !important;
 }
 
+.ml-2{
+  margin-left: 10px !important;
+}
+.solidborder{
+  border: solid 2px #241e1e;
+}
+
 .text-white{
   color: white;
 }

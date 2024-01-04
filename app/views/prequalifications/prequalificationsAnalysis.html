@@ -35,7 +35,7 @@
                                 <div class="col-sm-6">
                                 <select id="statusfilter" ng-change="getResultsPage(1)"
                                         ng-model="formData.status" class="form-control"
-                                        ng-options="gpStatus.value as gpStatus.value for gpStatus in groupStatusOptions "
+                                        ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
                                         value="{{gpStatus.id}}">
                                     <option value="">{{'label.all' | translate}}</option>
                                 </select>
@@ -79,8 +79,8 @@
                     <td class="pointer">{{client.prequalificationType.value}}</td>
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
-                    <td class="pointer" >{{client.status.value}}</td>
-                    <td class="pointer" >{{client.substatus && client.substatus!=='INVALID'?client.substatus+' - ('+client.assignedUserName+')':'PENDING'}}</td>
+                    <td class="pointer" >{{client.status.code|translate}}</td>
+                    <td class="pointer" >{{client.substatus ?client.substatus:'' |translate}} {{client.assignedUserName?'('+client.assignedUserName+')':''}}</td>
 <!--                    <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.statusChangedOn|DateFormat}}</td>-->
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processQuality}}</td>
