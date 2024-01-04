@@ -5301,6 +5301,6 @@
   "label.description.additional.aniosComunidad": "Years community",
   "label.description.additional.servicios": "Services",
   "validation.msg.group.legacyNumber.not.greater.than.zero": "Old Group No. must be greater than zero",
-
+  "error.msg.prequalification.is.not.linked.to.a.group": "Asegúrese de que esta precalificación esté vinculada a un grupo.",
   "----End---": "--End of file--- "
 }
