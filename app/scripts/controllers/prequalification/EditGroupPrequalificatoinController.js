@@ -19,13 +19,14 @@
             scope.groupData;
             scope.membersList = [];
             scope.tf = "HH:mm";
-            scope.groupingType = routeParams.groupingType;
+            scope.groupingType=routeParams.groupingType;
+            scope.presidentSelected =false;
 
-            if (routeParams.groupingType === 'group') {
+            if (routeParams.groupingType === 'group'){
                 scope.previousPageUrl = "#/prequalificationGroups/group/new";
             }
 
-            if (routeParams.groupingType === 'individual') {
+            if (routeParams.groupingType === 'individual'){
                 scope.previousPageUrl = "#/prequalificationGroups/individual/new";
             }
 
@@ -38,11 +39,14 @@
                     scope.first.date = new Date(editDate);
                 }
 
-                if (data.groupMembers) {
+                if(data.groupMembers){
                     data.groupMembers.forEach(member => {
                         if (member.dob) {
                             var dobDate = dateFilter(member.dob, scope.df);
-                            member.dob = new Date(dobDate);
+                            member.dateOfBirth = new Date(dobDate);
+                        }
+                        if(member.groupPresident){
+                            scope.presidentSelected = true;
                         }
                     });
                 }
@@ -60,24 +64,19 @@
                     }
             });
 
-            resourceFactory.prequalificationTemplateResource.get({groupingType: routeParams.groupingType}, function (data) {
+            resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
                 scope.agenciesList = data.agencies;
                 scope.centersList = data.centerData;
                 scope.productsList = data.loanProducts;
                 scope.facilitators = data.facilitators;
             });
 
-            scope.$watch('formData.agencyId', function () {
+            scope.$watch('formData.agencyId',function(){
                 scope.onAgencyChange();
             });
 
-            scope.onAgencyChange = function () {
-                delete scope.formData.centerId;
-                delete scope.centersList;
-                resourceFactory.prequalificationTemplateResource.get({
-                    groupingType: routeParams.groupingType,
-                    agencyId: scope.formData.agencyId
-                }, function (data) {
+            scope.onAgencyChange = function(){
+                resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType, agencyId: scope.formData.agencyId},function (data) {
                     scope.centersList = data.centerData;
                 });
             }
@@ -89,8 +88,6 @@
                         message: `${scope.membersForm.dpi} DPI provided is invalid`
                     });
                 } else {
-                    var reqDate = dateFilter(scope.membersForm.dob, scope.df);
-                    scope.membersForm.dob = reqDate;
                     scope.membersForm['locale'] = scope.optlang.code;
                     scope.membersForm['dateFormat'] = scope.df;
                     scope.formData.members.push(scope.membersForm);
@@ -105,17 +102,19 @@
             }
 
             scope.removeMember = function (index) {
-                scope.formData.members.splice(index, 1);
+                scope.formData.members.splice(index,1);
             };
 
             scope.updatePresident = function (index) {
                 let members = scope.formData.members;
-                for (var i = 0; i < members.length; i++) {
-                    if (i !== Number(index)) {
-                        console.log("disabling president")
-                        scope.formData.members[i].groupPresident = false;
-                    } else {
+                scope.presidentSelected = false;
+                for (var i = 0; i < members.length; i++ ){
+                    const isGroupPresident = scope.formData.members[i].groupPresident;
+                    if (i === Number(index) && isGroupPresident){
                         scope.formData.members[i].groupPresident = true;
+                        scope.presidentSelected = true;
+                    }else{
+                        scope.formData.members[i].groupPresident = false;
                     }
                 }
             };
@@ -123,7 +122,7 @@
             scope.getGroupsByCenterId = function (centerId) {
                 scope.groupsList = [];
 
-                resourceFactory.centerResource.get({centerId: centerId, associations: 'groupMembers'}, function (data) {
+                resourceFactory.centerResource.get({centerId: centerId,associations: 'groupMembers'}, function (data) {
                     scope.groupsList = data.groupMembers;
                 });
             }
@@ -132,8 +131,8 @@
 
                 resourceFactory.groupResource.get({groupId: groupId, associations: 'clientMembers'}, function (data) {
                     scope.group = data;
-                    if (data.clientMembers) {
-                        scope.isGroupMembersAvailable = (data.clientMembers.length > 0);
+                    if(data.clientMembers){
+                        scope.isGroupMembersAvailable = (data.clientMembers.length>0);
                         scope.membersList = data.clientMembers;
                         scope.groupData = data;
 
@@ -149,33 +148,29 @@
                 });
             }
 
-            scope.prequalifyGroup = function () {
+            scope.prequalifyGroup = function (){
                 console.log("submitting form data")
                 scope.formData.locale = scope.optlang.code;
                 scope.formData.individual = false;
                 scope.formData.dateFormat = scope.df;
-                if (scope.membersList.length > 0) {
+                if (scope.membersList.length > 0){
                     let newMemberData = [];
                     for (var i = 0; i < scope.membersList.length; i++) {
                         let memberData = {};
-                        memberData.clientId = scope.membersList[i].id;
-                        memberData.name = scope.membersList[i].displayName;
-                        memberData.dpi = scope.membersList[i].dpiNumber;
-                        if (scope.membersList[i].dateOfBirth) {
-                            memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth), scope.df);
+                        memberData.clientId = scope.membersList[i].id ;
+                        memberData.name = scope.membersList[i].displayName ;
+                        memberData.dpi = scope.membersList[i].dpiNumber ;
+                        if(scope.membersList[i].dateOfBirth){
+                            memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
                         }
-                        memberData.amount = scope.membersList[i].requestedAmount;
+                        memberData.amount = scope.membersList[i].requestedAmount ;
                         memberData.locale = scope.optlang.code;
                         memberData.dateFormat = scope.df;
                         scope.formData.members.push(memberData)
                     }
                 }
 
-
-                resourceFactory.prequalificationResource.prequalifyExistingGroup({
-                    groupId: scope.formData.groupId,
-                    anotherResource: 'prequalifyGroup'
-                }, this.formData, function (data) {
+                resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
@@ -186,26 +181,28 @@
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
 
-                if (scope.groupingType === 'individual') {
+                if(scope.groupingType === 'individual'){
                     this.formData.individual = true;
                 }
+
+                console.log(this.formData);
 
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }
 
-            scope.generatePrequalificationNumber = function () {
+            scope.generatePrequalificationNumber = function (){
                 var agencyId = this.formData.agencyId
                 var groupId = this.formData.groupId
-                return "PRECAL-" + agencyId + "-" + groupId.toString().padStart(4, "0")
+                return "PRECAL-"+agencyId+"-"+groupId.toString().padStart(4,"0")
             }
 
             scope.resolveTime = function (time) {
                 let hour = time[0];
                 let minute = time[1];
                 let seconds = time[2];
-                return hour.toString().padStart(2, "0") + ':' + minute.toString().padStart(2, "0") + ':' + seconds.toString().padStart(2, "0");
+                return hour.toString().padStart(2,"0")+':'+minute.toString().padStart(2,"0")+':'+seconds.toString().padStart(2,"0");
             }
 
             scope.updatePreQualification = function () {
@@ -213,29 +210,30 @@
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
-                if (scope.groupingType === 'individual') {
+                if(scope.groupingType === 'individual'){
                     this.formData.individual = true;
                 }
-
                 let eMembers = this.formData.members;
                 let memberArray = [];
-                eMembers.forEach(function (member) {
-                    let m = {
-                        locale: scope.optlang.code,
-                        dateFormat: scope.df,
-                        name: member.name,
-                        dpi: member.dpi,
-                        dob: member.dob ? dateFilter(member.dob, scope.df) : member.dob,
-                        amount: member.requestedAmount,
-                        puente: member.workWithPuente,
-                        groupPresident: member.groupPresident,
-                        id: member.id
+                if(eMembers){
+                    for(var i = 0; i < eMembers.length; i++){
+                        var m = {
+                            locale : scope.optlang.code,
+                            dateFormat : scope.df,
+                            name : eMembers[i].name,
+                            dpi : eMembers[i].dpi,
+                            dob : eMembers[i].dateOfBirth ? dateFilter(eMembers[i].dateOfBirth,  scope.df) : eMembers[i].dateOfBirth,
+                            requestedAmount : eMembers[i].requestedAmount,
+                            puente : eMembers[i].workWithPuente,
+                            groupPresident : eMembers[i].groupPresident,
+                            id : eMembers[i].id
+                        }
+                        memberArray.push(m);
                     }
-
-                    memberArray.push(m);
-                });
-                this.formData.members = memberArray;
-                resourceFactory.prequalificationResource.update({groupId: routeParams.groupId}, this.formData, function (data) {
+                }
+                var request = {...this.formData};
+                request.members = memberArray;
+                resourceFactory.prequalificationResource.update({groupId: routeParams.groupId}, request, function (data) {
                     location.path('prequalification/' + data.resourceId + '/viewdetails' + '/' + routeParams.groupingType);
                 });
             }

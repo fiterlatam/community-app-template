@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate) {
+        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate, API_VERSION, Upload, $rootScope) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
             scope.groupId = routeParams.groupId;
@@ -25,9 +25,21 @@
             scope.translate = translate;
             scope.rateFlag = false;
             scope.collateralAddedDataArray = [];
+            scope.currentLoans = [];
             scope.collateralsData = {};
             scope.addedCollateral = {};
+            scope.currentLoanData = {};
+            scope.currentLoanDocs = {}
+            scope.loanDocuments = [];
             scope.product;
+            scope.formData.totalExternalLoanAmount =0;
+            scope.formData.totalInstallments =0
+            scope.institutionTypeOptions = [
+                {id:1,code:"MICROFINANCE",description:"Micro Finance"}
+            ];
+            scope.loanStatusOptions = [
+                {id:1,code:"ACTIVE",description:"ACTIVE"}
+            ];
 
             scope.date.first = new Date();
 
@@ -119,59 +131,51 @@
             }
 
             if(scope.clientId){
-              resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
-                 scope.prequalificationOptions = data.clientPrequalifications;
-                 scope.clientData = data;
-              });
+                resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
+                    scope.prequalificationOptions = data.clientPrequalifications;
+                    scope.clientData = data;
+                    scope.formData.fullName = data.displayName;
+                    scope.formData.phoneNumber = data.mobileNo;
+                    scope.formData.dpi = data.dpiNumber;
+                    scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
+                });
             }
 
             scope.prequalificationChange = function (prequalificationId){
                 resourceFactory.prequalificationResource.get({groupId: prequalificationId}, function (data) {
                     var loanProductId = data.productId;
+                    scope.groupId = data.linkedGroupId
+                    if(data.prequalificationType){
+                        scope.prequalificationType = data.prequalificationType.value;
+                    }
                     if(scope.clientId){
                         var groupMembers = data.groupMembers;
                         if(groupMembers.length > 0){
                             for(var i = 0; i < groupMembers.length; i++){
-                                if(groupMembers[i].dpi == scope.clientData.dpiNumber){
-                                   scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
+                                if(groupMembers[i].dpi === scope.clientData.dpiNumber){
+                                    scope.totalApprovedAmount = groupMembers[i].requestedAmount;
                                 }
                             }
                         }
                     } else {
-                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                        scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
                     }
                     scope.loanProductChange(loanProductId);
                 });
             }
-           scope.resolveFrequencyDayOfWeek = function (meetingDay){
-               if(meetingDay == 'Lunes'){
+            scope.resolveFrequencyDayOfWeek = function (meetingDay){
+                if(meetingDay == 'Lunes'){
                     scope.disableDaySelect = true;
                     return 1;
                 }if(meetingDay == 'Martes'){
-                   scope.disableDaySelect = true;
-                   return 2;
-                }if(meetingDay == 'Miércoles'){
-                   scope.disableDaySelect = true;
-                   return 3;
-                }if(meetingDay == 'Jueves'){
-                   scope.disableDaySelect = true;
-                   return 4;
-                }
-            } ;
-
-           scope.resolveFrequencyDayOfWeek = function (meetingDay){
-               if(meetingDay == 'Lunes'){
                     scope.disableDaySelect = true;
-                    return 1;
-                }if(meetingDay == 'Martes'){
-                   scope.disableDaySelect = true;
-                   return 2;
+                    return 2;
                 }if(meetingDay == 'Miércoles'){
-                   scope.disableDaySelect = true;
-                   return 3;
+                    scope.disableDaySelect = true;
+                    return 3;
                 }if(meetingDay == 'Jueves'){
-                   scope.disableDaySelect = true;
-                   return 4;
+                    scope.disableDaySelect = true;
+                    return 4;
                 }
             } ;
 
@@ -190,11 +194,11 @@
                     return 4;
                 }
             }
-
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
                 scope.inparams.productId = loanProductId;
+                scope.inparams.groupId = scope.groupId;
                 resourceFactory.clientcollateralTemplateResource.getAllCollaterals({
                     clientId: routeParams.clientId,
                     prodId: loanProductId
@@ -208,9 +212,12 @@
                     scope.product = data.product;
                     scope.validateAgeLimit(loanProductId);
                     scope.previewClientLoanAccInfo();
-                    if(data.group){
-                      scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
-                      scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                    scope.fetchAdditinalDataTemplate();
+                    if (data.product.ownerTypeOption.value ==='Group'){
+                        if (data.group){
+                            scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                            scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                        }
                     }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
@@ -234,6 +241,69 @@
 
             scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
+            }
+
+            scope.fetchAdditinalDataTemplate = function () {
+                resourceFactory.loanResource.get({
+                    resourceType: 'template',
+                    templateType: 'groupAdditionals'
+                }, function (data) {
+                    scope.loanCycleCompletedOptions = data.loanCycleCompletedOptions || [];
+                    scope.loanPurposeOptions = data.loanPurposeOptions || [];
+                    scope.businessEvolutionOptions = data.businessEvolutionOptions || [];
+                    scope.yesnoOptions = data.yesnoOptions || [];
+                    scope.businessExperienceOptions = data.businessExperienceOptions || [];
+                    scope.businessLocationOptions = data.businessLocationOptions || [];
+                    scope.clientTypeOptions = data.clientTypeOptions || [];
+                    scope.loanStatusOptions = data.loanStatusOptions || [];
+                    scope.institutionTypeOptions = data.institutionTypeOptions || [];
+                    scope.housingTypeOptions = data.housingTypeOptions || [];
+                    scope.classificationOptions = data.classificationOptions || [];
+                    scope.jobTypeOptions = data.jobTypeOptions || [];
+                    scope.educationLevelOptions = data.educationLevelOptions || [];
+                    scope.maritalStatusOptions = data.maritalStatusOptions || [];
+                    scope.groupPositionOptions = data.groupPositionOptions || [];
+                    scope.sourceOfFundsOptions = data.sourceOfFundsOptions || [];
+                    scope.cancellationReasonOptions = data.cancellationReasonOptions || [];
+                    scope.facilitatorOptions = data.facilitatorOptions || [];
+                    scope.documentTypeOptions = data.documentTypeOptions || [];
+                });
+            }
+
+            scope.addCurrentLoansDetails = function () {
+                scope.currentLoans.push(scope.currentLoanData);
+                scope.currentLoanData = {}
+
+                scope.formData.externalLoans = scope.currentLoans;
+                scope.calculateTotals();
+            }
+
+            scope.addLoanDocuments = function () {
+                scope.loanDocuments.push(scope.currentLoanDocs);
+                scope.currentLoanDocs = {}
+            }
+
+            scope.onFileSelect = function (files) {
+                scope.currentLoanDocs.file = files[0];
+            };
+
+            scope.removeDoc = function (files) {
+                scope.currentLoanDocs.file = files[0];
+
+                if (scope.loanDocuments.length<=1){
+                    scope.loanDocuments = []
+                }else{
+                    scope.loanDocuments = scope.loanDocuments.splice(Number(index)-1, 1)
+                }
+            };
+
+            scope.calculateTotals = function (){
+                scope.formData.totalExternalLoanAmount = 0;
+                scope.formData.totalInstallments = 0;
+                angular.forEach(scope.currentLoans, function (currentLoan, index) {
+                    scope.formData.totalExternalLoanAmount += currentLoan.totalLoanBalance;
+                    scope.formData.totalInstallments += currentLoan.charges;
+                });
             }
 
             scope.handleDatatables = function (datatables) {
@@ -338,6 +408,10 @@
                     scope.rateFlag = true;
                 }
                 scope.rateOptions = [];
+                if(scope.clientId && scope.formData.caseId){
+                    scope.searchText = scope.formData.caseId;
+                    scope.searchByCaseId();
+                }
             };
 
             //Rate
@@ -470,6 +544,8 @@
                 var reqSecondDate = dateFilter(scope.date.second, scope.df);
                 var reqThirdDate = dateFilter(scope.date.third, scope.df);
                 var reqFourthDate = dateFilter(scope.date.fourth, scope.df);
+                var reqFifthDate = dateFilter(scope.date.fifth, scope.df);
+                var reqSixthDate = dateFilter(scope.date.sixth, scope.df);
                 if (scope.charges.length > 0) {
                     scope.formData.charges = [];
                     for (var i in scope.charges) {
@@ -507,6 +583,12 @@
 
                 this.formData.interestChargedFromDate = reqThirdDate;
                 this.formData.repaymentsStartingFromDate = reqFourthDate;
+                if (reqFifthDate){
+                    this.formData.dateRequested = reqFifthDate;
+                }
+                if (reqSixthDate){
+                    this.formData.dateOfBirth = reqSixthDate;
+                }
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.loanType = scope.inparams.templateType;
@@ -584,8 +666,23 @@
                     }
                 }
 
+                if(this.formData.loanAdditionalData){
+                    this.formData.loanAdditionalData.caseId = this.formData.caseId;
+                    for (var propertyName in this.formData.loanAdditionalData) {
+                        if (this.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                            if(scope.isAdditionalDateProperty(propertyName)){
+                                var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                scope.formData.loanAdditionalData[propertyName] = dateFilter(propertyValue, scope.df);
+                            }
+                        }
+                    }
+                }
+
                 if (this.formData.syncRepaymentsWithMeeting) {
                     this.formData.calendarId = scope.loanaccountinfo.calendarOptions[0].id;
+                }
+                if(this.formData.loanAdditionalData){
+                    this.formData.loanAdditionalData.caseId = this.formData.caseId;
                 }
                 delete this.formData.syncRepaymentsWithMeeting;
                 this.formData.interestChargedFromDate = reqThirdDate;
@@ -631,9 +728,52 @@
                     delete scope.formData.datatables;
                 }
                 resourceFactory.loanResource.save(this.formData, function (data) {
-                    location.path('/viewloanaccount/' + data.loanId);
+                    if(data.loanId){
+                        scope.uploadDocuments(data.loanId)
+                    }
                 });
             };
+
+            scope.uploadDocuments = function (loanId){
+                for (let i=0; i<scope.loanDocuments.length; i++){
+                    let loanDocument = scope.loanDocuments[i];
+                    Upload.upload({
+                        url: $rootScope.hostUrl + API_VERSION + '/loans/' + loanId + '/documents',
+                        data: { name : loanDocument.name, description : loanDocument.description, documentType : loanDocument.documentType, file: loanDocument.file},
+                    }).then(function (data) {
+                        if (!scope.$$phase) {
+                            scope.$apply();
+                        }
+                    });
+                }
+                location.path('/viewloanaccount/' + loanId);
+            }
+
+            scope.searchByCaseId = function () {
+                var caseId = this.searchText;
+                if(scope.clientId && caseId){
+                    delete scope.formData.loanAdditionalData;
+                    resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
+                        scope.formData.loanAdditionalData = data;
+                        scope.formData.caseId = caseId;
+                        if(scope.formData.loanAdditionalData){
+                            for (var propertyName in scope.formData.loanAdditionalData) {
+                                if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                                    if(scope.isAdditionalDateProperty(propertyName)){
+                                        var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                        scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            scope.isAdditionalDateProperty = function(propertyName){
+                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
+                return dateFields.includes(propertyName);
+            }
 
             scope.cancel = function () {
                 if (scope.groupId) {
@@ -642,9 +782,157 @@
                     location.path('/viewclient/' + scope.clientId);
                 }
             }
+
+            scope.countIndex = function (index) {
+                return Number(index)+1;
+            }
+
+            scope.removeLoan = function (index) {
+                if (scope.currentLoans.length<=1){
+                    scope.currentLoans = []
+                }else{
+                    scope.currentLoans = scope.currentLoans.splice(Number(index)-1, 1)
+                }
+
+                scope.calculateTotals()
+            }
+
+            scope.$watch('formData.monthlyIncome', function(){
+                scope.calculateTotalIncome();
+            });
+
+            scope.$watch('formData.otherIncome', function(){
+                scope.calculateTotalIncome();
+            });
+            scope.$watch('formData.businessProfit', function(){
+                scope.calculateTotalIncome();
+            });
+            scope.$watch('formData.clientProfit', function(){
+                scope.calculateTotalIncome();
+            });
+
+            scope.calculateTotalIncome = function () {
+                scope.formData.totalIncome=0;
+                let monthlyIncome = Number(scope.formData.monthlyIncome?scope.formData.monthlyIncome:0);
+                let otherIncome = Number(scope.formData.otherIncome?scope.formData.otherIncome:0);
+                let businessProfit = Number(scope.formData.businessProfit?scope.formData.businessProfit:0);
+                let clientProfit = Number(scope.formData.clientProfit?scope.formData.clientProfit:0);
+                scope.formData.totalIncome=(monthlyIncome + otherIncome + (businessProfit< clientProfit?businessProfit:clientProfit));
+
+                return scope.formData.totalIncome;
+            }
+
+            scope.$watch('formData.rentMortgageFee', function(){
+                scope.calculateTotalExpenditure();
+            });
+
+            scope.$watch('formData.familyExpenses', function(){
+                scope.calculateTotalExpenditure();
+            });
+
+            scope.$watch('formData.totalInstallments', function(){
+                scope.calculateTotalExpenditure();
+            });
+
+            scope.calculateTotalExpenditure = function () {
+                scope.formData.totalExpenditures=0;
+                let rentMortgageFee = Number(scope.formData.rentMortgageFee?scope.formData.rentMortgageFee:0);
+                let familyExpenses = Number(scope.formData.familyExpenses?scope.formData.familyExpenses:0);
+                let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
+                scope.formData.totalExpenditures=(rentMortgageFee + familyExpenses + totalInstallments);
+
+                return scope.formData.totalExpenditures;
+            }
+
+            scope.$watch('formData.totalIncome', function(){
+                scope.calculateAvailableMonthly();
+            });
+
+            scope.$watch('formData.totalExpenditures', function(){
+                scope.calculateAvailableMonthly();
+            });
+
+            scope.calculateAvailableMonthly = function () {
+                scope.formData.availableMonthly=0;
+                let totalIncome = Number(scope.formData.totalIncome?scope.formData.totalIncome:0);
+                let totalExpenditures = Number(scope.formData.totalExpenditures?scope.formData.totalExpenditures:0);
+                scope.formData.availableMonthly=(totalIncome-totalExpenditures);
+
+                return scope.formData.availableMonthly;
+            }
+
+            scope.$watch('formData.monthlyPaymentCapacity', function(){
+                scope.calculatePaymentCapacity();
+            });
+            scope.$watch('formData.availableMonthly', function(){
+                scope.calculatePaymentCapacity();
+            });
+
+            scope.$watch('formData.proposedFee', function(){
+                scope.calculatePaymentCapacity();
+            });
+
+            scope.calculatePaymentCapacity = function () {
+                scope.formData.paymentCapacity=0;
+                let monthlyPaymentCapacity = Number(scope.formData.monthlyPaymentCapacity?scope.formData.monthlyPaymentCapacity:0);
+                let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
+                let proposedFee = Number(scope.formData.proposedFee?scope.formData.proposedFee:0);
+                let minimumCapacity = monthlyPaymentCapacity < availableMonthly ? monthlyPaymentCapacity : availableMonthly;
+                scope.formData.paymentCapacity=(proposedFee/ minimumCapacity);
+
+                return scope.formData.paymentCapacity;
+            }
+
+            scope.$watch('formData.facilitatorProposedValue', function(){
+                scope.calculateFacValue();
+            });
+
+            scope.$watch('formData.inventories', function(){
+                scope.calculateFacValue();
+            });
+
+            scope.calculateFacValue = function () {
+                scope.formData.facValue=0;
+                let facilitatorProposedValue = Number(scope.formData.facilitatorProposedValue?scope.formData.facilitatorProposedValue:0);
+                let inventories = Number(scope.formData.inventories?scope.formData.inventories:0);
+                scope.formData.facValue=(facilitatorProposedValue/ inventories);
+
+                return scope.formData.facValue;
+            }
+
+            scope.$watch('formData.totalInstallments', function(){
+                scope.calculateDebtLevel();
+            });
+
+            scope.$watch('formData.availableMonthly', function(){
+                scope.calculateDebtLevel();
+            });
+
+            scope.calculateDebtLevel = function () {
+                scope.formData.debtLevel=0;
+                let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
+                let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
+                scope.formData.debtLevel=(totalInstallments/ availableMonthly);
+
+                return scope.formData.debtLevel;
+            }
+
+            scope.$watch('formData.salesValue', function(){
+                scope.calculateBusinessProfit(scope.formData.salesValue, scope.formData.businessPurchases)
+            });
+
+            scope.$watch('formData.businessPurchases', function(){
+                scope.calculateBusinessProfit(scope.formData.salesValue, scope.formData.businessPurchases)
+            });
+
+            scope.calculateBusinessProfit = function (sales, purchases) {
+                scope.formData.businessProfit=0;
+                scope.formData.businessProfit=Number(sales?sales:0) - Number(purchases?purchases:0);
+                return scope.formData.businessProfit;
+            }
         }
     });
-    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
+    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',  'API_VERSION',  'Upload',  '$rootScope', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
         $log.info("NewLoanAccAppController initialized");
     });
 }(mifosX.controllers || {}));
