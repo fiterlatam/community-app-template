@@ -5300,6 +5300,7 @@
   "label.description.additional.entorno_del_negocio": "Business environment",
   "label.description.additional.aniosComunidad": "Years community",
   "label.description.additional.servicios": "Services",
+  "validation.msg.group.legacyNumber.not.greater.than.zero": "Old Group No. must be greater than zero",
 
   "----End---": "--End of file--- "
 }

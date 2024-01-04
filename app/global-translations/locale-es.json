@@ -4924,6 +4924,7 @@
 	"label.description.additional.servicios": "Servicios",
 	"label.input.document.type": "Tipo de Documento",
 	"label.heading.prequalification.name": "Nombre de precalificación",
+	"validation.msg.group.legacyNumber.not.greater.than.zero": "El número de grupo antiguo debe ser mayor que cero.",
 
 	"----End---": "---Fin del archivo---"
 }
