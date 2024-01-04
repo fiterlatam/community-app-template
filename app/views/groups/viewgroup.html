@@ -644,22 +644,6 @@
 				    	</div>
 				</uib-tab>
 			</uib-tabset>
-
-			<div class="alert alert-default">
-				<button ng-if="group.prequalificationStatus && group.prequalificationStatus.value==='HARD_POLICY_CHECKED'"
-						ng-click="requestForUpdates()" type="button"
-						class="btn btn-warning"
-						has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
-					{{'label.button.prequalification.requestUpdates' | translate}}
-				</button>
-
-				<button ng-if="group.prequalificationStatus && group.prequalificationStatus.value==='HARD_POLICY_CHECKED'"
-						ng-click="sendToAgencyUnit()" type="button"
-						class="btn btn-primary"
-						has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>
-					{{'label.button.sendtoagency' | translate}}
-				</button>
-			</div>
 		</div>
 	</div>
 	<script type="text/ng-template" id="requestForUpdatesView.html">
