@@ -4925,6 +4925,6 @@
 	"label.input.document.type": "Tipo de Documento",
 	"label.heading.prequalification.name": "Nombre de precalificación",
 	"validation.msg.group.legacyNumber.not.greater.than.zero": "El número de grupo antiguo debe ser mayor que cero.",
-
+	"error.msg.prequalification.is.not.linked.to.a.group": "Please ensure that this prequalification is linked to a group",
 	"----End---": "---Fin del archivo---"
 }
