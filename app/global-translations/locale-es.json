@@ -1454,6 +1454,7 @@
 	"label.heading.newgroup.prequalification": "Precalificación Nuevo",
 	"#prequalificatoinstatus": "..",
 	"prequalification.status.pending": "Pendiente",
+	"prequalification.status.pending.approval": "Pendiente aprobación",
 	"prequalification.status.rejected": "Rechazada",
 	"prequalification.status.approved": "Aprobado",
 	"prequalification.status.inprogress": "En curso",
