@@ -118,13 +118,15 @@
                       message: 'error.message.insufficient.amount.of.cheques'
                    });
                 } else {
+                    let mappedChequeIndex = 0;
                     for (var i = 0; i < scope.approvedLoanAccounts.length; i++ ){
                        if(scope.approvedLoanAccounts[i].isSelected){
                            scope.availableCheques[i].isAssigned = true;
-                           scope.approvedLoanAccounts[i].chequeData = availableBankCheques[i];
+                           scope.approvedLoanAccounts[i].chequeData = availableBankCheques[mappedChequeIndex];
                            var chequeData = scope.approvedLoanAccounts[i].chequeData;
                            var chequeName = chequeData.chequeNo + ' |' +  chequeData .batchNo + '| ' +  chequeData .bankAccNo +  '| ' +  chequeData.bankName + '| ' + chequeData.agencyName;
                            scope.approvedLoanAccounts[i].chequeData.chequeName = chequeName;
+                           mappedChequeIndex++;
                        }
                     }
                     scope.uiValidationErrors = [];
