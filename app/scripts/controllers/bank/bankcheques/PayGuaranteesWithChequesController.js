@@ -56,13 +56,15 @@
                           message: 'error.message.insufficient.amount.of.cheques'
                        });
                 } else {
+                    let mappedChequeIndex = 0;
                     for (var i = 0; i < scope.guaranteeDataList.length; i++ ){
                        if(scope.guaranteeDataList[i].isSelected){
-                           scope.guaranteeDataList[i].chequeData = scope.availableCheques[i];
+                           scope.guaranteeDataList[i].chequeData = scope.availableCheques[mappedChequeIndex];
                            var chequeName = scope.guaranteeDataList[i].chequeData.chequeNo + ' |' +  scope.guaranteeDataList[i].chequeData .batchNo + '| ' +  scope.guaranteeDataList[i].chequeData .bankAccNo +  '| ' +  scope.guaranteeDataList[i].chequeData.bankName;
                            var accountName = scope.guaranteeDataList[i].chequeData.bankAccNo + ' - ' + scope.guaranteeDataList[i].chequeData.agencyName;
                            scope.guaranteeDataList[i].chequeData.chequeName = chequeName;
                            scope.guaranteeDataList[i].chequeData.accountName = accountName;
+                           mappedChequeIndex++;
                        }
                     }
                     scope.uiValidationErrors = [];
