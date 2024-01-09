@@ -11,37 +11,47 @@
             </div>
             <br>
             <div>
-                <form ng-submit="search()" class="form-horizontal">
+                <form ng-submit="search()" class="form-horizontal" ng-show="!isCollapsed">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="pull-left">
                                 <div class="form-group">
-                                    <div class="input-group">
-                                        <label class="control-label col-sm-1">{{'label.input.status' | translate}}</label>
-                                        <div class="col-sm-5">
-                                            <div>
-                                                <select id="chequeStatusId" name="chequeStatusId"
-                                                        ng-model="formData.status"
-                                                        class="form-control"
-                                                        ng-options="status.id as status.value for status in statusOptions"
-                                                        value="{{status.id}}"
-                                                        ng-disabled="true">
-                                                </select>
-                                            </div>
-                                        </div>
+                                    <label class="control-label col-sm-6">{{'label.heading.bank.acc.no' | translate}}</label>
+                                    <div class="col-sm-6">
+                                        <select id="bankAccId" name="bankAccId"
+                                                ng-model="formData.bankAccId"
+                                                class="form-control"
+                                                ng-options="bankAccount.id as bankAccount.accountName for bankAccount in bankAccountOptions"
+                                                value="{{bankAccount.id}}">
+                                            <option value="">--{{'label.heading.bank.acc.no' | translate}}--</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                                        <label class="control-label col-sm-2">{{'label.input.agency' | translate}}</label>
-                                        <div class="col-sm-4">
-                                            <div>
-                                                <select id="agencyId" name="chequeStatusId"
-                                                        ng-model="formData.agencyId"
-                                                        class="form-control"
-                                                        ng-options="agency.id as agency.name for agency in agencyOptions"
-                                                        value="{{agency.id}}">
-                                                    <option value="">--{{'label.input.agency' | translate}}--</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-6">{{'label.heading.agencyName' | translate}}</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="agencyName" name="agencyName" ng-model="formData.agencyName" class="form-control" disabled/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-6">{{'label.input.bank' | translate}}</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="bankName" name="bankName" ng-model="formData.bankName" class="form-control" disabled/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-6">{{'label.heading.cheque.from' | translate}}</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="from" name="from" ng-model="formData.from" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-6">{{'label.heading.cheque.to' | translate}}</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="to" name="to" ng-model="formData.to" class="form-control"/>
                                     </div>
                                 </div>
                             </div>
@@ -50,15 +60,41 @@
                         <div class="col-sm-6">
                             <div class="pull-left">
                                 <div class="form-group">
-                                    <div class="input-group">
-                                        <label class="control-label col-sm-2">{{'label.heading.bank.acc.no' | translate}}</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" id="bankAccNo" name="bankAccNo" ng-model="formData.bankAccNo" class="form-control" placeholder="{{'label.heading.bank.acc.no' | translate}}"/>
-                                        </div>
-                                        <label class="control-label col-sm-2">{{'label.heading.chequeNo' | translate}}</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" id="chequeNo" name="chequeNo" ng-model="formData.chequeNo" class="form-control" placeholder="{{'label.input.chequeNo' | translate}}"/>
-                                        </div>
+                                    <label class="control-label col-sm-4">{{'label.input.facilitator' | translate }}</label>
+                                    <div class="col-sm-8">
+                                        <select id="facilitatorId" name="facilitatorId"
+                                                ng-model="formData.facilitatorId"
+                                                class="form-control"
+                                                ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitatorOptions"
+                                                value="{{facilitator.id}}">
+                                            <option value="">-- {{'label.input.facilitator' | translate}} --</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">{{'label.selectcenter' | translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select id="centerId" name="centerId"
+                                                ng-model="formData.centerId"
+                                                class="form-control"
+                                                ng-options="center.id as center.name for center in centerOptions"
+                                                value="{{center.id}}">
+                                            <option value="">-- {{'label.selectcenter' | translate}} --</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">{{'label.menu.selectgroup' | translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select id="groupId" name="groupId"
+                                                ng-model="formData.groupId"
+                                                class="form-control"
+                                                ng-options="group.id as group.name for group in groupOptions"
+                                                value="{{group.id}}">
+                                            <option value="">-- {{'label.menu.selectgroup' | translate}} --</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
