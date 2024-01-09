@@ -4951,7 +4951,7 @@
   "label.heading.old.chequeNo": "Old Cheque",
   "label.heading.new.chequeNo": "New Cheque",
   "label.select.new.cheque": "Select new cheque",
-  "label.anchor.disburse.loans.by.cheques": "Disburse Loans by Cheques",
+  "label.anchor.disburse.loans.by.cheques": "Assign checks to loans",
   "label.view.disburse.loans.by.cheques": "Disburse multiple loans by cheques",
   "label.menu.disbursementmethod": "Disbursement Method",
   "label.heading.isindividualbusinessloan": "Is Individual Business Loan?",
@@ -4998,7 +4998,7 @@
   "label.view.authorize.cheques.issuance": "Authorize Multiple Cheques Printing",
   "label.button.print.cheques":  "Print Cheques",
   "label.anchor.print.cheques": "Print Cheques",
-  "label.view.print.cheques": "Print Multiple Bank Cheques",
+  "label.view.print.cheques": "Print cheques (with disbursement)",
   "label.anchor.pay.guarantees.by.cheques": "Pay Guarantees By cheques",
   "label.view.pay.guarantees.by.cheques": "Pay Multiple Guarantees By cheques",
   "label.heading.pay.guarantees.by.cheques": "Pay Guarantees By cheques",
@@ -5301,6 +5301,7 @@
   "label.description.additional.entorno_del_negocio": "Business environment",
   "label.description.additional.aniosComunidad": "Years community",
   "label.description.additional.servicios": "Services",
-
+  "validation.msg.group.legacyNumber.not.greater.than.zero": "Old Group No. must be greater than zero",
+  "error.msg.prequalification.is.not.linked.to.a.group": "Asegúrese de que esta precalificación esté vinculada a un grupo.",
   "----End---": "--End of file--- "
 }

@@ -61,7 +61,6 @@
             <table class="table table-striped" style="table-layout: fixed">
                 <thead>
                 <tr>
-                    <th>{{'label.heading.createdon' | translate}}</th>
                     <th>{{'label.heading.prequalificationnumber' | translate}}</th>
                     <th ng-if="groupingType==='group'">{{'label.input.agency' | translate}}</th>
                     <th ng-if="groupingType==='group'">{{'label.input.group' | translate}}</th>
@@ -69,6 +68,7 @@
 <!--                    <th>{{'label.input.portfolio' | translate}}</th>-->
                     <th>{{'label.input.product' | translate}}</th>
                     <th>{{'label.input.addedBy' | translate}}</th>
+                    <th>{{'label.heading.createdon' | translate}}</th>
                     <th>{{'label.input.status' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{'label.heading.updatedon' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.heading.processquality' | translate}}</th>
@@ -80,14 +80,13 @@
                 <tbody>
                 <tr dir-paginate="client in groupsList | itemsPerPage: groupsPerPage" class="pointer-main"
                     total-items="totalGroups"  pagination-id="blacklist" style="word-break: break-word">
-                    <td class="pointer">{{client.createdAt |DateFormat}}</td>
                     <td class="pointer" data-ng-click="routeTo('#/prequalification/' + client.id + '/viewdetails')">{{client.prequalificationNumber}}</td>
                     <td class="pointer" ng-if="groupingType==='group'">{{client.agencyName}}</td>
                     <td class="pointer" ng-if="groupingType==='group'">{{client.groupName}}</td>
                     <td class="pointer" ng-if="groupingType==='group'">{{client.centerName}}</small></td>
-<!--                    <td class="pointer">{{client.portforlioName}}</td>-->
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
+                    <td class="pointer">{{client.createdAt | DateTimeFormat}}</td>
                     <td class="pointer" >{{client.status.code|translate}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.statusChangedOn|DateFormat}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
@@ -96,7 +95,7 @@
                         <a href="#/prequalification/{{client.id}}/viewdetails/{{groupingType}}{{client.status.value==='HARD_POLICY_CHECKED'?'?showValidatePolicies=true':''}}"
                            has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
-                        <a href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='EDIT_PREQUALIFICATIONS'>
+                        <a href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='UPDATE_PREQUALIFICATIONS'>
                             <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
                     </td>
                 </tr>

@@ -7,7 +7,7 @@
         <li class="active">{{'label.anchor.modifyloanapplication' | translate}}</li>
     </ul>
 </div>
-<form name="editloanaccountform" novalidate="" class="well form-inline card" rc-submit="submit()">
+<form name="editloanaccountform" novalidate="" class="well form-inline card" ng-submit="submit()">
 <api-validate></api-validate>
 <fieldset>
         <legend>{{ 'label.heading.editloanapplication' | translate }}</legend>
@@ -1456,7 +1456,7 @@
 
                                     <input type="number" class="form-control" id="businessProfit"
                                            name="businessProfit" disabled
-                                           ng-model="calculateBusinessProfit(formData.salesValue, formData.businessPurchases)"
+                                           ng-model="formData.businessProfit"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="businessProfit"/>
                                 </td>
@@ -1711,7 +1711,7 @@
 
                                     <input type="number" class="form-control" id="totalIncome"
                                            name="totalIncome" disabled
-                                           ng-model="calculateTotalIncome()"
+                                           ng-model="formData.totalIncome"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="totalIncome"/>
                                 </td>
@@ -1724,7 +1724,7 @@
 
                                     <input type="number" class="form-control" id="totalExpenditures"
                                            name="totalExpenditures" disabled
-                                           ng-model="calculateTotalExpenditure()"
+                                           ng-model="formData.totalExpenditures"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="totalExpenditures"/>
                                 </td>
@@ -1736,7 +1736,7 @@
 
                                     <input type="number" class="form-control" id="availableMonthly"
                                            name="availableMonthly" disabled
-                                           ng-model="calculateAvailableMonthly()"
+                                           ng-model="formData.availableMonthly"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="availableMonthly"/>
                                 </td>
@@ -1750,7 +1750,7 @@
 
                                     <input type="number" class="form-control" id="paymentCapacity"
                                            name="paymentCapacity" disabled
-                                           ng-model="calculatePaymentCapacity()"
+                                           ng-model="formData.paymentCapacity"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="paymentCapacity"/>
                                 </td>
@@ -1762,7 +1762,7 @@
 
                                     <input type="number" class="form-control" id="facValue"
                                            name="facValue" disabled
-                                           ng-model="calculateFacValue()"
+                                           ng-model="formData.facValue"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="facValue"/>
                                 </td>
@@ -1774,7 +1774,7 @@
 
                                     <input type="number" class="form-control" id="debtLevel"
                                            name="debtLevel" disabled
-                                           ng-model="calculateDebtLevel()"
+                                           ng-model="formData.debtLevel"
                                            late-Validate/>
                                     <form-validate valattributeform="editloanaccountform" valattribute="debtLevel"/>
                                 </td>

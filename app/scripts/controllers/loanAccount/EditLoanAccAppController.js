@@ -289,7 +289,6 @@
                 resourceType: 'template',
                 templateType: 'groupAdditionals'
             }, function (data) {
-                console.log("\n\ngroup additional data: \n\n" + JSON.stringify(data))
                 scope.loanCycleCompletedOptions = data.loanCycleCompletedOptions || [];
                 scope.loanPurposeOptions = data.loanPurposeOptions || [];
                 scope.businessEvolutionOptions = data.businessEvolutionOptions || [];
@@ -734,6 +733,20 @@
                 scope.calculateTotals()
             }
 
+            scope.$watch('formData.monthlyIncome', function(){
+                scope.calculateTotalIncome();
+            });
+
+            scope.$watch('formData.otherIncome', function(){
+                scope.calculateTotalIncome();
+            });
+            scope.$watch('formData.businessProfit', function(){
+                scope.calculateTotalIncome();
+            });
+            scope.$watch('formData.clientProfit', function(){
+                scope.calculateTotalIncome();
+            });
+
             scope.calculateTotalIncome = function () {
                 scope.formData.totalIncome = 0;
                 let monthlyIncome = Number(scope.formData.monthlyIncome ? scope.formData.monthlyIncome : 0);
@@ -741,9 +754,20 @@
                 let businessProfit = Number(scope.formData.businessProfit ? scope.formData.businessProfit : 0);
                 let clientProfit = Number(scope.formData.clientProfit ? scope.formData.clientProfit : 0);
                 scope.formData.totalIncome = (monthlyIncome + otherIncome + (businessProfit < clientProfit ? businessProfit : clientProfit));
-
                 return scope.formData.totalIncome;
             }
+
+            scope.$watch('formData.rentMortgageFee', function(){
+                scope.calculateTotalExpenditure();
+            });
+
+            scope.$watch('formData.familyExpenses', function(){
+                scope.calculateTotalExpenditure();
+            });
+
+            scope.$watch('formData.totalInstallments', function(){
+                scope.calculateTotalExpenditure();
+            });
 
             scope.calculateTotalExpenditure = function () {
                 scope.formData.totalExpenditures = 0;
@@ -755,6 +779,14 @@
                 return scope.formData.totalExpenditures;
             }
 
+            scope.$watch('formData.totalIncome', function(){
+                scope.calculateAvailableMonthly();
+            });
+
+            scope.$watch('formData.totalExpenditures', function(){
+                scope.calculateAvailableMonthly();
+            });
+
             scope.calculateAvailableMonthly = function () {
                 scope.formData.availableMonthly = 0;
                 let totalIncome = Number(scope.formData.totalIncome ? scope.formData.totalIncome : 0);
@@ -764,6 +796,17 @@
                 return scope.formData.availableMonthly;
             }
 
+            scope.$watch('formData.monthlyPaymentCapacity', function(){
+                scope.calculatePaymentCapacity();
+            });
+            scope.$watch('formData.availableMonthly', function(){
+                scope.calculatePaymentCapacity();
+            });
+
+            scope.$watch('formData.proposedFee', function(){
+                scope.calculatePaymentCapacity();
+            });
+
             scope.calculatePaymentCapacity = function () {
                 scope.formData.paymentCapacity = 0;
                 let monthlyPaymentCapacity = Number(scope.formData.monthlyPaymentCapacity ? scope.formData.monthlyPaymentCapacity : 0);
@@ -771,34 +814,54 @@
                 let proposedFee = Number(scope.formData.proposedFee ? scope.formData.proposedFee : 0);
                 let minimumCapacity = monthlyPaymentCapacity < availableMonthly ? monthlyPaymentCapacity : availableMonthly;
                 scope.formData.paymentCapacity = (proposedFee / minimumCapacity);
-
                 return scope.formData.paymentCapacity;
             }
+
+            scope.$watch('formData.facilitatorProposedValue', function(){
+                scope.calculateFacValue();
+            });
+
+            scope.$watch('formData.inventories', function(){
+                scope.calculateFacValue();
+            });
 
             scope.calculateFacValue = function () {
                 scope.formData.facValue = 0;
                 let facilitatorProposedValue = Number(scope.formData.facilitatorProposedValue ? scope.formData.facilitatorProposedValue : 0);
                 let inventories = Number(scope.formData.inventories ? scope.formData.inventories : 0);
                 scope.formData.facValue = (facilitatorProposedValue / inventories);
-
                 return scope.formData.facValue;
             }
+
+            scope.$watch('formData.totalInstallments', function(){
+                scope.calculateDebtLevel();
+            });
+
+            scope.$watch('formData.availableMonthly', function(){
+                scope.calculateDebtLevel();
+            });
 
             scope.calculateDebtLevel = function () {
                 scope.formData.debtLevel = 0;
                 let totalInstallments = Number(scope.formData.totalInstallments ? scope.formData.totalInstallments : 0);
                 let availableMonthly = Number(scope.formData.availableMonthly ? scope.formData.availableMonthly : 0);
                 scope.formData.debtLevel = (totalInstallments / availableMonthly);
-
                 return scope.formData.debtLevel;
             }
+
+            scope.$watch('formData.salesValue', function(){
+                scope.calculateBusinessProfit(scope.formData.salesValue, scope.formData.businessPurchases)
+            });
+
+            scope.$watch('formData.businessPurchases', function(){
+                scope.calculateBusinessProfit(scope.formData.salesValue, scope.formData.businessPurchases)
+            });
 
             scope.calculateBusinessProfit = function (sales, purchases) {
                 scope.formData.businessProfit = 0;
                 scope.formData.businessProfit = Number(sales ? sales : 0) - Number(purchases ? purchases : 0);
                 return scope.formData.businessProfit;
             }
-
 
             scope.cancel = function () {
                 location.path('/viewloanaccount/' + routeParams.id);
