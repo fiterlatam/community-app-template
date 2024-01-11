@@ -1,4 +1,4 @@
-name: FB Prod - Codacy Coverage Reporter
+name: FB - Codacy Coverage Reporter
 on:
   push:
     branches:

@@ -1,4 +1,4 @@
-name: FB Mifos PROD CI
+name: FB Mifos CI
 on:
   push:
     branches:
