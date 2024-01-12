@@ -16,7 +16,9 @@
                     type: routeParams.type,
                     status: scope.formData.status,
                     searchText:scope.searchText,
-                    groupingType: routeParams.groupingType
+                    groupingType: routeParams.groupingType,
+                    orderBy: 'g.created_at',
+                    sortOrder: 'asc'
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;
                     scope.groupsList = data.pageItems;

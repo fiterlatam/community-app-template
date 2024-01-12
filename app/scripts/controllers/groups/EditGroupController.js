@@ -217,6 +217,7 @@
 
                 resourceFactory.prequalificationResource.getAllGroups({
                     type: 'checked',
+                    portfolioCenterId:scope.formData.portfolioCenterId,
                     searchText:value
                 }, function (data) {
                     console.log("prequal data: "+ JSON.stringify(data));

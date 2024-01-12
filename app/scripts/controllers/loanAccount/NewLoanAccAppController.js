@@ -131,14 +131,14 @@
             }
 
             if(scope.clientId){
-                resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
-                    scope.prequalificationOptions = data.clientPrequalifications;
-                    scope.clientData = data;
-                    scope.formData.fullName = data.displayName;
-                    scope.formData.phoneNumber = data.mobileNo;
-                    scope.formData.dpi = data.dpiNumber;
-                    scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
-                });
+              resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
+                 scope.prequalificationOptions = data.clientPrequalifications;
+                 scope.clientData = data;
+                 scope.formData.fullName = data.displayName;
+                 scope.formData.phoneNumber = data.mobileNo;
+                 scope.formData.dpi = data.dpiNumber;
+                 scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
+              });
             }
 
             scope.prequalificationChange = function (prequalificationId){
@@ -153,29 +153,29 @@
                         if(groupMembers.length > 0){
                             for(var i = 0; i < groupMembers.length; i++){
                                 if(groupMembers[i].dpi === scope.clientData.dpiNumber){
-                                    scope.totalApprovedAmount = groupMembers[i].requestedAmount;
+                                   scope.totalApprovedAmount = groupMembers[i].requestedAmount;
                                 }
                             }
                         }
                     } else {
-                        scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
                     }
                     scope.loanProductChange(loanProductId);
                 });
             }
-            scope.resolveFrequencyDayOfWeek = function (meetingDay){
-                if(meetingDay == 'Lunes'){
+           scope.resolveFrequencyDayOfWeek = function (meetingDay){
+               if(meetingDay == 'Lunes'){
                     scope.disableDaySelect = true;
                     return 1;
                 }if(meetingDay == 'Martes'){
-                    scope.disableDaySelect = true;
-                    return 2;
+                   scope.disableDaySelect = true;
+                   return 2;
                 }if(meetingDay == 'Miércoles'){
-                    scope.disableDaySelect = true;
-                    return 3;
+                   scope.disableDaySelect = true;
+                   return 3;
                 }if(meetingDay == 'Jueves'){
-                    scope.disableDaySelect = true;
-                    return 4;
+                   scope.disableDaySelect = true;
+                   return 4;
                 }
             } ;
 
@@ -749,9 +749,9 @@
                 location.path('/viewloanaccount/' + loanId);
             }
 
-            scope.searchByCaseId = function () {
-                var caseId = this.searchText;
-                if(scope.clientId && caseId){
+           scope.searchByCaseId = function () {
+               var caseId = this.searchText;
+               if(scope.clientId && caseId){
                     delete scope.formData.loanAdditionalData;
                     resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
                         scope.formData.loanAdditionalData = data;
@@ -768,12 +768,12 @@
                         }
                     });
                 }
-            }
+           }
 
-            scope.isAdditionalDateProperty = function(propertyName){
-                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
+           scope.isAdditionalDateProperty = function(propertyName){
+               var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
                 return dateFields.includes(propertyName);
-            }
+           }
 
             scope.cancel = function () {
                 if (scope.groupId) {
