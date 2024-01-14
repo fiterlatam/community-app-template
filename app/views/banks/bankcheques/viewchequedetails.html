@@ -115,7 +115,7 @@
                     <tr>
                         <td>{{chequeData.batchNo}}</td>
                         <td>{{chequeData.chequeNo}}</td>
-                        <td>{{chequeData.status.value}}</td>
+                        <td>{{chequeData.status.code | translate}}</td>
                         <td>{{chequeData.createdDate | DateFormat}}</td>
                         <td>{{chequeData.createdByUsername}}</td>
                         <td data-ng-show="chequeData.status.id == 3 || chequeData.status.id == 4">

@@ -168,7 +168,7 @@
                                     </div>
                                 </td>
                                 <td>{{cheque.chequeNo}}</td>
-                                <td>{{cheque.status.value}}</td>
+                                <td>{{cheque.status.code | translate}}</td>
                                 <td>{{cheque.batchNo}}</td>
                                 <td>{{cheque.bankAccNo}}</td>
                                 <td>{{cheque.bankName}}</td>
@@ -189,7 +189,7 @@
                     <div class="col-md-offset-2 paddedleft">
                         <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
                         <button has-permission='PRINT_BANKCHEQUE' ng-disabled="isExportBtnDisabled()" type="button" class="btn btn-primary" ng-csv="processCsvData()" filename="{{fileName}}" ><i class="fa fa-file "></i>&nbsp;&nbsp;{{'label.button.exportcsv' | translate }}</button>
-                        <button has-permission='PRINT_BANKCHEQUE' ng-disabled="isExportBtnDisabled()" type="button" class="btn btn-primary" ng-click="issueCheques()">{{'label.button.issue.cheque' | translate }}</button>
+                        <button has-permission='PRINT_BANKCHEQUE' ng-disabled="isExportBtnDisabled()" type="button" class="btn btn-primary" ng-click="issueCheques()">{{'label.button.disburse.and.print.cheque' | translate }}</button>
                     </div>
                 </form>
             </div>

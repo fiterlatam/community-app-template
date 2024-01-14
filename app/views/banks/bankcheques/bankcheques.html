@@ -23,7 +23,7 @@
                                                     <select id="chequeStatusId" name="chequeStatusId"
                                                             ng-model="formData.status"
                                                             class="form-control"
-                                                            ng-options="status.id as status.value for status in statusOptions"
+                                                            ng-options="status.id as status.code | translate  for status in statusOptions"
                                                             value="{{status.id}}">
                                                         <option value="">--{{'label.selectstatus' | translate}}--</option>
                                                     </select>
@@ -77,6 +77,7 @@
                     <th>{{'label.heading.chequeNo' | translate}}</th>
                     <th>{{'label.heading.batchNo' | translate}}</th>
                     <th>{{'label.heading.bankAccNo' | translate}}</th>
+                    <th>{{'label.heading.chequeAmount' | translate}}</th>
                     <th>{{'label.heading.status' | translate}}</th>
                     <th>{{'label.heading.description' | translate}}</th>
                     <th>{{'label.heading.createdon' | translate}}</th>
@@ -89,7 +90,8 @@
                     <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.chequeNo}}</td>
                     <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.batchNo}}</td>
                     <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.bankAccNo}}</td>
-                    <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.status.value}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.chequeAmount}}</td>
+                    <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.status.code | translate}}</td>
                     <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.description}}</td>
                     <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.createdDate | DateFormat}}</td>
                     <td class="pointer" data-ng-click="routeTo(cheque.batchId, cheque.id)">{{cheque.createdByUsername}}</td>
