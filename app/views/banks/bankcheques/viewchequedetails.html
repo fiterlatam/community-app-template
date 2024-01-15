@@ -90,6 +90,8 @@
                         <th>{{'label.heading.batchNo' | translate}}</th>
                         <th>{{'label.heading.chequeNo' | translate}}</th>
                         <th>{{'label.heading.status' | translate}}</th>
+                        <th>{{'label.heading.amount' | translate}}</th>
+                        <th>{{'label.heading.client' | translate}}</th>
                         <th>{{'label.heading.createdon' | translate}}</th>
                         <th>{{'label.heading.createdby' | translate}}</th>
                         <th data-ng-show="chequeData.status.id == 3 || chequeData.status.id == 4">
@@ -116,6 +118,8 @@
                         <td>{{chequeData.batchNo}}</td>
                         <td>{{chequeData.chequeNo}}</td>
                         <td>{{chequeData.status.code | translate}}</td>
+                        <td>{{chequeData.loanAmount?chequeData.loanAmount:chequeData.chequeAmount |FormatByLocale}}</td>
+                        <td>{{chequeData.clientName?chequeData.clientName:'---'}}</td>
                         <td>{{chequeData.createdDate | DateFormat}}</td>
                         <td>{{chequeData.createdByUsername}}</td>
                         <td data-ng-show="chequeData.status.id == 3 || chequeData.status.id == 4">
