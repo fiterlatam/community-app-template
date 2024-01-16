@@ -5264,6 +5264,7 @@
   "label.description.additional.telefono_fijo": "Landline",
   "label.description.additional.telefono_negocio": "Business phone",
   "label.description.additional.tiene_correo": "Has email",
+  "label.anchor.cobro": "Payments",
   "label.description.additional.tipo_credito": "Credit type",
   "label.description.additional.tipo_direccion_negocio": "Business address type",
   "label.description.additional.total_costo_ventas": "Total cost of sales",
