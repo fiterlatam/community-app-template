@@ -99,27 +99,39 @@
                 <tr>
                     <th>{{'label.input.name'|translate}}</th>
                     <th>{{'label.input.dpi'|translate}}</th>
-                    <th>{{'label.input.dateofbirth'|translate}}</th>
+                    <th colspan="2">{{'label.input.dateofbirth'|translate}}</th>
                     <th>{{'label.input.work.with.puente' | translate}}</th>
-                    <th>{{'label.input.amount.requested'|translate}}</th>
+                    <th colspan="2">{{'label.input.amount.requested'|translate}}</th>
+                    <th>{{'label.heading.action'|translate}}</th>
+                    <th>{{'label.heading.action'|translate}}</th>
                     <th></th>
                 </tr>
 
                 <tr ng-repeat="member in formData.members">
                     <td>{{member.name}}</td>
                     <td>{{member.dpi}}</td>
-                    <td>{{member.dob}}</td>
+                    <td colspan="2"><input id="dobd" type="text" placeholder="{{'label.input.dob'|translate}}" name="dob" datepicker-pop="dd MMMM yyyy"
+                               ng-model="formData.members[$index].dob" is-open="opened1" min="minDate" max="restrictDate"
+                               class="form-control" required/></td>
                     <td>{{member.puente}}</td>
-                    <td>{{member.amount}}</td>
-                    <td><a ng-click="removeMember($index)" uib-tooltip="{{'label.remove.row' | translate}}"><i class="fa fa-times"></i></a></td>
+                    <td colspan="2">
+                        <input type="text" class="form-control" name="amount" ng-if="formData.members"
+                               placeholder="{{'label.input.amount.requested' |translate}}" number-format
+                               data-ng-model="formData.members[$index].amount" id="amt" required>
+                    </td>
+                    <td><input type="checkbox" id="isSelected" name="isSelected" ng-model="formData.members[$index].groupPresident" ng-change="updatePresident($index)"></td>
+                    <td>
+                        <a ng-click="removeMember($index)" uib-tooltip="{{'label.remove.row' | translate}}"><i class="fa fa-times"></i></a>
+                    </td>
                 </tr>
             </table>
 
             <hr/>
+            <span class="text-danger" ng-if="formData.members && formData.members.length>0 && !presidentSelected">{{'label.anchor.president.not.selected'| translate}}</span>
             <div class="text-center">
                 <a id="cancel" ng-href="#/prequalificationsmenu" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || (!formData.group && !formData.groupName)?true:false"
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || !presidentSelected || (!formData.group && !formData.groupName)?true:false"
                         has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.save' | translate}}</button>
             </div>
         </fieldset>
