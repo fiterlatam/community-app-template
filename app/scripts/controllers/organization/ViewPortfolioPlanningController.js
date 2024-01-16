@@ -54,7 +54,7 @@
                                 scope.detailedPlanningData[i].meetingDayName,
                                 dateFilter(scope.detailedPlanningData[i].meetingStartTime, 'HH:mm'),
                                 scope.detailedPlanningData[i].portfolioCenterName, scope.detailedPlanningData[i].centerGroupId,
-                                scope.detailedPlanningData[i].centerGroupName, scope.detailedPlanningData[i].loanShortProductName,
+                                scope.detailedPlanningData[i].centerGroupName, scope.detailedPlanningData[i].totalPaidAmount,
                                 scope.detailedPlanningData[i].totalRepayment, scope.detailedPlanningData[i].totalOverdue,
                                 scope.detailedPlanningData[i].numberOfClients];
                             scope.csvData.push(scope.row);
