@@ -46,7 +46,7 @@
                         scope.convertTimeArrayToObject('meetingEndTime');
 
                         scope.csvData = [];
-                        scope.row = ['Fecha', 'Día', 'Hora', 'Centro', 'Nro. Grupo', 'Grupo', 'Tipo', 'A Cobrar', 'Mora', 'Clientes'];
+                        scope.row = ['Fecha', 'Día', 'Hora', 'Centro', 'Nro. Grupo', 'Grupo', 'Cobro', 'A Cobrar', 'Mora', 'Clientes'];
                         scope.csvData.push(scope.row);
                         for (var i in scope.detailedPlanningData) {
                             // push each row of planning into the array for csv data
