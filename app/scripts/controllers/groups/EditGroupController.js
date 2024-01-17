@@ -152,7 +152,7 @@
                     externalId: data.externalId,
                     staffId: data.staffId,
                     portfolioCenterId: data.portfolioCenterId,
-                    legacyNumber: data.legacyNumber,
+                    legacyNumber: data.legacyNumber>0?data.legacyNumber:null,
                     latitude: data.latitude,
                     longitude: data.longitude,
                     size: data.size,

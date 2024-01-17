@@ -131,6 +131,7 @@
                         <th>{{'label.heading.chequeNo' | translate}}</th>
                         <th>{{'label.heading.batchNo' | translate}}</th>
                         <th>{{'label.heading.bankAccNo' | translate}}</th>
+                        <th>{{'label.heading.chequeAmount' | translate}}</th>
                         <th>{{'label.heading.status' | translate}}</th>
                         <th>{{'label.heading.description' | translate}}</th>
                         <th>{{'label.heading.createdon' | translate}}</th>
@@ -150,7 +151,8 @@
                         <td>{{cheque.chequeNo}}</td>
                         <td>{{cheque.batchNo}}</td>
                         <td>{{cheque.bankAccNo}}</td>
-                        <td>{{cheque.status.value}}</td>
+                        <td>{{cheque.chequeAmount}}</td>
+                        <td>{{cheque.status.code | translate}}</td>
                         <td>{{cheque.description}}</td>
                         <td>{{cheque.createdDate | DateFormat}}</td>
                         <td>{{cheque.createdByUsername}}</td>
