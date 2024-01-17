@@ -92,7 +92,7 @@
                     return 'text-danger';
                 }
                 if (statusId === 'INACTIVE') {
-                    return 'text-warning';
+                    return 'text-success';
                 }
                 if (statusId === 'NONE') {
                     return 'text-success';
