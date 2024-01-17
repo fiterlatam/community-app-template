@@ -73,7 +73,7 @@
                         productId: data.productId,
                         centerId: data.centerId,
                         facilitator: data.facilitatorId,
-                        groupName: data.groupName+"-NUEVO",
+                        groupName: data.groupName,
                         prequalilficationTimespan: data.prequalilficationTimespan,
                         members: membersList
                     }
