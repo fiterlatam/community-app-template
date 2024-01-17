@@ -8,6 +8,7 @@
             scope.availableCheques= [];
             scope.formData = {};
             scope.uiValidationErrors = [];
+            scope.bankAccountOptions = [];
 
             scope.searchByCaseId = function () {
                    var params = {
@@ -32,13 +33,50 @@
                     sortOrder: 'ASC',
                     agencyId: scope.formData.agencyId,
                     status: 1
-                }, function (data) {
+                }, data => {
                         scope.totalAvailableCheques = data.totalFilteredRecords;
                         scope.availableCheques = data.pageItems;
+                        var bankAccMap = groupBy(scope.availableCheques, 'bankAccId');
+                        for (var [key, value] of  bankAccMap.entries()) {
+                            var chequeData = value[0];
+                            var accountName = chequeData.bankAccNo + ' (' + chequeData.bankName + ')' + ' - ' + chequeData.agencyName + ' (' + value.length + ' Cheques)';
+                            scope.bankAccountOptions.push({bankAccId: chequeData.bankAccId, accountName: accountName });
+                        }
                    });
             }
+            const groupBy = (items, key) => {
+                const map = new Map();
+                items.forEach((item) => {
+                    const keyValue = item[key];
+                    const currArr = map.has(keyValue) ? map.get(keyValue) : [];
+                    currArr.push(item);
+                    map.set(keyValue, currArr);
+                });
+                return map;
+            };
 
-            scope.assignCheques = function(){
+            scope.assignGuaranteeCheques = function () {
+                $uibModal.open({
+                    templateUrl: 'assignGuaranteeCheques.html',
+                    controller: AssignGuaranteeChequesController
+                });
+            };
+
+            var AssignGuaranteeChequesController = function ($scope, $uibModalInstance) {
+                $scope.bankAccountOptions = scope.bankAccountOptions;
+                if (Array.isArray($scope.bankAccountOptions) && $scope.bankAccountOptions.length) {
+                    $scope.bankAccId =  $scope.bankAccountOptions[0].bankAccId;
+                }
+                $scope.assign = function () {
+                    scope.assignChequesFromBankAccount( $scope.bankAccId);
+                    $uibModalInstance.close('delete');
+                };
+                $scope.cancel = function () {
+                    $uibModalInstance.close('cancel');
+                };
+            };
+
+            scope.assignChequesFromBankAccount = function(bankAccId){
                 var selectedGuaranteeDataList = [];
                 for(var i = 0; i < scope.guaranteeDataList.length; i++){
                      delete scope.guaranteeDataList[i].chequeData;
@@ -46,12 +84,18 @@
                         selectedGuaranteeDataList.push(scope.guaranteeDataList[i]);
                      }
                 }
+                var availableBankCheques = [];
+                for(var i = 0; i < scope.availableCheques.length; i++){
+                    if(scope.availableCheques[i].bankAccId === bankAccId){
+                        availableBankCheques.push(scope.availableCheques[i]);
+                    }
+                }
                 scope.uiValidationErrors = [];
                 if(selectedGuaranteeDataList.length < 1){
                   scope.uiValidationErrors.push({
                         message: 'error.message.select.at.least.one.guarantee'
                    });
-                } else if (selectedGuaranteeDataList.length > this.availableCheques.length){
+                } else if (selectedGuaranteeDataList.length > availableBankCheques.length){
                       scope.uiValidationErrors.push({
                           message: 'error.message.insufficient.amount.of.cheques'
                        });
@@ -59,7 +103,7 @@
                     let mappedChequeIndex = 0;
                     for (var i = 0; i < scope.guaranteeDataList.length; i++ ){
                        if(scope.guaranteeDataList[i].isSelected){
-                           scope.guaranteeDataList[i].chequeData = scope.availableCheques[mappedChequeIndex];
+                           scope.guaranteeDataList[i].chequeData = availableBankCheques[mappedChequeIndex];
                            var chequeName = scope.guaranteeDataList[i].chequeData.chequeNo + ' |' +  scope.guaranteeDataList[i].chequeData .batchNo + '| ' +  scope.guaranteeDataList[i].chequeData .bankAccNo +  '| ' +  scope.guaranteeDataList[i].chequeData.bankName;
                            var accountName = scope.guaranteeDataList[i].chequeData.bankAccNo + ' - ' + scope.guaranteeDataList[i].chequeData.agencyName;
                            scope.guaranteeDataList[i].chequeData.chequeName = chequeName;
@@ -95,6 +139,7 @@
                      if(scope.guaranteeDataList[i].isSelected){
                          var selectedGuarantee = {
                             guaranteeId: scope.guaranteeDataList[i].id,
+                            clientNo: scope.guaranteeDataList[i].clientNo,
                             caseId: scope.guaranteeDataList[i].caseId,
                             chequeId: scope.guaranteeDataList[i].chequeData.id,
                             guaranteeAmount: scope.guaranteeDataList[i].requestedAmount,

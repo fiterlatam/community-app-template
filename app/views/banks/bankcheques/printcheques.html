@@ -146,6 +146,7 @@
                                 <th>{{'label.heading.batchNo' | translate}}</th>
                                 <th>{{'label.heading.bankAccNo' | translate}}</th>
                                 <th>{{'label.heading.bank.name' | translate}}</th>
+                                <th>{{'label.input.type' | translate}}</th>
                                 <th>{{'label.heading.loanaccount' | translate}}</th>
                                 <th>{{'label.heading.chequeAmount' | translate}}</th>
                                 <th>{{'label.heading.clientno' | translate}}</th>
@@ -171,6 +172,7 @@
                                 <td>{{cheque.batchNo}}</td>
                                 <td>{{cheque.bankAccNo}}</td>
                                 <td>{{cheque.bankName}}</td>
+                                <td>{{cheque.loanAmount && cheque.loanAmount>0? 'label.heading.disbursement':'label.heading.guarantees'|translate }}</td>
                                 <td>{{cheque.loanAccNo}}</td>
                                 <td>{{cheque.chequeAmount}}</td>
                                 <td>{{cheque.clientNo}}</td>
