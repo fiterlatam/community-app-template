@@ -59,11 +59,7 @@
             scope.resolveMemberStatus = function (statusId) {
                 if (statusId === 'ACTIVE') {
                     return 'text-danger';
-                }
-                if (statusId === 'INACTIVE') {
-                    return 'text-success';
-                }
-                if (statusId === 'NONE') {
+                }else{
                     return 'text-success';
                 }
             }
