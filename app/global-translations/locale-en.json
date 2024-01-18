@@ -4943,7 +4943,7 @@
   "label.button.void":  "Void",
   "label.button.view.cheque": "View Cheque",
   "label.button.void.cheque": "Void Cheque",
-  "label.button.disburse.and.print.cheque": "Disburse & Print",
+  "label.button.disburse.and.print.cheque": "Print",
   "label.button.print.cheque": "Print Cheque",
   "label.button.reassign.cheque": "Reassign Cheque",
   "label.button.void.authorize.cheque": "Authorize Voidance",
@@ -5313,5 +5313,7 @@
   "bank.cheque.status.pending.issuance": "Pending Issuance",
   "bank.cheque.status.pending.authorization.by.accounting": "Pending Authorization by Accounting",
   "bank.cheque.status.ready.to.be.printed": "Ready to be printed",
+  "error.msg.cheque.guarantee.savings.account.not.found": "Guarantee savings account not found",
+  "error.msg.cheque.guarantee.amount.greater.than.available.savings.account.balance": "Guarantee amount is greater than savings account available balance",
   "----End---": "--End of file--- "
 }
