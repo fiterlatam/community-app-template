@@ -5315,5 +5315,6 @@
   "bank.cheque.status.ready.to.be.printed": "Ready to be printed",
   "error.msg.cheque.guarantee.savings.account.not.found": "Guarantee savings account not found",
   "error.msg.cheque.guarantee.amount.greater.than.available.savings.account.balance": "Guarantee amount is greater than savings account available balance",
+  "label.heading.centerRange": "Range and Day",
   "----End---": "--End of file--- "
 }

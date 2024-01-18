@@ -4941,5 +4941,6 @@
 	"bank.cheque.status.ready.to.be.printed": "Listo para impresión",
 	"error.msg.cheque.guarantee.savings.account.not.found": "Cuenta de ahorro de garantía no encontrada",
 	"error.msg.cheque.guarantee.amount.greater.than.available.savings.account.balance": "El monto de la garantía es mayor que el saldo disponible de la cuenta de ahorros",
+	"label.heading.centerRange": "Rango y Dia",
 	"----End---": "---Fin del archivo---"
 }
