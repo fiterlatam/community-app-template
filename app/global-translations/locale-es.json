@@ -4653,7 +4653,7 @@
 	"error.msg.committee.user.already.assigned": "El usuario `{{params[0].value}}` ya está asignado a un comité",
 	"confirmation.message.first.part.one": "¿Está seguro de que desea ",
 	"confirmation.message.first.part.two": " esta precalificación?",
-	"label.button.disburse.and.print.cheque": "Desembolsar e imprimir",
+	"label.button.disburse.and.print.cheque": "Imprimir",
 	"label.button.validate.blacklist": "validar lista negra",
 	"label.input.blacklist.status": "Lista negra",
 	"label.validate.hard.policy": "Validar Política Dura",
@@ -4668,7 +4668,6 @@
 	"label.input.select.prequalification": "Seleccionar Precalificación",
 	"error.msg.prequalification.member.not.selected.exception": "Seleccione al menos una miembro para aprobar el préstamo",
 	"error.msg.prequalification.submitted.loan.not.found.exception": "No se encontró ningún préstamo en estado enviado y pendiente de aprobación",
-	"label.heading.additionals": "Adicionales",
 	"label.heading.additional.property.name": "Nombre del campo",
 	"label.heading.additional.property.value": "Valor de campo",
 	"label.description.additional.ciclosCancelados": "Ciclos cancelados",
@@ -4940,5 +4939,8 @@
 	"bank.cheque.status.pending.issuance": "Pendiente de emisión",
 	"bank.cheque.status.pending.authorization.by.accounting": "Pendiente de Autorización por Contabilidad",
 	"bank.cheque.status.ready.to.be.printed": "Listo para impresión",
+	"error.msg.cheque.guarantee.savings.account.not.found": "Cuenta de ahorro de garantía no encontrada",
+	"error.msg.cheque.guarantee.amount.greater.than.available.savings.account.balance": "El monto de la garantía es mayor que el saldo disponible de la cuenta de ahorros",
+	"label.heading.centerRange": "Rango y Dia",
 	"----End---": "---Fin del archivo---"
 }
