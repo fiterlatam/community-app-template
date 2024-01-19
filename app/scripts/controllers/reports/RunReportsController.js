@@ -95,12 +95,20 @@
             }
 
             function intializeParams(paramData, params) {
+                for (var i in scope.reportDateParams) {
+                    if (scope.formData[scope.reportDateParams[i].inputName]) {
+                        scope.formData[scope.reportDateParams[i].inputName] = dateFilter(scope.formData[scope.reportDateParams[i].inputName], 'yyyy-MM-dd');
+                    }
+                }
+                const requestJson = {...scope.formData};
+                requestJson.parameterType = true;
+                requestJson.reportSource = paramData.name;
                 scope.errorStatus = undefined;
                 scope.errorDetails = [];
                 params.reportSource = paramData.name;
                 params.parameterType = true;
                 var successFunction = getSuccuessFunction(paramData);
-                resourceFactory.runReportsResource.getReport(params, successFunction);
+                resourceFactory.runReportsResource.getReport(requestJson, successFunction);
             }
 
             scope.getDependencies = function (paramData) {
@@ -110,14 +118,8 @@
                         if (temp.displayType == 'select') {
                             var parentParamValue = this.formData[paramData.inputName];
                             if (parentParamValue != undefined) {
-                                // eval("var params={};params." + paramData.inputName + "='" + parentParamValue + "';");
-                                for (var i in scope.reportDateParams) {
-                                    if (scope.formData[scope.reportDateParams[i].inputName]) {
-                                        scope.formData[scope.reportDateParams[i].inputName] = dateFilter(scope.formData[scope.reportDateParams[i].inputName], 'yyyy-MM-dd');
-                                    }
-                                }
-                                const requestJson = {...scope.formData};
-                                intializeParams(temp, requestJson);
+                                eval("var params={};params." + paramData.inputName + "='" + parentParamValue + "';");
+                                intializeParams(temp, params);
                             }
                         } else if (temp.displayType == 'date') {
                             scope.reportDateParams.push(temp);
@@ -156,6 +158,22 @@
                     $(this).removeClass("validationerror");
                 });
             }
+
+            scope.$watchGroup(['formData.R_disbursementDate', 'formData.R_officeIdSelectAll', 'formData.R_loanProductSelectAll'], function(){
+                console.log("scope.formData");
+                if(scope.reportDateParams && scope.reportDateParams.length > 0){
+                    for (var i = 0; i < scope.reportDateParams.length; i++) {
+                        if(scope.reportDateParams[i].name === 'disbursementDate'){
+                            if(scope.formData.R_disbursementDate && scope.formData.R_officeIdSelectAll && scope.formData.R_loanProductSelectAll){
+                                scope.getDependencies(scope.reportDateParams[i]);
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+
+            scope
 
             function parameterValidationErrors() {
                 var tmpStartDate = "";
