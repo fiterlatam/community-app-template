@@ -110,8 +110,14 @@
                         if (temp.displayType == 'select') {
                             var parentParamValue = this.formData[paramData.inputName];
                             if (parentParamValue != undefined) {
-                                eval("var params={};params." + paramData.inputName + "='" + parentParamValue + "';");
-                                intializeParams(temp, params);
+                                // eval("var params={};params." + paramData.inputName + "='" + parentParamValue + "';");
+                                for (var i in scope.reportDateParams) {
+                                    if (scope.formData[scope.reportDateParams[i].inputName]) {
+                                        scope.formData[scope.reportDateParams[i].inputName] = dateFilter(scope.formData[scope.reportDateParams[i].inputName], 'yyyy-MM-dd');
+                                    }
+                                }
+                                const requestJson = {...scope.formData};
+                                intializeParams(temp, requestJson);
                             }
                         } else if (temp.displayType == 'date') {
                             scope.reportDateParams.push(temp);
