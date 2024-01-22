@@ -111,7 +111,7 @@
                         <i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i>
                     </td>
                     <td class="pointer" style="font-size: 25px">
-                        <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
+                        <i ng-if="member.bureauCheckStatus" class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}" ng-click="viewBuroResult(member.id)"></i>
                         {{member.bureauCheckStatus.code}}
                     </td>
                     <td data-ng-show="viewPolicyCheckResults">
@@ -253,6 +253,54 @@
         </div>
     </div>
 
+    <script type="text/ng-template" id="viewBuroResult.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.member.buro.result' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <table class="table-bordered table view-table" style="width: 400px; margin-left: 50px">
+                    <tr>
+                        <td>{{'label.heading.buro.name' | translate}}</td>
+                        <td>{{buroCheckResult.nombre ? buroCheckResult.nombre : 'N/A' }}</td>
+                    </tr>
+                    <tr class="graybg">
+                        <td>{{'label.heading.buro.identification.type' | translate}}</td>
+                        <td>{{buroCheckResult.tipo}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'label.heading.buro.identification.number' | translate}}</td>
+                        <td>{{buroCheckResult.numero}}</td>
+                    </tr>
+                    <tr class="graybg">
+                        <td>{{'label.heading.buro.identification.status' | translate}}</td>
+                        <td>{{buroCheckResult.estado}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'label.heading.buro.date' | translate}}</td>
+                        <td>{{buroCheckResult.fecha | DateFormat}}</td>
+                    </tr>
+                    <tr class="graybg">
+                        <td>{{'label.heading.buro.Cuentas' | translate}}</td>
+                        <td>{{buroCheckResult.cuentas}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{'label.heading.buro.Clasificacion' | translate}}</td>
+                        <td>{{buroCheckResult.classification.value | translate }} ({{buroCheckResult.classification.code}})</td>
+                    </tr>
+                    <tr>
+                        <td>{{'label.heading.buro.Resumen' | translate}}</td>
+                        <td>{{buroCheckResult.resumen}}</td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-warning" ng-click="cancel()">{{'label.button.close' | translate}}</button>
+            </div>
+        </div>
+    </script>
+
     <script type="text/ng-template" id="viewMemberHardPolicy.html">
         <div class="modal-header silver">
             <h3 class="bolder">{{'label.heading.member.hardpolicy' | translate}}</h3>
@@ -261,31 +309,10 @@
             <div class="row">
                 <div ng-repeat=" results in memberResults.rows">
                     <div ng-repeat="member in results track by $index" ng-if="member.toUpperCase()==='RED'" >
-                        <div class="alert alert-info">
-                                                        <span class="h4">{{memberResults.columnHeaders[$index] |translate}}
-                                <span class="pull-right {{checkValidationColor(member)}}">{{member}}</span></span>
+                        <div class="alert alert-info"><span class="h4">{{memberResults.columnHeaders[$index] |translate}}<span class="pull-right {{checkValidationColor(member)}}">{{member}}</span></span>
                         </div>
-
                     </div>
-
                 </div>
-<!--                <table class="table table-striped">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th ng-repeat="header in memberResults.columnHeaders">-->
-<!--                            <span>{{header | translate}}</span>-->
-<!--                        </th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr id="{{$index}}" data-ng-click="highlight($index)"-->
-<!--                        ng-repeat="row in memberResults.rows track by $index">-->
-<!--                        <td ng-repeat="col in row track by $index">-->
-<!--                            <span class="{{checkValidationColor(col)}}">{{col}}</span>-->
-<!--                        </td>-->
-<!--                    <tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
             </div>
             <br>
             <div class="text-center">
