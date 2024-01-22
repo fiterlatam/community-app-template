@@ -35,6 +35,12 @@
 
             resourceFactory.prequalificationTemplateResource.get({groupingType:routeParams.groupingType},function (data) {
                 scope.agenciesList = data.agencies;
+                if (data.agencies.length === 1) {
+                    scope.formData.agencyId = data.agencies[0].id;
+                    let facilitators = data.facilitators.filter((facilitator) => facilitator.username === scope.currentSession.user.name);
+                    scope.formData.facilitator = facilitators[0].id;
+                }
+
                 scope.centersList = data.centerData;
                 scope.facilitators = data.facilitators;
                 scope.productsList = data.loanProducts;
