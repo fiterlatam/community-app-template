@@ -12,11 +12,11 @@
             scope.groupingType = routeParams.groupingType;
             scope.previousPageUrl = "#/prequalificationsmenu";
             if (routeParams.groupingType === 'group'){
-                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+                scope.previousPageUrl = "#/prequalificationGroups/group/list";
             }
 
             if (routeParams.groupingType === 'individual'){
-                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+                scope.previousPageUrl = "#/prequalificationGroups/individual/list";
             }
             scope.hasRedValidations = false;
 
@@ -88,11 +88,11 @@
                     }
 
                     if (routeParams.groupingType === 'group'){
-                        location.path('/prequalificationGroups/group/new');
+                        location.path('/prequalificationGroups/group/list');
                     }
 
                     if (routeParams.groupingType === 'individual'){
-                        location.path('/prequalificationGroups/individual/new');
+                        location.path('/prequalificationGroups/individual/list');
                     }
                 });
             };
