@@ -166,7 +166,7 @@
 
 
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('#/prequalificationGroups/group/new');
+                    location.path('#/prequalificationGroups/group/list');
                 });
             }
 
@@ -181,7 +181,7 @@
                 //     member.dateFormat = scope.df;
                 // })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('#/prequalificationGroups/group/new');
+                    location.path('#/prequalificationGroups/group/list');
                 });
             }
 
