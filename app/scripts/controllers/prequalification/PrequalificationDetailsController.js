@@ -13,11 +13,11 @@
             scope.groupingType = routeParams.groupingType;
             scope.previousPageUrl = "#/prequalificationsmenu";
             if (routeParams.groupingType === 'group'){
-                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+                scope.previousPageUrl = "#/prequalificationGroups/group/list";
             }
 
             if (routeParams.groupingType === 'individual'){
-                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+                scope.previousPageUrl = "#/prequalificationGroups/individual/list";
             }
             scope.hasRedValidations = false;
 
@@ -89,11 +89,11 @@
                     }
 
                     if (routeParams.groupingType === 'group'){
-                        location.path('/prequalificationGroups/group/new');
+                        location.path('/prequalificationGroups/group/list');
                     }
 
                     if (routeParams.groupingType === 'individual'){
-                        location.path('/prequalificationGroups/individual/new');
+                        location.path('/prequalificationGroups/individual/list');
                     }
                 });
             };
@@ -166,6 +166,21 @@
                 });
             };
 
+            scope.viewBuroResult = function (memberId) {
+                scope.buroCheckResult = {};
+                if(scope.groupMembers && scope.groupMembers.length > 0){
+                    for (let i = 0; i < scope.groupMembers.length; i++){
+                        if(scope.groupMembers[i].id === memberId){
+                            scope.buroCheckResult = scope.groupMembers[i].buroData;
+                        }
+                    }
+                }
+                $uibModal.open({
+                    templateUrl: 'viewBuroResult.html',
+                    controller: ViewBuroResultCtrl
+                });
+            };
+
             scope.processAnalysisRequest = function (status, inMessage) {
                 scope.analysisStatus = status;
                 scope.confirmationMessage = inMessage
@@ -187,6 +202,17 @@
 
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var ViewBuroResultCtrl = function ($scope, $uibModalInstance) {
+                var result = Object.assign({}, scope.buroCheckResult);
+                $scope.buroCheckResult = result;
+                if(result.fecha){
+                    $scope.buroCheckResult.fecha = new Date(... result.fecha);
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.close();
                 };
             };
 
