@@ -23,7 +23,7 @@
             scope.presidentSelected =false;
 
             if (routeParams.groupingType === 'group'){
-                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+                scope.previousPageUrl = "#/prequalificationGroups/group/list";
             }
 
             if (routeParams.groupingType === 'individual'){
