@@ -21,7 +21,7 @@
             scope.membersList = [];
             scope.tf = "HH:mm";
 
-            resourceFactory.prequalificationTemplateResource.get({groupId: routeParams.prequalificationId},function (data) {
+            resourceFactory.prequalificationTemplateResource.get({groupId: routeParams.prequalificationId, groupingType: 'group'}, function (data) {
                 if (data.agencies){
                     scope.agenciesList = data.agencies
                 }
@@ -35,10 +35,9 @@
             });
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.prequalificationId}, function (data) {
-                var prevDate = dateFilter(data.createdAt, scope.df);
-
-                scope.previousPrequalificationDate = dateFilter(new Date(prevDate), scope.df) ;
-
+                const [ year, month, day, hour, minute, second ] = data.createdAt;
+                const createdDate = new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`);
+                scope.previousPrequalificationDate = dateFilter(createdDate, scope.df);
                 if (data.openingDate) {
                     var editDate = dateFilter(data.openingDate, scope.df);
                     scope.first.date = new Date(editDate);
@@ -155,6 +154,7 @@
                         memberData.dpi = scope.membersList[i].dpiNumber ;
                         memberData.groupPresident = scope.membersList[i].groupPresident ;
                         if(scope.membersList[i].dateOfBirth){
+                            console.log(scope.membersList[i].dateOfBirth);
                             memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
                         }
                         memberData.amount = scope.membersList[i].approvedAmount ;
