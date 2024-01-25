@@ -31,6 +31,14 @@
             };
             resourceFactory.groupResource.get({groupId: routeParams.id, associations: 'all'}, function (data) {
                 scope.group = data;
+                if(scope.group.prequalificationGroups && scope.group.prequalificationGroups.length > 0){
+                    for(var i = 0; i < scope.group.prequalificationGroups.length; i++){
+                        const [ year, month, day, hour, minute, second ] = scope.group.prequalificationGroups[i].createdAt;
+                        const createdDate = new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`);
+                        scope.group.prequalificationGroups[i].createdAt = dateFilter(createdDate, scope.df);
+                    }
+                }
+
                 scope.showNonPrequalificationActionBtn = false;
                 if(scope.group.clientMembers){
                     scope.isGroupMembersAvailable = (scope.group.clientMembers.length>0);
