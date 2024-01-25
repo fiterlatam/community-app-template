@@ -258,41 +258,8 @@
             <h3 class="bolder">{{'label.heading.member.buro.result' | translate}}</h3>
         </div>
         <div class="modal-body">
-            <div class="row">
-                <table class="table-bordered table view-table" style="width: 400px; margin-left: 50px">
-                    <tr>
-                        <td>{{'label.heading.buro.name' | translate}}</td>
-                        <td>{{buroCheckResult.nombre ? buroCheckResult.nombre : 'N/A' }}</td>
-                    </tr>
-                    <tr class="graybg">
-                        <td>{{'label.heading.buro.identification.type' | translate}}</td>
-                        <td>{{buroCheckResult.tipo}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'label.heading.buro.identification.number' | translate}}</td>
-                        <td>{{buroCheckResult.numero}}</td>
-                    </tr>
-                    <tr class="graybg">
-                        <td>{{'label.heading.buro.identification.status' | translate}}</td>
-                        <td>{{buroCheckResult.estado}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'label.heading.buro.date' | translate}}</td>
-                        <td>{{buroCheckResult.fecha | DateFormat}}</td>
-                    </tr>
-                    <tr class="graybg">
-                        <td>{{'label.heading.buro.Cuentas' | translate}}</td>
-                        <td>{{buroCheckResult.cuentas}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'label.heading.buro.Clasificacion' | translate}}</td>
-                        <td>{{buroCheckResult.classification.value | translate }} ({{buroCheckResult.classification.code}})</td>
-                    </tr>
-                    <tr>
-                        <td>{{'label.heading.buro.Resumen' | translate}}</td>
-                        <td>{{buroCheckResult.resumen}}</td>
-                    </tr>
-                </table>
+            <div>
+                <p>{{buroCheckResult.resumen}}</p>
             </div>
             <br>
             <div class="text-center">
