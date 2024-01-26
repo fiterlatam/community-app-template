@@ -137,7 +137,8 @@
                         <div class="checkbox form-group">
                            <span>{{'label.heading.approve' | translate}}</span> &nbsp;&nbsp;
                             <label for="isAllMembersSelected">
-                                <input type="checkbox" id="isAllMembersSelected" name="isAllMembersSelected" ng-model="formData.isAllMembersSelected" data-ng-change="selectAllMembers()">
+                                <input type="checkbox" id="isAllMembersSelected" name="isAllMembersSelected"
+                                       ng-model="formData.isAllMembersSelected" data-ng-change="selectAllMembers()">
                             </label>
                         </div>
                     </th>
@@ -147,8 +148,8 @@
                     <td>{{member.name}}</td>
                     <td>{{member.requestedAmount | number}}</td>
                     <td ng-if="prequalificationType==='analysis'">
-                        <input type="number" class="form-control" name="amntApproved"
-                               ng-disabled="!groupMembers[$index].isEdit"
+                        <input type="text" class="form-control" name="amntApproved"
+                               ng-disabled="!groupMembers[$index].isEdit"  number-format
                                placeholder="{{'label.input.amount.approved'|translate}}"
                                ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
                     </td>
