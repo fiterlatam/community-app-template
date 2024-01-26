@@ -4957,5 +4957,6 @@
 	"buro.check.classification.yellow": "Amarillo",
 	"buro.check.classification.red": "Rojo",
 	"buro.check.classification.orange": "Naranja",
+	"error.msg.meeting.date.meeting.end.time.earlier.than.start.time": "La hora de inicio de la reunión debe ser anterior a la hora de finalización de la reunión.",
 	"----End---": "---Fin del archivo---"
 }

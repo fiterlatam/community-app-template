@@ -5331,5 +5331,16 @@
   "buro.check.classification.yellow": "Yellow",
   "buro.check.classification.red": "Red",
   "buro.check.classification.orange": "Orange",
+  "label.input.company.fieldset.custom": "Additional",
+  "label.input.portfolioCenter": "Centre",
+  "label.input.legacyGroupNumber": "Old Group No.",
+  "label.input.groupLatitude": "Latitude",
+  "label.input.groupformationdate": "Training date",
+  "label.input.groupSize": "Group size",
+  "label.input.groupResponsibleUser": "Group Formed By",
+  "label.input.groupLongitude": "Longitude",
+  "error.msg.meeting.date.meeting.end.time.earlier.than.start.time": "Meeting Start Time should be before meeting end time",
+  "label.anchor.createportfolio": "Create portfolio",
+  "label.button.createportfolio": "Create portfolio",
   "----End---": "--End of file--- "
 }
