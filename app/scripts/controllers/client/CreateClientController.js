@@ -30,6 +30,7 @@
             scope.formData.familyMembers=[];
             scope.formData.residenceYears = 0;
             scope.formData.communityYears = 0;
+            scope.formData.loanCycle = 0;
             scope.familyArray=[];
             scope.datatables = [];
             scope.noOfTabs = 1;
