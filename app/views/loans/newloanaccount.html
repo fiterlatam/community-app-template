@@ -28,7 +28,7 @@
                                    uib-tooltip="{{'label.tooltip.prequalification' | translate}}"></i>
                             </td>
                             <td class="width36 paddedbottom20">
-                                <select id="prequalificationId" ng-model="formData.prequalificationId"
+                                <select id="prequalificationId" ng-model="formData.prequalificationId" required
                                         ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in prequalificationOptions"
                                         value="{{prequalification}}"
                                         ng-change="prequalificationChange(formData.prequalificationId)"
@@ -1189,7 +1189,7 @@
                                             <span class="required">*</span>:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
-                                        <select ng-model="formData.loanCycleCompleted" id="loanCycleCompleted"
+                                        <select ng-model="formData.loanCycleCompleted" id="loanCycleCompleted" required
                                                 ng-options="cycle.id as cycle.description for cycle in loanCycleCompletedOptions"
                                                 value="{{cycle.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
@@ -1725,7 +1725,7 @@
                                                         </td>
                                                         <td class="width19 paddedbottom20">
                                                             <select ng-model="currentLoanData.institutionType"
-                                                                    id="institutionType"
+                                                                    id="institutionType" required
                                                                     ng-options="type.id as type.description for type in institutionTypeOptions"
                                                                     value="{{type.id}}" class="form-control">
                                                                 <option value="">{{'label.selectone' | translate}}
@@ -1782,7 +1782,7 @@
                                                         </td>
                                                         <td class="width19 paddedbottom20">
                                                             <select ng-model="currentLoanData.loanStatus"
-                                                                    id="loanStatus"
+                                                                    id="loanStatus" required
                                                                     ng-options="status.id as status.description for status in loanStatusOptions"
                                                                     value="{{type.id}}" class="form-control">
                                                                 <option value="">{{'label.selectone' | translate}}
