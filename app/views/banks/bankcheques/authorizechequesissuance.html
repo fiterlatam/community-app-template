@@ -153,7 +153,7 @@
                         <td>{{cheque.batchNo}}</td>
                         <td>{{cheque.bankAccNo}}</td>
                         <td>{{cheque.loanAmount && cheque.loanAmount>0? 'label.heading.disbursement':'label.heading.guarantees'|translate }}</td>
-                        <td>{{cheque.chequeAmount}}</td>
+                        <td>{{cheque.chequeAmount  | FormatNumber:2}}</td>
                         <td>{{cheque.status.code | translate}}</td>
                         <td>{{cheque.description}}</td>
                         <td>{{cheque.createdDate | DateFormat}}</td>
