@@ -217,7 +217,7 @@
                             <td>{{loanAccount.clientName}}</td>
                             <td>{{loanAccount.loanProductName}}</td>
                             <td>{{loanAccount.expectedFirstRepaymentOnDate | DateFormat}}</td>
-                            <td>{{loanAccount.approvedPrincipal}}</td>
+                            <td>{{loanAccount.approvedPrincipal | FormatNumber:2}}</td>
                             <td>
                                 <div class="checkbox form-group">
                                     <label for="isSelected">
@@ -243,14 +243,14 @@
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
                                     <div class="input-group"  style="width: 120px">
-                                        <input id="returnGuaranteeAmount" type="text" class="form-control" name="returnGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.actualGuaranteeAmount, loanAccount.requiredGuaranteeAmount)" disabled>
+                                        <input id="returnGuaranteeAmount" type="text" class="form-control" name="returnGuaranteeAmount" ng-model="returnGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.actualGuaranteeAmount, loanAccount.requiredGuaranteeAmount) | FormatNumber:2" disabled>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
                                     <div class="input-group" style="width: 120px">
-                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-value="calculateDepositAmount(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount)" disabled>
+                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-model="depositGuaranteeAmount" ng-value="calculateDepositAmount(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount) | FormatNumber:2" disabled>
                                     </div>
                                 </div>
                             </td>

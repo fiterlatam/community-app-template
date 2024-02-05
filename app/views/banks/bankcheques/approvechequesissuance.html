@@ -143,9 +143,9 @@
                         <td>{{cheque.bankAccNo}}</td>
                         <td>{{cheque.loanAmount && cheque.loanAmount>0? 'label.heading.disbursement':'label.heading.guarantees'|translate }}</td>
                         <td>{{cheque.clientName}}</td>
-                        <td>{{cheque.chequeAmount}}</td>
+                        <td>{{cheque.chequeAmount  | FormatNumber:2 }}</td>
                         <td>{{cheque.depositNumber}}</td>
-                        <td>{{cheque.guaranteeAmount}}</td>
+                        <td>{{cheque.guaranteeAmount | FormatNumber:2}}</td>
                         <td>{{cheque.description}}</td>
                         <td>{{cheque.createdByUsername}}</td>
                     </tr>
