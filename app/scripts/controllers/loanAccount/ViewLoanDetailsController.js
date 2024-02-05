@@ -292,17 +292,17 @@
                                 name: "button.disbursetosavings",
                                 icon: "fa fa-flag",
                                 taskPermissionName: 'DISBURSETOSAVINGS_LOAN'
-                            },
-                            {
-                                name: "button.undoapproval",
-                                icon: "fa fa-undo",
-                                taskPermissionName: 'APPROVALUNDO_LOAN'
                             });
                     }
 
 
                     scope.buttons = { singlebuttons: singlebuttonsApproved,
                         options: [
+                            {
+                                name: "button.undoapproval",
+                                icon: "fa fa-undo",
+                                taskPermissionName: 'APPROVALUNDO_LOAN'
+                            },
                             {
                                 name: "button.addloancharge",
                                 taskPermissionName: 'CREATE_LOANCHARGE'

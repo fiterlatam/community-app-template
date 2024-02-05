@@ -583,6 +583,7 @@
   "error.msg.loan.writeoff.cannot.be.undone.before.client.transfer.date": " The date on which a write off is made cannot be earlier than client's transfer date of ({{params[0].value}}) ",
   "error.msg.loan.close.cannot.be.undone.before.client.transfer.date": " The date on which the loan is repaid in full cannot be earlier than client's transfer date of ({{params[0].value}}) ",
   "error.msg.loan.repayment.or.waiver.account.is.not.active": "Loan account is not active",
+  "error.msg.payment.amount.not.enough.invalid": "Payment of amount `{{params[0].value}}` is not enough to cover the loan balance of `{{params[1].value}}` and release the guaranteed amount of `{{params[2].value}}`",
   "validation.msg.floatingrate.ratePeriods.cannot.be.empty": "Floating rate periods can not be empty",
   "validation.msg.floatingrate.fromDate.is.less.than.date": "Floating rate periods from date must be greater than current date",
   "validation.msg.floatingrate.isBaseLendingRate.baselendingrate.duplicate": "Base lending rate is already defined",
@@ -5339,5 +5340,7 @@
   "label.input.groupResponsibleUser": "Group Formed By",
   "label.input.groupLongitude": "Longitude",
   "error.msg.meeting.date.meeting.end.time.earlier.than.start.time": "Meeting Start Time should be before meeting end time",
+  "label.anchor.createportfolio": "Create portfolio",
+  "label.button.createportfolio": "Create portfolio",
   "----End---": "--End of file--- "
 }
