@@ -179,21 +179,6 @@
                 }
             } ;
 
-            scope.resolveFrequencyRange = function (centerName){
-                if(centerName.includes('-R1-')){
-                    scope.disableFrequencySelect = true;
-                    return 1;
-                }if(centerName.includes('-R2-')){
-                    scope.disableFrequencySelect = true;
-                    return 2;
-                }if(centerName.includes('-R3-')){
-                    scope.disableFrequencySelect = true;
-                    return 3;
-                }if(centerName.includes('-R4-')){
-                    scope.disableFrequencySelect = true;
-                    return 4;
-                }
-            }
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
@@ -216,7 +201,10 @@
                     if (data.product.ownerTypeOption.value ==='Group'){
                         if (data.group){
                             scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
-                            scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                            if (data.group.meetingFrequencyRange){
+                                scope.disableFrequencySelect = true;
+                                scope.formData.repaymentFrequencyNthDayType = data.group.meetingFrequencyRange
+                            }
                         }
                     }
                     scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
