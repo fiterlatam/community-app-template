@@ -28,20 +28,18 @@
                                 </div>
                             </div>
                             <div class="col-md-6" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
-                                <div class="control-label col-sm-6 text-white">
+                                <div class="control-label col-sm-3 text-white">
                                     <label>{{ 'label.input.status' | translate }}<span
                                             class="required">*</span></label>
                                 </div>
-                                <div class="col-sm-6">
-                                <select id="statusfilter" ng-change="getResultsPage(1)"
-                                        ng-model="formData.status" class="form-control"
-                                        ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
-                                        value="{{gpStatus.id}}">
-                                    <option value="">{{'label.all' | translate}}</option>
-                                </select>
-
+                                <div class="col-sm-9">
+                                    <select id="statusfilter" ng-change="getResultsPage(1)"
+                                            ng-model="formData.status"  class="form-control width170px"
+                                            ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
+                                            value="{{gpStatus.id}}">
+                                        <option value="">{{'label.all' | translate}}</option>
+                                    </select>
                                 </div>
-
                             </div>
                         </div>
                     </form>
