@@ -5305,7 +5305,7 @@
   "label.description.additional.aniosComunidad": "Years community",
   "label.description.additional.servicios": "Services",
   "validation.msg.group.legacyNumber.not.greater.than.zero": "Old Group No. must be greater than zero",
-  "error.msg.prequalification.is.not.linked.to.a.group": "Asegúrese de que esta precalificación esté vinculada a un grupo.",
+  "error.msg.prequalification.is.not.linked.to.a.group": "Please ensure that this prequalification `{{params[0].value}}` is linked to a group",
   "bank.cheque.status.invalid": "Invalidd",
   "bank.cheque.status.available":"Available",
   "bank.cheque.status.issued": "Issued",
@@ -5342,5 +5342,6 @@
   "error.msg.meeting.date.meeting.end.time.earlier.than.start.time": "Meeting Start Time should be before meeting end time",
   "label.anchor.createportfolio": "Create portfolio",
   "label.button.createportfolio": "Create portfolio",
+  "label.heading.editbankaccount": "Edit bank account",
   "----End---": "--End of file--- "
 }
