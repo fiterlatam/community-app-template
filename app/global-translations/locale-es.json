@@ -4395,7 +4395,7 @@
 	"label.heading.portfolioHeader": "Cartera: ",
 	"label.heading.loanProductShortName":"Tipo",
 	"label.heading.loanTotalRepayment": "A Cobrar",
-	"label.heading.loanTotalOverdue": "Mora",
+	"label.heading.loanTotalOverdue": "en mora",
 	"label.heading.groupNumberOfClients": "Clientes",
 	"label.heading.prequalification.validation.result": "Resultado de validación de Politicas Duras Grupal",
 	"label.heading.hard.policy.status": "Politica Dura",

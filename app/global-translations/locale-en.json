@@ -4754,7 +4754,7 @@
   "label.input.select.supervision" : "Select Supervision",
   "label.input.supervisionResponsibleUser": "Responsible",
   "label.heading.loanProductShortName":"Type",
-  "label.heading.loanTotalRepayment": "Paid",
+  "label.heading.loanTotalRepayment": "Payments",
   "label.heading.loanTotalOverdue": "Overdue",
   "label.heading.groupNumberOfClients": "Customers",
   "label.heading.portfolioHeader": "Portfolio: ",
