@@ -236,43 +236,34 @@
                                                         <td><span
                                                                 class="padded-td">{{group.collectionMeetingCalendar.nextTenRecurringDates[0] | DateFormat}}&nbsp;
 							                            <a href="#/editcalendar/{{entityType | lowercase}}/{{entityId}}/{{group.collectionMeetingCalendar.id}}"
-                                                           ng-show="group.collectionMeetingCalendar && editMeeting"><i
-                                                                class="fa fa-edit "></i></a>
-							                            <span class="marginleftn7px"
-                                                              data-ng-hide="group.collectionMeetingCalendar.nextTenRecurringDates[0]">{{ 'label.unassigned' | translate
-                                                            }}</span></span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr data-ng-show="group.collectionMeetingCalendar.humanReadable">
-                                                        <th>{{ 'label.heading.meetingfrequency' | translate }}</th>
-                                                        <td><span
-                                                                class="padded-td">{{group.collectionMeetingCalendar.humanReadable}}</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr data-ng-show="group.status.value=='Closed'">
-                                                        <th>{{ 'label.heading.closedate' | translate }}</th>
-                                                        <td><span
-                                                                class="padded-td">{{group.timeline.closedOnDate | DateFormat}}</span>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5" ng-if="group.prequalificationNumber">
-                                            <div class="alert alert-info" role="alert">
-                                                <strong>{{'label.heading.prequalificationnumber' | translate}}</strong>
-                                                {{group.prequalificationNumber}}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5" ng-if="group.prequalificationStatus">
-                                            <div class="alert alert-info" role="alert" style="word-break: break-word">
-                                                <strong>{{'label.heading.prequalificationstatus' | translate}}</strong>
-                                                {{group.prequalificationStatus.value}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="span gray-head">
+							                               ng-show="group.collectionMeetingCalendar && editMeeting"><i class="fa fa-edit "></i></a>
+							                            <span class="marginleftn7px" data-ng-hide="group.collectionMeetingCalendar.nextTenRecurringDates[0]">{{ 'label.unassigned' | translate }}</span></span>
+									                </td>
+									            </tr>
+									            <tr data-ng-show="group.collectionMeetingCalendar.humanReadable">
+									                <th>{{ 'label.heading.meetingfrequency' | translate }}</th>
+									                <td><span class="padded-td">{{group.collectionMeetingCalendar.humanReadable}}</span></td>
+									            </tr>
+							                    <tr data-ng-show="group.status.value=='Closed'">
+									                <th>{{ 'label.heading.closedate' | translate }}</th>
+									                <td><span class="padded-td">{{group.timeline.closedOnDate | DateFormat}}</span></td>
+									            </tr>
+							                </table>
+						                </div>
+				                	</div>
+									<div class="col-md-5" ng-if="group.prequalificationNumber">
+										<div class="alert alert-info" role="alert">
+											<strong>{{'label.heading.prequalificationnumber' | translate}}</strong>  {{group.prequalificationNumber}}
+										</div>
+									</div>
+									<div class="col-md-5" ng-if="group.prequalificationStatus">
+										<div class="alert alert-info" role="alert" style="word-break: break-word">
+											<strong>{{'label.heading.prequalificationstatus' | translate}}</strong>  {{group.prequalificationStatus.code | translate}}
+										</div>
+									</div>
+				                </div>
+								<div>
+									<div class="span gray-head">
 	                            <span class="boldlabel">
 							      <strong>{{ 'label.heading.glimloanaccoverview' | translate }}</strong>
 								</span>
