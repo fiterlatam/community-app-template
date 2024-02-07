@@ -21,15 +21,11 @@
                             num = num.replace(decimalSep, DECIMAL_SEP);
                         }
                         var fractionLength = (num.split(DECIMAL_SEP)[1] || []).length;
-
-                        var initialnumber = "";
-                        if ($locale.id == 'es') {
-                            if (value != undefined) {
-                                initialnumber = value.toLocaleString('en');
-                            }
-                        } else {
-                            initialnumber = $filter('number')(num, fractionLength);
+                        if(!fractionLength || fractionLength === 0){
+                            fractionLength = 2;
                         }
+                        var initialnumber = $filter('number')(num, fractionLength);
+
                         if (stringValue != undefined && stringValue.indexOf(DECIMAL_SEP) > 0 &&  decimalSep!= DECIMAL_SEP) {
                             if ($locale.id == 'es') {
                                 num = value.toLocaleString('en');
