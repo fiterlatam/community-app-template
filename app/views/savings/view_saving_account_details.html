@@ -512,19 +512,19 @@
                                     data-ng-click="routeTo(transaction.accountId,transaction.id,transaction.transfer,transaction.transfer.id)">
                                     <div ng-show="(isDebit(transaction.transactionType)&&!transaction.isReversal)||
                                     (!isDebit(transaction.transactionType)&&transaction.isReversal)">
-                                        {{transaction.amount| FormatByLocale}}
+                                        {{transaction.amount| FormatNumber:2}}
                                     </div>
                                 </td>
                                 <td class="pointer" lang="en"
                                     data-ng-click="routeTo(transaction.accountId,transaction.id,transaction.transfer,transaction.transfer.id)">
                                     <div ng-show="(!isDebit(transaction.transactionType)&&!transaction.isReversal)||
                                     (isDebit(transaction.transactionType)&&transaction.isReversal)">
-                                        {{transaction.amount| FormatByLocale}}
+                                        {{transaction.amount | FormatNumber:2}}
                                     </div>
                                 </td>
                                 <td class="pointer"
                                     data-ng-click="routeTo(transaction.accountId,transaction.id,transaction.transfer,transaction.transfer.id)">
-                                    {{transaction.runningBalance| FormatByLocale}}
+                                    {{transaction.runningBalance | FormatNumber:2}}
                                 </td>
                                 <td><span ng-if=" transaction.reversed!=true"
                                        ng-click="viewSavingsTransactionReceipts(transaction.id)">

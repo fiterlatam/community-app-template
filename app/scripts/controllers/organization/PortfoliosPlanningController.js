@@ -35,6 +35,19 @@
                 data.sort(sortByParentId);
 
             });
+
+            scope.searchByName = function () {
+                const params = {
+                    name: this.searchText,
+                };
+                resourceFactory.portfolioResource.getAllPortfoliosForCurrentUser(params, function (data) {
+                    scope.portfolios = scope.deepCopy(data);
+                    function sortByParentId(a, b) {
+                        return a.parentId - b.parentId;
+                    }
+                    data.sort(sortByParentId);
+                });
+            }
         }
     });
     mifosX.ng.application.controller('PortfoliosPlanningController', ['$scope', 'ResourceFactory', '$location', mifosX.controllers.PortfoliosPlanningController]).run(function ($log) {
