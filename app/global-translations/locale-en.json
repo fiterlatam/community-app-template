@@ -5343,5 +5343,8 @@
   "label.anchor.createportfolio": "Create portfolio",
   "label.button.createportfolio": "Create portfolio",
   "label.heading.editbankaccount": "Edit bank account",
+  "label.heading.list.of.clients": "List of Clients",
+  "label.heading.list.of.groups": "List of Groups",
+  "label.heading.list.of.centers": "List of Centers",
   "----End---": "--End of file--- "
 }
