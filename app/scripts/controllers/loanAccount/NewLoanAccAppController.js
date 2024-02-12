@@ -810,7 +810,10 @@
                 return scope.formData.totalIncome;
             }
 
-            scope.$watch('formData.rentMortgageFee', function(){
+            scope.$watch('formData.rentFee', function(){
+                scope.calculateTotalExpenditure();
+            });
+            scope.$watch('formData.mortgageFee', function(){
                 scope.calculateTotalExpenditure();
             });
 
@@ -824,10 +827,11 @@
 
             scope.calculateTotalExpenditure = function () {
                 scope.formData.totalExpenditures=0;
-                let rentMortgageFee = Number(scope.formData.rentMortgageFee?scope.formData.rentMortgageFee:0);
+                let rentFee = Number(scope.formData.rentFee?scope.formData.rentFee:0);
+                let mortgageFee = Number(scope.formData.mortgageFee?scope.formData.mortgageFee:0);
                 let familyExpenses = Number(scope.formData.familyExpenses?scope.formData.familyExpenses:0);
                 let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
-                scope.formData.totalExpenditures=(rentMortgageFee + familyExpenses + totalInstallments);
+                scope.formData.totalExpenditures=(rentFee + mortgageFee + familyExpenses + totalInstallments);
 
                 return scope.formData.totalExpenditures;
             }
