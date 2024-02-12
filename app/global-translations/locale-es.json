@@ -4964,5 +4964,8 @@
 	"label.input.glaccount.name": "Seleccione cuenta del libro mayor",
 	"label.input.bank": "Banco",
 	"label.heading.member.hardpolicy": "Resultados de Política Dura",
+	"label.heading.list.of.clients": "Lista de Clientes",
+	"label.heading.list.of.groups": "Lista de Grupos",
+	"label.heading.list.of.centers": "Lista de Centros",
 	"----End---": "---Fin del archivo---"
 }
