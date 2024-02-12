@@ -195,7 +195,15 @@
                     }),
                     runReportsResource: defineResource(apiVer + "/runreports/:reportSource", {reportSource: '@reportSource'}, {
                         get: {method: 'GET', params: {}, isArray: true},
-                        getReport: {method: 'GET', params: {}}
+                        getReport: {method: 'GET', params: {}},
+                        downloadReport: {
+                                            method: 'GET',
+                                            params: {},
+                                            interceptor: { response: function(response) {
+                                                    return response;
+                                                }
+                                            }
+                                        }
                     }),
                     reportsResource: defineResource(apiVer + "/reports/:id/:resourceType", {id: '@id', resourceType: '@resourceType'}, {
                         get: {method: 'GET', params: {id: '@id'}},
