@@ -32,6 +32,7 @@
             scope.currentLoanDocs = {}
             scope.loanDocuments = [];
             scope.product;
+            scope.clientHousingType;
             scope.formData.totalExternalLoanAmount =0;
             scope.formData.totalInstallments =0
             scope.institutionTypeOptions = [
@@ -134,7 +135,13 @@
               resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
                  scope.prequalificationOptions = data.clientPrequalifications;
                  scope.clientData = data;
+
                  scope.formData.fullName = data.displayName;
+                 scope.formData.maidenName = data.detailData.maidenName;
+                 scope.formData.nationality = data.detailData.nationality;
+                 scope.formData.language = data.detailData.languages;
+                  scope.clientHousingType = data.clientContactInformation.housingType;
+                 scope.date.sixth = new Date(data.dateOfBirth);
                  scope.formData.phoneNumber = data.mobileNo;
                  scope.formData.dpi = data.dpiNumber;
                  scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
@@ -246,6 +253,15 @@
                     scope.loanStatusOptions = data.loanStatusOptions || [];
                     scope.institutionTypeOptions = data.institutionTypeOptions || [];
                     scope.housingTypeOptions = data.housingTypeOptions || [];
+                    if (data.housingTypeOptions && scope.clientHousingType){
+                        console.log("going to set housing type: "+ scope.clientHousingType)
+                        scope.housingTypeOptions.filter((housingType) => {
+                            if (housingType.description === scope.clientHousingType){
+                                scope.formData.housingType = housingType.id;
+                            }
+                        });
+
+                    }
                     scope.classificationOptions = data.classificationOptions || [];
                     scope.jobTypeOptions = data.jobTypeOptions || [];
                     scope.educationLevelOptions = data.educationLevelOptions || [];
