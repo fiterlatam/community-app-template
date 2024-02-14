@@ -267,6 +267,10 @@
             scope.routeTo = function (path) {
                 location.path(path);
             }
+
+            scope.routeToClientView = function (clientId) {
+                location.path('/viewclient/' + clientId);
+            };
         }
     });
 
