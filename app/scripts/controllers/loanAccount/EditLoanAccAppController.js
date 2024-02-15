@@ -50,7 +50,8 @@
                     scope.formData.politicallyExposed=politicalPosition.length>0?'YES':'NO';
                     scope.formData.politicalOffice=data.groupLoanAdditionalData.politicalOffice;
                     scope.formData.housingType=data.groupLoanAdditionalData.housingType;
-                    scope.formData.rentMortgageFee=data.groupLoanAdditionalData.rentMortgageFee;
+                    scope.formData.rentFee=data.groupLoanAdditionalData.rentFee;
+                    scope.formData.mortgageFee=data.groupLoanAdditionalData.mortgageFee;
                     scope.formData.address=data.groupLoanAdditionalData.address;
                     scope.formData.populatedPlace=data.groupLoanAdditionalData.populatedPlace;
                     scope.formData.referencePoint=data.groupLoanAdditionalData.referencePoint;

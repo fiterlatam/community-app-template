@@ -66,8 +66,7 @@
 				</div>
 			</div>
 	        <div class="form-group info" ng-show="reportType == 'Pentaho'">
-	            <label class="control-label col-sm-2" for="outputType">{{ 'label.input.outputtype' | translate }}</label>
-
+	            <label id="outputType-Pentaho" class="control-label col-sm-2" for="outputType-Pentaho">{{ 'label.input.outputtype' | translate }}</label>
 	            <div class="col-sm-3">
 	                <select class="form-control input-xlarge" ng-model="formData.outputType">
 	                    <option value="HTML">{{ 'label.input.showreport' | translate }}</option>
@@ -78,6 +77,17 @@
 	                </select>
 	            </div>
 	        </div>
+
+			<div class="form-group info" ng-show="reportType == 'Table'">
+				<label id="outputType-Table" class="control-label col-sm-2" for="outputType-Table">{{ 'label.input.outputtype' | translate }}</label>
+				<div class="col-sm-3">
+					<select class="form-control input-xlarge" ng-model="formData.outputType">
+						<option value="HTML">{{ 'label.input.showreport' | translate }}</option>
+						<option value="CSV">{{ 'label.input.exportcsv' | translate }}</option>
+					</select>
+				</div>
+			</div>
+
 	        <div class="form-group info">
 	            <label class="control-label col-sm-2" for="decimalsChoice">{{ 'label.input.decimalplace' | translate }}</label>
 				<div class="col-sm-3">
@@ -169,7 +179,9 @@
 	    </div>
 	    <div uib-collapse="hidePentahoReport" class="row alert-block span tab-content">
 	        <br>
+			<a ng-href="{{ baseURL }}" download="file.csv"></a>
 	        <iframe id="rptLoadingFrame" ng-src="{{baseURL}}" frameborder="0" width="100%" height="600px"></iframe>
 	    </div>
+
 	</div>
 </div>

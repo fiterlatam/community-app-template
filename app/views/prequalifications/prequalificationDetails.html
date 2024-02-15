@@ -85,28 +85,28 @@
             <table class="width100" style="table-layout: fixed"
                    ng-if="groupMembers && groupMembers.length>0">
                 <tr>
-                    <th>{{'label.input.name' | translate}}</th>
-                    <th>{{'label.input.dpi' | translate}}</th>
-                    <th>{{'label.input.dateofbirth' | translate}}</th>
-                    <th>{{'label.input.work.with.puente' | translate}}</th>
-                    <th>{{'label.input.amount.requested' | translate}}</th>
-                    <th>{{'label.input.blacklist.status' | translate}}</th>
-                    <th>{{'label.input.bureau.status' | translate}}</th>
-                    <th data-ng-show="viewPolicyCheckResults">{{'label.heading.hard.policy.status' | translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.totalLoanAmount' | translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.totalLoanBalance' | translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' | translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.noOfCycles' | translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsCount' | translate}}</th>
-                    <th ng-if="groupData.groupId">{{'label.input.additionalCreditsSum' | translate}}</th>
+                    <th class="graybg">{{'label.input.name' | translate}}</th>
+                    <th class="graybg">{{'label.input.dpi' | translate}}</th>
+                    <th class="graybg">{{'label.input.dateofbirth' | translate}}</th>
+                    <th class="graybg">{{'label.input.work.with.puente' | translate}}</th>
+                    <th class="graybg">{{'label.input.amount.requested' | translate}}</th>
+                    <th class="graybg">{{'label.input.blacklist.status' | translate}}</th>
+                    <th class="graybg">{{'label.input.bureau.status' | translate}}</th>
+                    <th class="graybg" data-ng-show="viewPolicyCheckResults">{{'label.heading.hard.policy.status' | translate}}</th>
+                    <th class="graybg" ng-if="groupData.groupId">{{'label.input.totalLoanAmount' | translate}}</th>
+                    <th class="graybg" ng-if="groupData.groupId">{{'label.input.totalLoanBalance' | translate}}</th>
+                    <th class="graybg" ng-if="groupData.groupId">{{'label.input.totalGuaranteedLoanBalance' | translate}}</th>
+                    <th class="graybg" ng-if="groupData.groupId">{{'label.input.noOfCycles' | translate}}</th>
+                    <th class="graybg" ng-if="groupData.groupId">{{'label.input.additionalCreditsCount' | translate}}</th>
+                    <th class="graybg" ng-if="groupData.groupId">{{'label.input.additionalCreditsSum' | translate}}</th>
                 </tr>
 
-                <tr ng-repeat="member in groupMembers">
-                    <td>{{member.name}} {{member.groupPresident?'label.anchor.president':'' | translate}}</td>
-                    <td>{{member.dpi}}</td>
-                    <td>{{member.dob | DateFormat}}</td>
-                    <td>{{member.workWithPuente}}</td>
-                    <td>{{member.requestedAmount | number}}</td>
+                <tr ng-repeat="member in groupMembers" class="pointer-main">
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}} {{member.groupPresident?'label.anchor.president':'' | translate}}</td>
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.dpi}}</td>
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.dob | DateFormat}}</td>
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.workWithPuente}}</td>
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.requestedAmount | number}}</td>
                     <td>
                         <i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i>
                     </td>
