@@ -13,7 +13,7 @@
 	        <div class="form-group">
 	            <label class="control-label col-sm-2">{{ 'label.heading.office' | translate }}:<span
 	                    class="required">*</span></label>
-	
+
 	            <div class="col-sm-3">
 	                <select chosen="offices" id="officeId" ng-model="officeId"  class="form-control"
 	                        ng-options="office.id as office.name for office in offices" value="{{office.id}}"
@@ -174,7 +174,7 @@
 			</div>
 	        <div class="form-group">
 	            <label class="control-label col-sm-2">{{ 'label.input.accno' | translate }}:</label>
-	
+
 	            <div class="col-sm-3">
 	                <input id="accountNo" type="text" ng-model="formData.accountNo" class="form-control" disabled="disabled">
 	            </div>
@@ -186,6 +186,14 @@
 	                <input id="dpi" type="text" ng-model="formData.dpi" class="form-control">
 	            </div>
 	        </div>
+
+			<div class="form-group">
+	            <label class="control-label col-sm-2">{{ 'label.input.nit' | translate }}:</label>
+
+	            <div class="col-sm-3">
+	                <input id="nit" type="text" ng-model="formData.nit" class="form-control">
+	            </div>
+	        </div>
 			<div class="form-group">
 	            <label class="control-label col-sm-2">{{ 'label.input.old.customer.number' | translate }}:</label>
 
@@ -195,14 +203,14 @@
 	        </div>
 			<div class="form-group">
 			    <label class="control-label col-sm-2">{{ 'label.input.externalid' | translate }}:</label>
-			
+
 			    <div class="col-sm-3">
 			        <input id="externalId" type="text" ng-model="formData.externalId" class="form-control">
 			    </div>
 			</div>
 	        <div class="form-group">
 	            <label class="control-label col-sm-2" for="mobileNo">{{'label.input.mobilenumber' | translate}}</label>
-	
+
 	            <div class="col-sm-3">
 	                <input id="mobileNo" name="mobileNo" ng-model="formData.mobileNo" ng-pattern="/^[0-9]+$/" class="form-control"/>
 	            </div>
@@ -217,7 +225,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" ng-hide="showNonPersonOptions">{{'label.input.dateofbirth' | translate}}</label>
 				<label class="control-label col-sm-2" ng-show="showNonPersonOptions">{{'label.input.incorporationdate' | translate}}</label>
-			
+
 			    <div class="col-sm-3">
 			        <input id="dateofbirth" type="text" name="dateofbirth" datepicker-pop="dd MMMM yyyy"
 			               ng-model="date.dateOfBirth" is-open="opened1" min="minDate" max="restrictDate"  class="form-control"/>
@@ -260,8 +268,8 @@
 				<label class="control-label col-sm-2">{{'label.input.clientclassification' | translate}}</label>
 
 				<div class="col-sm-3">
-					<select id="clientClassificationId" ng-model="formData.clientClassificationId"  class="form-control"
-							ng-options="clientClassification.id as clientClassification.name for clientClassification in clientClassificationOptions" value="{{clientClassification.id}}">
+					<select id="clientClassificationId" ng-model="formData.jobType"  class="form-control"
+							ng-options="clientClassification.id as clientClassification.description for clientClassification in jobTypeOptions" value="{{clientClassification.id}}">
 						<option value="">--{{'label.menu.clientclassification' | translate}}--</option>
 					</select>
 				</div>
@@ -332,7 +340,7 @@
 	            <div class="form-group" data-ng-switch-when="1">
 	                <label class="control-label col-sm-2">{{'label.input.activationdate' | translate}}:<span
 	                        class="required">*</span></label>
-	
+
 	                <div class="col-sm-3">
 	                    <input id="activationDate" type="text" datepicker-pop="dd MMMM yyyy"
 	                           ng-model="date.activationDate" is-open="opened" min="'2000-01-01'"
@@ -695,21 +703,25 @@
 
 					<div class="form-group">
 						<label class="control-label col-sm-2"
-							   for="civilstatus">{{'label.input.civilstatus' |
+							   for="maritalStatus">{{'label.input.civilstatus' |
 						translate}}</label>
 						<div class="col-sm-3">
-							<input type="text" id="civilstatus" name="civilstatus"
-								   ng-model="formData.civilStatus"
-								   class="form-control"/>
+							<select ng-model="formData.maritalStatusId" id="maritalStatus"
+									ng-options="status.id as status.description for status in maritalStatusOptions"
+									value="{{status.id}}" class="form-control">
+								<option value="">{{'label.selectone' | translate}}</option>
+							</select>
 						</div>
 
 						<label class="control-label col-sm-2"
 							   for="education">{{'label.input.education' |
 						translate}}</label>
 						<div class="col-sm-3">
-							<input type="text" id="education" name="education"
-								   ng-model="formData.educationLevel"
-								   class="form-control"/>
+							<select ng-model="formData.educationLevelId" id="education"
+									ng-options="level.id as level.description for level in educationLevelOptions"
+									value="{{level.id}}" class="form-control">
+								<option value="">{{'label.selectone' | translate}}</option>
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -788,7 +800,7 @@
 	            </a>
 	            <button id="saveedit" type="submit" class="btn btn-primary" has-permission='UPDATE_CLIENT' ng-click="submit()" >{{'label.button.save' | translate}}</button>
 	        </div>
-	
+
 	    </fieldset>
 	</div>
 </form>

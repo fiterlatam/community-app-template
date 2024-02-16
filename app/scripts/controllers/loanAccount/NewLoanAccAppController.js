@@ -43,6 +43,7 @@
             ];
 
             scope.date.first = new Date();
+            scope.date.fifth = new Date();
 
             if (scope.clientId) {
                 scope.inparams.clientId = routeParams.clientId;
@@ -144,6 +145,10 @@
                  scope.date.sixth = new Date(data.dateOfBirth);
                  scope.formData.phoneNumber = data.mobileNo;
                  scope.formData.dpi = data.dpiNumber;
+                 scope.formData.nit = data.nit;
+                 scope.formData.jobType = data.jobType;
+                 scope.formData.educationLevel = data.educationLevel;
+                 scope.formData.maritalStatus = data.maritalStatus;
                  scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
               });
             }
