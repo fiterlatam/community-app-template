@@ -20,6 +20,9 @@
                 scope.clientNonPersonConstitutionOptions = data.clientNonPersonConstitutionOptions;
                 scope.clientNonPersonMainBusinessLineOptions = data.clientNonPersonMainBusinessLineOptions;
                 scope.clientLegalFormOptions = data.clientLegalFormOptions;
+                scope.maritalStatusOptions = data.maritalStatusOptions;
+                scope.jobTypeOptions = data.jobTypeOptions;
+                scope.educationLevelOptions = data.educationLevelOptions;
                 scope.officeId = data.officeId;
                 scope.formData = {
                     firstname: data.firstname,
@@ -40,6 +43,10 @@
                     savingsProductId: data.savingsProductId,
                     genderId: data.gender.id,
                     fullname: data.fullname,
+                    maritalStatusId: data.maritalStatus,
+                    jobType: data.jobType,
+                    nit: data.nit,
+                    educationLevelId: data.educationLevel,
                     clientNonPersonDetails : {
                         incorpNumber: data.clientNonPersonDetails.incorpNumber,
                         remarks: data.clientNonPersonDetails.remarks

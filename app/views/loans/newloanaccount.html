@@ -1192,6 +1192,7 @@
                                         <select ng-model="formData.loanCycleCompleted" id="loanCycleCompleted" required
                                                 ng-options="cycle.id as cycle.description for cycle in loanCycleCompletedOptions"
                                                 value="{{cycle.id}}" class="form-control">
+                                            <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
                                         <form-validate valattributeform="Additionals" valattribute="loanCycles"/>
                                     </td>
@@ -1213,29 +1214,22 @@
                                             <span class="required">*</span>:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
-                                        <select ng-model="formData.sourceOfFunds" id="sourceOfFunds"
+                                        <select ng-model="formData.sourceOfFunds" id="sourceOfFunds" required
                                                 ng-options="fund.id as fund.description for fund in sourceOfFundsOptions"
                                                 value="{{fund.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>
+
+                                        <span ng-show="Additionals.sourceOfFunds.$invalid && Additionals.sourceOfFunds.$dirty">
+                                            <small class="required">
+                                                {{'label.mustbenumeric' | translate}}
+                                            </small>
+                                        </span>
                                         <form-validate valattributeform="Additionals" valattribute="sourceOfFunds"/>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td class="width14">
-                                        <label>{{ 'label.input.clientLoanRequestNumber' | translate }}&nbsp;
-                                            <span class="required">*</span>:</label>
-                                    </td>
-                                    <td class="width19 paddedbottom20">
-                                        <input type="text" class="form-control" id="clientLoanRequestNumber"
-                                               name="clientLoanRequestNumber"
-                                               ng-model="formData.clientLoanRequestNumber"
-                                               required
-                                               late-Validate/>
-                                        <form-validate valattributeform="Additionals"
-                                                       valattribute="clientLoanRequestNumber"/>
-                                    </td>
                                     <td class="width14">
                                         <label class="ml-2">{{ 'label.input.requreddate' | translate }}</label>
                                     </td>
@@ -1252,7 +1246,7 @@
                                             <span class="required">*</span>:</label>
                                     </td>
                                     <td class="width19 paddedbottom20">
-                                        <select ng-model="formData.position" id="position"
+                                        <select ng-model="formData.position" id="position" required
                                                 ng-options="position.id as position.description for position in groupPositionOptions"
                                                 value="{{position.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
