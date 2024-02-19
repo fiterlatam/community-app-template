@@ -168,7 +168,7 @@
                         {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
                     </td>
                     <td>
-                        <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
+                        <i class="fa fa-circle fa-2x {{policyCheckColor(member)}}"
                            ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
                     <td ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                         <div class="checkbox form-group">

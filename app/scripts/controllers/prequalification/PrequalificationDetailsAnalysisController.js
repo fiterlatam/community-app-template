@@ -74,11 +74,14 @@
                     return 'NA';
                 }
             }
-            scope.policyCheckColor = function (redValidationCount) {
-                if (redValidationCount > 0) {
+            scope.policyCheckColor = function (member) {
+                if (member.redValidationCount > 0) {
                     return 'text-danger';
+                }else if(member.orangeValidationCount > 0||member.yellowValidationCount > 0){
+                    return 'text-warning';
+                }else{
+                    return 'text-success'
                 }
-                return 'text-success'
             }
             scope.validateHardPolicy = function () {
                 resourceFactory.prequalificationChecklistResource.validate({prequalificationId: routeParams.groupId}, {}, function (data) {
