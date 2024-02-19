@@ -12,6 +12,7 @@
             scope.restrictDate = new Date();
             // Transaction UI Related
             scope.isTransaction = false;
+            scope.isRepaymentTransaction = false;
             scope.showPaymentDetails = false;
             scope.paymentTypes = [];
             scope.form = {};
@@ -207,6 +208,9 @@
                         if (data.paymentTypeOptions.length > 0) {
                             scope.formData.paymentTypeId = data.paymentTypeOptions[0].id;
                         }
+                        if(data.bankAccounts && data.bankAccounts.length > 0){
+                            scope.bankAccounts = data.bankAccounts;
+                        }
                         scope.formData.transactionAmount = data.amount;
                         scope.formData[scope.modelName] = new Date(data.date) || new Date();
                         if(data.penaltyChargesPortion>0){
@@ -219,6 +223,7 @@
                     scope.title = 'label.heading.loanrepayments';
                     scope.labelName = 'label.input.transactiondate';
                     scope.isTransaction = true;
+                    scope.isRepaymentTransaction = true;
                     scope.showAmountField = true;
                     scope.taskPermissionName = 'REPAYMENT_LOAN';
                     break;

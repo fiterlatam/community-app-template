@@ -4975,5 +4975,9 @@
 	"label.heading.list.of.clients": "Lista de Clientes",
 	"label.heading.list.of.groups": "Lista de Grupos",
 	"label.heading.list.of.centers": "Lista de Centros",
+	"label.input.billnumber": "Número de factura",
+	"label.heading.billnumber": "Número de factura",
+	"label.view.principalpaymentdetail": "Pago principal",
+	"label.view.interestspayment": "Pago de intereses",
 	"----End---": "---Fin del archivo---"
 }
