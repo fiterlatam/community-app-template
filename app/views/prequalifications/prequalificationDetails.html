@@ -115,7 +115,7 @@
                         {{member.bureauCheckStatus.code}}
                     </td>
                     <td data-ng-show="viewPolicyCheckResults">
-                        <i class="fa fa-circle fa-2x {{policyCheckColor(member.redValidationCount)}}"
+                        <i class="fa fa-circle fa-2x {{policyCheckColor(member)}}"
                            ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
                     <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
                     <td ng-if="groupData.groupId">{{member.totalLoanBalance | number}}</td>
