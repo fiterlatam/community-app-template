@@ -123,6 +123,16 @@
                 }
             }
 
+            scope.policyCountColor = function (member) {
+                if (member.redValidationCount > 0) {
+                    return member.redValidationCount;
+                }else if(member.orangeValidationCount > 0||member.yellowValidationCount > 0){
+                    return Number(member.orangeValidationCount)+Number(member.yellowValidationCount);
+                }else{
+                    return '0'
+                }
+            }
+
             scope.requestForUpdates = function () {
                 $uibModal.open({
                     templateUrl: 'requestForUpdatesView.html',
