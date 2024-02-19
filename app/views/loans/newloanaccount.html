@@ -1426,7 +1426,7 @@
                                     <td class="width19 paddedbottom20">
 
                                         <select ng-model="formData.occupancyClassification" id="occupancyClassification" required
-                                                ng-options="classification.id as classification.description for classification in classificationOptions"
+                                                ng-options="classification.id as classification.name for classification in economicSectorOptions"
                                                 value="{{classification.id}}" class="form-control">
                                             <option value="">{{'label.selectone' | translate}}</option>
                                         </select>

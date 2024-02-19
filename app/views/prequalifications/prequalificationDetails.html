@@ -79,7 +79,7 @@
             <div class="toolbar" data-ng-show="viewPolicyCheckResults">
                 <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
                     ng-click="routeTo('/prequalification/'+groupId+'/validations')"
-                    class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{groupData.redValidationCount}}</i>
+                    class="fa fa-circle fa-2x {{policyCheckColor(groupData)}}">{{policyCountColor(groupData)}}</i>
             </div>
             <h5 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h5>
             <table class="width100" style="table-layout: fixed"
@@ -116,7 +116,7 @@
                     </td>
                     <td data-ng-show="viewPolicyCheckResults">
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member)}}"
-                           ng-click="viewHardPolicyValidation(member.id)">{{member.redValidationCount}}</i></td>
+                           ng-click="viewHardPolicyValidation(member.id)">{{policyCountColor(member)}}</i></td>
                     <td ng-if="groupData.groupId">{{member.totalLoanAmount | number}}</td>
                     <td ng-if="groupData.groupId">{{member.totalLoanBalance | number}}</td>
                     <td ng-if="groupData.groupId">{{member.totalGuaranteedLoanBalance | number}}</td>
@@ -275,7 +275,7 @@
         <div class="modal-body">
             <div class="row">
                 <div ng-repeat=" results in memberResults.rows">
-                    <div ng-repeat="member in results track by $index" ng-if="member.toUpperCase()==='RED'" >
+                    <div ng-repeat="member in results track by $index" ng-if="member.toUpperCase()==='RED'|| member.toUpperCase()==='YELLOW'|| member.toUpperCase()==='ORANGE'" >
                         <div class="alert alert-info"><span class="h4">{{memberResults.columnHeaders[$index] |translate}}<span class="pull-right {{checkValidationColor(member)}}">{{member}}</span></span>
                         </div>
                     </div>
