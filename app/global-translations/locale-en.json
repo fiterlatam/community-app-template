@@ -2248,6 +2248,8 @@
   "label.input.routingcode": "Routing code",
   "label.input.receiptnumber": "Receipt#",
   "label.input.banknumber": "Bank#",
+  "label.input.billnumber": "Bill Number",
+  "label.heading.billnumber": "Bill Number",
   "label.input.loanofficer": "Loan officer",
   "label.input.chargepaymentby": "Charge payment by",
   "label.input.duedate": "Due date",
@@ -5353,5 +5355,7 @@
   "label.heading.list.of.clients": "List of Clients",
   "label.heading.list.of.groups": "List of Groups",
   "label.heading.list.of.centers": "List of Centers",
+  "label.view.principalpaymentdetail": "Principal Payment",
+  "label.view.interestspayment": "Interest Payment",
   "----End---": "--End of file--- "
 }
