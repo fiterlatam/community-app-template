@@ -76,6 +76,10 @@
                         <td>{{ 'label.heading.accnum' | translate}}</td>
                         <td>{{transaction.paymentDetailData.accountNumber}}</td>
                     </tr>
+                    <tr ng-show="transaction.paymentDetailData.billNumber">
+                        <td>{{ 'label.heading.billnumber' | translate}}</td>
+                        <td>{{transaction.paymentDetailData.billNumber}}</td>
+                    </tr>
                     <tr ng-show="transaction.paymentDetailData.checkNumber">
                         <td>{{ 'label.heading.checknumber' | translate}}</td>
                         <td>{{transaction.paymentDetailData.checkNumber}}</td>

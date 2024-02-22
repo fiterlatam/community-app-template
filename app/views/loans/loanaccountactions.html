@@ -206,7 +206,7 @@
                         </div>
                     </div>
                     <div uib-collapse="!showPaymentDetails">
-                        <div class="form-group">
+                        <div class="form-group" ng-show="!isRepaymentTransaction">
                             <label class="control-label col-sm-2" for="accountNumber">{{ 'label.input.accnum' |
                                 translate}}</label>
 
@@ -215,7 +215,26 @@
                                        ng-model="formData.accountNumber">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="isRepaymentTransaction">
+                            <label class="control-label col-sm-2" for="accountNumber">{{ 'label.input.accnum' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <select id="repaymentAccountNumber" chosen="bankAccounts" ng-autofocus="true" class="form-control" ng-model="formData.glAccountId" ng-options="bankAccount.glAccount.id as bankAccount.bank.name + ' (' + bankAccount.accountNumber + ')' for bankAccount in bankAccounts" value="{{bankAccount.glAccount.id}}">
+                                        <option class="displaynone" value="">{{'label.heading.select.bank.account' | translate}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="isRepaymentTransaction">
+                            <label class="control-label col-sm-2" for="billNumber">{{ 'label.input.billnumber' |
+                            translate}}</label>
+                            <div class="col-sm-3">
+                                <input id="billNumber" class="form-control" type="text"
+                                       ng-model="formData.billNumber" required late-Validate>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="!isRepaymentTransaction">
                             <label class="control-label col-sm-2" for="checkNumber">{{ 'label.input.checknumber' |
                                 translate}}</label>
 
@@ -224,7 +243,7 @@
                                        ng-model="formData.checkNumber">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="!isRepaymentTransaction">
                             <label class="control-label col-sm-2" for="routingCode">{{ 'label.input.routingcode' |
                                 translate}}</label>
 
@@ -233,7 +252,7 @@
                                        ng-model="formData.routingCode">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="!isRepaymentTransaction">
                             <label class="control-label col-sm-2" for="receiptNumber">{{ 'label.input.receiptnumber' |
                                 translate}}</label>
 
@@ -242,7 +261,7 @@
                                        ng-model="formData.receiptNumber">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="!isRepaymentTransaction">
                             <label class="control-label col-sm-2" for="bankNumber">{{ 'label.input.banknumber' |
                                 translate}}</label>
 
