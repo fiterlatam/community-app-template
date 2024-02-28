@@ -3831,6 +3831,8 @@
 	"label.input.clienttype": "Tipo de cliente",
 	"label.menu.clienttype": "Seleccionar tipo de cliente",
 	"label.input.clientclassification": "Clasificación del cliente",
+	"label.input.collateralAmount": "Monto de Garantía",
+	"label.input.netAmountReceivable": "Monto neto a cobrar",
 	"label.menu.clientclassification": "Seleccionar clasificación del cliente",
 	"label.incentive.row": "Incentivos",
 	"label.heading.incentives": "Incentivos",

@@ -4808,6 +4808,8 @@
   "label.input.proposedFee": "Proposed Fee",
   "label.input.agencyAuthorizedAmount": "Agency Authorized Amount",
   "label.input.authorizedFee": "Authorized Fee",
+  "label.input.collateralAmount": "Collateral Amount",
+  "label.input.netAmountReceivable": "Net Amount Receivable",
   "label.input.businessPurchases": "Business Purchases",
   "label.input.businessProfit": "Business Profit",
   "label.input.clientProfit": "Profit According to Client",
