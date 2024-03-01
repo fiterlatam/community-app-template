@@ -97,7 +97,7 @@
                             <td>{{guaranteeData.clientNo}}</td>
                             <td>{{guaranteeData.clientName}}</td>
                             <td>{{guaranteeData.withdrawalReason}}</td>
-                            <td>{{guaranteeData.requestedAmount | FormatNumber:2}}</td>
+                            <td>{{guaranteeData.requestedAmount | FormatByLocale}}</td>
                             <td>{{guaranteeData.status}}</td>
                             <td>{{guaranteeData.caseId}}</td>
                             <td ng-show="isChequeAssigned">{{guaranteeData.chequeData.accountName}}</td>
