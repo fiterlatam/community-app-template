@@ -212,6 +212,11 @@
                             scope.bankAccounts = data.bankAccounts;
                         }
                         scope.formData.transactionAmount = data.amount;
+                        scope.formData.collateralAmount = data.collateralAmount;
+                        if (data.collateralAmount && Number(data.collateralAmount)>0){
+                            scope.formData.netAmountReceivable = Number(data.amount) - Number(data.collateralAmount);
+                        }
+                        scope.formData.collateralAmount = data.collateralAmount;
                         scope.formData[scope.modelName] = new Date(data.date) || new Date();
                         if(data.penaltyChargesPortion>0){
                             scope.showPenaltyPortionDisplay = true;
@@ -499,6 +504,10 @@
 
             scope.deleteTranches = function (index) {
                 scope.disbursementDetails.splice(index, 1);
+            };
+
+            scope.calculateReceivableAmount = function () {
+                scope.formData.netAmountReceivable = Number(scope.formData.transactionAmount) - Number(scope.formData.collateralAmount);
             };
 
             scope.addTranches = function () {
