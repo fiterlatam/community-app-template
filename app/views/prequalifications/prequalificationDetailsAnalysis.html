@@ -119,7 +119,7 @@
             <div class="toolbar">
                 <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
                     ng-click="routeTo('/prequalification/'+groupId+'/validations')"
-                    class="fa fa-circle fa-2x {{policyCheckColor(groupData.redValidationCount)}}">{{policyCountColor(groupData)}}</i>
+                    class="fa fa-circle fa-2x {{policyCheckColor(groupData)}}">{{policyCountColor(groupData)}}</i>
             </div>
             <h4 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h4>
 

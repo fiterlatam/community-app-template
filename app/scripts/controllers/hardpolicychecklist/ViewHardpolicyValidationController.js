@@ -13,25 +13,36 @@
                  if(colorName){
                     if('RED' === colorName.toUpperCase()){
                         return 'text-danger';
-                    }
-
-                    if('YELLOW' === colorName.toUpperCase()){
+                    }else if('YELLOW' === colorName.toUpperCase()){
                          return 'text-warning';
-                    }
-
-                    if('GREEN' === colorName.toUpperCase()){
+                    }else if('GREEN' === colorName.toUpperCase()){
                         return 'text-success';
-                    }
-
-                    if('GREEN' === colorName.toUpperCase()){
+                    }else if('GREEN' === colorName.toUpperCase()){
                         return 'text-success';
-                    }
-
-                    if('ORANGE' === colorName.toUpperCase()){
+                    }else if('ORANGE' === colorName.toUpperCase()){
                         return 'text-warning';
+                    }else{
+                        return colorName
                     }
                  }
-                 return '';
+                 return colorName;
+              }
+
+              scope.colorLabel = function (colorName) {
+                 if(colorName){
+                    if('RED' === colorName.toUpperCase()){
+                        return 'label.color.red';
+                    }else if('YELLOW' === colorName.toUpperCase()){
+                         return 'label.color.yellow';
+                    }else if('GREEN' === colorName.toUpperCase()){
+                        return 'label.color.green';
+                    }else if('ORANGE' === colorName.toUpperCase()){
+                        return 'label.color.orange';
+                    }else{
+                        return null;
+                    }
+                 }
+                 return null;
               }
         }
     });
