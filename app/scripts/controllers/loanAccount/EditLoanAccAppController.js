@@ -22,12 +22,12 @@
             }, function (data) {
                 scope.loanaccountinfo = data;
                 if (data.groupLoanAdditionalData) {
-                    scope.formData.dateRequested=new Date(data.groupLoanAdditionalData.dateRequested) || new Date();
-                    scope.formData.dateOfBirth=new Date(data.groupLoanAdditionalData.dateOfBirth) || new Date();
+                    scope.formData.dateRequested=new Date(data.timeline.submittedOnDate) || new Date();
+                    scope.formData.dateOfBirth=data.groupLoanAdditionalData.dateOfBirth? new Date(data.groupLoanAdditionalData.dateOfBirth) : new Date();
                     scope.formData.loanCycleCompleted=data.groupLoanAdditionalData.loanCycleCompleted;
                     scope.formData.earlyCancellationReason=data.groupLoanAdditionalData.earlyCancellationReason;
                     scope.formData.sourceOfFunds=data.groupLoanAdditionalData.sourceOfFunds;
-                    scope.formData.clientLoanRequestNumber=data.groupLoanAdditionalData.clientLoanRequestNumber;
+                    scope.formData.clientLoanRequestNumber=data.contractNo;
                     scope.formData.position=data.groupLoanAdditionalData.position;
                     scope.formData.facilitator=data.groupLoanAdditionalData.facilitatorId;
                     scope.formData.fullName=data.groupLoanAdditionalData.fullName;
@@ -128,6 +128,7 @@
                     scope.formData.clientId = scope.clientId;
                     resourceFactory.clientResource.get({clientId: scope.clientId}, function (clientData) {
                         scope.clientData = clientData;
+                        scope.formData.dpi = clientData.dpiNumber;
                         scope.prequalificationOptions = clientData.clientPrequalifications;
                         if (scope.loanaccountinfo.prequalificationData && scope.loanaccountinfo.prequalificationData.id) {
                             scope.formData.prequalificationId = scope.loanaccountinfo.prequalificationData.id;
@@ -309,6 +310,7 @@
                 scope.cancellationReasonOptions = data.cancellationReasonOptions || [];
                 scope.facilitatorOptions = data.facilitatorOptions || [];
                 scope.documentTypeOptions = data.documentTypeOptions || [];
+                scope.economicSectorOptions = data.economicSectorOptions || [];
             });
 
             scope.previewClientLoanAccInfo = function () {
