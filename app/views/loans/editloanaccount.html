@@ -7,7 +7,7 @@
         <li class="active">{{'label.anchor.modifyloanapplication' | translate}}</li>
     </ul>
 </div>
-<form name="editloanaccountform" novalidate="" class="well form-inline card" ng-submit="submit()">
+<form name="editloanaccountform" class="well form-inline card" ng-submit="submit()">
 <api-validate></api-validate>
 <fieldset>
         <legend>{{ 'label.heading.editloanapplication' | translate }}</legend>
@@ -698,10 +698,9 @@
                                         <span class="required">*</span>:</label>
                                 </td>
                                 <td class="width19 paddedbottom20">
-                                    <select ng-model="formData.loanCycleCompleted" id="loanCycleCompleted"
+                                    <select ng-model="formData.loanCycleCompleted" id="loanCycleCompleted" required
                                             ng-options="cycle.id as cycle.description for cycle in loanCycleCompletedOptions"
                                             value="{{cycle.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="loanCycles"/>
                                 </td>
@@ -723,10 +722,9 @@
                                         <span class="required">*</span>:</label>
                                 </td>
                                 <td class="width19 paddedbottom20">
-                                    <select ng-model="formData.sourceOfFunds" id="sourceOfFunds"
+                                    <select ng-model="formData.sourceOfFunds" id="sourceOfFunds" required
                                             ng-options="fund.id as fund.description for fund in sourceOfFundsOptions"
                                             value="{{fund.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="sourceOfFunds"/>
                                 </td>
@@ -739,7 +737,7 @@
                                 </td>
                                 <td class="width19 paddedbottom20">
                                     <input type="text" class="form-control" id="clientLoanRequestNumber"
-                                           name="clientLoanRequestNumber"
+                                           name="clientLoanRequestNumber" disableddisabled
                                            ng-model="formData.clientLoanRequestNumber"
                                            required
                                            late-Validate/>
@@ -762,10 +760,9 @@
                                         <span class="required">*</span>:</label>
                                 </td>
                                 <td class="width19 paddedbottom20">
-                                    <select ng-model="formData.position" id="position"
+                                    <select ng-model="formData.position" id="position" required
                                             ng-options="position.id as position.description for position in groupPositionOptions"
                                             value="{{position.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="position"/>
                                 </td>
@@ -778,11 +775,11 @@
                                 </td>
                                 <td class="width19 paddedbottom20" colspan="2">
                                     <select id="facilitator" ng-model="formData.facilitator"
+                                            required
                                             ng-options="responsibleUser.id as  responsibleUser.firstname + ' ' +
                                                 responsibleUser.lastname + ' (' + responsibleUser.username + ')'
                                                  for responsibleUser in facilitatorOptions | orderBy:'username':reverse"
                                             class="form-control width170px" value="{{responsibleUser.id}}">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="facilitator"/>
                                 </td>
@@ -930,7 +927,6 @@
                                     <select ng-model="formData.jobType" id="jobType" required
                                             ng-options="jobtype.id as jobtype.description for jobtype in jobTypeOptions"
                                             value="{{jobtype.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="jobType"/>
                                 </td>
@@ -944,9 +940,8 @@
                                 <td class="width19 paddedbottom20">
 
                                     <select ng-model="formData.occupancyClassification" id="occupancyClassification" required
-                                            ng-options="classification.id as classification.description for classification in classificationOptions"
+                                            ng-options="classification.id as classification.name for classification in economicSectorOptions"
                                             value="{{classification.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform"
                                                    valattribute="occupancyClassification"/>
@@ -1034,7 +1029,6 @@
                                     <select ng-model="formData.housingType" id="housingType" required
                                             ng-options="housingType.id as housingType.description for housingType in housingTypeOptions"
                                             value="{{status.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="housingType"/>
                                 </td>
@@ -1378,7 +1372,6 @@
                                     <select ng-model="formData.clientType" id="clientType" required
                                             ng-options="clientType.id as clientType.description for clientType in clientTypeOptions"
                                             value="{{clientType.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="clientType"/>
                                 </td>
@@ -1433,7 +1426,6 @@
                                     <select ng-model="formData.businessExperience" id="businessExperience" required
                                             ng-options="experience.id as experience.description for experience in businessExperienceOptions"
                                             value="{{experience.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform"
                                                    valattribute="businessExperience"/>
@@ -1524,7 +1516,6 @@
                                     <select ng-model="formData.visitBusiness" id="visitBusiness" required
                                             ng-options="yesno.id as yesno.description for yesno in yesnoOptions"
                                             value="{{yesno.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="visitBusiness"/>
                                 </td>
@@ -1539,7 +1530,6 @@
                                     <select ng-model="formData.familySupport" id="familySupport" required
                                             ng-options="yesno.id as yesno.description for yesno in yesnoOptions"
                                             value="{{yesno.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="familySupport"/>
                                 </td>
@@ -1552,7 +1542,6 @@
                                     <select ng-model="formData.businessEvolution" id="businessEvolution" required
                                             ng-options="evolution.id as evolution.description for evolution in businessEvolutionOptions"
                                             value="{{evolution.id}}" class="form-control">
-                                        <option value="">{{'label.selectone' | translate}}</option>
                                     </select>
                                     <form-validate valattributeform="editloanaccountform" valattribute="businessEvolution"/>
                                 </td>
