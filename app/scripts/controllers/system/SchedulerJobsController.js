@@ -8,7 +8,7 @@
             });
 
             resourceFactory.schedulerResource.get(function (data) {
-                scope.schedulerstatus = data.active === true ? 'Active' : 'Standby';
+                scope.schedulerstatus = data.active === true ? 'scheduler.status.active' : 'scheduler.status.standby';
             });
 
             scope.selectAll = function (selectAll) {
