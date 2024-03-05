@@ -27,6 +27,10 @@
                 jobIdArray =  _.uniq(jobIdArray);
             };
 
+            scope.resolvePreviousRunStatus = function (status){
+                return 'scheduler.job.last.run.history.' + status;
+            }
+
             scope.errorLog = function (id){
                 scope.id = id;
                 $uibModal.open({
