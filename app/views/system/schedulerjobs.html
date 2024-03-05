@@ -31,6 +31,7 @@
     		        <thead>
     		            <tr class="graybg">
     		                <th><input type="checkbox" ng-model="activeall" ng-change="selectAll(activeall)"/></th>
+							<th>{{'label.heading.execution.order' | translate}}</th>
     		                <th>{{'label.heading.name' | translate}}</th>
     		                <th>{{'label.heading.nextrun' | translate}}</th>
     		                <th>{{'label.heading.previousrun' | translate}}</th>
@@ -42,10 +43,11 @@
     		        <tbody>
     		            <tr ng-repeat="job in jobs | orderBy:'displayName':reverse" class="pointer-main">
     		                <td><input type="checkbox" ng-model="job.checkbox" ng-change="runJobSelected(job.jobId, job.checkbox)"/></td>
+							<td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.executionOrder}}</td>
     		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.displayNameCode | translate}}</td>
     		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.nextRunTime}}</td>
     		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.lastRunHistory.jobRunStartTime}}</td>
-    		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.lastRunHistory.status}}</td>
+    		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{resolvePreviousRunStatus(job.lastRunHistory.status) | translate}}</td>
     		                <td class="pointer" data-ng-click="routeTo(job.jobId)">{{job.currentlyRunning | YesOrNo}}</td>
     		                <td><button data-ng-show="job.lastRunHistory.jobRunErrorLog" class="btn btn-warning" ng-click="errorLog(job.jobId)"><i class="fa fa-exclamation"></i></button></td>
     		            </tr>
