@@ -28,7 +28,7 @@
                                 class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
-                        <select id="centerId" ng-model="formData.centerId"
+                        <select id="centerId" ng-model="formData.centerId" chosen="centersList" ng-autofocus="true"
                                 ng-options="pcenter.id as pcenter.name for pcenter in centersList"
                                 value="{{pcenter.id}}"
                                 class="form-control width170px" required="true" late-Validate>
