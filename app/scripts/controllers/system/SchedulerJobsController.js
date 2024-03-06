@@ -20,15 +20,18 @@
                 } else {
                     for (var i = 0; i < scope.jobs.length; i++) {
                         jobIdArray = _.without(jobIdArray,scope.jobs[i].jobId);
-                        scope.jobs[i].checkbox = false;
                     }
+                        scope.jobs[i].checkbox = false;
                 }
 
                 jobIdArray =  _.uniq(jobIdArray);
             };
 
             scope.resolvePreviousRunStatus = function (status){
-                return 'scheduler.job.last.run.history.' + status;
+                if(status){
+                    return 'scheduler.job.last.run.history.' + status;
+                }
+                return '';
             }
 
             scope.errorLog = function (id){
