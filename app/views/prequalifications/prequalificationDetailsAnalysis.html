@@ -144,9 +144,9 @@
                     </th>
                 </tr>
 
-                <tr ng-repeat="member in groupMembers">
-                    <td>{{member.name}}</td>
-                    <td>{{member.requestedAmount | number}}</td>
+                <tr ng-repeat="member in groupMembers" class="pointer-main">
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}}</td>
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.requestedAmount | number}}</td>
                     <td ng-if="prequalificationType==='analysis'">
                         <input type="text" class="form-control" name="amntApproved"
                                ng-disabled="!groupMembers[$index].isEdit"  number-format
@@ -163,7 +163,7 @@
                                    ng-click="updateApprovedAmount(groupMembers[$index])"></i></div>
                         </div>
                     </td>
-                    <td class="pointer" style="font-size: 25px"><i ng-if="member.bureauCheckStatus"
+                    <td class="pointer" style="font-size: 25px" data-ng-click="viewBuroResult(member.id)"><i ng-if="member.bureauCheckStatus"
                                                                    class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
                         {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
                     </td>
@@ -300,6 +300,21 @@
             </div>
         </div>
     </div>
+
+    <script type="text/ng-template" id="viewBuroResultAnalysis.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.member.buro.result' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div>
+                <p>{{buroCheckResult.resumen}}</p>
+            </div>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-warning" ng-click="cancel()">{{'label.button.close' | translate}}</button>
+            </div>
+        </div>
+    </script>
 
     <script type="text/ng-template" id="viewMemberHardPolicy.html">
         <div class="modal-header silver">
