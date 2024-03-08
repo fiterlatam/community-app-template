@@ -10,6 +10,7 @@
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
+
             resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
@@ -264,7 +265,43 @@
                 });
             }
 
-           scope.selectAllMembers = function(){
+            scope.routeToClientView = function (clientId) {
+                location.path('/viewclient/' + clientId);
+            };
+
+            scope.viewBuroResult = function (memberId) {
+                scope.buroCheckResult = {};
+                console.log("======GP ID===========\n\n")
+                console.log(memberId)
+                console.log("======GP MEMBERS===========\n\n")
+                console.log(JSON.stringify(scope.groupMembers))
+                if(scope.groupMembers && scope.groupMembers.length > 0){
+                    for (let i = 0; i < scope.groupMembers.length; i++){
+                        if(scope.groupMembers[i].id === memberId){
+                            scope.buroCheckResult = scope.groupMembers[i].buroData;
+                        }
+                    }
+                }
+
+                $uibModal.open({
+                    templateUrl: 'viewBuroResultAnalysis.html',
+                    controller: viewBuroResultAnalysisCtrl
+                });
+            };
+
+            var viewBuroResultAnalysisCtrl = function ($scope, $uibModalInstance) {
+                var result = Object.assign({}, scope.buroCheckResult);
+                $scope.buroCheckResult = result;
+                if(result.fecha){
+                    $scope.buroCheckResult.fecha = new Date(... result.fecha);
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.close();
+                };
+            };
+
+
+            scope.selectAllMembers = function(){
                 for (var i = 0; i < scope.groupMembers.length; i++ ){
                      scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
                 }
