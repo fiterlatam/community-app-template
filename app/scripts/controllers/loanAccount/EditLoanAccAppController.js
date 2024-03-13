@@ -66,7 +66,7 @@
                     scope.formData.totalInstallments=data.groupLoanAdditionalData.totalInstallments;
                     scope.formData.clientType=data.groupLoanAdditionalData.clientType;
                     scope.formData.houseHoldGoods=data.groupLoanAdditionalData.houseHoldGoods;
-                    scope.formData.businessActivity=data.groupLoanAdditionalData.businessActivity;
+                    scope.formData.businessActivities=data.groupLoanAdditionalData.businessActivities;
                     scope.formData.businessLocation=data.groupLoanAdditionalData.businessLocation;
                     scope.formData.businessExperience=data.groupLoanAdditionalData.businessExperience;
                     scope.formData.salesValue=data.groupLoanAdditionalData.salesValue;
