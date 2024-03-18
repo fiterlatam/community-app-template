@@ -259,6 +259,24 @@
                     return '';
                 }
 
+                $scope.colorLabel = function (colorName) {
+                    console.log("going to validate color: "+colorName)
+                    if(colorName){
+                        if('RED' === colorName.toUpperCase()){
+                            return 'label.color.red';
+                        }else if('YELLOW' === colorName.toUpperCase()){
+                            return 'label.color.yellow';
+                        }else if('GREEN' === colorName.toUpperCase()){
+                            return 'label.color.green';
+                        }else if('ORANGE' === colorName.toUpperCase()){
+                            return 'label.color.orange';
+                        }else{
+                            return null;
+                        }
+                    }
+                    return null;
+                }
+
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
                 };
@@ -283,6 +301,8 @@
             scope.routeTo = function (path) {
                 location.path(path);
             }
+
+
 
             scope.routeToClientView = function (clientId) {
                 location.path('/viewclient/' + clientId);
