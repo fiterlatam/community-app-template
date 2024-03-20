@@ -5090,6 +5090,7 @@
 	"savingsAccountTransactionType.withdrawTransfer": "Retirar transferencia",
 	"savingsAccountTransactionType.rejectTransfer": "Rechazar transferencia",
 	"savingsAccountTransactionType.accrualInterestPosting": "Intereses devengados",
+	"savingsAccountTransactionType.release": "Liberación de monto",
 	"savingsAccountStatusType.invalid": "Estado no válido",
 	"savingsAccountStatusType.submitted.and.pending.approval": "Presentado y pendiente de aprobación",
 	"savingsAccountStatusType.approved": "Aprobado",
