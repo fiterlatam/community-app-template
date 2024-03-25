@@ -276,7 +276,11 @@
             <div class="row">
                 <div ng-repeat=" results in memberResults.rows">
                     <div ng-repeat="member in results track by $index" ng-if="member.toUpperCase()==='RED'|| member.toUpperCase()==='YELLOW'|| member.toUpperCase()==='ORANGE'" >
-                        <div class="alert alert-info"><span class="h4">{{memberResults.columnHeaders[$index] |translate}}<span class="pull-right {{checkValidationColor(member)}}">{{member}}</span></span>
+                        <div class="alert alert-info"><span class="h4">{{memberResults.columnHeaders[$index] |translate}}
+                            <span class="pull-right {{checkValidationColor(member)}}">
+                                <span ng-if="colorLabel(member)">{{colorLabel(member)|translate}}</span>
+                                <span ng-if="!colorLabel(member)">{{member}}</span>
+                            </span></span>
                         </div>
                     </div>
                 </div>
