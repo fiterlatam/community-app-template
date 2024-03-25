@@ -125,10 +125,13 @@
             }
 
             scope.policyCountColor = function (member) {
-                if (member.redValidationCount > 0) {
-                    return member.redValidationCount;
-                }else if(member.orangeValidationCount > 0||member.yellowValidationCount > 0){
-                    return Number(member.orangeValidationCount)+Number(member.yellowValidationCount);
+                let redValidationCount = member.redValidationCount||0;
+                let orangeValidationCount = member.orangeValidationCount || 0;
+                let yellowValidationCount = member.yellowValidationCount || 0;
+                if (redValidationCount > 0) {
+                    return Number(redValidationCount)+Number(orangeValidationCount)+Number(yellowValidationCount);
+                }else if(Number(orangeValidationCount) > 0 || yellowValidationCount > 0){
+                    return Number(orangeValidationCount)+Number(yellowValidationCount);
                 }else{
                     return '0'
                 }
@@ -257,6 +260,24 @@
                     return '';
                 }
 
+                $scope.colorLabel = function (colorName) {
+                    console.log("going to validate color: "+colorName)
+                    if(colorName){
+                        if('RED' === colorName.toUpperCase()){
+                            return 'label.color.red';
+                        }else if('YELLOW' === colorName.toUpperCase()){
+                            return 'label.color.yellow';
+                        }else if('GREEN' === colorName.toUpperCase()){
+                            return 'label.color.green';
+                        }else if('ORANGE' === colorName.toUpperCase()){
+                            return 'label.color.orange';
+                        }else{
+                            return null;
+                        }
+                    }
+                    return null;
+                }
+
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
                 };
@@ -281,6 +302,8 @@
             scope.routeTo = function (path) {
                 location.path(path);
             }
+
+
 
             scope.routeToClientView = function (clientId) {
                 location.path('/viewclient/' + clientId);
