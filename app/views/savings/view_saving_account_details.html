@@ -506,7 +506,7 @@
                                 </td>
                                 <td class="pointer"
                                     data-ng-click="routeTo(transaction.accountId,transaction.id,transaction.transfer,transaction.transfer.id)">
-                                    {{transaction.transactionType.value}}<span ng-if=" transaction.isReversal">(R)</span>
+                                    {{transaction.transactionType.code | translate}}<span ng-if=" transaction.isReversal">(R)</span>
                                 </td>
                                 <td class="pointer" lang="en"
                                     data-ng-click="routeTo(transaction.accountId,transaction.id,transaction.transfer,transaction.transfer.id)">

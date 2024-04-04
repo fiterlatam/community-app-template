@@ -1893,6 +1893,7 @@
   "loanTransactionType.refund": "Refund from Overpaid",
   "loanTransactionType.approveTransfer": "Transfer Approved",
   "loanTransactionType.chargePayment": "Fee payment",
+  "loanTransactionType.accrual": "Accrual",
   "loanStatusType.transfer.on.hold": "Transfer on Hold",
   "loanStatusType.invalid": "Invalid status",
   "loanStatusType.submitted.and.pending.approval": "Submitted and pending approval",
@@ -5450,5 +5451,6 @@
   "scheduler.job.last.run.history.error": "Error",
   "scheduler.job.last.run.history.invalid": "invalid",
   "label.heading.execution.order": "Execution Order",
+  "label.heading.usersList": "List of Users",
   "----End---": "--End of file--- "
 }
