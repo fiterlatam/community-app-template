@@ -1624,6 +1624,8 @@
 	"label.selectprovisioningcategory": "Seleccione Categoría",
 	"label.selectfromdate": "Seleccionar a partir de la fecha",
 	"label.selecttodate": "Seleccionar fecha",
+	"planning.type.group": "Grupo",
+	"planning.type.individual": "Individual",
 	"label.tooltip.fundsource": "una cuenta de activo (normalmente bancaria o en efectivo) que se cargará durante reembolsos/pagos y se acredita mediante desembolsos.",
 	"label.tooltip.loanportfolio": "una cuenta de activo que se cargará durante el desembolso y se acreditará en el reembolso del reembolso/cancelación principal.",
 	"label.tooltip.receivableinterest": "una cuenta de activo que se utiliza para acumular intereses",
