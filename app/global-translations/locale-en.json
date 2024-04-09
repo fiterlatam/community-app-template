@@ -360,6 +360,8 @@
   "label.input.status": "Status",
   "label.input.city": "City",
   "label.input.email": "Email",
+  "planning.type.group": "Group",
+  "planning.type.individual": "Individual",
   "#Buttons": "..",
   "label.button.previous": "Previous",
   "label.button.createcollateral": "Create Collateral",
