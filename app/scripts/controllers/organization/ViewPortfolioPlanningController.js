@@ -46,15 +46,17 @@
                         scope.convertTimeArrayToObject('meetingEndTime');
 
                         scope.csvData = [];
-                        scope.row = ['Fecha', 'Día', 'Hora', 'Centro', 'Nro. Grupo', 'Grupo', 'Cobro', 'A Cobrar', 'Mora', 'Clientes'];
+                        scope.row = ['Fecha', 'Día', 'Hora', 'Centro', 'Nro. Grupo', 'Grupo', 'Categoría', 'Tipo',
+                            'A Cobrar', 'Mora', 'Clientes'];
                         scope.csvData.push(scope.row);
                         for (var i in scope.detailedPlanningData) {
                             // push each row of planning into the array for csv data
+                            var planningType = scope.detailedPlanningData[i].planningType === 'planning.type.individual' ? 'Individual' : 'Grupo';
                             scope.row = [dateFilter(scope.detailedPlanningData[i].meetingDate, 'dd MMM yyyy'),
                                 scope.detailedPlanningData[i].meetingDayName,
                                 dateFilter(scope.detailedPlanningData[i].meetingStartTime, 'HH:mm'),
                                 scope.detailedPlanningData[i].portfolioCenterName, scope.detailedPlanningData[i].centerGroupId,
-                                scope.detailedPlanningData[i].centerGroupName, scope.detailedPlanningData[i].totalPaidAmount,
+                                scope.detailedPlanningData[i].centerGroupName, planningType, 'Cobro',
                                 scope.detailedPlanningData[i].totalRepayment, scope.detailedPlanningData[i].totalOverdue,
                                 scope.detailedPlanningData[i].numberOfClients];
                             scope.csvData.push(scope.row);
