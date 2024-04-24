@@ -14,10 +14,25 @@
             resourceFactory.loanTemplateResource.get({templateType: 'cheque'}, function (data) {
                 scope.agencyOptions = data.agencyOptions;
                 scope.centerOptions = data.centerOptions;
+                scope.allGroupOptions = data.groupOptions;
                 scope.groupOptions = data.groupOptions;
                 scope.facilitatorOptions = data.facilitatorOptions;
                 scope.disbursementMethodOptions = data.disbursementMethodOptions;
             });
+
+            scope.filterGroups = function () {
+                if (this.formData.centerId){
+                    scope.groupOptions = [];
+                    for (var i in scope.allGroupOptions) {
+                        if (scope.allGroupOptions[i].centerId == scope.formData.centerId) {
+                            scope.groupOptions.push(scope.allGroupOptions[i]);
+                        }
+                    }
+                }else {
+                    scope.groupOptions = scope.allGroupOptions;
+                }
+
+            }
 
             scope.searchApprovedLoanAccounts = function () {
                    this.formData.limit = 2147483647;
@@ -63,7 +78,7 @@
                         // No Guarantee Required
                         return 0;
                     }else if(requiredGuarantee < actualGuarantee){
-                        // Actual Client Account Balance is greater than Required Guarantee so no need to deposit 
+                        // Actual Client Account Balance is greater than Required Guarantee so no need to deposit
                         return 0;
                     }else {
                         // Required Guanratee is Greater than available account balance
