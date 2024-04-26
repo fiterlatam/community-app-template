@@ -302,6 +302,43 @@
                 location.path(path);
             }
 
+            scope.updateRequestedAmount = function (member) {
+
+                if (Number(member.requestedAmount) > Number(member.originalAmount)) {
+                    console.log("Requested amount cannot be greater than original amount")
+                    scope.error = true;
+                    scope.errorMsg = "Requested amount cannot be greater than Original amount of " + member.originalAmount;
+                    setTimeout(() => {
+                        scope.error = false;
+                        scope.errorMsg = null;
+                    }, 3000);
+
+                    return;
+                }
+
+                var data = {
+                    "requestedAmount": member.requestedAmount,
+                    "comments": member.comments,
+                    "id": member.id,
+                    "name": member.name,
+                    "dpi": member.dpi,
+                    "locale": scope.optlang.code,
+                };
+                delete data.isEdit;
+                resourceFactory.prequalificationResource.updateMember({
+                    groupId: routeParams.groupId,
+                    memberId: member.id
+                }, data, function (data) {
+                    if (data.resourceIdentifier) {
+                        route.reload();
+                        scope.groupMembers[index].isEdit = false;
+                    }
+                });
+            }
+
+            scope.editRequestedAmount = function (index) {
+                scope.groupMembers[index].isEditRequested = true;
+            }
 
 
             scope.routeToClientView = function (clientId) {

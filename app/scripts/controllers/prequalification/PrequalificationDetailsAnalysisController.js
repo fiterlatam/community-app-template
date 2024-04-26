@@ -6,6 +6,12 @@
             scope.formData = {};
             scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
+            scope.bureauStatusOptions = [
+                {label:'A', value:'A'},
+                {label:'B', value:'B'},
+                {label:'C', value:'C'},
+                {label:'D', value:'D'},
+            ];
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
@@ -255,6 +261,8 @@
 
                 var data = {
                     "approvedAmount": member.approvedAmount,
+                    "comments": member.comments,
+                    "agencyBureauStatus": member.agencyBureauStatus,
                     "id": member.id,
                     "name": member.name,
                     "dpi": member.dpi,
@@ -266,7 +274,7 @@
                     memberId: member.id
                 }, data, function (data) {
                     if (data.resourceIdentifier) {
-                        route.reload();
+                        scope.routeTo("/prequalificationsmenu");
                         scope.groupMembers[index].isEdit = false;
                     }
                 });

@@ -130,8 +130,8 @@
                     <th>{{'label.input.name' | translate}}</th>
                     <th>{{'label.input.amount.requested' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
-                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.action' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
+                    <th ng-if="prequalificationType==='agency'">{{'label.input.agency.bureau.status' | translate}}</th>
                     <th>{{'label.heading.hard.policy.status' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                         <div class="checkbox form-group">
@@ -142,30 +142,32 @@
                             </label>
                         </div>
                     </th>
+                    <th>{{'label.input.comments' | translate}}</th>
+                    <th ng-if="prequalificationType==='analysis'">{{'label.heading.action' | translate}}</th>
                 </tr>
 
                 <tr ng-repeat="member in groupMembers" class="pointer-main">
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}}</td>
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.requestedAmount | number}}</td>
                     <td ng-if="prequalificationType==='analysis'">
-                        <input type="text" class="form-control" name="amntApproved"
+                        <input type="text" class="" style="color: black" name="amntApproved"
                                ng-disabled="!groupMembers[$index].isEdit"  number-format
                                placeholder="{{'label.input.amount.approved'|translate}}"
                                ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
                     </td>
-                    <td ng-if="prequalificationType==='analysis'">
-                        <div>
-                            <div class="col-sm-6" ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)"><i
-                                    class="fa fa-pencil-square-o fa-2x"></i></div>
-                            <div class="col-sm-6" ng-if="groupMembers[$index].isEdit">
-                                <i class="fa btn-primary fa-save fa-2x"
-                                   ng-disabled="groupMembers[$index].approvedAmount>member.requestedAmount"
-                                   ng-click="updateApprovedAmount(groupMembers[$index])"></i></div>
-                        </div>
-                    </td>
+
                     <td class="pointer" style="font-size: 25px" data-ng-click="viewBuroResult(member.id)"><i ng-if="member.bureauCheckStatus"
                                                                    class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
                         {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
+                    </td>
+
+                    <td ng-if="prequalificationType==='agency'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                        <select id="agencyburo" name="agencyburo" class="form-control"
+                                ng-model="groupMembers[$index].agencyBureauStatus" ng-disabled="!groupMembers[$index].isEdit"
+                                ng-options="status.value as status.label for status in bureauStatusOptions"
+                                value="{{status.value}}">
+                            <option value="">-- {{'label.input.agency.bureau.status' | translate}} --</option>
+                        </select>
                     </td>
                     <td>
                         <i class="fa fa-circle fa-2x {{policyCheckColor(member)}}"
@@ -177,7 +179,23 @@
                             </label>
                         </div>
                     </td>
+                    <td ng-if="prequalificationType==='analysis'||prequalificationType==='agency'">
+                        <textarea rows="2" class="" style="color: black" name="comments"
+                               ng-disabled="!groupMembers[$index].isEdit"
+                               placeholder="{{'label.input.comments'|translate}}"
+                                  ng-model="groupMembers[$index].comments" id="cmmnt" required></textarea>
+                    </td>
 
+                    <td ng-if="prequalificationType==='analysis' || prequalificationType==='agency'">
+                        <div>
+                            <div class="col-sm-6" ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)"><i
+                                    class="fa fa-pencil-square-o fa-2x"></i></div>
+                            <div class="col-sm-6" ng-if="groupMembers[$index].isEdit">
+                                <i class="fa btn-primary fa-save fa-2x"
+                                   ng-disabled="groupMembers[$index].approvedAmount>member.requestedAmount"
+                                   ng-click="updateApprovedAmount(groupMembers[$index])"></i></div>
+                        </div>
+                    </td>
                 </tr>
             </table>
             <hr/>
