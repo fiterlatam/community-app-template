@@ -1848,7 +1848,11 @@
                             <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
                                    ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
                         </div>
-                        <div ng-hide="isAdditionalDateProperty(propertyName)">
+                        <div ng-show="isAdditionalDecimalProperty(propertyName)">
+                            <input id="{{propertyName}}" type="text" number-format ng-pattern="/^(?!,$)[\d,.]+$/" class="form-control"
+                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
+                        </div>
+                        <div ng-hide="isAdditionalDateProperty(propertyName) || isAdditionalDecimalProperty(propertyName)">
                             <input id="{{propertyValue}}" class="form-control" type="text" name="propertyName"
                                    ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
                         </div>

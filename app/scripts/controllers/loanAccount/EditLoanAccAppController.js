@@ -652,6 +652,11 @@
                 return dateFields.includes(propertyName);
             }
 
+            scope.isAdditionalDecimalProperty = function (propertyName) {
+                var decimalFields = ["cuota", "cuotaOtros"];
+                return decimalFields.includes(propertyName);
+            }
+
             scope.searchByCaseId = function () {
                 var caseId = this.searchText;
                 if (scope.clientId && caseId) {
