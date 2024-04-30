@@ -8,6 +8,7 @@
                  scope.agencyOptions = data.agencyOptions;
                  scope.facilitatorOptions = data.facilitatorOptions;
                  scope.centerOptions = data.centerOptions;
+                 scope.allGroupOptions = data.groupOptions;
                  scope.groupOptions = data.groupOptions;
                  scope.allCenterGroupOptions = data.groupOptions;
              });
@@ -22,6 +23,19 @@
 
              });
 
+            scope.filterGroups = function () {
+                if (this.formData.centerId){
+                    scope.groupOptions = [];
+                    for (var i in scope.allGroupOptions) {
+                        if (scope.allGroupOptions[i].centerId == scope.formData.centerId) {
+                            scope.groupOptions.push(scope.allGroupOptions[i]);
+                        }
+                    }
+                }else {
+                    scope.groupOptions = scope.allGroupOptions;
+                }
+
+            }
             scope.cheques = [];
             scope.formData = {};
             scope.chequesPerPage = 100;

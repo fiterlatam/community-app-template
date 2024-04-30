@@ -61,14 +61,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">{{'label.menu.selectgroup' | translate }}</label>
+                                    <label class="control-label col-sm-4">{{'label.selectcenter' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="groupId" name="groupId"
-                                                ng-model="formData.groupId"
+                                        <select id="centerId" name="centerId" chosen="centerOptions"
+                                                ng-model="formData.centerId"
                                                 class="form-control"
-                                                ng-options="group.id as group.name for group in groupOptions"
-                                                value="{{group.id}}">
-                                            <option value="">-- {{'label.menu.selectgroup' | translate}} --</option>
+                                                data-ng-change="filterGroups()"
+                                                ng-options="center.id as center.name for center in centerOptions"
+                                                value="{{center.id}}">
+                                            <option value="">-- {{'label.selectcenter' | translate}} --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -110,7 +111,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-4">{{'label.input.facilitator' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="facilitatorId" name="facilitatorId"
+                                        <select id="facilitatorId" name="facilitatorId" chosen="facilitatorOptions"
                                                 ng-model="formData.facilitatorId"
                                                 class="form-control"
                                                 ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitatorOptions"
@@ -121,14 +122,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">{{'label.selectcenter' | translate }}</label>
+                                    <label class="control-label col-sm-4">{{'label.menu.selectgroup' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="centerId" name="centerId"
-                                                ng-model="formData.centerId"
+                                        <select id="groupId" name="groupId" chosen="groupOptions"
+                                                ng-model="formData.groupId"
                                                 class="form-control"
-                                                ng-options="center.id as center.name for center in centerOptions"
-                                                value="{{center.id}}">
-                                            <option value="">-- {{'label.selectcenter' | translate}} --</option>
+                                                ng-options="group.id as group.name for group in groupOptions"
+                                                value="{{group.id}}">
+                                            <option value="">-- {{'label.menu.selectgroup' | translate}} --</option>
                                         </select>
                                     </div>
                                 </div>
