@@ -18,7 +18,6 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <input data-ng-model="searchText" type="text"
-
                                         placeholder="{{'label.input.searchByGroupOrGroupNameOrCenter' | translate}}"
                                         class="form-control unstyled"/>
                                     <span class="input-group-btn">
@@ -29,20 +28,18 @@
                                 </div>
                             </div>
                             <div class="col-md-6" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
-                                <div class="control-label col-sm-6 text-white">
+                                <div class="control-label col-sm-3 text-white">
                                     <label>{{ 'label.input.status' | translate }}<span
                                             class="required">*</span></label>
                                 </div>
-                                <div class="col-sm-6">
-                                <select id="statusfilter" ng-change="getResultsPage(1)"
-                                        ng-model="formData.status" class="form-control"
-                                        ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
-                                        value="{{gpStatus.id}}">
-                                    <option value="">{{'label.all' | translate}}</option>
-                                </select>
-
+                                <div class="col-sm-9">
+                                    <select id="statusfilter" ng-change="getResultsPage(1)"
+                                            ng-model="formData.status"  class="form-control width170px"
+                                            ng-options="gpStatus.value as gpStatus.code|translate for gpStatus in groupStatusOptions "
+                                            value="{{gpStatus.id}}">
+                                        <option value="">{{'label.all' | translate}}</option>
+                                    </select>
                                 </div>
-
                             </div>
                         </div>
                     </form>
@@ -54,7 +51,7 @@
 
                 <div class="col-sm-3">
                     <!-- Only show New Pre-qualification button if type is not existing-->
-                    <a ng-if="prequalificationType === 'new'" href="#/prequalifications/newprequalification/{{prequalificationType}}/{{groupingType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
+                    <a ng-if="prequalificationType === 'list'" href="#/prequalifications/newprequalification/new/{{groupingType}}" class="btn btn-primary pull-right" has-permission='CREATE_PREQUALIFICATIONS'><i
                             class="fa fa-plus"></i> {{'label.heading.newgroup.prequalification' | translate}}</a> &nbsp;&nbsp;
                 </div>
             </div>
@@ -62,7 +59,6 @@
             <table class="table table-striped" style="table-layout: fixed">
                 <thead>
                 <tr>
-                    <th>{{'label.heading.createdon' | translate}}</th>
                     <th>{{'label.heading.prequalificationnumber' | translate}}</th>
                     <th ng-if="groupingType==='group'">{{'label.input.agency' | translate}}</th>
                     <th ng-if="groupingType==='group'">{{'label.input.group' | translate}}</th>
@@ -70,6 +66,7 @@
 <!--                    <th>{{'label.input.portfolio' | translate}}</th>-->
                     <th>{{'label.input.product' | translate}}</th>
                     <th>{{'label.input.addedBy' | translate}}</th>
+                    <th>{{'label.heading.createdon' | translate}}</th>
                     <th>{{'label.input.status' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{'label.heading.updatedon' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.heading.processquality' | translate}}</th>
@@ -81,14 +78,13 @@
                 <tbody>
                 <tr dir-paginate="client in groupsList | itemsPerPage: groupsPerPage" class="pointer-main"
                     total-items="totalGroups"  pagination-id="blacklist" style="word-break: break-word">
-                    <td class="pointer">{{client.createdAt |DateFormat}}</td>
                     <td class="pointer" data-ng-click="routeTo('#/prequalification/' + client.id + '/viewdetails')">{{client.prequalificationNumber}}</td>
                     <td class="pointer" ng-if="groupingType==='group'">{{client.agencyName}}</td>
                     <td class="pointer" ng-if="groupingType==='group'">{{client.groupName}}</td>
                     <td class="pointer" ng-if="groupingType==='group'">{{client.centerName}}</small></td>
-<!--                    <td class="pointer">{{client.portforlioName}}</td>-->
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
+                    <td class="pointer">{{client.createdAt | DateTimeFormat}}</td>
                     <td class="pointer" >{{client.status.code|translate}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.statusChangedOn|DateFormat}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>

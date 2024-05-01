@@ -10,13 +10,15 @@
             scope.isIndividual=routeParams.individual;
 
             scope.getResultsPage = function (pageNumber) {
-                var items = resourceFactory.prequalificationResource.getAllGroups({
+                resourceFactory.prequalificationResource.getAllGroups({
                     offset: ((pageNumber - 1) * scope.groupsPerPage),
                     limit: scope.groupsPerPage,
                     type: routeParams.type,
                     status: scope.formData.status,
                     searchText:scope.searchText,
-                    groupingType: routeParams.groupingType
+                    groupingType: routeParams.groupingType,
+                    orderBy: 'g.id',
+                    sortOrder: 'desc'
                 }, function (data) {
                     scope.totalGroups = data.totalFilteredRecords;
                     scope.groupsList = data.pageItems;

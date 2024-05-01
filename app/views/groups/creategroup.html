@@ -161,7 +161,7 @@
 						<label class="control-label col-sm-2">{{ 'label.input.meetingEndTime' | translate }}<span class="required">*</span></label>
 						<div class="col-sm-3">
 							<input id="meetingEndTime" type="time" placeholder="HH:MM:SS" name="meetingEndTime" ng-model="formData.meetingEndTime"
-								   class="form-control" required late-Validate/>
+								   class="form-control" required late-Validate ng-disabled="true"/>
 						</div>
 						<div class="col-sm-3">
 							<form-validate valattributeform="createcentergroupform" valattribute="meetingEndTime"/>
@@ -238,7 +238,7 @@
 
 
 
-				<fieldset>
+				<fieldset ng-if="formData.centerId">
 					<legend>{{'label.input.linkprequalification' | translate}}</legend>
 					<div class="form-group">
 						<div class="form-group">

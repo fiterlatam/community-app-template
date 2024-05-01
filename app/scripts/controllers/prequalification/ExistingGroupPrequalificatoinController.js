@@ -8,6 +8,7 @@
             scope.groupsList = [];
             scope.productsList = [];
             scope.facilitators = [];
+            scope.isEditMember = false;
             scope.yesNo = [{value: "YES", name: "Yes"}, {value: "NO", name: "No"}];
             scope.restrictDate = new Date();
             scope.formData = {};
@@ -20,7 +21,7 @@
             scope.membersList = [];
             scope.tf = "HH:mm";
 
-            resourceFactory.prequalificationTemplateResource.get({groupId: routeParams.prequalificationId},function (data) {
+            resourceFactory.prequalificationTemplateResource.get({groupId: routeParams.prequalificationId, groupingType: 'group'}, function (data) {
                 if (data.agencies){
                     scope.agenciesList = data.agencies
                 }
@@ -34,10 +35,9 @@
             });
 
             resourceFactory.prequalificationResource.get({groupId: routeParams.prequalificationId}, function (data) {
-                var prevDate = dateFilter(data.createdAt, scope.df);
-
-                scope.previousPrequalificationDate = dateFilter(new Date(prevDate), scope.df) ;
-
+                const [ year, month, day, hour, minute, second ] = data.createdAt;
+                const createdDate = new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`);
+                scope.previousPrequalificationDate = dateFilter(createdDate, scope.df);
                 if (data.openingDate) {
                     var editDate = dateFilter(data.openingDate, scope.df);
                     scope.first.date = new Date(editDate);
@@ -54,6 +54,10 @@
                         memberDets.puente = member.workWithPuente;
                         memberDets.amount = member.approvedAmount;
                         memberDets.name = member.name;
+                        memberDets.groupPresident = member.groupPresident;
+                        if (member.groupPresident){
+                            scope.presidentSelected = true;
+                        }
                         memberDets.dpi = member.dpi;
                         memberDets.locale = scope.optlang.code;
                         memberDets.dateFormat = scope.df;
@@ -68,7 +72,7 @@
                         productId: data.productId,
                         centerId: data.centerId,
                         facilitator: data.facilitatorId,
-                        groupName: data.groupName+"-NUEVO",
+                        groupName: data.groupName,
                         prequalilficationTimespan: data.prequalilficationTimespan,
                         members: membersList
                     }
@@ -148,7 +152,9 @@
                         memberData.clientId = scope.membersList[i].id ;
                         memberData.name = scope.membersList[i].displayName ;
                         memberData.dpi = scope.membersList[i].dpiNumber ;
+                        memberData.groupPresident = scope.membersList[i].groupPresident ;
                         if(scope.membersList[i].dateOfBirth){
+                            console.log(scope.membersList[i].dateOfBirth);
                             memberData.dob = dateFilter(new Date(scope.membersList[i].dateOfBirth),scope.df);
                         }
 
@@ -161,7 +167,7 @@
 
 
                 resourceFactory.prequalificationResource.prequalifyExistingGroup({groupId: scope.formData.groupId,anotherResource:'prequalifyGroup'},this.formData, function (data) {
-                    location.path('#/prequalificationGroups/group/new');
+                    location.path('#/prequalificationGroups/group/list');
                 });
             }
 
@@ -176,7 +182,7 @@
                 //     member.dateFormat = scope.df;
                 // })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
-                    location.path('#/prequalificationGroups/group/new');
+                    location.path('#/prequalificationGroups/group/list');
                 });
             }
 
@@ -192,6 +198,20 @@
                 let seconds = time[2];
                 return hour.toString().padStart(2,"0")+':'+minute.toString().padStart(2,"0")+':'+seconds.toString().padStart(2,"0");
             }
+
+            scope.updatePresident = function (index) {
+                let members = scope.formData.members;
+                scope.presidentSelected = false;
+                for (var i = 0; i < members.length; i++ ){
+                    const isGroupPresident = scope.formData.members[i].groupPresident;
+                    if (i === Number(index) && isGroupPresident){
+                        scope.formData.members[i].groupPresident = true;
+                        scope.presidentSelected = true;
+                    }else{
+                        scope.formData.members[i].groupPresident = false;
+                    }
+                }
+            };
 
         }
     });

@@ -22,7 +22,10 @@
                     <tbody>
                     <tr id="{{$index}}" data-ng-click="highlight($index)" ng-repeat="row in prequalification.rows track by $index">
                         <td ng-repeat="col in row track by $index">
-                            <span class="{{checkValidationColor(col)}}">{{col}}</span>
+                            <span class="{{checkValidationColor(col)}}">
+                                <span ng-if="colorLabel(col)">{{colorLabel(col)|translate}}</span>
+                                <span ng-if="!colorLabel(col)">{{col}}</span>
+                            </span>
                         </td>
                     </tr>
                     </tbody>
@@ -49,7 +52,10 @@
                 <!-- http://www.anujgakhar.com/2013/06/15/duplicates-in-a-repeater-are-not-allowed-in-angularjs/ -->
                 <tr id="{{$index}}" data-ng-click="highlight($index)" ng-repeat="row in members.rows track by $index">
                     <td ng-repeat="col in row track by $index">
-                        <span class="{{checkValidationColor(col)}}">{{col}}</span>
+                            <span class="{{checkValidationColor(col)}}">
+                                <span ng-if="colorLabel(col)">{{colorLabel(col)|translate}}</span>
+                                <span ng-if="!colorLabel(col)">{{col}}</span>
+                            </span>
                     </td>
                 <tr>
                 </tbody>

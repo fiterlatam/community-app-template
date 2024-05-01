@@ -30,6 +30,7 @@
             scope.formData.familyMembers=[];
             scope.formData.residenceYears = 0;
             scope.formData.communityYears = 0;
+            scope.formData.loanCycle = 0;
             scope.familyArray=[];
             scope.datatables = [];
             scope.noOfTabs = 1;
@@ -62,6 +63,9 @@
                 scope.housingTypeOptions = data.housingTypeOptions;
                 scope.departamentoOptions = data.departamentoOptions;
                 scope.municipioOptions = data.municipioOptions;
+                scope.maritalStatusOptions = data.maritalStatusOptions;
+                scope.jobTypeOptions = data.jobTypeOptions;
+                scope.educationLevelOptions = data.educationLevelOptions;
                 scope.economicSectorOptions = data.economicSectorData;
                 scope.economicActivities = data.economicActivityData;
                 scope.formData.publicServices = [];
@@ -122,7 +126,7 @@
                            scope.addressTypes = data.address[0].addressTypeIdOptions;
                            scope.countryOptions = data.address[0].countryIdOptions;
                            scope.stateOptions = data.address[0].stateProvinceIdOptions;
-                       
+
                     resourceFactory.addressFieldConfiguration.get({entity:entityname},function(data){
 
                         for(var i=0;i<data.length;i++)

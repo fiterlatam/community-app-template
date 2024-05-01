@@ -457,7 +457,7 @@
                             <tr data-ng-show="loandetails.isTopup">
                                 <td>{{'label.heading.loanIdToClose' | translate}}</td>
                                 <td><span class="padded-td"><a
-                                        href="#/viewloanaccount/{{loandetails.closureLoanId| FormatByLocale}}">{{loandetails.closureLoanAccountNo}}</a></span>
+                                        href="#/viewloanaccount/{{loandetails.closureLoanId}}">{{loandetails.closureLoanAccountNo}}</a></span>
                                 </td>
                             </tr>
                             <tr data-ng-show="loandetails.isTopup">
@@ -786,7 +786,7 @@
                                 </td>
                                 <td class="pointer"
                                     data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
-                                    {{transaction.type.value | translate}}
+                                    {{transaction.type.code | translate}}
                                 </td>
                                 <td class="pointer"
                                     data-ng-click="routeTo(loandetails.id,transaction.id,transaction.type.id)">
@@ -948,9 +948,9 @@
                             </tr>
                             <tr ng-repeat="charge in loandetails.overdueCharges">
                                 <td>{{charge.name}},{{charge.currency.displaySymbol}}</td>
-                                <td>{{charge.chargeCalculationType.value}}</td>
+                                <td>{{charge.chargeCalculationType.code | translate}}</td>
                                 <td>{{charge.amount | FormatByLocale}}</td>
-                                <td>{{charge.chargeTimeType.value}}</td>
+                                <td>{{charge.chargeTimeType.code | translate}}</td>
                             </tr>
                         </table>
                     </uib-tab>
@@ -988,19 +988,19 @@
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">{{charge.name}}
                                 </td>
                                 <td ng-show="charge.penalty" class="pointer"
-                                    data-ng-click="viewLoanChargeDetails(charge.id)">{{"penalty"}}
+                                    data-ng-click="viewLoanChargeDetails(charge.id)">{{"penalty" | translate}}
                                 </td>
                                 <td ng-hide="charge.penalty" class="pointer"
-                                    data-ng-click="viewLoanChargeDetails(charge.id)">{{"fee"}}
+                                    data-ng-click="viewLoanChargeDetails(charge.id)">{{"fee" | translate}}
                                 </td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">
-                                    {{charge.chargeTimeType.value}}
+                                    {{charge.chargeTimeType.code | translate}}
                                 </td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">
                                     {{charge.dueDate | DateFormat}}
                                 </td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">
-                                    {{charge.chargeCalculationType.value}}
+                                    {{charge.chargeCalculationType.code | translate}}
                                 </td>
                                 <td class="pointer" data-ng-click="viewLoanChargeDetails(charge.id)">
                                     {{charge.currency.displaySymbol}}{{charge.amount | FormatByLocale}}
@@ -1258,7 +1258,7 @@
                             </tr>
                             <tr>
                                 <td class="h5">{{'label.input.numberOfApprovals' | translate}}</td>
-                                <td><span class="padded-td h5">{{groupLoanAdditionalData.approvals}}</span>
+                                <td><span class="padded-td h5">{{groupLoanAdditionalData.numberOfApprovals}}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -1344,9 +1344,6 @@
                                 <td class="h5">{{'label.input.debtLevel' | translate}}</td>
                                 <td><span class="padded-td h5">{{groupLoanAdditionalData.debtLevel}}</span>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="h5" colspan="2">{{'label.input.debtLevel' | translate}}</td>
                             </tr>
                             <tr>
                                 <td class="h5" colspan="2">

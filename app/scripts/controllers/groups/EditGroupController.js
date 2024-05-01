@@ -84,10 +84,11 @@
                     if(scope.formData.meetingStartTime != null
                         && scope.formData.meetingStartTime != undefined
                         && scope.formData.meetingStartTime != ""){
-
                         var meetingEndTime = new Date(scope.formData.meetingStartTime);
                         var hours = meetingEndTime.getHours();
                         var minutesToAdd = meetingEndTime.getMinutes() + scope.defaultMeetingPeriod + scope.timePeriodBetweenMeeting;
+                        var minMinutesToAdd = meetingEndTime.getMinutes() + 1;
+                        scope.minMeetingEndTime = new Date(meetingEndTime.getFullYear(), meetingEndTime.getMonth(), meetingEndTime.getDate(), hours, minMinutesToAdd);
                         var newTime = new Date(meetingEndTime.getFullYear(), meetingEndTime.getMonth(), meetingEndTime.getDate(), hours, minutesToAdd);
                         scope.formData.meetingEndTime = newTime;
                     }
@@ -152,7 +153,7 @@
                     externalId: data.externalId,
                     staffId: data.staffId,
                     portfolioCenterId: data.portfolioCenterId,
-                    legacyNumber: data.legacyNumber,
+                    legacyNumber: data.legacyNumber>0?data.legacyNumber:null,
                     latitude: data.latitude,
                     longitude: data.longitude,
                     size: data.size,
@@ -193,6 +194,7 @@
                 this.formData.activationDate = dateFilter(scope.first.date, scope.df);
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
+                this.formData.timeFormat = scope.tf;
 
                 this.formData.formationDate = dateFilter(scope.formData.formationDate, scope.df);
 
@@ -217,6 +219,7 @@
 
                 resourceFactory.prequalificationResource.getAllGroups({
                     type: 'checked',
+                    portfolioCenterId:scope.formData.portfolioCenterId,
                     searchText:value
                 }, function (data) {
                     console.log("prequal data: "+ JSON.stringify(data));

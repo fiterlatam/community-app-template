@@ -3,6 +3,28 @@
         <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
         <li class="active">{{'label.heading.pay.guarantees.by.cheques' | translate}}</li>
     </ul>
+    <script type="text/ng-template" id="assignGuaranteeCheques.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.assign.cheques.to.loans' | translate}}</h3>
+        </div>
+        <div class="modal-body ">
+            <api-validate></api-validate>
+            <br>
+            <div class="form-group">
+                <label for="bankAccId">{{'label.heading.select.bank.account' | translate}}</label>
+                <select id="bankAccId"
+                        name="bankAccId"
+                        ng-model="bankAccId"
+                        class="form-control"
+                        ng-options="bankAccountData.bankAccId as bankAccountData.accountName for bankAccountData in bankAccountOptions"
+                        value="{{bankAccountData.bankAccId}}">
+                </select>
+            </div>
+            <br>
+            <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+            <button class="btn btn-primary" ng-click="assign()">{{'label.button.assign' | translate}}</button>
+        </div>
+    </script>
     <api-validate></api-validate>
     <div class="card">
         <div class="content">
@@ -63,7 +85,7 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="guaranteeData in guaranteeDataList">
+                        <tr ng-repeat="guaranteeData in guaranteeDataList track by $index">
                             <td>
                                 <div class="checkbox form-group">
                                     <label for="isSelected">
@@ -71,11 +93,11 @@
                                     </label>
                                 </div>
                             </td>
-                            <td>{{guaranteeData.clientNo}}</td>
                             <td>{{guaranteeData.id}}</td>
+                            <td>{{guaranteeData.clientNo}}</td>
                             <td>{{guaranteeData.clientName}}</td>
                             <td>{{guaranteeData.withdrawalReason}}</td>
-                            <td>{{guaranteeData.requestedAmount}}</td>
+                            <td>{{guaranteeData.requestedAmount | FormatByLocale}}</td>
                             <td>{{guaranteeData.status}}</td>
                             <td>{{guaranteeData.caseId}}</td>
                             <td ng-show="isChequeAssigned">{{guaranteeData.chequeData.accountName}}</td>
@@ -90,7 +112,7 @@
                 <br>
                 <div class="col-md-offset-2 paddedleft">
                     <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
-                    <a ng-disabled="isAssignBtnDisabled()" ng-click="assignCheques()" class="btn btn-primary" has-permission='PAYGUARANTEEBYCHEQUE_BANKCHEQUE'><i class="fa fa-tasks "></i>&nbsp;&nbsp;{{
+                    <a ng-disabled="isAssignBtnDisabled()" ng-click="assignGuaranteeCheques()" class="btn btn-primary" has-permission='PAYGUARANTEEBYCHEQUE_BANKCHEQUE'><i class="fa fa-tasks "></i>&nbsp;&nbsp;{{
                         'label.button.assigncheques' | translate }}</a>
                     <button ng-disabled="!isChequeAssigned"  id="save" type="submit" class="btn btn-primary" has-permission='PAYGUARANTEEBYCHEQUE_BANKCHEQUE'>{{'label.button.pay' | translate}}</button>
                 </div>

@@ -32,6 +32,7 @@
             scope.currentLoanDocs = {}
             scope.loanDocuments = [];
             scope.product;
+            scope.clientHousingType;
             scope.formData.totalExternalLoanAmount =0;
             scope.formData.totalInstallments =0
             scope.institutionTypeOptions = [
@@ -42,6 +43,7 @@
             ];
 
             scope.date.first = new Date();
+            scope.date.fifth = new Date();
 
             if (scope.clientId) {
                 scope.inparams.clientId = routeParams.clientId;
@@ -131,14 +133,25 @@
             }
 
             if(scope.clientId){
-                resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
-                    scope.prequalificationOptions = data.clientPrequalifications;
-                    scope.clientData = data;
-                    scope.formData.fullName = data.displayName;
-                    scope.formData.phoneNumber = data.mobileNo;
-                    scope.formData.dpi = data.dpiNumber;
-                    scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
-                });
+              resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
+                 scope.prequalificationOptions = data.clientPrequalifications;
+                 scope.clientData = data;
+
+                 scope.formData.fullName = data.displayName;
+                 scope.formData.maidenName = data.detailData.maidenName;
+                 scope.formData.nationality = data.detailData.nationality;
+                 scope.formData.language = data.detailData.languages;
+                 scope.formData.occupancyClassification = Number(data.detailData.economicSector);
+                 scope.clientHousingType = data.clientContactInformation.housingType;
+                 scope.date.sixth = new Date(data.dateOfBirth);
+                 scope.formData.phoneNumber = data.mobileNo;
+                 scope.formData.dpi = data.dpiNumber;
+                 scope.formData.nit = data.nit;
+                 scope.formData.jobType = data.jobType;
+                 scope.formData.educationLevel = data.educationLevel;
+                 scope.formData.maritalStatus = data.maritalStatus;
+                 scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
+              });
             }
 
             scope.prequalificationChange = function (prequalificationId){
@@ -153,47 +166,32 @@
                         if(groupMembers.length > 0){
                             for(var i = 0; i < groupMembers.length; i++){
                                 if(groupMembers[i].dpi === scope.clientData.dpiNumber){
-                                    scope.totalApprovedAmount = groupMembers[i].requestedAmount;
+                                   scope.totalApprovedAmount = groupMembers[i].requestedAmount;
                                 }
                             }
                         }
                     } else {
-                        scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
                     }
                     scope.loanProductChange(loanProductId);
                 });
             }
-            scope.resolveFrequencyDayOfWeek = function (meetingDay){
-                if(meetingDay == 'Lunes'){
+           scope.resolveFrequencyDayOfWeek = function (meetingDay){
+               if(meetingDay == 'Lunes'){
                     scope.disableDaySelect = true;
                     return 1;
                 }if(meetingDay == 'Martes'){
-                    scope.disableDaySelect = true;
-                    return 2;
+                   scope.disableDaySelect = true;
+                   return 2;
                 }if(meetingDay == 'Miércoles'){
-                    scope.disableDaySelect = true;
-                    return 3;
+                   scope.disableDaySelect = true;
+                   return 3;
                 }if(meetingDay == 'Jueves'){
-                    scope.disableDaySelect = true;
-                    return 4;
+                   scope.disableDaySelect = true;
+                   return 4;
                 }
             } ;
 
-            scope.resolveFrequencyRange = function (centerName){
-                if(centerName.includes('-R1-')){
-                    scope.disableFrequencySelect = true;
-                    return 1;
-                }if(centerName.includes('-R2-')){
-                    scope.disableFrequencySelect = true;
-                    return 2;
-                }if(centerName.includes('-R3-')){
-                    scope.disableFrequencySelect = true;
-                    return 3;
-                }if(centerName.includes('-R4-')){
-                    scope.disableFrequencySelect = true;
-                    return 4;
-                }
-            }
             scope.loanProductChange = function (loanProductId) {
                 // _.isUndefined(scope.datatables) ? scope.tempDataTables = [] : scope.tempDataTables = scope.datatables;
                 // WizardHandler.wizard().removeSteps(1, scope.tempDataTables.length);
@@ -216,13 +214,16 @@
                     if (data.product.ownerTypeOption.value ==='Group'){
                         if (data.group){
                             scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
-                            scope.formData.repaymentFrequencyNthDayType = scope.resolveFrequencyRange(data.group.centerName)
+                            if (data.group.meetingFrequencyRange){
+                                scope.disableFrequencySelect = true;
+                                scope.formData.repaymentFrequencyNthDayType = data.group.meetingFrequencyRange
+                            }
                         }
                     }
-                    scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
-                    scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
-                    scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
-                    scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'name');
+                    scope.loandetails.interestValue = scope.loanaccountinfo.interestType.code;
+                    scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.code;
+                    scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.code;
+                    scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'code');
                     scope.datatables = data.datatables;
                     scope.handleDatatables(scope.datatables);
                     scope.disabled = false;
@@ -258,7 +259,17 @@
                     scope.loanStatusOptions = data.loanStatusOptions || [];
                     scope.institutionTypeOptions = data.institutionTypeOptions || [];
                     scope.housingTypeOptions = data.housingTypeOptions || [];
+                    if (data.housingTypeOptions && scope.clientHousingType){
+                        console.log("going to set housing type: "+ scope.clientHousingType)
+                        scope.housingTypeOptions.filter((housingType) => {
+                            if (housingType.description === scope.clientHousingType){
+                                scope.formData.housingType = housingType.id;
+                            }
+                        });
+
+                    }
                     scope.classificationOptions = data.classificationOptions || [];
+                    scope.economicSectorOptions = data.economicSectorOptions || [];
                     scope.jobTypeOptions = data.jobTypeOptions || [];
                     scope.educationLevelOptions = data.educationLevelOptions || [];
                     scope.maritalStatusOptions = data.maritalStatusOptions || [];
@@ -301,8 +312,8 @@
                 scope.formData.totalExternalLoanAmount = 0;
                 scope.formData.totalInstallments = 0;
                 angular.forEach(scope.currentLoans, function (currentLoan, index) {
-                    scope.formData.totalExternalLoanAmount += currentLoan.totalLoanBalance;
-                    scope.formData.totalInstallments += currentLoan.charges;
+                    scope.formData.totalExternalLoanAmount += Number(currentLoan.totalLoanBalance?currentLoan.totalLoanBalance:0);
+                    scope.formData.totalInstallments += Number(currentLoan.charges?currentLoan.charges:0);
                 });
             }
 
@@ -376,16 +387,16 @@
                 scope.formData.isEqualAmortization = scope.loanaccountinfo.isEqualAmortization;
                 scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                 scope.formData.interestType = scope.loanaccountinfo.interestType.id;
-                scope.loandetails.interestValue = scope.loanaccountinfo.interestType.value;
+                scope.loandetails.interestValue = scope.loanaccountinfo.interestType.code;
                 scope.formData.interestCalculationPeriodType = scope.loanaccountinfo.interestCalculationPeriodType.id;
-                scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
+                scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.code;
                 scope.formData.allowPartialPeriodInterestCalcualtion = scope.loanaccountinfo.allowPartialPeriodInterestCalcualtion;
                 scope.formData.inArrearsTolerance = scope.loanaccountinfo.inArrearsTolerance;
                 scope.formData.graceOnPrincipalPayment = scope.loanaccountinfo.graceOnPrincipalPayment;
                 scope.formData.graceOnInterestPayment = scope.loanaccountinfo.graceOnInterestPayment;
                 scope.formData.graceOnArrearsAgeing = scope.loanaccountinfo.graceOnArrearsAgeing;
                 scope.formData.transactionProcessingStrategyId = scope.loanaccountinfo.transactionProcessingStrategyId;
-                scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'name');
+                scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'code');
                 scope.formData.graceOnInterestCharged = scope.loanaccountinfo.graceOnInterestCharged;
                 scope.formData.fixedEmiAmount = scope.loanaccountinfo.fixedEmiAmount;
                 scope.formData.maxOutstandingLoanBalance = scope.loanaccountinfo.maxOutstandingLoanBalance;
@@ -749,9 +760,9 @@
                 location.path('/viewloanaccount/' + loanId);
             }
 
-            scope.searchByCaseId = function () {
-                var caseId = this.searchText;
-                if(scope.clientId && caseId){
+           scope.searchByCaseId = function () {
+               var caseId = this.searchText;
+               if(scope.clientId && caseId){
                     delete scope.formData.loanAdditionalData;
                     resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
                         scope.formData.loanAdditionalData = data;
@@ -768,12 +779,12 @@
                         }
                     });
                 }
-            }
+           }
 
-            scope.isAdditionalDateProperty = function(propertyName){
-                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
+           scope.isAdditionalDateProperty = function(propertyName){
+               var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
                 return dateFields.includes(propertyName);
-            }
+           }
 
             scope.cancel = function () {
                 if (scope.groupId) {
@@ -822,7 +833,10 @@
                 return scope.formData.totalIncome;
             }
 
-            scope.$watch('formData.rentMortgageFee', function(){
+            scope.$watch('formData.rentFee', function(){
+                scope.calculateTotalExpenditure();
+            });
+            scope.$watch('formData.mortgageFee', function(){
                 scope.calculateTotalExpenditure();
             });
 
@@ -836,10 +850,11 @@
 
             scope.calculateTotalExpenditure = function () {
                 scope.formData.totalExpenditures=0;
-                let rentMortgageFee = Number(scope.formData.rentMortgageFee?scope.formData.rentMortgageFee:0);
+                let rentFee = Number(scope.formData.rentFee?scope.formData.rentFee:0);
+                let mortgageFee = Number(scope.formData.mortgageFee?scope.formData.mortgageFee:0);
                 let familyExpenses = Number(scope.formData.familyExpenses?scope.formData.familyExpenses:0);
                 let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
-                scope.formData.totalExpenditures=(rentMortgageFee + familyExpenses + totalInstallments);
+                scope.formData.totalExpenditures=(rentFee + mortgageFee + familyExpenses + totalInstallments);
 
                 return scope.formData.totalExpenditures;
             }
