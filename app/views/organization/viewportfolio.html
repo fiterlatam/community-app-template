@@ -53,12 +53,14 @@
                         </span>
                         <tr class="graybg">
                             <th>{{'label.heading.centerName' | translate}}</th>
+                            <th>{{'label.heading.centerRange' | translate}}</th>
                             <th>{{'label.heading.centereditegroups' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="pointer-main" ng-repeat="center in centers">
                             <td class="pointer" data-ng-click="editCenter(center.id)">{{center.name}}</td>
+                            <td>{{center.rangeCode}} {{center.meetingDayName}}</td>
                             <td><button class="btn btn-default" data-ng-click="viewGroups(center.id)"><i class="fa fa-pencil"></i></button></td>
                         </tr>
                     </tbody>

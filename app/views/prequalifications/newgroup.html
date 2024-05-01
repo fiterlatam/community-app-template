@@ -28,7 +28,7 @@
                                 class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
-                        <select id="centerId" ng-model="formData.centerId"
+                        <select id="centerId" ng-model="formData.centerId" chosen="centersList" ng-autofocus="true"
                                 ng-options="pcenter.id as pcenter.name for pcenter in centersList"
                                 value="{{pcenter.id}}"
                                 class="form-control width170px" required="true" late-Validate>
@@ -99,8 +99,8 @@
                     <th>{{'label.input.name'|translate}}</th>
                     <th>{{'label.input.dpi'|translate}}</th>
                     <th>{{'label.input.dateofbirth'|translate}}</th>
-                    <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th>{{'label.input.amount.requested'|translate}}</th>
+                    <th>{{'label.input.work.with.puente' | translate}}</th>
                     <th ng-if="groupingType != 'individual'">{{'label.input.president'|translate}}</th>
                     <th></th>
                 </tr>

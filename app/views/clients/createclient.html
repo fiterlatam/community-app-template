@@ -232,12 +232,24 @@
                                        ng-pattern="/^[0-9]+$/" class="form-control" required/>
                             </div>
                             <div class="col-sm-2">
-                        <span ng-show="createclientform.dpi.$invalid && createclientform.dpi.$dirty">
-                           <small class="required" ng-show="createclientform.dpi.$error.pattern">
-                              {{'label.mustbenumeric' | translate}}
-                           </small>
-                        </span>
+                            <span ng-show="createclientform.dpi.$invalid && createclientform.dpi.$dirty">
+                                <small class="required" ng-show="createclientform.dpi.$error.pattern">
+                                    {{'label.mustbenumeric' | translate}}
+                                </small>
+                            </span>
                                 <form-validate valattributeform="createclientform" valattribute="dpi"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="nit">{{'label.input.nit' |
+                            translate}}<span class="required">*</span></label>
+                            <div class="col-sm-3">
+                                <input type="text" id="nit" name="nit" ng-model="formData.nit"
+                                        class="form-control" required/>
+                            </div>
+                            <div class="col-sm-2">
+                                <form-validate valattributeform="createclientform" valattribute="nit"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -297,9 +309,9 @@
                             </div>
                             <label class="control-label col-sm-2">{{'label.input.clientclassification' | translate}}</label>
                             <div class="col-sm-3">
-                                <select id="clientClassificationId" ng-model="formData.clientClassificationId"
+                                <select id="clientClassificationId" ng-model="formData.jobType"
                                         class="form-control"
-                                        ng-options="clientClassification.id as clientClassification.name for clientClassification in clientClassificationOptions"
+                                        ng-options="clientClassification.id as clientClassification.description for clientClassification in jobTypeOptions"
                                         value="{{clientClassification.id}}">
                                     <option value="">--{{'label.menu.clientclassification' | translate}}--</option>
                                 </select>
@@ -371,9 +383,9 @@
                             </div>
 
                             <label class="control-label col-sm-2" for="externalId">{{'label.input.loanCycle' |
-                            translate}}<span class="required">*</span></label>
+                            translate}}</label>
                             <div class="col-sm-3">
-                                <input type="text" id="loanCycle" name="loanCycle" ng-model="formData.loanCycle"
+                                <input type="text" id="loanCycle" disabled name="loanCycle" ng-model="formData.loanCycle"
                                        required late-validate
                                        class="form-control"/>
                             </div>
@@ -435,21 +447,25 @@
 
                         <div class="form-group">
                             <label class="control-label col-sm-2"
-                                   for="civilstatus">{{'label.input.civilstatus' |
+                                   for="maritalStatus">{{'label.input.civilstatus' |
                             translate}}</label>
                             <div class="col-sm-3">
-                                <input type="text" id="civilstatus" name="civilstatus"
-                                       ng-model="formData.civilStatus"
-                                       class="form-control"/>
+                                <select ng-model="formData.maritalStatusId" id="maritalStatus"
+                                        ng-options="status.id as status.description for status in maritalStatusOptions"
+                                        value="{{status.id}}" class="form-control">
+                                    <option value="">{{'label.selectone' | translate}}</option>
+                                </select>
                             </div>
 
                             <label class="control-label col-sm-2"
                                    for="education">{{'label.input.education' |
                             translate}}</label>
                             <div class="col-sm-3">
-                                <input type="text" id="education" name="education"
-                                       ng-model="formData.educationLevel"
-                                       class="form-control"/>
+                                <select ng-model="formData.educationLevelId" id="education"
+                                        ng-options="level.id as level.description for level in educationLevelOptions"
+                                        value="{{level.id}}" class="form-control">
+                                    <option value="">{{'label.selectone' | translate}}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

@@ -61,14 +61,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">{{'label.menu.selectgroup' | translate }}</label>
+                                    <label class="control-label col-sm-4">{{'label.selectcenter' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="groupId" name="groupId"
-                                                ng-model="formData.groupId"
+                                        <select id="centerId" name="centerId" chosen="centerOptions"
+                                                ng-model="formData.centerId"
                                                 class="form-control"
-                                                ng-options="group.id as group.name for group in groupOptions"
-                                                value="{{group.id}}">
-                                            <option value="">-- {{'label.menu.selectgroup' | translate}} --</option>
+                                                data-ng-change="filterGroups()"
+                                                ng-options="center.id as center.name for center in centerOptions"
+                                                value="{{center.id}}">
+                                            <option value="">-- {{'label.selectcenter' | translate}} --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -110,7 +111,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-4">{{'label.input.facilitator' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="facilitatorId" name="facilitatorId"
+                                        <select id="facilitatorId" name="facilitatorId" chosen="facilitatorOptions"
                                                 ng-model="formData.facilitatorId"
                                                 class="form-control"
                                                 ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitatorOptions"
@@ -121,14 +122,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">{{'label.selectcenter' | translate }}</label>
+                                    <label class="control-label col-sm-4">{{'label.menu.selectgroup' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="centerId" name="centerId"
-                                                ng-model="formData.centerId"
+                                        <select id="groupId" name="groupId" chosen="groupOptions"
+                                                ng-model="formData.groupId"
                                                 class="form-control"
-                                                ng-options="center.id as center.name for center in centerOptions"
-                                                value="{{center.id}}">
-                                            <option value="">-- {{'label.selectcenter' | translate}} --</option>
+                                                ng-options="group.id as group.name for group in groupOptions"
+                                                value="{{group.id}}">
+                                            <option value="">-- {{'label.menu.selectgroup' | translate}} --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -217,7 +218,7 @@
                             <td>{{loanAccount.clientName}}</td>
                             <td>{{loanAccount.loanProductName}}</td>
                             <td>{{loanAccount.expectedFirstRepaymentOnDate | DateFormat}}</td>
-                            <td>{{loanAccount.approvedPrincipal}}</td>
+                            <td>{{loanAccount.approvedPrincipal | FormatNumber:2}}</td>
                             <td>
                                 <div class="checkbox form-group">
                                     <label for="isSelected">
@@ -243,14 +244,14 @@
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
                                     <div class="input-group"  style="width: 120px">
-                                        <input id="returnGuaranteeAmount" type="text" class="form-control" name="returnGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.actualGuaranteeAmount, loanAccount.requiredGuaranteeAmount)" disabled>
+                                        <input id="returnGuaranteeAmount" type="text" class="form-control" name="returnGuaranteeAmount" ng-model="returnGuaranteeAmount" ng-value="calculateDiffWithZeroDefault(loanAccount.actualGuaranteeAmount, loanAccount.requiredGuaranteeAmount) | FormatNumber:2" disabled>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group" ng-show="loanAccount.isSelected">
                                     <div class="input-group" style="width: 120px">
-                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-value="calculateDepositAmount(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount)" disabled>
+                                        <input id="depositGuaranteeAmount" type="text" class="form-control" name="depositGuaranteeAmount" ng-model="depositGuaranteeAmount" ng-value="calculateDepositAmount(loanAccount.requiredGuaranteeAmount, loanAccount.actualGuaranteeAmount) | FormatNumber:2" disabled>
                                     </div>
                                 </div>
                             </td>
@@ -285,7 +286,7 @@
                     <a id="cancel" href="#/organization" class="btn btn-default">{{'label.button.cancel' | translate}}</a>
                     <a ng-disabled="isAssignBtnDisabled()" ng-click="assignLoanCheques()" class="btn btn-primary" has-permission='DISBURSEBYCHEQUES_LOAN'><i class="fa fa-tasks "></i>&nbsp;&nbsp;{{
                         'label.button.assigncheques' | translate }}</a>
-                    <button ng-disabled="!isChequeAssigned"  id="save" type="submit" class="btn btn-primary" has-permission='DISBURSEBYCHEQUES_LOAN'>{{'label.button.disburse' | translate}}</button>
+                    <button ng-disabled="!isChequeAssigned"  id="save" type="submit" class="btn btn-primary" has-permission='DISBURSEBYCHEQUES_LOAN'>{{'label.button.save' | translate}}</button>
                 </div>
             </form>
         </div>

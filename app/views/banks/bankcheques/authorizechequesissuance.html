@@ -28,11 +28,11 @@
                                     <label class="control-label col-sm-6">{{'label.heading.bank.acc.no' | translate}}</label>
                                     <div class="col-sm-6">
                                         <select id="bankAccId" name="bankAccId"
-                                                    ng-model="formData.bankAccId"
-                                                    class="form-control"
-                                                    ng-options="bankAccount.id as bankAccount.accountName for bankAccount in bankAccountOptions"
-                                                    value="{{bankAccount.id}}">
-                                                <option value="">--{{'label.heading.bank.acc.no' | translate}}--</option>
+                                                ng-model="formData.bankAccId"
+                                                class="form-control"
+                                                ng-options="bankAccount.id as bankAccount.accountName for bankAccount in bankAccountOptions"
+                                                value="{{bankAccount.id}}">
+                                            <option value="">--{{'label.heading.bank.acc.no' | translate}}--</option>
                                         </select>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-4">{{'label.input.facilitator' | translate }}</label>
                                     <div class="col-sm-8">
-                                        <select id="facilitatorId" name="facilitatorId"
+                                        <select id="facilitatorId" name="facilitatorId"  chosen="facilitatorOptions"
                                                 ng-model="formData.facilitatorId"
                                                 class="form-control"
                                                 ng-options="responsibleUser.id as responsibleUser.firstname + ' ' + responsibleUser.lastname + ' (' + responsibleUser.username + ')' for responsibleUser in facilitatorOptions"
@@ -85,9 +85,10 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-4">{{'label.selectcenter' | translate}}</label>
                                     <div class="col-sm-8">
-                                        <select id="centerId" name="centerId"
+                                        <select id="centerId" name="centerId" chosen="centerOptions"
                                                 ng-model="formData.centerId"
                                                 class="form-control"
+                                                data-ng-change="filterGroups()"
                                                 ng-options="center.id as center.name for center in centerOptions"
                                                 value="{{center.id}}">
                                             <option value="">-- {{'label.selectcenter' | translate}} --</option>
@@ -98,7 +99,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-4">{{'label.menu.selectgroup' | translate}}</label>
                                     <div class="col-sm-8">
-                                        <select id="groupId" name="groupId"
+                                        <select id="groupId" name="groupId" chosen="groupOptions"
                                                 ng-model="formData.groupId"
                                                 class="form-control"
                                                 ng-options="group.id as group.name for group in groupOptions"
@@ -131,6 +132,8 @@
                         <th>{{'label.heading.chequeNo' | translate}}</th>
                         <th>{{'label.heading.batchNo' | translate}}</th>
                         <th>{{'label.heading.bankAccNo' | translate}}</th>
+                        <th>{{'label.input.type' | translate}}</th>
+                        <th>{{'label.heading.chequeAmount' | translate}}</th>
                         <th>{{'label.heading.status' | translate}}</th>
                         <th>{{'label.heading.description' | translate}}</th>
                         <th>{{'label.heading.createdon' | translate}}</th>
@@ -150,7 +153,9 @@
                         <td>{{cheque.chequeNo}}</td>
                         <td>{{cheque.batchNo}}</td>
                         <td>{{cheque.bankAccNo}}</td>
-                        <td>{{cheque.status.value}}</td>
+                        <td>{{cheque.loanAmount && cheque.loanAmount>0? 'label.heading.disbursement':'label.heading.guarantees'|translate }}</td>
+                        <td>{{cheque.chequeAmount  | FormatNumber:2}}</td>
+                        <td>{{cheque.status.code | translate}}</td>
                         <td>{{cheque.description}}</td>
                         <td>{{cheque.createdDate | DateFormat}}</td>
                         <td>{{cheque.createdByUsername}}</td>
@@ -166,4 +171,3 @@
         </div>
     </div>
 </div>
-`

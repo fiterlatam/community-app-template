@@ -23,7 +23,7 @@
             scope.presidentSelected =false;
 
             if (routeParams.groupingType === 'group'){
-                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+                scope.previousPageUrl = "#/prequalificationGroups/group/list";
             }
 
             if (routeParams.groupingType === 'individual'){
@@ -105,7 +105,7 @@
                 scope.formData.members.splice(index,1);
             };
 
-            scope.updatePresident = function (index) {
+          scope.updatePresident = function (index) {
                 let members = scope.formData.members;
                 scope.presidentSelected = false;
                 for (var i = 0; i < members.length; i++ ){

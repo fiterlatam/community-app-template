@@ -13,11 +13,11 @@
             scope.groupingType = routeParams.groupingType;
             scope.previousPageUrl = "#/prequalificationsmenu";
             if (routeParams.groupingType === 'group'){
-                scope.previousPageUrl = "#/prequalificationGroups/group/new";
+                scope.previousPageUrl = "#/prequalificationGroups/group/list";
             }
 
             if (routeParams.groupingType === 'individual'){
-                scope.previousPageUrl = "#/prequalificationGroups/individual/new";
+                scope.previousPageUrl = "#/prequalificationGroups/individual/list";
             }
             scope.hasRedValidations = false;
 
@@ -89,11 +89,11 @@
                     }
 
                     if (routeParams.groupingType === 'group'){
-                        location.path('/prequalificationGroups/group/new');
+                        location.path('/prequalificationGroups/group/list');
                     }
 
                     if (routeParams.groupingType === 'individual'){
-                        location.path('/prequalificationGroups/individual/new');
+                        location.path('/prequalificationGroups/individual/list');
                     }
                 });
             };
@@ -101,11 +101,7 @@
             scope.resolveMemberStatus = function (statusId) {
                 if (statusId === 'ACTIVE') {
                     return 'text-danger';
-                }
-                if (statusId === 'INACTIVE') {
-                    return 'text-warning';
-                }
-                if (statusId === 'NONE') {
+                }else {
                     return 'text-success';
                 }
             }
@@ -118,11 +114,27 @@
                 }
             }
 
-            scope.policyCheckColor = function (redValidationCount) {
-                if (redValidationCount > 0) {
+            scope.policyCheckColor = function (member) {
+                if (member.redValidationCount > 0) {
                     return 'text-danger';
+                }else if(member.orangeValidationCount > 0||member.yellowValidationCount > 0){
+                    return 'text-warning';
+                }else{
+                    return 'text-success'
                 }
-                return 'text-success'
+            }
+
+            scope.policyCountColor = function (member) {
+                let redValidationCount = member.redValidationCount||0;
+                let orangeValidationCount = member.orangeValidationCount || 0;
+                let yellowValidationCount = member.yellowValidationCount || 0;
+                if (redValidationCount > 0) {
+                    return Number(redValidationCount)+Number(orangeValidationCount)+Number(yellowValidationCount);
+                }else if(Number(orangeValidationCount) > 0 || yellowValidationCount > 0){
+                    return Number(orangeValidationCount)+Number(yellowValidationCount);
+                }else{
+                    return '0'
+                }
             }
 
             scope.requestForUpdates = function () {
@@ -170,6 +182,21 @@
                 });
             };
 
+            scope.viewBuroResult = function (memberId) {
+                scope.buroCheckResult = {};
+                if(scope.groupMembers && scope.groupMembers.length > 0){
+                    for (let i = 0; i < scope.groupMembers.length; i++){
+                        if(scope.groupMembers[i].id === memberId){
+                            scope.buroCheckResult = scope.groupMembers[i].buroData;
+                        }
+                    }
+                }
+                $uibModal.open({
+                    templateUrl: 'viewBuroResult.html',
+                    controller: ViewBuroResultCtrl
+                });
+            };
+
             scope.processAnalysisRequest = function (status, inMessage) {
                 scope.analysisStatus = status;
                 scope.confirmationMessage = inMessage
@@ -191,6 +218,17 @@
 
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            var ViewBuroResultCtrl = function ($scope, $uibModalInstance) {
+                var result = Object.assign({}, scope.buroCheckResult);
+                $scope.buroCheckResult = result;
+                if(result.fecha){
+                    $scope.buroCheckResult.fecha = new Date(... result.fecha);
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.close();
                 };
             };
 
@@ -222,6 +260,24 @@
                     return '';
                 }
 
+                $scope.colorLabel = function (colorName) {
+                    console.log("going to validate color: "+colorName)
+                    if(colorName){
+                        if('RED' === colorName.toUpperCase()){
+                            return 'label.color.red';
+                        }else if('YELLOW' === colorName.toUpperCase()){
+                            return 'label.color.yellow';
+                        }else if('GREEN' === colorName.toUpperCase()){
+                            return 'label.color.green';
+                        }else if('ORANGE' === colorName.toUpperCase()){
+                            return 'label.color.orange';
+                        }else{
+                            return null;
+                        }
+                    }
+                    return null;
+                }
+
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
                 };
@@ -246,6 +302,12 @@
             scope.routeTo = function (path) {
                 location.path(path);
             }
+
+
+
+            scope.routeToClientView = function (clientId) {
+                location.path('/viewclient/' + clientId);
+            };
         }
     });
 
