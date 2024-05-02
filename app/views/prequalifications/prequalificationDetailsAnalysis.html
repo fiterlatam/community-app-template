@@ -131,7 +131,7 @@
                     <th>{{'label.input.amount.requested' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
-                    <th ng-if="prequalificationType==='agency'">{{'label.input.agency.bureau.status' | translate}}</th>
+                    <th ng-if="prequalificationType==='agency' || prequalificationType==='analysis'">{{'label.input.agency.bureau.status' | translate}}</th>
                     <th>{{'label.heading.hard.policy.status' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                         <div class="checkbox form-group">
