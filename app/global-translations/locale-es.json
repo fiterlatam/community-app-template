@@ -871,6 +871,8 @@
 	"error.msg.clients.submittedOnDate.after.reopened.date": "La fecha de activación no puede ser anterior a la fecha de reapertura",
 	"error.msg.client.rejection.date.cannot.before.client.submitted.date": "La fecha de rechazo no puede ser antes de la fecha de envío",
 	"error.msg.client.withdrawal.date.cannot.before.client.submitted.date": "La fecha de Retiro no puede ser antes Fecha de envío",
+	"err.msg.approved.amount.less.than.requested.amount": "El monto aprobado no puede ser mayor que el monto solicitado ",
+	"err.msg.requested.amount.less.than.original.amount": "El monto solicitado no puede ser mayor que el monto original de ",
 	"validation.msg.client.rejectionReasonId.cannot.be.blank": "Razón de rechazo del cliente no puede estar en blanco",
 	"validation.msg.client.withdrawalReasonId.cannot.be.blank": "El motivo de retiro del cliente no puede estar en blanco",
 	"validation.msg.client.rejectionDate.cannot.be.blank": "La fecha de rechazo del cliente no puede estar en blanco",

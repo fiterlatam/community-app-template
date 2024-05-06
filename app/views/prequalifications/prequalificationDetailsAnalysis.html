@@ -123,7 +123,7 @@
             </div>
             <h4 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h4>
 
-            <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
+            <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg|translate}}</div>
             <table class="width100" style="table-layout: fixed"
                    ng-if="groupMembers && groupMembers.length>0">
                 <tr>

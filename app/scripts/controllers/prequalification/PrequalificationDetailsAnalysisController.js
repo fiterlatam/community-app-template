@@ -248,9 +248,8 @@
             scope.updateApprovedAmount = function (member) {
 
                 if (Number(member.requestedAmount) < Number(member.approvedAmount)) {
-                    console.log("Approved amount cannot be greater than requested amount")
                     scope.error = true;
-                    scope.errorMsg = "Approved amount cannot be greater than requested amount";
+                    scope.errorMsg = "err.msg.approved.amount.less.than.requested.amount";
                     setTimeout(() => {
                         scope.error = false;
                         scope.errorMsg = null;
