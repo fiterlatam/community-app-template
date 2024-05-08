@@ -90,7 +90,6 @@
                     <th class="graybg">{{'label.input.dateofbirth' | translate}}</th>
                     <th class="graybg">{{'label.input.work.with.puente' | translate}}</th>
                     <th class="graybg">{{'label.input.amount.requested' | translate}}</th>
-                    <th class="graybg" ng-if="groupData.status.id< 800">{{'label.input.edit' | translate}}</th>
                     <th class="graybg">{{'label.input.blacklist.status' | translate}}</th>
                     <th class="graybg">{{'label.input.bureau.status' | translate}}</th>
                     <th class="graybg" data-ng-show="viewPolicyCheckResults">{{'label.heading.hard.policy.status' | translate}}</th>
@@ -107,22 +106,7 @@
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.dpi}}</td>
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.dob | DateFormat}}</td>
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.workWithPuente}}</td>
-                    <td class="pointer" >
-                        <input type="text" class="" name="amntReqsted" style="color: #0f0f0f"
-                               ng-disabled="!groupMembers[$index].isEditRequested"  number-format
-                               placeholder="{{'label.input.amount.requested'|translate}}"
-                               ng-model="groupMembers[$index].requestedAmount" id="amtreq" required>
-                    </td>
-                    <td ng-if="groupData.status.id< 800">
-                        <div>
-                            <div class="col-sm-6" ng-if="!groupMembers[$index].isEditRequested" ng-click="editRequestedAmount($index)"><i
-                                    class="fa fa-pencil-square-o fa-2x"></i></div>
-                            <div class="col-sm-6" ng-if="groupMembers[$index].isEditRequested">
-                                <i class="fa btn-primary fa-save fa-2x"
-                                   ng-disabled="groupMembers[$index].requestedAmount>member.requestedAmount"
-                                   ng-click="updateRequestedAmount(groupMembers[$index])"></i></div>
-                        </div>
-                    </td>
+                    <td class="pointer">{{member.requestedAmount |number}}</td>
                     <td>
                         <i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i>
                     </td>
@@ -181,7 +165,7 @@
             </div>
 
             <div>
-                <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
+                <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg|translate}}</div>
 
                 <api-validate></api-validate>
             </div>

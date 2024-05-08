@@ -304,18 +304,6 @@
 
             scope.updateRequestedAmount = function (member) {
 
-                if (Number(member.requestedAmount) > Number(member.originalAmount)) {
-                    console.log("Requested amount cannot be greater than original amount")
-                    scope.error = true;
-                    scope.errorMsg = "Requested amount cannot be greater than Original amount of " + member.originalAmount;
-                    setTimeout(() => {
-                        scope.error = false;
-                        scope.errorMsg = null;
-                    }, 3000);
-
-                    return;
-                }
-
                 var data = {
                     "requestedAmount": member.requestedAmount,
                     "comments": member.comments,

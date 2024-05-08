@@ -125,7 +125,9 @@
                                class="form-control" required/>
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="amount" ng-model="formData.members[$index].requestedAmount" id="amount_{{$index}}" required>
+                        <input type="text" class="form-control" name="amount"
+                               ng-model="formData.members[$index].requestedAmount"
+                               ng-disabled="formData.members[$index].requestedAmount != formData.members[$index].originalAmount" id="amount_{{$index}}" required>
                     </td>
                     <td>
                         <select id="puente_{{$index}}" ng-model="formData.members[$index].workWithPuente"
@@ -158,7 +160,7 @@
     <hr/>
 
     <legend>{{ 'label.heading.add.groupmembers' | translate }}</legend>
-    
+
     <ui-validate></ui-validate>
 
     <form name="memberDetailsForm" novalidate="" rc-submit="addMemberData()">
