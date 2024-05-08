@@ -119,6 +119,24 @@
                 scope.formData.file = files[0];
             };
 
+            scope.onEvidenceSelect = function (files,member) {
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId ,
+                    data: {
+                        memberId: member.id,
+                        dpi: member.name + ' - ('+member.dpi+')',
+                        description: "Buro Documento",
+                        file: files[0]
+                    },
+                }).then(function (data) {
+                    // to fix IE not refreshing the model
+                    if (!scope.$$phase) {
+                        scope.$apply();
+                    }
+                    location.path('/prequalificationsmenu');
+                });
+            };
+
             scope.showSupportDocumentUploadPage = function () {
                 var allowedStatuses = [400, 200];
                 if (scope.groupData.status) {
@@ -246,20 +264,9 @@
             }
 
             scope.updateApprovedAmount = function (member) {
-
-                if (Number(member.requestedAmount) < Number(member.approvedAmount)) {
-                    scope.error = true;
-                    scope.errorMsg = "err.msg.approved.amount.less.than.requested.amount";
-                    setTimeout(() => {
-                        scope.error = false;
-                        scope.errorMsg = null;
-                    }, 2000);
-
-                    return;
-                }
-
                 var data = {
                     "approvedAmount": member.approvedAmount,
+                    "requestedAmount": member.requestedAmount,
                     "comments": member.comments,
                     "agencyBureauStatus": member.agencyBureauStatus,
                     "id": member.id,
