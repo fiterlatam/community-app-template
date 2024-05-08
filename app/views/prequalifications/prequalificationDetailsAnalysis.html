@@ -193,16 +193,16 @@
                                   ng-model="groupMembers[$index].comments" id="cmmnt" required></textarea>
                     </td>
                     <td ng-if="groupData.substatus.id==400">
-                        <div>
-                            <input id="buroEvidence" type="file" ngf-select="onEvidenceSelect($files, member)"
-                                   name="buroEvidence"
+                        <div ng-if="member.agencyBureauStatus != member.bureauCheckStatus.code">
+                            <input id="buroEvidence" type="file" ngf-select="onEvidenceSelect($files, $index)"
+                                   name="groupMembers[$index].buroEvidence"
                                    accept="application/*"
                                    ng-model="buroEvidence"
                                    class="form-control" style="width: 90% !important;" late-Validate/>
                         </div>
                     </td>
 
-                    <td ng-if="(prequalificationType==='analysis' || prequalificationType==='agency') &&groupData.substatus.id==200">
+                    <td ng-if="(prequalificationType==='analysis' || prequalificationType==='agency') &&(groupData.substatus.id==200 || groupData.substatus.id==400)">
                         <div>
                             <button class="btn btn-primary" style="border-radius: 5px" ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)" ng-disabled="!groupData.assignedUser"><i
                                     class="fa fa-pencil-square-o fa-2x"></i></button>
@@ -218,6 +218,10 @@
 
             <button ng-if="groupData.substatus.id==500" ng-click="processAnalysisRequest('revalidateHardPolicy','label.button.prequalification.revalidateHardPolicies')" type="button"
                     class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.revalidateHardPolicies' | translate}}
+            </button>
+
+            <button ng-if="groupData.substatus.id==400" ng-click="obSubmitEvidence()" type="button"
+                    class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'><i class="fa fa-upload"></i>{{'label.heading.uploaddocuments' | translate}}
             </button>
             <api-validate></api-validate>
             <hr/>

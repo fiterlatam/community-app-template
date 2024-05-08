@@ -6,6 +6,7 @@
             scope.formData = {};
             scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
+            scope.memberBuroEvidence = [];
             scope.bureauStatusOptions = [
                 {label:'A', value:'A'},
                 {label:'B', value:'B'},
@@ -119,14 +120,42 @@
                 scope.formData.file = files[0];
             };
 
-            scope.onEvidenceSelect = function (files,member) {
+            scope.onEvidenceSelect = function (files,index) {
+                scope.groupMembers[Number(index)].file = files[0]
+            };
+            scope.obSubmitEvidence = function () {
+                for (let i=0; i<scope.groupMembers.length; i++){
+                    let groupMember = scope.groupMembers[i];
+                    if (groupMember.agencyBureauStatus != groupMember.bureauCheckStatus.code && !groupMember.file){
+                        scope.error = true;
+                        scope.errorMsg = "Proporcione un documento de beauro para el cliente con ppp " + groupMember.dpi+ " " +
+                            "después de cambiar el estado de beauro";
+                        setTimeout(() => {
+                            scope.error = false;
+                            scope.errorMsg = null;
+                        }, 2000);
+
+                        return;
+                    }
+                }
+
+                for (let i=0; i<scope.groupMembers.length; i++){
+                    let groupMember = scope.groupMembers[i];
+                    if (groupMember.file){
+                        scope.uploadBuroDocument(groupMember)
+                    }
+                }
+
+            };
+
+            scope.uploadBuroDocument = function (member){
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId ,
                     data: {
                         memberId: member.id,
                         dpi: member.name + ' - ('+member.dpi+')',
                         description: "Buro Documento",
-                        file: files[0]
+                        file: member.file
                     },
                 }).then(function (data) {
                     // to fix IE not refreshing the model
@@ -135,7 +164,7 @@
                     }
                     location.path('/prequalificationsmenu');
                 });
-            };
+            }
 
             scope.showSupportDocumentUploadPage = function () {
                 var allowedStatuses = [400, 200];
