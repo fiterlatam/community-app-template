@@ -1138,14 +1138,20 @@
                             <tr ng-repeat="(propertyName, propertyValue) in formData.loanAdditionalData">
                                 <td class="paddedbottom10">{{propertyName}}</td>
                                 <td class="paddedbottom10">
-                                    <div ng-show="isAdditionalDateProperty(propertyName)">
+                                    <div ng-if="isAdditionalDateProperty(propertyName)">
                                         <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy"
                                                class="form-control"
                                                ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"
                                         />
                                     </div>
-                                    <div ng-hide="isAdditionalDateProperty(propertyName)">
-                                        <input id="{{propertyValue}}" class="form-control" type="text"
+                                    <div ng-if="isDecimalProperty(propertyName)">
+                                        <input id="{{propertyName}}" class="form-control" type="text"
+                                               name="{{propertyName}}" number-format ng-pattern="/^(?!,$)[\d,.]+$/"
+                                               ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"/>
+                                    </div>
+
+                                    <div ng-if="!isAdditionalDateProperty(propertyName) && !isDecimalProperty(propertyName)">
+                                        <input id="{{propertyName}}" class="form-control" type="text"
                                                name="{{propertyName}}"
                                                ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"/>
                                     </div>

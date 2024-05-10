@@ -133,25 +133,25 @@
             }
 
             if(scope.clientId){
-              resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
-                 scope.prequalificationOptions = data.clientPrequalifications;
-                 scope.clientData = data;
+                resourceFactory.clientResource.get({clientId: scope.clientId}, function (data) {
+                    scope.prequalificationOptions = data.clientPrequalifications;
+                    scope.clientData = data;
 
-                 scope.formData.fullName = data.displayName;
-                 scope.formData.maidenName = data.detailData.maidenName;
-                 scope.formData.nationality = data.detailData.nationality;
-                 scope.formData.language = data.detailData.languages;
-                 scope.formData.occupancyClassification = Number(data.detailData.economicSector);
-                 scope.clientHousingType = data.clientContactInformation.housingType;
-                 scope.date.sixth = new Date(data.dateOfBirth);
-                 scope.formData.phoneNumber = data.mobileNo;
-                 scope.formData.dpi = data.dpiNumber;
-                 scope.formData.nit = data.nit;
-                 scope.formData.jobType = data.jobType;
-                 scope.formData.educationLevel = data.educationLevel;
-                 scope.formData.maritalStatus = data.maritalStatus;
-                 scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
-              });
+                    scope.formData.fullName = data.displayName;
+                    scope.formData.maidenName = data.detailData.maidenName;
+                    scope.formData.nationality = data.detailData.nationality;
+                    scope.formData.language = data.detailData.languages;
+                    scope.formData.occupancyClassification = Number(data.detailData.economicSector);
+                    scope.clientHousingType = data.clientContactInformation.housingType;
+                    scope.date.sixth = new Date(data.dateOfBirth);
+                    scope.formData.phoneNumber = data.mobileNo;
+                    scope.formData.dpi = data.dpiNumber;
+                    scope.formData.nit = data.nit;
+                    scope.formData.jobType = data.jobType;
+                    scope.formData.educationLevel = data.educationLevel;
+                    scope.formData.maritalStatus = data.maritalStatus;
+                    scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
+                });
             }
 
             scope.prequalificationChange = function (prequalificationId){
@@ -166,29 +166,29 @@
                         if(groupMembers.length > 0){
                             for(var i = 0; i < groupMembers.length; i++){
                                 if(groupMembers[i].dpi === scope.clientData.dpiNumber){
-                                   scope.totalApprovedAmount = groupMembers[i].requestedAmount;
+                                    scope.totalApprovedAmount = groupMembers[i].requestedAmount;
                                 }
                             }
                         }
                     } else {
-                       scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
+                        scope.totalApprovedAmount = data.totalApprovedAmount ? data.totalApprovedAmount : data.totalApprovedAmount;
                     }
                     scope.loanProductChange(loanProductId);
                 });
             }
-           scope.resolveFrequencyDayOfWeek = function (meetingDay){
-               if(meetingDay == 'Lunes'){
+            scope.resolveFrequencyDayOfWeek = function (meetingDay){
+                if(meetingDay == 'Lunes'){
                     scope.disableDaySelect = true;
                     return 1;
                 }if(meetingDay == 'Martes'){
-                   scope.disableDaySelect = true;
-                   return 2;
+                    scope.disableDaySelect = true;
+                    return 2;
                 }if(meetingDay == 'Miércoles'){
-                   scope.disableDaySelect = true;
-                   return 3;
+                    scope.disableDaySelect = true;
+                    return 3;
                 }if(meetingDay == 'Jueves'){
-                   scope.disableDaySelect = true;
-                   return 4;
+                    scope.disableDaySelect = true;
+                    return 4;
                 }
             } ;
 
@@ -760,9 +760,9 @@
                 location.path('/viewloanaccount/' + loanId);
             }
 
-           scope.searchByCaseId = function () {
-               var caseId = this.searchText;
-               if(scope.clientId && caseId){
+            scope.searchByCaseId = function () {
+                var caseId = this.searchText;
+                if(scope.clientId && caseId){
                     delete scope.formData.loanAdditionalData;
                     resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
                         scope.formData.loanAdditionalData = data;
@@ -779,12 +779,32 @@
                         }
                     });
                 }
-           }
+            }
 
-           scope.isAdditionalDateProperty = function(propertyName){
-               var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
+            scope.isAdditionalDateProperty = function(propertyName){
+                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_nacimiento_solicitante", "fecha_visita"];
                 return dateFields.includes(propertyName);
-           }
+            }
+            scope.isDecimalProperty = function(propertyName){
+                var decimalFields = ["activoCorriente","activoNocorriente","alimentacion","alquilerCliente","alquilerGasto",
+                    "alquilerLocal","bienesInmuebles","bienesInmueblesFamiliares","capacidadPago","comunalVigente",
+                    "costoUnitario","costoVenta","cuantoPagar","cuentasPorPagar","cuota","cuotaOtros","cuotaPuente",
+                    "cuotasPendientesBc","educacion","efectivo","endeudamientoActual","endeudamientoFuturo","flujoDisponible",
+                    "gastosFamiliares","gastosNegocio","herramientas","impuestos","ingresoFamiliar","inventarios","inversionTotal",
+                    "menajeDelHogar","mobiliarioYequipo","montoSolicitado","pasivoCorriente","pasivoNoCorriente","pensiones",
+                    "prestamoPuente","propuestaFacilitador","relacionGastos","rentabilidadNeta","rotacionInventario","salarioCliente",
+                    "salarios","serviciosBasicos","serviciosGasto","serviciosMedicos","tarjetas","totalActivo","totalIngresos",
+                    "totalIngresosFamiliares","totalPasivo","transporteGasto","transporteNegocio","utilidadBruta","utilidadNeta",
+                    "valorGarantia","vehiculos","vestimenta","ventas","cuentasPorCobrar","hipotecas","montoAutorizado",
+                    "capitalDdeTrabajo","montoOtrosIngresos","relacionOtrosIngresos","detalle_compras","detalle_otros_ingresos",
+                    "detalle_recuperacion_cuentas","detalle_ventas","efectivo_uso_familia","efectivo_uso_negocio","otros_activos_familia",
+                    "otros_activos_negocio","tasa","total_costo_ventas","total_cuentas_por_cobrar","total_cuota_mensual","total_deuda",
+                    "total_efectivo","total_gastos_negocio","total_gastos_vivienda","total_inmueble_familia","total_inmueble_negocio",
+                    "total_inmuebles","total_inventario","total_maquinaria","total_menaje_de_hogar","total_mobiliario_equipo","total_otros_activos",
+                    "total_precio_ventas","total_recibido","total_vehiculos"
+                ];
+                return decimalFields.includes(propertyName);
+            }
 
             scope.cancel = function () {
                 if (scope.groupId) {
