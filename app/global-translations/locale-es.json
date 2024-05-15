@@ -5124,5 +5124,8 @@
 	"label.heading.products": "Productos",
 	"label.heading.templateList": "Plantillas",
 	"error.msg.mobile.service.provider.not.available": "Proveedor de servicios externos (Buro) no disponible",
+	"validation.msg.loan-addition-data.paymentCapacity.amount.is.not.within.min.max.range": "El valor de Capacidad de Pago no está dentro del rango",
+	"validation.msg.loan-addition-data.facValue.amount.is.not.within.min.max.range": "El valor de Préstamo Fac ÷ Inventario no está dentro del rango",
+	"validation.msg.loan-addition-data.debtLevel.amount.is.not.within.min.max.range": "El valor de Nivel de Endeudamiento no está dentro del rango",
 	"----End---": "---Fin del archivo---"
 }
