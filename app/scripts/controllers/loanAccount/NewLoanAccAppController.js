@@ -913,7 +913,7 @@
                 let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
                 let proposedFee = Number(scope.formData.proposedFee?scope.formData.proposedFee:0);
                 let minimumCapacity = monthlyPaymentCapacity < availableMonthly ? monthlyPaymentCapacity : availableMonthly;
-                scope.formData.paymentCapacity=(proposedFee/ minimumCapacity);
+                scope.formData.paymentCapacity=(proposedFee/ minimumCapacity).toFixed(1);
 
                 return scope.formData.paymentCapacity;
             }
@@ -930,7 +930,7 @@
                 scope.formData.facValue=0;
                 let facilitatorProposedValue = Number(scope.formData.facilitatorProposedValue?scope.formData.facilitatorProposedValue:0);
                 let inventories = Number(scope.formData.inventories?scope.formData.inventories:0);
-                scope.formData.facValue=(facilitatorProposedValue/ inventories);
+                scope.formData.facValue=(facilitatorProposedValue/ inventories).toFixed(1);
 
                 return scope.formData.facValue;
             }
@@ -947,7 +947,7 @@
                 scope.formData.debtLevel=0;
                 let totalInstallments = Number(scope.formData.totalInstallments?scope.formData.totalInstallments:0);
                 let availableMonthly = Number(scope.formData.availableMonthly?scope.formData.availableMonthly:0);
-                scope.formData.debtLevel=(totalInstallments/ availableMonthly);
+                scope.formData.debtLevel=(totalInstallments/ availableMonthly).toFixed(1);
 
                 return scope.formData.debtLevel;
             }
