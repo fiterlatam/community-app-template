@@ -80,7 +80,7 @@
                     <td class="pointer">{{client.productName}}</td>
                     <td class="pointer">{{client.addedBy}}</td>
                     <td class="pointer" >{{client.status.code|translate}}</td>
-                    <td class="pointer" >{{client.substatus ?client.substatus:'' |translate}} {{client.assignedUserName?'('+client.assignedUserName+')':''}}</td>
+                    <td class="pointer" >{{client.substatus ?client.substatus.code:'' |translate}} {{client.assignedUserName?'('+client.assignedUserName+')':''}}</td>
 <!--                    <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.statusChangedOn|DateFormat}}</td>-->
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processQuality}}</td>
