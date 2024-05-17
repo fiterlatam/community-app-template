@@ -128,8 +128,8 @@
                     let groupMember = scope.groupMembers[i];
                     if (groupMember.agencyBureauStatus != groupMember.bureauCheckStatus.code && !groupMember.file){
                         scope.error = true;
-                        scope.errorMsg = "Proporcione un documento de beauro para el cliente con ppp " + groupMember.dpi+ " " +
-                            "después de cambiar el estado de beauro";
+                        scope.errorMsg = "Proporcione un documento para el cliente Nombre "+groupMember.name+" - DPI "+groupMember.dpi+" " +
+                            "a fin de justificar el cambio de Buro";
                         setTimeout(() => {
                             scope.error = false;
                             scope.errorMsg = null;
