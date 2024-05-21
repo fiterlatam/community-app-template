@@ -683,7 +683,8 @@
                     resourceFactory.individualPrequalificationResource.loanAdditionalData({
                         productId: scope.formData.productId,
                         clientId: scope.clientId,
-                        caseId: caseId
+                        caseId: caseId,
+                        locale: scope.optlang.code
                     }, function (data) {
                         scope.formData.loanAdditionalData = data;
                         scope.formData.caseId = caseId;
@@ -692,7 +693,7 @@
                                 if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
                                     if (scope.isAdditionalDateProperty(propertyName)) {
                                         var propertyValue = scope.formData.loanAdditionalData[propertyName];
-                                        scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
+                                        scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
                                     }
                                 }
                             }

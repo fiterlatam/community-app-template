@@ -764,7 +764,7 @@
                 var caseId = this.searchText;
                 if(scope.clientId && caseId){
                     delete scope.formData.loanAdditionalData;
-                    resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId}, function(data){
+                    resourceFactory.individualPrequalificationResource.loanAdditionalData({productId: scope.formData.productId, clientId: scope.clientId, caseId: caseId, locale: scope.optlang.code}, function(data){
                         scope.formData.loanAdditionalData = data;
                         scope.formData.caseId = caseId;
                         if(scope.formData.loanAdditionalData){
@@ -772,6 +772,7 @@
                                 if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
                                     if(scope.isAdditionalDateProperty(propertyName)){
                                         var propertyValue =  scope.formData.loanAdditionalData[propertyName];
+                                        console.log("date propertyValue", propertyValue);
                                         scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
                                     }
                                 }
