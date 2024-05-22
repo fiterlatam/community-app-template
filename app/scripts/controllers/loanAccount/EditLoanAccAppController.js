@@ -102,7 +102,7 @@
                             if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
                                 if (scope.isAdditionalDateProperty(propertyName)) {
                                     var propertyValue = scope.formData.loanAdditionalData[propertyName];
-                                    scope.formData.loanAdditionalData[propertyName] = new Date(...propertyValue);
+                                    scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
                                 }
                             }
                         }
