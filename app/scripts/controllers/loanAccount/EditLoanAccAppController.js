@@ -123,6 +123,20 @@
                     scope.collateralOptions = data.loanCollateralOptions || [];
                 });
 
+                if (scope.prequalificationType == 'GROUP') {
+                    scope.groupId = data.group.id;
+                    scope.groupName = data.group.name;
+                    scope.formData.groupId = scope.groupId;
+                    if (scope.groupId) {
+                        resourceFactory.groupResource.get({
+                            groupId: scope.groupId,
+                            associations: 'all'
+                        }, function (data) {
+                            scope.prequalificationOptions = data.prequalificationGroups;
+                        });
+                    }
+                }
+
                 if (data.clientId) {
                     scope.clientId = data.clientId;
                     scope.clientName = data.clientName;
@@ -150,20 +164,6 @@
                             }
                         }
                     });
-                }
-
-                if (data.group) {
-                    scope.groupId = data.group.id;
-                    scope.groupName = data.group.name;
-                    scope.formData.groupId = scope.groupId;
-                    if (scope.groupId) {
-                        resourceFactory.groupResource.get({
-                            groupId: scope.groupId,
-                            associations: 'all'
-                        }, function (data) {
-                            scope.prequalificationOptions = data.prequalificationGroups;
-                        });
-                    }
                 }
 
                 if (scope.clientId && scope.groupId) {
@@ -221,7 +221,7 @@
                     }
                     if (scope.clientId) {
                         var groupMembers = data.groupMembers;
-                        if (groupMembers.length > 0) {
+                        if (groupMembers && groupMembers.length > 0) {
                             for (var i = 0; i < groupMembers.length; i++) {
                                 if (groupMembers[i].dpi == scope.clientData.dpiNumber) {
                                     scope.totalApprovedAmount = groupMembers[i].approvedAmount ? groupMembers[i].approvedAmount : groupMembers[i].requestedAmount;
@@ -246,11 +246,6 @@
                 }
 
                 inparams.staffInSelectedOfficeOnly = true;
-
-                resourceFactory.loanResource.get(inparams, function (data) {
-                    scope.loanaccountinfo = data;
-                    scope.previewClientLoanAccInfo();
-                });
 
                 resourceFactory.loanResource.get({
                     resourceType: 'template',
