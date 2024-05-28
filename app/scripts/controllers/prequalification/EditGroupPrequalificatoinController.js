@@ -48,6 +48,12 @@
                         if(member.groupPresident){
                             scope.presidentSelected = true;
                         }
+
+                        if (Number(member.requestedAmount) != Number(member.originalAmount)) {
+                            member.canUpdate = false;
+                        }else{
+                            member.canUpdate = true;
+                        }
                     });
                 }
                 scope.formData =
