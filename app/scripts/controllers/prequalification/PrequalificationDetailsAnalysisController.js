@@ -276,14 +276,14 @@
             scope.resolveTotalRequestedAmount = function () {
                 let total = 0;
                 for (let i = 0; i < scope.groupMembers.length; i++) {
-                    total += scope.groupMembers[i].requestedAmount;
+                    total += Number(scope.groupMembers[i].requestedAmount);
                 }
                 return total;
             }
             scope.resolveTotalApprovedAmount = function () {
                 let total = 0;
                 for (let i = 0; i < scope.groupMembers.length; i++) {
-                    total += scope.groupMembers[i].approvedAmount;
+                    total += Number(scope.groupMembers[i].approvedAmount);
                 }
                 return total;
             }
