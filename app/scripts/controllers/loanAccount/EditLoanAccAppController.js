@@ -644,7 +644,7 @@
             };
 
             scope.isAdditionalDateProperty = function (propertyName) {
-                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_visita"];
+                var dateFields = ["fechaInicio", "fecha_inicio_negocio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_visita"];
                 return dateFields.includes(propertyName);
             }
 
