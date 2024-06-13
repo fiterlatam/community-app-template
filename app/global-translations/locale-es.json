@@ -5129,5 +5129,12 @@
 	"validation.msg.loan-addition-data.facValue.amount.is.not.within.min.max.range": "El valor de Préstamo Fac ÷ Inventario no está dentro del rango",
 	"validation.msg.loan-addition-data.debtLevel.amount.is.not.within.min.max.range": "El valor de Nivel de Endeudamiento no está dentro del rango",
 	"error.msg.selected.loan.product.not.same.with.the.case.id": "El producto de préstamo seleccionado no se corresponde con el case ID",
+	"validation.msg.loan.loanCycleCompleted.cannot.be.blank": "Ciclo de préstamos completados es requerido",
+	"validation.msg.loan.sourceOfFunds.cannot.be.blank": "Origen de Fondos es requerido",
+	"validation.msg.loan.position.cannot.be.blank": "Posición es requerido",
+	"validation.msg.loan.facilitator.cannot.be.blank": "Facilitador es requerido",
+	"validation.msg.loan.clientType.cannot.be.blank": "Tipo de cliente es requerido",
+	"approve": "aprobar",
+	"reject": "rechazar",
 	"----End---": "---Fin del archivo---"
 }
