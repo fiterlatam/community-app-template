@@ -5463,5 +5463,10 @@
   "scheduler.job.last.run.history.invalid": "invalid",
   "label.heading.execution.order": "Execution Order",
   "label.heading.usersList": "List of Users",
-  "----End---": "--End of file--- "
+  "validation.msg.loan.loanCycleCompleted.cannot.be.blank": "Loan Cycle completed is mandatory.",
+  "validation.msg.loan.sourceOfFunds.cannot.be.blank": "Source of Funds is mandatory",
+  "validation.msg.loan.position.cannot.be.blank": "Position is mandatory",
+  "validation.msg.loan.facilitator.cannot.be.blank": "Facilitator is mandatory",
+  "validation.msg.loan.clientType.cannot.be.blank": "Client Type is mandatory",
+  "----End---",: "--End of file--- "
 }
