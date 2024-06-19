@@ -5134,6 +5134,7 @@
 	"validation.msg.loan.position.cannot.be.blank": "Posición es requerido",
 	"validation.msg.loan.facilitator.cannot.be.blank": "Facilitador es requerido",
 	"validation.msg.loan.clientType.cannot.be.blank": "Tipo de cliente es requerido",
+	"error.msg.loanschedule.schedule.due.date.not.valid": "La fecha de vencimiento del cronograma no es válida",
 	"approve": "aprobar",
 	"reject": "rechazar",
 	"----End---": "---Fin del archivo---"

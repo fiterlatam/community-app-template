@@ -5468,5 +5468,8 @@
   "validation.msg.loan.position.cannot.be.blank": "Position is mandatory",
   "validation.msg.loan.facilitator.cannot.be.blank": "Facilitator is mandatory",
   "validation.msg.loan.clientType.cannot.be.blank": "Client Type is mandatory",
-  "----End---",: "--End of file--- "
+  "error.msg.loanschedule.schedule.due.date.not.valid": "Due date is not valid",
+  "approve": "approve",
+  "reject": "reject",
+  "----End---": "--End of file--- "
 }

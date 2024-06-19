@@ -12,7 +12,6 @@ COPY . /usr/src/app
 RUN bower --allow-root install
 RUN npm install --force
 RUN bundle install
-#RUN grunt test --code-coverage --force
 RUN grunt prod
 
 FROM nginx:1.19.3
