@@ -149,7 +149,7 @@
                 </tr>
 
                 <tr ng-repeat="member in groupMembers" class="pointer-main">
-                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}}</td>
+                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}} {{member.groupPresident?'label.anchor.president':'' | translate}}</td>
                     <td class="pointer" >
                         <input type="text" class="form-control" name="amntReqsted" style="width: 90% !important;"
                                ng-disabled="!groupMembers[$index].isEdit || prequalificationType!=='agency'"  number-format
@@ -234,18 +234,6 @@
             </div>
 
             <div class="text-center">
-                <!--                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"  ng-click="validateHardPolicy()" type="button"-->
-                <!--                        class="btn btn-primary"-->
-                <!--                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>-->
-                <!--                    {{'label.button.prequalification.submitToReview' | translate}}-->
-                <!--                </button>-->
-
-                <!--                <button ng-if="groupData.status.value==='HARD_POLICY_CHECKED'"  ng-click="requestForUpdates()" type="button"-->
-                <!--                        class="btn btn-warning"-->
-                <!--                        has-permission='REQUESTUPDATE_PREQUALIFICATIONS'>-->
-                <!--                    {{'label.button.prequalification.requestUpdates' | translate}}-->
-                <!--                </button>-->
-
                 <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button"
                         class="btn btn-primary"
                         has-permission='VALIDATE_BUREAU'>{{'label.button.prequalification.buralValidation' | translate}}
@@ -379,23 +367,6 @@
                     </div>
 
                 </div>
-                <!--                <table class="table table-striped">-->
-                <!--                    <thead>-->
-                <!--                    <tr>-->
-                <!--                        <th ng-repeat="header in memberResults.columnHeaders">-->
-                <!--                            <span>{{header | translate}}</span>-->
-                <!--                        </th>-->
-                <!--                    </tr>-->
-                <!--                    </thead>-->
-                <!--                    <tbody>-->
-                <!--                    <tr id="{{$index}}" data-ng-click="highlight($index)"-->
-                <!--                        ng-repeat="row in memberResults.rows track by $index">-->
-                <!--                        <td ng-repeat="col in row track by $index">-->
-                <!--                            <span class="{{checkValidationColor(col)}}">{{col}}</span>-->
-                <!--                        </td>-->
-                <!--                    <tr>-->
-                <!--                    </tbody>-->
-                <!--                </table>-->
             </div>
             <br>
             <div class="text-center">

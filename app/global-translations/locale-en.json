@@ -5331,6 +5331,8 @@
   "label.description.additional.entorno_del_negocio": "Business environment",
   "label.description.additional.aniosComunidad": "Years community",
   "label.description.additional.servicios": "Services",
+  "label.description.additional.fecha_inicio_negocio": "Business Start Date",
+
   "validation.msg.group.legacyNumber.not.greater.than.zero": "Old Group No. must be greater than zero",
   "error.msg.prequalification.is.not.linked.to.a.group": "Please ensure that this prequalification `{{params[0].value}}` is linked to a group",
   "bank.cheque.status.invalid": "Invalidd",
@@ -5461,5 +5463,13 @@
   "scheduler.job.last.run.history.invalid": "invalid",
   "label.heading.execution.order": "Execution Order",
   "label.heading.usersList": "List of Users",
+  "validation.msg.loan.loanCycleCompleted.cannot.be.blank": "Loan Cycle completed is mandatory.",
+  "validation.msg.loan.sourceOfFunds.cannot.be.blank": "Source of Funds is mandatory",
+  "validation.msg.loan.position.cannot.be.blank": "Position is mandatory",
+  "validation.msg.loan.facilitator.cannot.be.blank": "Facilitator is mandatory",
+  "validation.msg.loan.clientType.cannot.be.blank": "Client Type is mandatory",
+  "error.msg.loanschedule.schedule.due.date.not.valid": "Due date is not valid",
+  "approve": "approve",
+  "reject": "reject",
   "----End---": "--End of file--- "
 }

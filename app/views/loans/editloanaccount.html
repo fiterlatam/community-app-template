@@ -539,7 +539,7 @@
                 <td>{{charge.name}},{{charge.currency.displaySymbol}}</td>
                 <td>{{charge.chargeCalculationType.value}}</td>
                 <td><input id="{{charges[$index].amount}}" class="form-control" number-format type="text" ng-model="charge.amountOrPercentage"
-                           placeholder="{{'label.input.amount' | translate}}"></td>
+                           placeholder="{{'label.input.amount' | translate}}" number-format ng-pattern="/^(?!,$)[\d,.]+$/"></td>
                 <td>{{charge.chargeTimeType.value}}</td>
                 <td>
                     <input id="charges[{{$index}}].duedate" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
@@ -575,15 +575,15 @@
             </select>&nbsp;&nbsp;
             <div class="col-sm-2">
                 <input class="form-control" type="text" ng-model="collateralFormData.quantity" placeholder="{{'label.input.quantity' | translate}}"
-                    number-format ng-change="updateValues()">
+                        number-format ng-pattern="/^(?!,$)[\d,.]+$/" ng-change="updateValues()">
             </div>
             <div class="col-sm-2">
                 <input class="form-control" type="text" ng-model="collateralFormData.total"
-                    number-format readonly>
+                       number-format ng-pattern="/^(?!,$)[\d,.]+$/"  readonly>
             </div>
             <div class="col-sm-2">
                 <input class="form-control" type="text" ng-model="collateralFormData.totalCollateral"
-                    number-format readonly>
+                       number-format ng-pattern="/^(?!,$)[\d,.]+$/"  readonly>
             </div>
             <div class="col-sm-1">
                 <a class="btn btn-primary" ng-click="addCollateral()" class="col-sm-1">&nbsp;
@@ -1846,7 +1846,7 @@
                     <td class="paddedbottom10">
                         <div ng-if="isAdditionalDateProperty(propertyName)">
                             <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
-                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
+                                   ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70" min="minDate"/>
                         </div>
                         <div ng-if="isDecimalProperty(propertyName)">
                             <input id="{{propertyName}}" class="form-control" type="text" number-format ng-pattern="/^(?!,$)[\d,.]+$/" name="propertyName"
