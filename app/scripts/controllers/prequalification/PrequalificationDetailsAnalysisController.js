@@ -126,7 +126,7 @@
             scope.obSubmitEvidence = function () {
                 for (let i=0; i<scope.groupMembers.length; i++){
                     let groupMember = scope.groupMembers[i];
-                    if (groupMember.agencyBureauStatus != groupMember.bureauCheckStatus.code && !groupMember.file){
+                    if ((groupMember.agencyBureauStatus != groupMember.bureauCheckStatus.code) && groupMember.documentCount<=0 && !groupMember.file){
                         scope.error = true;
                         scope.errorMsg = "Proporcione un documento para el cliente Nombre "+groupMember.name+" - DPI "+groupMember.dpi+" " +
                             "a fin de justificar el cambio de Buro";
