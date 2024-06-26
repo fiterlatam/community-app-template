@@ -193,7 +193,7 @@
                                   ng-model="groupMembers[$index].comments" id="cmmnt" required></textarea>
                     </td>
                     <td ng-if="groupData.substatus.id==400">
-                        <div ng-if="member.agencyBureauStatus != member.bureauCheckStatus.code">
+                        <div ng-if="(member.agencyBureauStatus != member.bureauCheckStatus.code) && member.documentCount<=0">
                             <input id="buroEvidence" type="file" ngf-select="onEvidenceSelect($files, $index)"
                                    name="groupMembers[$index].buroEvidence"
                                    accept="application/*"
