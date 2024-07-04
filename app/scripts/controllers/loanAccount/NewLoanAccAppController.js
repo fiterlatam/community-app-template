@@ -312,8 +312,8 @@
                 scope.formData.totalExternalLoanAmount = 0;
                 scope.formData.totalInstallments = 0;
                 angular.forEach(scope.currentLoans, function (currentLoan, index) {
-                    scope.formData.totalExternalLoanAmount += Number(currentLoan.totalLoanBalance?currentLoan.totalLoanBalance:0);
-                    scope.formData.totalInstallments += Number(currentLoan.charges?currentLoan.charges:0);
+                    scope.formData.totalExternalLoanAmount += Number(currentLoan.totalLoanBalance?Number(currentLoan.totalLoanBalance):0);
+                    scope.formData.totalInstallments += Number(currentLoan.charges?Number(currentLoan.charges):0);
                 });
             }
 
