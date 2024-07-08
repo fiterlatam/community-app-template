@@ -162,7 +162,7 @@
         </div>
         <div class="modal-body">
             <api-validate></api-validate>
-            <div>{{'are.you.sure'|translate}} {{action}}</div>
+            <div>{{'are.you.sure'| translate}} {{action | translate}}?</div>
             <br>
             <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' 	| translate}}</button>
             <button class="btn btn-primary" ng-click="processRequest()">	{{'label.button.confirm' | translate}}</button>

@@ -28,11 +28,11 @@
                                     <label class="control-label col-sm-6">{{'label.heading.bank.acc.no' | translate}}</label>
                                     <div class="col-sm-6">
                                         <select id="bankAccId" name="bankAccId"
-                                                ng-model="formData.bankAccId"
-                                                class="form-control"
-                                                ng-options="bankAccount.id as bankAccount.accountName for bankAccount in bankAccountOptions"
-                                                value="{{bankAccount.id}}">
-                                            <option value="">--{{'label.heading.bank.acc.no' | translate}}--</option>
+                                                    ng-model="formData.bankAccId"
+                                                    class="form-control"
+                                                    ng-options="bankAccount.id as bankAccount.accountName for bankAccount in bankAccountOptions"
+                                                    value="{{bankAccount.id}}">
+                                                <option value="">--{{'label.heading.bank.acc.no' | translate}}--</option>
                                         </select>
                                     </div>
                                 </div>
@@ -171,3 +171,4 @@
         </div>
     </div>
 </div>
+`

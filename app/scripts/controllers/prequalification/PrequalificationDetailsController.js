@@ -3,7 +3,6 @@
         PrequalificationDetailsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupData = {};
-
             scope.isEdit = false;
             scope.formData = {};
             scope.groupId = routeParams.groupId;
@@ -303,6 +302,31 @@
                 location.path(path);
             }
 
+            scope.updateRequestedAmount = function (member) {
+
+                var data = {
+                    "requestedAmount": member.requestedAmount,
+                    "comments": member.comments,
+                    "id": member.id,
+                    "name": member.name,
+                    "dpi": member.dpi,
+                    "locale": scope.optlang.code,
+                };
+                delete data.isEdit;
+                resourceFactory.prequalificationResource.updateMember({
+                    groupId: routeParams.groupId,
+                    memberId: member.id
+                }, data, function (data) {
+                    if (data.resourceIdentifier) {
+                        route.reload();
+                        scope.groupMembers[index].isEdit = false;
+                    }
+                });
+            }
+
+            scope.editRequestedAmount = function (index) {
+                scope.groupMembers[index].isEditRequested = true;
+            }
 
 
             scope.routeToClientView = function (clientId) {

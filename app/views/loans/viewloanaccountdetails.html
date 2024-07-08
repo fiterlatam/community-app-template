@@ -1047,6 +1047,7 @@
                             <th>{{'label.heading.name' | translate}}</th>
                             <th>{{'label.heading.description' | translate}}</th>
                             <th>{{'label.heading.filename' | translate}}</th>
+                            <th>{{'label.heading.type' | translate}}</th>
                             <th>{{'label.heading.actions' | translate}}</th>
                             </thead>
                             <tbody>
@@ -1054,6 +1055,7 @@
                                 <td>{{document.name}}</td>
                                 <td>{{document.description}}</td>
                                 <td>{{document.fileName}}</td>
+                                <td>{{document.documentType}}</td>
                                 <td>
                                     <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
                                             class="fa fa-cloud-download"></i></a>&nbsp;
@@ -1391,7 +1393,12 @@
                                 <td class="paddedbottom10">{{propertyName}}</td>
                                 <td class="paddedbottom10">
                                     <div ng-show="isAdditionalDateProperty(propertyName)">
-                                        {{loanAdditionalData[propertyName] | DateFormat}}
+                                        <div ng-if="propertyName==='dateOpened'">
+                                            {{loanAdditionalData[propertyName] | DateTimeFormat}}
+                                        </div>
+                                        <div ng-if="propertyName!='dateOpened'">
+                                            {{loanAdditionalData[propertyName] | DateFormat}}
+                                        </div>
                                     </div>
                                     <div ng-hide="isAdditionalDateProperty(propertyName)">
                                         {{propertyValue}}

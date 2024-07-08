@@ -644,7 +644,7 @@
             };
 
             scope.isAdditionalDateProperty = function (propertyName) {
-                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_visita"];
+                var dateFields = ["fechaInicio", "fecha_inicio_negocio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_visita"];
                 return dateFields.includes(propertyName);
             }
 
@@ -689,6 +689,9 @@
                                     if (scope.isAdditionalDateProperty(propertyName)) {
                                         var propertyValue = scope.formData.loanAdditionalData[propertyName];
                                         scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
+                                        if (propertyName === 'dateOpened') {
+                                            scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue.slice(0,3));
+                                        }
                                     }
                                 }
                             }
@@ -741,8 +744,8 @@
                 scope.formData.totalExternalLoanAmount = 0;
                 scope.formData.totalInstallments = 0;
                 angular.forEach(scope.currentLoans, function (currentLoan, index) {
-                    scope.formData.totalExternalLoanAmount += Number(currentLoan.totalLoanBalance?currentLoan.totalLoanBalance:0);
-                    scope.formData.totalInstallments += Number(currentLoan.charges?currentLoan.charges:0);
+                    scope.formData.totalExternalLoanAmount += Number(currentLoan.totalLoanBalance?Number(currentLoan.totalLoanBalance):0);
+                    scope.formData.totalInstallments += Number(currentLoan.charges?Number(currentLoan.charges):0);
                 });
             }
 

@@ -106,7 +106,7 @@
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.dpi}}</td>
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.dob | DateFormat}}</td>
                     <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.workWithPuente}}</td>
-                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.requestedAmount | number}}</td>
+                    <td class="pointer">{{member.requestedAmount |number}}</td>
                     <td>
                         <i class="fa fa-circle fa-2x {{resolveMemberStatus(member.status.value)}}">{{member.blacklistCount}}</i>
                     </td>
@@ -165,7 +165,9 @@
             </div>
 
             <div>
+                <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg|translate}}</div>
 
+                <api-validate></api-validate>
             </div>
             <hr/>
             <table class="table" ng-if="prequalificationDocuments.length > 0">
@@ -195,7 +197,6 @@
 
             <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()"
                   ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
-                <api-validate></api-validate>
                 <fieldset>
                     <div class="form-group">
                         <label class="control-label col-sm-2"
