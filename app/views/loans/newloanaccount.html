@@ -1140,7 +1140,7 @@
                                 <td class="paddedbottom10">
                                     <div ng-if="isAdditionalDateProperty(propertyName)">
                                         <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy"
-                                               class="form-control"
+                                               class="form-control" min="minDate"
                                                ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"
                                         />
                                     </div>
@@ -1151,7 +1151,7 @@
                                     </div>
 
                                     <div ng-if="!isAdditionalDateProperty(propertyName) && !isDecimalProperty(propertyName)">
-                                        <input id="{{propertyName}}" class="form-control" type="text"
+                                            <input id="{{propertyName}}" class="form-control" type="text"
                                                name="{{propertyName}}"
                                                ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3"/>
                                     </div>

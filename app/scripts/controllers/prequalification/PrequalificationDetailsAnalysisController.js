@@ -6,6 +6,13 @@
             scope.formData = {};
             scope.groupId = routeParams.groupId;
             scope.groupMembers = [];
+            scope.memberBuroEvidence = [];
+            scope.bureauStatusOptions = [
+                {label:'A', value:'A'},
+                {label:'B', value:'B'},
+                {label:'C', value:'C'},
+                {label:'D', value:'D'},
+            ];
             scope.prequalificationDocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
@@ -112,6 +119,52 @@
             scope.onFileSelect = function (files) {
                 scope.formData.file = files[0];
             };
+
+            scope.onEvidenceSelect = function (files,index) {
+                scope.groupMembers[Number(index)].file = files[0]
+            };
+            scope.obSubmitEvidence = function () {
+                for (let i=0; i<scope.groupMembers.length; i++){
+                    let groupMember = scope.groupMembers[i];
+                    if ((groupMember.agencyBureauStatus != groupMember.bureauCheckStatus.code) && groupMember.documentCount<=0 && !groupMember.file){
+                        scope.error = true;
+                        scope.errorMsg = "Proporcione un documento para el cliente Nombre "+groupMember.name+" - DPI "+groupMember.dpi+" " +
+                            "a fin de justificar el cambio de Buro";
+                        setTimeout(() => {
+                            scope.error = false;
+                            scope.errorMsg = null;
+                        }, 2000);
+
+                        return;
+                    }
+                }
+
+                for (let i=0; i<scope.groupMembers.length; i++){
+                    let groupMember = scope.groupMembers[i];
+                    if (groupMember.file){
+                        scope.uploadBuroDocument(groupMember)
+                    }
+                }
+
+            };
+
+            scope.uploadBuroDocument = function (member){
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId ,
+                    data: {
+                        memberId: member.id,
+                        dpi: member.name + ' - ('+member.dpi+')',
+                        description: "Buro Documento",
+                        file: member.file
+                    },
+                }).then(function (data) {
+                    // to fix IE not refreshing the model
+                    if (!scope.$$phase) {
+                        scope.$apply();
+                    }
+                    location.path('/prequalificationsmenu');
+                });
+            }
 
             scope.showSupportDocumentUploadPage = function () {
                 var allowedStatuses = [400, 200];
@@ -223,14 +276,14 @@
             scope.resolveTotalRequestedAmount = function () {
                 let total = 0;
                 for (let i = 0; i < scope.groupMembers.length; i++) {
-                    total += scope.groupMembers[i].requestedAmount;
+                    total += Number(scope.groupMembers[i].requestedAmount);
                 }
                 return total;
             }
             scope.resolveTotalApprovedAmount = function () {
                 let total = 0;
                 for (let i = 0; i < scope.groupMembers.length; i++) {
-                    total += scope.groupMembers[i].approvedAmount;
+                    total += Number(scope.groupMembers[i].approvedAmount);
                 }
                 return total;
             }
@@ -240,21 +293,11 @@
             }
 
             scope.updateApprovedAmount = function (member) {
-
-                if (Number(member.requestedAmount) < Number(member.approvedAmount)) {
-                    console.log("Approved amount cannot be greater than requested amount")
-                    scope.error = true;
-                    scope.errorMsg = "Approved amount cannot be greater than requested amount";
-                    setTimeout(() => {
-                        scope.error = false;
-                        scope.errorMsg = null;
-                    }, 2000);
-
-                    return;
-                }
-
                 var data = {
                     "approvedAmount": member.approvedAmount,
+                    "requestedAmount": member.requestedAmount,
+                    "comments": member.comments,
+                    "agencyBureauStatus": member.agencyBureauStatus,
                     "id": member.id,
                     "name": member.name,
                     "dpi": member.dpi,
@@ -266,7 +309,7 @@
                     memberId: member.id
                 }, data, function (data) {
                     if (data.resourceIdentifier) {
-                        route.reload();
+                        scope.routeTo("/prequalificationsmenu");
                         scope.groupMembers[index].isEdit = false;
                     }
                 });
