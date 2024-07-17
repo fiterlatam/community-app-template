@@ -103,6 +103,9 @@
                                 if (scope.isAdditionalDateProperty(propertyName)) {
                                     var propertyValue = scope.formData.loanAdditionalData[propertyName];
                                     scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
+                                    if (propertyName === 'dateOpened') {
+                                        scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue.slice(0,3));
+                                    }
                                 }
                             }
                         }
