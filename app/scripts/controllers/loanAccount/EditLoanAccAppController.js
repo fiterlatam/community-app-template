@@ -753,10 +753,11 @@
             }
 
             scope.removeLoan = function (index) {
+                console.log("going to remove loan at index: " + index);
                 if (scope.currentLoans.length <= 1) {
                     scope.currentLoans = []
                 } else {
-                    scope.currentLoans = scope.currentLoans.splice(Number(index) - 1, 1)
+                    scope.currentLoans.splice((Number(index)), 1)
                 }
 
                 scope.calculateTotals()

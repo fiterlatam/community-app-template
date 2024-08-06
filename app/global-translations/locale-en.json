@@ -508,6 +508,7 @@
   "validation.msg.invalid.number.format": "`{{params[0].value}}` is an invalid integer.",
   "validation.msg.invalid.integer": "`{{params[0].value}}` is an invalid integer.",
   "error.msg.portfolio.planning.invalid": "Portfolio planning `{{params[0].value}}` does not exist for user `{{params[1].value}}`.",
+  "error.msg.portfolio.office.not.found": "The portfolio office with name `{{params[0].value}}` not found. Please create an office for this portfolio first.",
   "validation.msg.invalid.integer.format": "`{{params[0].value}}` is an invalid integer.",
   "validation.msg.invalid.decimal.format": "`{{params[0].value}}` is an invalid decimal.",
   "error.msg.document.file.too.big": "You may not upload a file larger than 5 MB.",
