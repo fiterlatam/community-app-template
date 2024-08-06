@@ -300,12 +300,7 @@
 
             scope.removeDoc = function (files) {
                 scope.currentLoanDocs.file = files[0];
-
-                if (scope.loanDocuments.length<=1){
-                    scope.loanDocuments = []
-                }else{
-                    scope.loanDocuments = scope.loanDocuments.splice(Number(index)-1, 1)
-                }
+                scope.loanDocuments.splice(Number(index), 1)
             };
 
             scope.calculateTotals = function (){
@@ -822,12 +817,7 @@
             }
 
             scope.removeLoan = function (index) {
-                if (scope.currentLoans.length<=1){
-                    scope.currentLoans = []
-                }else{
-                    scope.currentLoans = scope.currentLoans.splice(Number(index)-1, 1)
-                }
-
+                scope.currentLoans.splice(Number(index), 1)
                 scope.calculateTotals()
             }
 
