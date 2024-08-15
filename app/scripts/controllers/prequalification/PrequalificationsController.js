@@ -15,6 +15,7 @@
                     limit: scope.groupsPerPage,
                     type: routeParams.type,
                     status: scope.formData.status,
+                    agencyId: scope.formData.agencyId,
                     searchText:scope.searchText,
                     groupingType: routeParams.groupingType,
                     orderBy: 'g.id',
@@ -27,6 +28,7 @@
 
             resourceFactory.prequalificationTemplateResource.get({type:routeParams.type},function (data) {
                 scope.groupStatusOptions = data.groupStatusOptions
+                scope.agencyOptions = data.agencies
             });
 
             scope.getResultsPage(1);
