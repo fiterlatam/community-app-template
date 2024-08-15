@@ -5138,5 +5138,6 @@
 	"error.msg.loanschedule.schedule.due.date.not.valid": "La fecha de vencimiento del cronograma no es válida",
 	"approve": "aprobar",
 	"reject": "rechazar",
+	"error.msg.journal.entry.save.operation.failed": "Se ha producido un error al procesar la solicitud. Inténtalo de nuevo.",
 	"----End---": "---Fin del archivo---"
 }
