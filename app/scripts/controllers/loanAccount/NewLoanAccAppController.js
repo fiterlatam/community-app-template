@@ -142,7 +142,11 @@
                  scope.formData.nationality = data.detailData.nationality;
                  scope.formData.language = data.detailData.languages;
                  scope.formData.occupancyClassification = Number(data.detailData.economicSector);
-                 scope.clientHousingType = data.clientContactInformation.housingType;
+                  let clientContactInformation = data.clientContactInformation;
+                  if (clientContactInformation){
+                     scope.clientHousingType = clientContactInformation.housingType;
+                     scope.formData.yearsInCommunity = Number(clientContactInformation.communityYears);
+                 }
                  scope.date.sixth = new Date(data.dateOfBirth);
                  scope.formData.phoneNumber = data.mobileNo;
                  scope.formData.dpi = data.dpiNumber;
@@ -150,7 +154,6 @@
                  scope.formData.jobType = data.jobType;
                  scope.formData.educationLevel = data.educationLevel;
                  scope.formData.maritalStatus = data.maritalStatus;
-                 scope.formData.yearsInCommunity = data.clientContactInformation.communityYears;
               });
             }
 
@@ -645,6 +648,7 @@
                 var reqThirdDate = dateFilter(scope.date.third, scope.df);
                 var reqFourthDate = dateFilter(scope.date.fourth, scope.df);
                 var reqFifthDate = dateFilter(scope.date.fifth, scope.df);
+                var reqSixthDate = dateFilter(scope.date.sixth, scope.df);
 
                 if (scope.charges.length > 0) {
                     scope.formData.charges = [];
@@ -693,6 +697,8 @@
                 delete this.formData.syncRepaymentsWithMeeting;
                 this.formData.interestChargedFromDate = reqThirdDate;
                 this.formData.repaymentsStartingFromDate = reqFourthDate;
+                this.formData.dateRequested = reqFifthDate;
+                this.formData.dateOfBirth = reqSixthDate;
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.loanType = scope.inparams.templateType;
