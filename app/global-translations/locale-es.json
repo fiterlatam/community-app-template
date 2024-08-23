@@ -862,6 +862,7 @@
 	"error.msg.clients.submittedOnDate.after.activation.date": "El presentado en fecha no puede ser posterior a la fecha de activación",
 	"validation.msg.client.closureReasonId.cannot.be.blank": "La razón de cierre no puede estar en blanco",
 	"error.msg.portfolio.planning.invalid": "Planificación de cartera `{{params[0].value}}` No existe para el usuario `{{params[1].value}}`.",
+	"error.msg.portfolio.office.not.found": "No se encontró la oficina de cartera con el nombre `{{params[0].value}}`. Primero cree una oficina para este portafolio.",
 	"error.msg.client.charge.cannot.be.deleted": "Un Cliente de carga no puede ser eliminado una vez que las transacciones se realizan en el mismo",
 	"validation.msg.CLIENTCHARGE.transaction.invalid.charge.amount.paid.in.access": "No se permiten pagos de exceso por cargos de cliente",
 	"validation.msg.CLIENTCHARGE.dueDate.cannot.be.blank": "Vencimiento fecha es obligatoria de cargo del cliente",
