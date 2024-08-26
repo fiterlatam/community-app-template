@@ -103,6 +103,9 @@
                                 if (scope.isAdditionalDateProperty(propertyName)) {
                                     var propertyValue = scope.formData.loanAdditionalData[propertyName];
                                     scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
+                                    if (propertyName === 'dateOpened') {
+                                        scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue.slice(0,3));
+                                    }
                                 }
                             }
                         }
@@ -750,12 +753,8 @@
             }
 
             scope.removeLoan = function (index) {
-                if (scope.currentLoans.length <= 1) {
-                    scope.currentLoans = []
-                } else {
-                    scope.currentLoans = scope.currentLoans.splice(Number(index) - 1, 1)
-                }
-
+                console.log("going to remove loan at index: " + index);
+                scope.currentLoans.splice(Number(index), 1)
                 scope.calculateTotals()
             }
 

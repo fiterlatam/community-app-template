@@ -12,10 +12,10 @@
             <api-validate></api-validate>
             <br>
             <div class="row filterbg m-1">
-                <div class="col-sm-6">
+                <div class="col-sm-9">
                     <form ng-submit="getResultsPage(1)" class="form-horizontal">
                         <div class="form-group">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="input-group">
                                     <input data-ng-model="searchText" type="text"
                                         placeholder="{{'label.input.searchByGroupOrGroupNameOrCenter' | translate}}"
@@ -27,7 +27,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
+                            <div class="col-md-4" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
                                 <div class="control-label col-sm-3 text-white">
                                     <label>{{ 'label.input.status' | translate }}<span
                                             class="required">*</span></label>
@@ -41,12 +41,23 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
+                                <div class="control-label col-sm-3 text-white">
+                                    <label>{{ 'label.input.agency' | translate }}<span
+                                            class="required">*</span></label>
+                                </div>
+                                <div class="col-sm-9">
+                                        <select id="agencyId" name="agency" ng-change=getResultsPage(1)
+                                                ng-model="formData.agencyId"
+                                                class="form-control"
+                                                ng-options="agency.id as agency.name for agency in agencyOptions"
+                                                value="{{agency.id}}">
+                                            <option value="">--{{'label.input.agency' | translate}}--</option>
+                                        </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
-                </div>
-
-                <div class="col-sm-3">
-
                 </div>
 
                 <div class="col-sm-3">
