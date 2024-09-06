@@ -5472,5 +5472,6 @@
   "error.msg.loanschedule.schedule.due.date.not.valid": "Due date is not valid",
   "approve": "approve",
   "reject": "reject",
+  "error.msg.journal.entry.save.operation.failed": "An error encountered while processing the request. Please try again",
   "----End---": "--End of file--- "
 }
