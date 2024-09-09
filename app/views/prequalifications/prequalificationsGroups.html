@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                         <select id="agencyId" name="agency" ng-change=getResultsPage(1)
-                                                ng-model="formData.agencyId"
+                                                ng-model="formData.agencyId" ng-disabled="agencyOptions.length==1"
                                                 class="form-control"
                                                 ng-options="agency.id as agency.name for agency in agencyOptions"
                                                 value="{{agency.id}}">

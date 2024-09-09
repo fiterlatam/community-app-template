@@ -29,10 +29,12 @@
             resourceFactory.prequalificationTemplateResource.get({type:routeParams.type},function (data) {
                 scope.groupStatusOptions = data.groupStatusOptions
                 scope.agencyOptions = data.agencies
+                if (data.agencies && data.agencies.length === 1) {
+                    scope.formData.agencyId = scope.agencyOptions[0].id
+                }
+                scope.getResultsPage(1);
+
             });
-
-            scope.getResultsPage(1);
-
         }
     });
 
