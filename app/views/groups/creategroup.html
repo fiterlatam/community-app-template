@@ -86,7 +86,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2">{{ 'label.input.portfolioCenter' | translate }}<span class="required">*</span></label>
 						<div class="col-sm-3">
-							<select id="centerId" ng-model="formData.centerId" class="form-control" name="centerId"
+							<select chosen="centerOptions" id="centerId" ng-model="formData.centerId" class="form-control" name="centerId"
 									ng-options="centerOption.id as centerOption.name for centerOption in centerOptions"
 									value="{{centerOption.id}}"></select>
 						</div>
