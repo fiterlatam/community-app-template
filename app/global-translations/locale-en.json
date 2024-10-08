@@ -2305,6 +2305,7 @@
   "label.button.hold": "Hold",
   "label.button.unhold": "Unhold Account",
   "label.button.calculateInterest": "Calculate Interest",
+  "label.button.rebalanceaccount": "Rebalance Account",
   "label.button.postInterest": "Post Interest",
   "label.button.transferFunds": "Transfer Funds",
   "label.button.loanscreenreport": "Loan Screen Reports",
