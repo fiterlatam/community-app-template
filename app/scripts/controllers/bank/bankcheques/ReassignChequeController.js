@@ -5,7 +5,7 @@
              scope.batchId = routeParams.batchId;
              scope.chequeId = routeParams.chequeId;
              scope.formData = {};
-             resourceFactory.searchChequeResource.get({batchId: scope.batchId, orderBy: 'chequeNo', sortOrder: 'ASC'}, function (data) {
+             resourceFactory.searchChequeResource.get({orderBy: 'chequeNo, batchNo', sortOrder: 'ASC'}, function (data) {
                  if (data.pageItems.length > 0 ) {
                     scope.chequeData = {}
                     scope.chequeOptions = [];
