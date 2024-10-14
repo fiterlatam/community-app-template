@@ -5,28 +5,61 @@
              scope.batchId = routeParams.batchId;
              scope.chequeId = routeParams.chequeId;
              scope.formData = {};
-             resourceFactory.searchChequeResource.get({orderBy: 'chequeNo, batchNo', sortOrder: 'ASC'}, function (data) {
-                 if (data.pageItems.length > 0 ) {
+            resourceFactory.searchChequeResource.get({batchId: scope.batchId, orderBy: 'chequeNo', sortOrder: 'ASC'}, function (data) {
+                if (data.pageItems.length > 0 ) {
                     scope.chequeData = {}
                     scope.chequeOptions = [];
                     for (var i =0; i < data.pageItems.length; i++){
-                          var cheque = data.pageItems[i];
-                          if(cheque.id == scope.chequeId){
+                        var cheque = data.pageItems[i];
+                        if(cheque.id == scope.chequeId){
                             scope.chequeData = cheque;
                             var accountName = scope.chequeData.bankAccNo + ' - ' + scope.chequeData.agencyName;
                             scope.chequeData.accountName = accountName;
                             scope.formData.batchNo = scope.chequeData.batchNo;
                             scope.formData.accountName = accountName;
+                            scope.formData.bankAccNo = scope.chequeData.bankAccNo;
                             scope.formData.oldChequeNo = scope.chequeData.chequeNo;
                             scope.formData.oldChequeId = scope.chequeData.id;
-                          } else {
+                        } else {
                             if(cheque.status.id == 1){
                                 scope.chequeOptions.push(cheque);
                             }
-                          }
+                        }
                     }
-                 }
+                }
+
+                if (scope.chequeOptions.length<=0){
+                    scope.getAllBatches()
+                }
             });
+
+            scope.getAllBatches = function() {
+                resourceFactory.searchChequeResource.get({bankAccNo: scope.formData.bankAccNo,
+                    orderBy: 'batchNo, chequeNo',
+                    sortOrder: 'ASC'
+                }, function (data) {
+                    if (data.pageItems.length > 0 ) {
+                        scope.chequeData = {}
+                        scope.chequeOptions = [];
+                        for (var i =0; i < data.pageItems.length; i++){
+                            var cheque = data.pageItems[i];
+                            if(cheque.id == scope.chequeId){
+                                scope.chequeData = cheque;
+                                var accountName = scope.chequeData.bankAccNo + ' - ' + scope.chequeData.agencyName;
+                                scope.chequeData.accountName = accountName;
+                                scope.formData.batchNo = scope.chequeData.batchNo;
+                                scope.formData.accountName = accountName;
+                                scope.formData.oldChequeNo = scope.chequeData.chequeNo;
+                                scope.formData.oldChequeId = scope.chequeData.id;
+                            } else {
+                                if(cheque.status.id == 1){
+                                    scope.chequeOptions.push(cheque);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
 
              scope.submit = function (){
                    var request = {
