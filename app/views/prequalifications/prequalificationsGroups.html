@@ -106,6 +106,9 @@
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
                         <a href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='UPDATE_PREQUALIFICATIONS'>
                             <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
+                        <a href="#/viewgroup/{{client.linkedGroupId}}" ng-if="groupingType==='group'">
+                            <i ng-if="client.linkedGroupId" class="fa fa-exchange fa-2x" title="Linked"></i></a>
+
                     </td>
                 </tr>
                 </tbody>
