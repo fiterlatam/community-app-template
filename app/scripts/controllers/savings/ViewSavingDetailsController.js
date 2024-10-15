@@ -82,6 +82,11 @@
                             route.reload();
                         });
                         break;
+                    case "rebalanceaccount":
+                        resourceFactory.savingsResource.save({accountId: accountId, command: 'rebalanceaccount'}, {}, function (data) {
+                            route.reload();
+                        });
+                        break;
                     case "postInterest":
                         resourceFactory.savingsResource.save({accountId: accountId, command: 'postInterest'}, {}, function (data) {
                             route.reload();
@@ -238,6 +243,10 @@
                             name: "button.calculateInterest",
                             icon: "fa fa-table",
                             taskPermissionName:"CALCULATEINTEREST_SAVINGSACCOUNT"
+                        }, {
+                            name: "button.rebalanceaccount",
+                            icon: "fa fa-refresh",
+                            taskPermissionName:"REBALANCE_SAVINGSACCOUNT"
                         },
                         {
                             name: "button.hold",
