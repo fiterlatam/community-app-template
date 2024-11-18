@@ -154,7 +154,7 @@
                                 <td class="width14"><label>{{'label.createdby' | translate}}</label></td>
                                 <td class="width36">{{transactions[0].createdByUserName}}</td>
                                 <td class="width19"><label>{{'label.createdon' | translate}}</label></td>
-                                <td class="width31">{{transactions[0].createdTimestamp | date: 'dd MMMM yyyy HH:mm:ss'}}</td>
+                                <td class="width31">{{convertMyTimestampDate(transactions[0])}}</td>
                             </tr>
                         </table>
                     </div>
