@@ -58,6 +58,7 @@
                 var reqDate = dateFilter(scope.first.date, scope.df);
                 this.formData.activationDate = reqDate;
                 this.formData.locale = scope.optlang.code;
+                this.formData.timeFormat = scope.tf;
                 this.formData.dateFormat = scope.df;
 
                 delete this.formData.portfolioName;
