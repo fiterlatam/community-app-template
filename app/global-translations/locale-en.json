@@ -5337,6 +5337,8 @@
 
   "validation.msg.group.legacyNumber.not.greater.than.zero": "Old Group No. must be greater than zero",
   "error.msg.prequalification.is.not.linked.to.a.group": "Please ensure that this prequalification `{{params[0].value}}` is linked to a group",
+  "error.msg.group.is.already.member.of.center": "Group with the name `{{params[0].value}}` Already exists under center with id: `{{params[1].value}}`",
+  "error.msg.loan.amount.less.than.outstanding.of.loan.to.be.closed": "El monto a desembolsar debe ser mayor al monto pendiente del préstamo a cerrar",
   "bank.cheque.status.invalid": "Invalidd",
   "bank.cheque.status.available":"Available",
   "bank.cheque.status.issued": "Issued",
