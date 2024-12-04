@@ -296,6 +296,9 @@
                     loanCollateralTemplateResource: defineResource(apiVer + "/loans/:loanId/collaterals/template", {loanId: '@loanId'}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    loanCollateralResource: defineResource(apiVer + "/loans/:loanId/collaterals/:collateralId", {loanId: '@loanId',collateralId: '@collateralId'}, {
+                        get: {method: 'GET', params: {}}
+                    }),
                     loanTrxnsTemplateResource: defineResource(apiVer + "/loans/:loanId/transactions/template", {loanId: '@loanId'}, {
                         get: {method: 'GET', params: {}}
                     }),
@@ -305,9 +308,9 @@
                     loanTrxnsResource: defineResource(apiVer + "/loans/:loanId/transactions/:transactionId", {loanId: '@loanId', transactionId: '@transactionId'}, {
                         get: {method: 'GET', params: {}}
                     }),
-                    loancollateralResource: defineResource(apiVer + "/loan-collateral-management/:collateralId", {collateralId: '@collateralId'}, {
-                        get: {method: 'GET', params: {}},
-                    }),
+                    // loancollateralResource: defineResource(apiVer + "/loan-collateral-management/:collateralId", {collateralId: '@collateralId'}, {
+                    //     get: {method: 'GET', params: {}},
+                    // }),
                     LoanAccountResource: defineResource(apiVer + "/loans/:loanId/:resourceType/:chargeId", {loanId: '@loanId', resourceType: '@resourceType', chargeId: '@chargeId'}, {
                         getLoanAccountDetails: {method: 'GET', params: {}},
                         update: {method: 'PUT'}
