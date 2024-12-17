@@ -34,6 +34,7 @@
                     scope.formData.outstandingFeeChargesPortion = scope.foreclosuredata.feeChargesPortion;
                     scope.formData.outstandingPenaltyChargesPortion = scope.foreclosuredata.penaltyChargesPortion;
                     scope.formData.foreClosureChargesPortion = scope.foreclosuredata.foreClosureChargesPortion;
+                    scope.bankAccounts = data.bankAccounts;
                     scope.calculateTransactionAmount();
                     scope.paymentTypes = scope.foreclosuredata.paymentTypeOptions;
 
@@ -64,6 +65,8 @@
                     transactionDate: dateFilter(this.formData.transactionDate, scope.df),
                     locale:  scope.optlang.code,
                     dateFormat: scope.df,
+                    glAccountId: this.formData.glAccountId,
+                    receiptNumber: this.formData.receiptNumber,
                     note: this.formData.note
                 };
                 resourceFactory.loanTrxnsResource.save({loanId: routeParams.id, command: 'foreclosure'}, scope.foreclosureFormData, function(data) {
