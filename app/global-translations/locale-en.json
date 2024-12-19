@@ -4500,6 +4500,7 @@
   "RepaymentRescheduleType.move.to.next.repayment.meeting.day": "move to next repayment meeting day",
   "RepaymentRescheduleType.move.to.previous.working.day": "move to previous working day",
   "label.heading.loan.foreclosure": "Loan Foreclosure",
+  "label.heading.loan.foreclosure.approval": "Loan Foreclosure Approval",
   "label.input.scheduledate": "Schedule Date",
   "label.input.scheduletime": "Schedule Time",
   "label.anchor.editcampaign": "Edit Campaign",
