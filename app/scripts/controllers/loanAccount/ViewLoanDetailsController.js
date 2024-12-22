@@ -128,6 +128,9 @@
                     case "foreclosure":
                         location.path('loanforeclosure/' + accountId);
                         break;
+                    case "foreclosureprojection":
+                        location.path('loanforeclosureprojection/' + accountId);
+                        break;
                 }
             };
 
@@ -337,6 +340,11 @@
                         },
                         {
                             name: "button.foreclosure",
+                            icon: "icon-dollar",
+                            taskPermissionName: 'FORECLOSURE_LOAN'
+                        },
+                            {
+                            name: "button.foreclosureprojection",
                             icon: "icon-dollar",
                             taskPermissionName: 'FORECLOSURE_LOAN'
                         },

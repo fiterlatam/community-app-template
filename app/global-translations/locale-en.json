@@ -1768,6 +1768,7 @@
   "label.button.reschedule": "Reschedule",
   "label.button.recreate": "Recreate",
   "label.button.foreclosure": "Foreclosure",
+  "label.button.foreclosureprojection": "Foreclosure Projection",
   "label.button.prequalify": "Prequalify",
   "#Misc Labels": "..",
   "label.selectpurpose": "Select purpose",
