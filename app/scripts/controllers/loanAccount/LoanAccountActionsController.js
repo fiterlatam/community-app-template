@@ -439,10 +439,14 @@
                         }
                         scope.formData.transactionAmount = data.amount;
                         scope.formData[scope.modelName] = new Date();
+                        if(data.bankAccounts && data.bankAccounts.length > 0){
+                            scope.bankAccounts = data.bankAccounts;
+                        }
                     });
                     scope.title = 'label.heading.recoverypayment';
                     scope.labelName = 'label.input.transactiondate';
                     scope.isTransaction = true;
+                    scope.isRecoveryPayment = true;
                     scope.showAmountField = true;
                     scope.taskPermissionName = 'RECOVERYPAYMENT_LOAN';
                     break;
