@@ -507,7 +507,8 @@
             };
 
             scope.calculateReceivableAmount = function () {
-                scope.formData.netAmountReceivable = Number(scope.formData.transactionAmount) - Number(scope.formData.collateralAmount);
+                if (scope.formData.netAmountReceivable && scope.formData.netAmountReceivable>0)
+                    scope.formData.netAmountReceivable = Number(scope.formData.transactionAmount) - Number(scope.formData.collateralAmount);
             };
 
             scope.addTranches = function () {
