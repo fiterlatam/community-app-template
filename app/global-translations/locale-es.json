@@ -1233,7 +1233,6 @@
 	"error.msg.glJournalEntry.invalid.old.date": "La fecha de transacción de los asientos de diario `{{params[0].value}}` debe ser menor que `{{params[1].value}}` días en el pasado.",
 	"error.msg.glJournalEntry.invalid.accounting.closed": "La contabilidad ha sido cerrada para esta sucursal a partir de `{{params[0].value}}`.",
 	"error.msg.glJournalEntry.invalid.no.debits.or.credits": "La entrada de diario debe contener un débito o crédito, o debe estar vinculada a una regla de contabilidad.",
-	"error.msg.glJournalEntry.invalid.old.date": "La entrada de diario no puede tener más de `{{params[1].value}}` días en el pasado.",
 	"error.msg.glJournalEntry.invalid.mismatch.debits.credits": "La suma de todos los créditos debe ser igual a la suma de todos los débitos.",
 	"error.msg.glJournalEntry.invalid.empty.account.or.amount": "Por favor, seleccione una cuenta e introduzca una cantidad para todos los débitos y créditos.",
 	"error.msg.glJournalEntry.invalid.account.manual.adjustments.not.permitted": "Las entradas manuales de diario no están permitidas en contra de la cuenta `{{params[0].value}}`.",
