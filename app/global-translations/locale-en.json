@@ -1372,6 +1372,7 @@
   "validation.msg.GLJournalEntry.currencyCode.cannot.be.blank": "Please select a currency",
   "error.msg.glJournalEntry.invalid.old.date": "Journal Entries transaction date `{{params[0].value}}` must be less than `{{params[1].value}}` days in the past.",
   "error.msg.glJournalEntry.invalid.accounting.closed": "Accounting has been closed for this branch as of `{{params[0].value}}`.",
+  "error.msg.glJournalEntry.invalid.old.date": "Journal Entry cannot be more than `{{params[1].value}}` days on the past.",
   "error.msg.glJournalEntry.invalid.no.debits.or.credits": "Journal Entry must contain a debit and credit or should be linked to an accounting rule.",
   "error.msg.glJournalEntry.invalid.mismatch.debits.credits": "Sum of all Credits must be equal to the sum of all Debits.",
   "error.msg.glJournalEntry.invalid.empty.account.or.amount": "Please select an account and enter an amount for all debits and credits.",
