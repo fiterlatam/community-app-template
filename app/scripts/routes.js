@@ -1229,6 +1229,8 @@
             templateUrl: 'views/prequalifications/individualPrequalification.html'
         }).when('/loans/restructurecredit/:clientId', {
             templateUrl: 'views/loans/restructurecredits.html'
+        }).when('/loans/restructurecreditextension/:clientId/:isextenstion', {
+            templateUrl: 'views/loans/restructurecreditsextension.html'
         }).when('/banks', {
             templateUrl: 'views/banks/banks.html'
         }).when('/banks/createbank', {
