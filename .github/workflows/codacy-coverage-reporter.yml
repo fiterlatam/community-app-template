@@ -24,7 +24,7 @@ jobs:
 
       - name: Cache node modules
         id: cache-nodemodules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
            cache-name: cache-node-modules
         with:
@@ -43,11 +43,11 @@ jobs:
            npm install -g grunt-cli
            bower install
            npm install
-           
+
       - name: Delete report directory if exists
         continue-on-error: true
         working-directory: ../community-app-template/
-        run: rm -f -r  karma-reports || true   
+        run: rm -f -r  karma-reports || true
 
       - name: Test coverage
         run: |
@@ -61,13 +61,13 @@ jobs:
             cp lcov.info ../../coverage
             cd ../../coverage
             ls
-          
+
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
         continue-on-error: true
         with:
           api-token: "${{ secrets.CODACY_API_TOKEN }}"
           coverage-reports: ../community-app-template/coverage/lcov.info
-          
-      
+
+
 
