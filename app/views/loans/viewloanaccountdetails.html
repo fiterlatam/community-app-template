@@ -607,6 +607,7 @@
                                 <th scope="col">{{'label.heading.paid' | translate}}</th>
                                 <th scope="col">{{'label.heading.inadvance' | translate}}</th>
                                 <th scope="col">{{'label.heading.late' | translate}}</th>
+                                <th scope="col">{{'label.heading.interest.accrual' | translate}}</th>
                                 <th scope="col" data-ng-show="isWaived">{{'label.heading.waived' | translate}}</th>
                                 <th scope="col">{{'label.heading.outstanding' | translate}}</th>
                             </tr>
@@ -631,6 +632,7 @@
                                 <td>{{period.totalPaidForPeriod | FormatByLocale}}</td>
                                 <td>{{period.totalPaidInAdvanceForPeriod | FormatByLocale}}</td>
                                 <td>{{period.totalPaidLateForPeriod | FormatByLocale}}</td>
+                                <td>{{period.totalInterestAccruedForPeriod | FormatByLocale}}</td>
                                 <td data-ng-show="isWaived">{{period.totalWaivedForPeriod | FormatByLocale}}</td>
                                 <td>{{period.totalOutstandingForPeriod | FormatByLocale}}</td>
                             </tr>
