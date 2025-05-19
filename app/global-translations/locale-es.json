@@ -3272,6 +3272,7 @@
 	"chargeCalculationType.percent.of.amount.and.interest": "Monto del préstamo % + intereses",
 	"chargeCalculationType.percent.of.interest": "% Intereses",
 	"chargeCalculationType.percent.of.disbursement.amount": "% Disbursement Cantidad",
+	"chargeCalculationType.percent.of.outstanding.balance": "% Saldo pendiente",
 	"chargepaymentmode.regular": "Modo regular",
 	"chargepaymentmode.accounttransfer": "Modo de transferencia de cuenta",
 	"chargeTimeType.activation": "Activación",
