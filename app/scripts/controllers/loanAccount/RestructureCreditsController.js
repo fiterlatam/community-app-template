@@ -38,6 +38,18 @@
 
             };
 
+            scope.computeExtensionBalance = function () {
+                scope.outstandingBalance =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
+                scope.extensionAmount =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
+                for (let i=0; i<scope.activeLoans.length; i++) {
+                    if (scope.activeLoans[i].selected){
+                        scope.outstandingBalance = scope.outstandingBalance+ Number(scope.activeLoans[i].summary.totalOutstanding)
+                        scope.extensionAmount = scope.extensionAmount - Number(scope.activeLoans[i].summary.totalOutstanding)
+                    }
+                }
+
+            };
+
             scope.retrieveLoanProductTemplate = function (requestData) {
                 scope.inparams.productId = requestData.productId;
                 scope.formData.productId = requestData.productId;
