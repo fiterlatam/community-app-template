@@ -2136,6 +2136,7 @@
 	"label.totalwithdrawalsfees": "Total de cuotas de retiros",
 	"label.totalannualfees": "Total de cuotas anuales",
 	"label.totalinterestearned": "Intereses devengados",
+	"label.totalinterestincome": "Ingresos por intereses",
 	"label.totalinterestposted": "Interés aplicado",
 	"label.totaloverdraftinterestderived": "Interés por sobregiro",
 	"label.interestEarnedNotPosted": "Interés ganado no publicado",
