@@ -28,6 +28,7 @@
                 }, function (data) {
                     scope.foreclosuredata = data;
                     scope.formData.outstandingPrincipalPortion = scope.foreclosuredata.principalPortion;
+                    scope.formData.unrecognizedIncomePortion = scope.foreclosuredata.unrecognizedIncomePortion;
                     scope.formData.outstandingInterestPortion = scope.foreclosuredata.interestPortion;
                     if (scope.foreclosuredata.unrecognizedIncomePortion) {
                         scope.formData.interestAccruedAfterDeath = scope.foreclosuredata.unrecognizedIncomePortion;
@@ -49,6 +50,7 @@
                 transactionAmount += parseFloat(scope.foreclosuredata.interestPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.feeChargesPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.penaltyChargesPortion);
+                transactionAmount += parseFloat(scope.foreclosuredata.unrecognizedIncomePortion?scope.foreclosuredata.unrecognizedIncomePortion:0);
                 scope.formData.transactionAmount = Math.round(transactionAmount * 100) / 100;
                 //scope.formData.transactionAmount =  scope.formData.transactionAmount.replace(/,/g,"");
             };
