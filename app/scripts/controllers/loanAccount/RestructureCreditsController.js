@@ -32,9 +32,10 @@
                 scope.outstandingBalance =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
                 for (let i=0; i<scope.activeLoans.length; i++) {
                     if (scope.activeLoans[i].selected){
-                        scope.outstandingBalance = scope.outstandingBalance+ Number(scope.activeLoans[i].summary.totalOutstanding)
+                        scope.outstandingBalance = scope.outstandingBalance - Number(scope.activeLoans[i].summary.totalOutstanding)
                     }
                 }
+                console.log("\n\n total outstanding: "+ scope.outstandingBalance)
 
             };
 
