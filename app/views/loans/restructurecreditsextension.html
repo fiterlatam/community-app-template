@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <input type="checkbox" ng-change="computeTotalBalance()"
+                        <input type="checkbox" ng-change="computeTotalBalance()" ng-disabled="outstandingBalance < loan.summary.totalOutstanding && !activeLoans[$index].selected"
                                style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; cursor: pointer;"
                                class="pull-right" ng-model="activeLoans[$index].selected">
                     </div>
@@ -86,7 +86,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2 width20" style="text-align: left;">{{ 'label.input.extension.loanAmount' | translate }}</label>
                         <div class="col-sm-3 paddedbottom10 paddedtop">
-                            <input type="text" disabled id="outstanding" name="outstanding" ng-model="extensionAmount"
+                            <input type="text" disabled id="outstanding" name="outstanding" ng-model="outstandingBalance"
                                    class="form-control"
                                    required="required" late-Validate/>
                         </div>

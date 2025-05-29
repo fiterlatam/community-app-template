@@ -22015,3 +22015,10 @@ Interactive Layer
 .statusexpired{
   color: rgba(159, 3, 16, 0.87);
 }
+
+.hyperlight {
+  color: #6f6f6f !important;
+}
+.hyperlight:hover {
+  color: #8fa9ff !important;
+}
