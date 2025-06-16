@@ -345,7 +345,7 @@
                 <td ng-show="formData.isTopup == true"><label>{{ 'label.input.loanIdToClose' | translate }}</label></td>
                 <td class="width36 paddedbottom10" ng-show="formData.isTopup == true">
                     <select id="loanIdToClose" ng-model="formData.loanIdToClose"
-                            ng-options="loanSummary.id as loanSummary.accountNo for loanSummary in loanaccountinfo.clientActiveLoanOptions" class="form-control width170px"
+                            ng-options="loanSummary.id as loanSummary.accountNo + ' - ('+loanSummary.productName+')' for loanSummary in loanaccountinfo.clientActiveLoanOptions" class="form-control width170px"
                             value="{{loanSummary.id}}"/>
                 </td>
             </tr>

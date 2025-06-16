@@ -14,17 +14,33 @@
             scope.restructureData;
             scope.product;
 
-            resourceFactory.restructurecreditsResource.template({clientId:scope.clientId,isextenstion:scope.isextenstion,anotherResource:'template'},function(data){
+            scope.fetchTemplateData = function () {
+                resourceFactory.restructurecreditsResource.template({
+                    clientId: scope.clientId,
+                    isextenstion: scope.isextenstion, locale: scope.optlang.code, dateFormat: scope.df,
+                    disbursementDate: scope.formData.disbursementDate,
+                    anotherResource: 'template'
+                }, function (data) {
 
-                scope.activeLoans = data.activeLoans;
-                scope.clientData = data.clientData;
-                scope.requestData = data.requestData;
-                scope.loanProductData = data.loanProductData;
-                scope.clientPrequalificatoins = data.clientPrequalificatoins;
-                if (data.requestData){
-                    scope.retrieveLoanProductTemplate(data.requestData);
-                }
+                    scope.activeLoans = data.activeLoans;
+                    scope.clientData = data.clientData;
+                    scope.requestData = data.requestData;
+                    scope.loanProductData = data.loanProductData;
+                    scope.clientPrequalificatoins = data.clientPrequalificatoins;
+                    if (data.requestData) {
+                        scope.retrieveLoanProductTemplate(data.requestData);
+                    }
+                });
+            };
+
+            scope.fetchTemplateData();
+
+            scope.$watch('formData.disbursementDate',function(){
+                if (scope.formData.disbursementDate)
+                    scope.fetchTemplateData();
             });
+
+
             scope.cancel = function () {
                 location.path('/viewclient/' + scope.clientId);
             };
@@ -38,7 +54,6 @@
                 console.log("\n\n total outstanding: "+ scope.outstandingBalance)
 
             };
-
             scope.computeExtensionBalance = function () {
                 scope.outstandingBalance =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
                 scope.extensionAmount =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
