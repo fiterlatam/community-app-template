@@ -1907,6 +1907,8 @@
   "loanTransactionType.approveTransfer": "Transfer Approved",
   "loanTransactionType.chargePayment": "Fee payment",
   "loanTransactionType.accrual": "Accrual",
+  "loanTransactionType.loantopuprepayment": "Loan Topup Repayment",
+  "loanTransactionType.waiveinteresttopup": "Waive Interest Topup",
   "loanStatusType.transfer.on.hold": "Transfer on Hold",
   "loanStatusType.invalid": "Invalid status",
   "loanStatusType.submitted.and.pending.approval": "Submitted and pending approval",

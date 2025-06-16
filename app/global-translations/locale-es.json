@@ -1748,6 +1748,8 @@
 	"loanTransactionType.approveTransfer": "Transferencia aprobada",
 	"loanTransactionType.chargePayment": "Pago de cuota",
 	"loanTransactionType.accrual": "Devengo",
+	"loanTransactionType.loantopuprepayment": "Reembolso de ampliación de préstamo",
+	"loanTransactionType.waiveinteresttopup": "Renuncia de intereses en ampliación",
 	"loanStatusType.transfer.on.hold": "Transferencia en espera",
 	"loanStatusType.invalid": "Estado no válido",
 	"loanStatusType.submitted.and.pending.approval": "Presentado y pendiente de aprobación",

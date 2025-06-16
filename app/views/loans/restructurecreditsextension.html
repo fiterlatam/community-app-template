@@ -13,22 +13,41 @@
                 <div class="alert alert-info">
                     <span>{{'label.input.office' | translate}}<span class="pull-right">{{clientData.officeName}}</span></span>
                 </div>
+
                 <div class="alert alert-info" ng-if="!requestData">
-                    <select id="prequalificationId" ng-model="formData.prequalificationId" required
-                            ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in clientPrequalificatoins"
-                            value="{{prequalification}}"
-                            ng-change="selectedPrequalification(formData.prequalificationId)"
-                            class="form-control width170px">
-                        <option style="display:none" value="">
-                            {{'label.input.select.prequalification' | translate}}
-                        </option>
-                    </select>
+                    <div class="row">
+                        <div class="col-lg-8">{{'label.input.select.prequalification' | translate}}</div>
+                        <div class="col-lg-4 text-right">
+                            <select id="prequalificationId" ng-model="formData.prequalificationId" required
+                                    ng-options="prequalification.id as prequalification.prequalificationNumber + ' (' + prequalification.productName + ')' for prequalification in clientPrequalificatoins"
+                                    value="{{prequalification}}"
+                                    ng-change="selectedPrequalification(formData.prequalificationId)"
+                                    class="form-control width170px">
+                                <option style="display:none" value="">
+                                    {{'label.input.select.prequalification' | translate}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="alert alert-info" ng-if="!requestData">
+                    <div class="row">
+                        <div class="col-lg-8">{{ 'label.heading.disbursementdate' | translate }}</div>
+                        <div class="col-lg-4 text-right">
+                            <input id="disbursementDate" sort type="text" placeholder="{{ 'label.heading.disbursementdate' | translate }}"
+                                   name="expecteddisbursementon" datepicker-pop="dd MMMM yyyy" ng-model="formData.disbursementDate"
+                                   is-open="opened1" min="minDate"  class="form-control" required />
+                        </div>
+                        <form-validate valattributeform="restructureform" valattribute="expectedDisbursementDate"/>
+                    </div>
+                </div>
+
                 <span class="text-danger" ng-if="clientData && !clientPrequalificatoins || clientPrequalificatoins.length<=0">No Prequalifications for this client found</span>
             </div>
 
             <hr/>
-            <div ng-if="activeLoans && !requestData && formData.prequalificationId">
+            <div ng-if="activeLoans && !requestData && formData.disbursementDate">
                 <div class="alert alert-default row m-1" ng-repeat="loan in activeLoans">
                     <div class="col-md-9">
                         <div class="h5">{{'label.heading.loanproduct' | translate}} <span
@@ -53,7 +72,7 @@
             <hr/>
             <h4 class="text-danger" ng-if="!activeLoans || activeLoans.length<=0">{{'label.heading.noactiveloans' | translate}}</h4>
 
-            <form ng-if="activeLoans && activeLoans.length>0 && !requestData && formData.prequalificationId" class="form-horizontal"
+            <form ng-if="activeLoans && activeLoans.length>0 && !requestData && formData.disbursementDate" class="form-horizontal"
                   name="restructureform" novalidate=""
                   rc-submit="submit()">
                 <api-validate></api-validate>
@@ -104,19 +123,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
 
-                        <label class="control-label col-sm-2 width20" style="text-align: left;"> {{ 'label.heading.disbursementdate' | translate }}</label>
-                        <div class="col-sm-3 paddedbottom10 paddedtop">
-
-                            <input id="expectedDisbursementDate" sort type="text" name="expecteddisbursementon" datepicker-pop="dd MMMM yyyy" ng-model="formData.disbursementDate"
-                                   is-open="opened1" min="minDate"  class="form-control" required />
-                        </div>
-
-                        <div class="col-sm-2">
-                            <form-validate valattributeform="restructureform" valattribute="expectedDisbursementDate"/>
-                        </div>
-                    </div>
 
                 </fieldset>
 
