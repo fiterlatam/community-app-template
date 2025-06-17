@@ -48,22 +48,25 @@
                 scope.outstandingBalance =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
                 for (let i=0; i<scope.activeLoans.length; i++) {
                     if (scope.activeLoans[i].selected){
-                        scope.outstandingBalance = scope.outstandingBalance - Number(scope.activeLoans[i].summary.totalOutstanding)
+                        let principalOutstanding = scope.activeLoans[i].summary.principalOutstanding||0;
+                        let totalFeeChargesOutstanding = scope.activeLoans[i].summary.feeChargesOutstanding||0;
+                        let totalPenaltyChargesOutstanding = scope.activeLoans[i].summary.penaltyChargesOutstanding||0;
+                        let totalOutstandingBalance = Number(principalOutstanding) +
+                            Number(totalFeeChargesOutstanding) +
+                            Number(totalPenaltyChargesOutstanding);
+                        scope.outstandingBalance = (scope.outstandingBalance - Number(totalOutstandingBalance)).toFixed(2)
                     }
                 }
-                console.log("\n\n total outstanding: "+ scope.outstandingBalance)
-
             };
-            scope.computeExtensionBalance = function () {
-                scope.outstandingBalance =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
-                scope.extensionAmount =scope.formData.totalRequestedAmount? scope.formData.totalRequestedAmount:0;
-                for (let i=0; i<scope.activeLoans.length; i++) {
-                    if (scope.activeLoans[i].selected){
-                        scope.outstandingBalance = scope.outstandingBalance+ Number(scope.activeLoans[i].summary.totalOutstanding)
-                        scope.extensionAmount = scope.extensionAmount - Number(scope.activeLoans[i].summary.totalOutstanding)
-                    }
-                }
 
+            scope.computeOutstanding = function (summary) {
+                let principalOutstanding = summary.principalOutstanding||0;
+                let totalFeeChargesOutstanding = summary.feeChargesOutstanding||0;
+                let totalPenaltyChargesOutstanding = summary.penaltyChargesOutstanding||0;
+                let totalOutstandingBalance = Number(principalOutstanding) +
+                    Number(totalFeeChargesOutstanding) +
+                    Number(totalPenaltyChargesOutstanding);
+                return totalOutstandingBalance;
             };
 
             scope.retrieveLoanProductTemplate = function (requestData) {
