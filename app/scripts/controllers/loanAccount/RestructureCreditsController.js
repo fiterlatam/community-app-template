@@ -12,16 +12,21 @@
             scope.chargeFormData = {}; //For charges
             scope.outstandingBalance=0;
             scope.restructureData;
+            scope.waiveInterest = false;
+            scope.waiveChargesAndFees = false;
             scope.product;
+            scope.formData.facValue=0;
 
             scope.fetchTemplateData = function () {
                 resourceFactory.restructurecreditsResource.template({
                     clientId: scope.clientId,
                     isextenstion: scope.isextenstion, locale: scope.optlang.code, dateFormat: scope.df,
-                    disbursementDate: scope.formData.disbursementDate,
+                    disbursementDate: dateFilter(scope.formData.disbursementDate, scope.df),
                     anotherResource: 'template'
                 }, function (data) {
 
+                    scope.waiveInterest = data.waiveInterest;
+                    scope.waiveChargesAndFees = data.waiveChargesAndFees;
                     scope.activeLoans = data.activeLoans;
                     scope.clientData = data.clientData;
                     scope.requestData = data.requestData;
@@ -29,6 +34,7 @@
                     scope.clientPrequalificatoins = data.clientPrequalificatoins;
                     if (data.requestData) {
                         scope.retrieveLoanProductTemplate(data.requestData);
+                        scope.fetchAdditinalDataTemplate()
                     }
                 });
             };
@@ -40,6 +46,43 @@
                     scope.fetchTemplateData();
             });
 
+            scope.fetchAdditinalDataTemplate = function () {
+                resourceFactory.loanResource.get({
+                    resourceType: 'template',
+                    templateType: 'groupAdditionals'
+                }, function (data) {
+                    scope.loanCycleCompletedOptions = data.loanCycleCompletedOptions || [];
+                    scope.loanPurposeOptions = data.loanPurposeOptions || [];
+                    scope.businessEvolutionOptions = data.businessEvolutionOptions || [];
+                    scope.yesnoOptions = data.yesnoOptions || [];
+                    scope.businessExperienceOptions = data.businessExperienceOptions || [];
+                    scope.businessLocationOptions = data.businessLocationOptions || [];
+                    scope.clientTypeOptions = data.clientTypeOptions || [];
+                    scope.loanStatusOptions = data.loanStatusOptions || [];
+                    scope.institutionTypeOptions = data.institutionTypeOptions || [];
+                    scope.housingTypeOptions = data.housingTypeOptions || [];
+                    if (data.housingTypeOptions && scope.clientHousingType){
+                        console.log("going to set housing type: "+ scope.clientHousingType)
+                        scope.housingTypeOptions.filter((housingType) => {
+                            if (housingType.description === scope.clientHousingType){
+                                scope.formData.housingType = housingType.id;
+                            }
+                        });
+
+                    }
+                    scope.classificationOptions = data.classificationOptions || [];
+                    scope.economicSectorOptions = data.economicSectorOptions || [];
+                    scope.jobTypeOptions = data.jobTypeOptions || [];
+                    scope.educationLevelOptions = data.educationLevelOptions || [];
+                    scope.maritalStatusOptions = data.maritalStatusOptions || [];
+                    scope.groupPositionOptions = data.groupPositionOptions || [];
+                    scope.sourceOfFundsOptions = data.sourceOfFundsOptions || [];
+                    scope.cancellationReasonOptions = data.cancellationReasonOptions || [];
+                    scope.facilitatorOptions = data.facilitatorOptions || [];
+                    scope.documentTypeOptions = data.documentTypeOptions || [];
+                });
+            }
+
 
             scope.cancel = function () {
                 location.path('/viewclient/' + scope.clientId);
@@ -49,9 +92,11 @@
                 for (let i=0; i<scope.activeLoans.length; i++) {
                     if (scope.activeLoans[i].selected){
                         let principalOutstanding = scope.activeLoans[i].summary.principalOutstanding||0;
-                        let totalFeeChargesOutstanding = scope.activeLoans[i].summary.feeChargesOutstanding||0;
-                        let totalPenaltyChargesOutstanding = scope.activeLoans[i].summary.penaltyChargesOutstanding||0;
+                        let totalInterestOutstanding = scope.activeLoans[i].summary.interestOutstanding && !scope.waiveInterest ? scope.activeLoans[i].summary.interestOutstanding : 0;
+                        let totalFeeChargesOutstanding = scope.activeLoans[i].summary.feeChargesOutstanding && !scope.waiveChargesAndFees ? scope.activeLoans[i].summary.feeChargesOutstanding : 0;
+                        let totalPenaltyChargesOutstanding = scope.activeLoans[i].summary.penaltyChargesOutstanding && !scope.waiveChargesAndFees ? scope.activeLoans[i].summary.penaltyChargesOutstanding : 0;
                         let totalOutstandingBalance = Number(principalOutstanding) +
+                            Number(totalInterestOutstanding) +
                             Number(totalFeeChargesOutstanding) +
                             Number(totalPenaltyChargesOutstanding);
                         scope.outstandingBalance = (scope.outstandingBalance - Number(totalOutstandingBalance)).toFixed(2)
@@ -61,9 +106,11 @@
 
             scope.computeOutstanding = function (summary) {
                 let principalOutstanding = summary.principalOutstanding||0;
-                let totalFeeChargesOutstanding = summary.feeChargesOutstanding||0;
-                let totalPenaltyChargesOutstanding = summary.penaltyChargesOutstanding||0;
+                let totalInterestOutstanding = summary.interestOutstanding && !scope.waiveInterest ? summary.interestOutstanding : 0;
+                let totalFeeChargesOutstanding = summary.feeChargesOutstanding && !scope.waiveChargesAndFees ? summary.feeChargesOutstanding : 0;
+                let totalPenaltyChargesOutstanding = summary.penaltyChargesOutstanding && !scope.waiveChargesAndFees ? summary.penaltyChargesOutstanding : 0;
                 let totalOutstandingBalance = Number(principalOutstanding) +
+                    Number(totalInterestOutstanding) +
                     Number(totalFeeChargesOutstanding) +
                     Number(totalPenaltyChargesOutstanding);
                 return totalOutstandingBalance;
