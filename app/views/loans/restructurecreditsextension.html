@@ -55,10 +55,14 @@
                         <div class="h5">{{'label.heading.loanoutstanding' | translate}} <span
                                 class="pull-right">{{loan.currency.code}} {{computeOutstanding(loan.summary) | number}}</span>
                         </div>
+                        <div class="h5"> - <span
+                                class="pull-right">{{'label.totalinterestincome' | translate}} - {{loan.chargedInterestAmount | number}}</span>
+                        </div>
                         <div class="h5">{{'label.heading.disbursementdate' | translate}} -
                             {{loan.timeline.actualDisbursementDate | DateFormat}} <span
                                     class="pull-right">{{'label.account.maturity.date' | translate}} - {{loan.timeline.expectedMaturityDate | DateFormat}}</span>
                         </div>
+
                     </div>
                     <div class="col-md-3">
                         <input type="checkbox" ng-change="computeTotalBalance()" ng-disabled="outstandingBalance < computeOutstanding(loan.summary) && !activeLoans[$index].selected"
@@ -179,7 +183,7 @@
 
                 <div class="alert alert-info" ng-if="productType==='Individual'">
                     <h4>Additional Data</h4>
-                    <form name="Additionals" class="form-horizontal">
+                    <form name="AdditionalsInd" class="form-horizontal">
                         <fieldset>
                             <api-validate></api-validate>
                             <br>
@@ -250,7 +254,7 @@
                     </form>
                 </div>
                 <div class="alert alert-info" ng-if="productType==='Group'">
-                        <form name="Additionals" class="form-horizontal">
+                        <form name="Additionals" class="form-horizontal" novalidate>
                             <fieldset>
                                 <api-validate></api-validate>
                                 <!--<h3>{{'label.heading.charges' | translate}}</h3>-->
@@ -1357,7 +1361,7 @@
 
                 <div class="text-center">
                     <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
-                    <button class="btn btn-success" ng-disabled="!formData.loanAdditionalData" ng-click="processRequest('approve')">{{'label.button.approve' | translate}}</button>
+                    <button class="btn btn-success" ng-disabled="(productType==='Individual' && !formData.loanAdditionalData)" ng-click="processRequest('approve')">{{'label.button.approve' | translate}}</button>
                     <button class="btn btn-danger" ng-click="processRequest('reject')">{{'label.button.reject' | translate}}</button>
                 </div>
             </div>
