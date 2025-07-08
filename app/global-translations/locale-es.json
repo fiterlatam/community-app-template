@@ -1829,6 +1829,7 @@
 	"validation.msg.loan.disbursement.actualDisbursementDate.cannot.be.blank": "La fecha de desembolso actual es obligatoria.",
 	"error.msg.loan.disbursal.cannot.be.before.approval.date": "La fecha de desembolso del préstamo no puede ser antes de la fecha de su aprobación.",
 	"error.msg.loan.disbursal.cannot.be.a.future.date": "La fecha de desembolso actual no puede ser en el futuro.",
+	"error.msg.loan.assigncheck.cannot.be.a.future.date": "La fecha de asignación del cheque no puede ser anterior a la fecha de desembolso del préstamo: {{params[0].value}}.",
 	"validation.msg.loan.disbursement.note.exceeds.max.length": "La nota no puede ser más de {{params[0].value}} caracteres de largo.",
 	"error.msg.loan.disbursal.cannot.be.after.first.repayment.due.date": "La fecha en la que un préstamo con el identificador: {{params[0].value}} es desembolsado no puede ser después de la primera fecha prevista de devolución: {{params[2].value}}.",
 	"error.msg.loan.reject.cannot.reject": "Sólo las solicitudes de préstamo con el estado 'Presentado y Pendiente de aprobación' se permiten rechazar.",

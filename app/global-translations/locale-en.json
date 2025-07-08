@@ -1989,6 +1989,7 @@
   "validation.msg.loan.disbursement.actualDisbursementDate.cannot.be.blank": "Actual disbursement date is mandatory.",
   "error.msg.loan.disbursal.cannot.be.before.approval.date": "The loan disbursal date cannot be before its approval date.",
   "error.msg.loan.disbursal.cannot.be.a.future.date": "The actual disbursement date cannot be in the future.",
+  "error.msg.loan.assigncheck.cannot.be.a.future.date": "The date assigning the check cannot be before the loan disbursement date: {{params[0].value}}.",
   "validation.msg.loan.disbursement.note.exceeds.max.length": "The note cannot be over {{params[0].value}} characters long.",
   "error.msg.loan.disbursal.cannot.be.after.first.repayment.due.date": "The date on which a loan with identifier : {{params[0].value}} is disbursed cannot be after the first expected repayment date : {{params[2].value}}.",
   "error.msg.loan.reject.cannot.reject": "Only the Loan applications with status 'Submitted and Pending approval' are allowed to reject.",

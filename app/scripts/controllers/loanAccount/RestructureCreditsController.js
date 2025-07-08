@@ -15,6 +15,7 @@
             scope.waiveInterest = false;
             scope.waiveChargesAndFees = false;
             scope.product;
+            scope.groupId;
             scope.formData.facValue=0;
 
             scope.fetchTemplateData = function () {
@@ -33,6 +34,7 @@
                     scope.loanProductData = data.loanProductData;
                     scope.clientPrequalificatoins = data.clientPrequalificatoins;
                     if (data.requestData) {
+                        scope.groupId = data.requestData.linkedGroupId;
                         scope.retrieveLoanProductTemplate(data.requestData);
                         scope.fetchAdditinalDataTemplate()
                     }
@@ -118,6 +120,7 @@
 
             scope.retrieveLoanProductTemplate = function (requestData) {
                 scope.inparams.productId = requestData.productId;
+                scope.inparams.groupId = scope.groupId;
                 scope.formData.productId = requestData.productId;
                 scope.inparams.templateType = 'individual';
                 scope.formData.loanType = 'individual';
@@ -133,6 +136,20 @@
                     scope.loandetails.amortizationValue = scope.loanaccountinfo.amortizationType.value;
                     scope.loandetails.interestCalculationPeriodValue = scope.loanaccountinfo.interestCalculationPeriodType.value;
                     scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'name');
+
+                    console.log("product is group: "+ data.product.ownerTypeOption.value)
+
+                    if (data.product.ownerTypeOption.value ==='Group'){
+                        console.log("product is group: "+ data.group)
+                        if (data.group){
+                            scope.formData.repaymentFrequencyDayOfWeekType = scope.resolveFrequencyDayOfWeek(data.group.meetingDayName)
+                            if (data.group.meetingFrequencyRange){
+                                scope.disableFrequencySelect = true;
+                                scope.formData.repaymentFrequencyNthDayType = data.group.meetingFrequencyRange
+                            }
+                        }
+                    }
+
                     scope.datatables = data.datatables;
                     scope.handleDatatables(scope.datatables);
                     scope.disabled = false;
@@ -149,6 +166,23 @@
                     scope.collateralOptions = data.loanCollateralOptions || [];
                 });
             };
+
+            scope.resolveFrequencyDayOfWeek = function (meetingDay){
+                if(meetingDay == 'Lunes'){
+                    scope.disableDaySelect = true;
+                    return 1;
+                }if(meetingDay == 'Martes'){
+                    scope.disableDaySelect = true;
+                    return 2;
+                }if(meetingDay == 'Miércoles'){
+                    scope.disableDaySelect = true;
+                    return 3;
+                }if(meetingDay == 'Jueves'){
+                    scope.disableDaySelect = true;
+                    return 4;
+                }
+            } ;
+
 
             scope.formValue = function (array, model, findattr, retAttr) {
                 findattr = findattr ? findattr : 'id';
@@ -350,6 +384,7 @@
                 let selectedPrequalification = scope.clientPrequalificatoins.filter(prequalification => prequalification.id == index)[0];
 
                 this.formData.productId = selectedPrequalification.productId;
+                scope.groupId = selectedPrequalification.linkedGroupId;
                 this.formData.totalRequestedAmount = selectedPrequalification.totalRequestedAmount;
                 scope.outstandingBalance = selectedPrequalification.totalRequestedAmount;
 
