@@ -671,7 +671,7 @@
 	"label.input.years": "Años",
 	"label.input.totalLoanAmount": "Monto del préstamo",
 	"label.input.total.loanAmount": "Monto total del préstamo",
-	"label.input.extension.loanAmount": "Monto de la extensión del préstamo",
+	"label.input.extension.loanAmount": "Monto del cheque a emitir",
 	"label.input.loanAmountValue": "Valor recibido",
 	"label.input.totalLoanBalance": "Balance de prestamo",
 	"label.input.totalGuaranteedLoanBalance": "Saldo del préstamo garantizado",
