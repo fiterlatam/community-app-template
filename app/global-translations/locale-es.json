@@ -1917,6 +1917,7 @@
 	"error.msg.cannot.modify.tranches.if.loan.is.pendingapproval.closed.overpaid.writtenoff": "Disbursement Los detalles no pueden ser modificados si la cuenta de préstamo es aprobación Pendiente /Cerró/Overpaid/WrittenOff",
 	"error.msg.requested.amount.greater.than.original": "La cantidad solicitada `{{params[0].value}}` no puede ser mayor que la cantidad original `{{params[1].value}} ` para miembro `{{params[3].value}}` con DPI `{{params[2].value}}`.",
 	"error.msg.approved.amount.greater.than.requested": "La cantidad aprobada `{{params[0].value}}` no puede ser mayor que la cantidad solicitada `{{params[1].value}}` para el miembro `{{params[3].value}}` con DPI `{{params[2].value}}`.",
+	"label.heading.closed.branches": "Sucursales cerradas",
 	"label.heading.interestDetails": "Detalles de interés",
 	"label.heading.savingsDetails": "Detalles de los ahorros",
 	"label.heading.currentBalance": "Balance actual",

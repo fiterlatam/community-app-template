@@ -4512,6 +4512,7 @@
   "RepaymentRescheduleType.move.to.next.working.day": "move to next working day",
   "RepaymentRescheduleType.move.to.next.repayment.meeting.day": "move to next repayment meeting day",
   "RepaymentRescheduleType.move.to.previous.working.day": "move to previous working day",
+  "label.heading.closed.branches": "Closed Branches",
   "label.heading.loan.foreclosure": "Loan Foreclosure",
   "label.heading.loan.foreclosure.approval": "Loan Foreclosure Approval",
   "label.input.scheduledate": "Schedule Date",
