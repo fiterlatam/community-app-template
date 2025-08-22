@@ -77,6 +77,37 @@
 						</div>
     		    	</div>
     		    </div>
+				<hr/>
+				<h4>{{'label.heading.closed.branches'|translate}}</h4>
+				<div ng-if="accountClosure.childClosures && accountClosure.childClosures.length>0">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="officeFilter">{{ 'label.input.filterbyname' | translate }}</label>
+								<input type="text" id="officeFilter" class="form-control" ng-model="officeFilter" placeholder="{{ 'label.heading.officeName' | translate }}" />
+							</div>
+						</div>
+					</div>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>{{ 'label.heading.office' | translate }}</th>
+								<th>{{ 'label.heading.closuredate' | translate }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="childClosure in accountClosure.childClosures | filter:officeFilter">
+								<td>
+								  <a href="#/view_close_accounting/{{childClosure.id}}">
+								    {{childClosure.officeName}}
+								  </a>
+								</td>
+								<td>{{childClosure.closingDate | DateFormat}}</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
     		</div>
     </div>
 </div>
