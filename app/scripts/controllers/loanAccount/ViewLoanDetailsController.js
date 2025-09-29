@@ -134,6 +134,12 @@
                 }
             };
 
+            scope.regenerateSchedule = function (accountId) {
+                resourceFactory.loanResource.save({command: 'regenerateRepaymentSchedule'}, {accountId: accountId}, function (data) {
+                    route.reload();
+                });
+            }
+
             scope.delCharge = function (id) {
                 $uibModal.open({
                     templateUrl: 'delcharge.html',

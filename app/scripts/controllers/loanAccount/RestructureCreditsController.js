@@ -281,6 +281,17 @@
                             }
                         }
                     }
+                    console.log("charges data: \n "+ JSON.stringify(scope.charges));
+                    if (scope.charges.length > 0) {
+                        this.formData.charges = [];
+                        for (var i in scope.charges) {
+                            scope.formData.charges.push({
+                                chargeId: scope.charges[i].chargeId,
+                                amount: scope.charges[i].amount,
+                                dueDate: dateFilter(scope.charges[i].dueDate, scope.df)
+                            });
+                        }
+                    }
                 }
                 $uibModal.open({
                     templateUrl: 'processRequest.html',
