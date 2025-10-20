@@ -8,6 +8,7 @@
         display: none !important;
     }</style>
     <link href="styles/styles.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
 </head>
 <body class="preview whitebg" id="top" data-spy="scroll" data-target=".subnav" data-offset="80"
       data-ng-controller="MainController">
@@ -46,27 +47,7 @@
                     </div>
                 </div>
 
-                <div ng-show="resetPassword">
-                    <form class="form-inline pull-right" role="form">
-                        <label><strong>{{ 'label.message.password.expired' | translate }}</strong></label>
 
-                        <div class="form-group">
-                            <input type="password" data-ng-model="passwordDetails.password"
-                                   placeholder="{{ 'label.input.password' | translate }}" class="input-sm form-control"
-                                   required
-                                   id="password">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" data-ng-model="passwordDetails.repeatPassword"
-                                   placeholder="{{ 'label.input.repeatpassword' | translate }}"
-                                   class="input-sm form-control"
-                                   required id="repeatPassword">
-                        </div>
-                        <button class="btn btn-success" type="submit" data-ng-click="updatePassword()"
-                                id="updatepassword-button">{{ 'label.button.resetPassword' | translate }}
-                        </button>
-                    </form>
-                </div>
 
             </div>
 
@@ -111,19 +92,48 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-block btn-primary" type="submit" data-ng-show="!load" data-ng-click="login()"
+                                    <button class="btn btn-block btn-primary" type="submit" ng-show="!showLoading" data-ng-click="login()"
                                             id="login-button">
                                         {{'label.button.signin' | translate }}
                                     </button>
-                                    <button class="btn btn-block btn-primary" type="submit" data-ng-show="load">
+                                    <button class="btn btn-block btn-primary" type="submit" ng-show="showLoading">
                                         <img data-ng-src="images/ring.svg" alt=""> <b>loading...</b>
                                     </button>
                                 </div>
+
+                                <a ng-click="promptPasswordReset()" class="text-primary">Forgot Password?</a>
 
                             </form>
 
                         </div>
                     </div>
+
+                    <div ng-show="resetPassword" class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <form class="form" role="form">
+                                <label><strong>{{ 'label.message.password.expired' | translate }}</strong></label>
+
+                                <div class="form-group">
+                                    <input type="password" data-ng-model="passwordDetails.password"
+                                           placeholder="{{ 'label.input.password' | translate }}" class="input-sm form-control"
+                                           required
+                                           id="password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" data-ng-model="passwordDetails.repeatPassword"
+                                           placeholder="{{ 'label.input.repeatpassword' | translate }}"
+                                           class="input-sm form-control"
+                                           required id="repeatPassword">
+                                </div>
+                                <button class="btn btn-success" type="submit"
+                                        ng-disabled="!passwordDetails.password || !passwordDetails.repeatPassword"
+                                        data-ng-click="updatePassword()"
+                                        id="updatepassword-button">{{ 'label.button.resetPassword' | translate }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
 
                     <div class="row" ng-show="twoFactorRequired && !otpRequested">
                             <div class="col-sm-4 col-sm-offset-4">
@@ -142,16 +152,16 @@
                                         <div class="checkbox form-group">
                                             <label for="twofactorRememberMe">
                                                 <input type="checkbox" id="twofactorRememberMe" name="twofactorRememberMe" ng-model="twofactorRememberMe">
-                                                {{'label.button.tfa.remember_me' | translate }}
+                                                {{'label.button.tfa.remember_me' | translate }} {{twoFactorDeliveryMethods.length > 0 ? twoFactorDeliveryMethods[0].trustPeriod:' N/A ' }} {{'label.input.days'| translate}}
                                             </label>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-block btn-primary" type="submit" data-ng-show="!load" data-ng-click="requestOTP()"
+                                        <button class="btn btn-block btn-primary" type="submit" ng-show="!showLoading" data-ng-click="requestOTP()"
                                                 id="otp-request-button">
                                             {{'label.button.otp.request' | translate}}
                                         </button>
-                                        <button class="btn btn-block btn-primary" type="submit" data-ng-show="load">
+                                        <button class="btn btn-block btn-primary" type="submit" ng-show="showLoading">
                                             <img data-ng-src="images/ring.svg" alt=""> <b>loading...</b>
                                         </button>
                                     </div>
@@ -178,11 +188,11 @@
                                            ng-model="otpToken">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-block btn-primary" type="submit" data-ng-show="!load" data-ng-click="validateOTP()"
+                                    <button class="btn btn-block btn-primary" type="submit" ng-show="!showLoading" data-ng-click="validateOTP()"
                                             id="otp-verify-button">
                                         {{'label.button.signin' | translate }}
                                     </button>
-                                    <button class="btn btn-block btn-primary" type="submit" data-ng-show="load">
+                                    <button class="btn btn-block btn-primary" type="submit" ng-show="showLoading">
                                         <img data-ng-src="images/ring.svg" alt=""> <b>loading...</b>
                                     </button>
                                 </div>
@@ -398,6 +408,49 @@
                 <hr>
             </div>
         </div>
+
+        <script type="text/ng-template" id="resetpassword.html">
+            <div class="modal-header silver">
+                <h3 class="bolder">{{'label.heading.changepassword' | translate}}</h3>
+            </div>
+
+            <div class="modal-body form-horizontal">
+                <api-validate></api-validate>
+                <br>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="username">{{ 'label.input.username' | translate }}</label>
+
+                    <div class="col-sm-5">
+                        <input type="text" id="username" ng-model="formData.username" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="requested">
+                    <label class="control-label col-sm-4" for="onetimepass">{{ 'label.otp.token' | translate }}</label>
+
+                    <div class="col-sm-5">
+                        <input type="text" id="onetimepass" name="otp" class="form-control"
+                               ng-model="formData.otp"/>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="requested">
+                    <label class="control-label col-sm-4" for="logoutdevices">{{ 'label.input.logoutalldevices' | translate }}</label>
+
+                    <div class="col-sm-5">
+                        <input type="checkbox"  id="logoutdevices" ng-model="formData.logoutDevices" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer silver">
+                <button class="btn btn-default" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+                <button class="btn btn-primary" ng-click="save()" ng-disabled="!formData.username" ng-show="!isLoading">{{'label.button.submit' | translate}}</button>
+
+                <button class="btn btn-primary" type="button" ng-show="isLoading">
+                    <img data-ng-src="images/ring.svg" alt=""> <b>loading...</b>
+                </button>
+            </div>
+        </script>
     </div>
 </div>
 <!-- Le javascript -->
