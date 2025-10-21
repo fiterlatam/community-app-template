@@ -479,6 +479,7 @@
 	"error.msg.glaccount.id.invalid": "La cuenta del Libro Mayor con el identificador `{{params[0].value}}` no existe.",
 	"error.msg.calendar.id.invalid": "El calendario con el identificador `{{params[0].value}}` no existe.",
 	"error.msg.email.not.configured": "El correo electrónico del usuario no está configurado. Contacte al administrador.",
+	"err.msg.newpassword.sent": "Restablecimiento completo. Se ha enviado una contraseña temporal a su correo electrónico.",
 	"validation.msg.calendar.title.cannot.be.blank": "El título es obligatorio.",
 	"validation.msg.calendar.startDate.cannot.be.blank": "La fecha inicial es obligatoria.",
 	"validation.msg.calendar.typeId.cannot.be.blank": "El tipo de calendario es obligatorio.",
