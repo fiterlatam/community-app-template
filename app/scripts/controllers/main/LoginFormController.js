@@ -146,6 +146,7 @@
                             $scope.isLoading=false;
                         if ($scope.requested) {
                             $uibModalInstance.close('activate');
+                            scope.authenticationErrorMessage = 'err.msg.newpassword.sent'
                             route.reload();
                         }else{
                             $scope.requested = true;

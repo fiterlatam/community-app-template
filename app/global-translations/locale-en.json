@@ -539,6 +539,7 @@
   "error.msg.glaccount.id.invalid": "General Ledger account with identifier `{{params[0].value}}` does not exist.",
   "error.msg.calendar.id.invalid": "Calendar with identifier `{{params[0].value}}` does not exist.",
   "error.msg.email.not.configured": "User email is not configured. Contact administrator.",
+  "err.msg.newpassword.sent": "Reset Complete. A temporary password has been sent to your email.",
   "validation.msg.calendar.title.cannot.be.blank": "The Title field is mandatory.",
   "validation.msg.calendar.startDate.cannot.be.blank": "The Start Date field is mandatory.",
   "validation.msg.calendar.typeId.cannot.be.blank": "The Calendar Type field is mandatory.",
