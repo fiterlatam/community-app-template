@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        LoginFormController: function (scope, authenticationService, resourceFactory, httpService, $timeout,$uibModal) {
+        LoginFormController: function (scope, authenticationService, resourceFactory, httpService, $timeout,$uibModal, localStorageService) {
             scope.loginCredentials = {};
             scope.passwordDetails = {};
             scope.authenticationFailed = false;
@@ -137,6 +137,9 @@
                 $scope.save = function (staffId) {
                     $scope.isLoading=true;
                     let command = $scope.requested? 'resetPassword':'requestPasswordReset';
+                    if ($scope.formData.logoutDevices){
+                        removeTwoFactorTokenFromStorage($scope.formData.username)
+                    }
                     resourceFactory.resetUserAccountResource.update({
                         'username': $scope.formData.username,'command': command,
                         'logoutDevices':$scope.formData.logoutDevices,'otp':$scope.formData.otp}, $scope.formData, function (data) {
@@ -147,17 +150,29 @@
                         }else{
                             $scope.requested = true;
                         }
+                    },function (err){
+                        $scope.isLoading=false;
                     });
                 };
                 $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
+                };
+
+                var removeTwoFactorTokenFromStorage = function (username) {
+                    var storageData = localStorageService.getFromLocalStorage("twofactor");
+                    if(!storageData) {
+                        return;
+                    }
+
+                    delete storageData[username]
+                    localStorageService.addToLocalStorage('twofactor', storageData);
                 };
             };
 
 
         }
     });
-    mifosX.ng.application.controller('LoginFormController', ['$scope', 'AuthenticationService', 'ResourceFactory', 'HttpService','$timeout','$uibModal', mifosX.controllers.LoginFormController]).run(function ($log) {
+    mifosX.ng.application.controller('LoginFormController', ['$scope', 'AuthenticationService', 'ResourceFactory', 'HttpService','$timeout','$uibModal','localStorageService', mifosX.controllers.LoginFormController]).run(function ($log) {
         $log.info("LoginFormController initialized");
     });
 }(mifosX.controllers || {}));
