@@ -8,6 +8,7 @@
 
             var boolConfigs = ['otp-delivery-sms-enable', 'otp-delivery-email-enable'];
             var multiLineConfigs = ['otp-delivery-sms-text', 'otp-delivery-email-body'];
+            var timeConfigs = ['access-token-live-time-extended', 'otp-token-live-time', 'access-token-live-time'];
 
             scope.configs = [];
             scope.configType = $routeParams.configType;
@@ -17,7 +18,7 @@
                 for (var i in data.toJSON()) {
                     if(configs[scope.configType].indexOf(i) > -1) {
                         scope.configs.push({
-                            name: i,
+                            name: (timeConfigs.indexOf(i) > -1)? i +' (in seconds)': i,
                             value: data[i].toString(),
                             type: getConfigType(i)
                         });
