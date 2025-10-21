@@ -538,6 +538,7 @@
   "error.msg.loan.id.is.invalid": "Loan with identifier `{{params[0].value}}` does not exist.",
   "error.msg.glaccount.id.invalid": "General Ledger account with identifier `{{params[0].value}}` does not exist.",
   "error.msg.calendar.id.invalid": "Calendar with identifier `{{params[0].value}}` does not exist.",
+  "error.msg.email.not.configured": "User email is not configured. Contact administrator.",
   "validation.msg.calendar.title.cannot.be.blank": "The Title field is mandatory.",
   "validation.msg.calendar.startDate.cannot.be.blank": "The Start Date field is mandatory.",
   "validation.msg.calendar.typeId.cannot.be.blank": "The Calendar Type field is mandatory.",

@@ -478,6 +478,7 @@
 	"error.msg.loan.existing.active.loan.product": "Este préstamo no pudo ser desembolsado porque este cliente o grupo ya tiene un préstamo activo para el product `{{params[0].value}}`.",
 	"error.msg.glaccount.id.invalid": "La cuenta del Libro Mayor con el identificador `{{params[0].value}}` no existe.",
 	"error.msg.calendar.id.invalid": "El calendario con el identificador `{{params[0].value}}` no existe.",
+	"error.msg.email.not.configured": "El correo electrónico del usuario no está configurado. Contacte al administrador.",
 	"validation.msg.calendar.title.cannot.be.blank": "El título es obligatorio.",
 	"validation.msg.calendar.startDate.cannot.be.blank": "La fecha inicial es obligatoria.",
 	"validation.msg.calendar.typeId.cannot.be.blank": "El tipo de calendario es obligatorio.",
