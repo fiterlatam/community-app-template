@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
             scope.groupData = {};
             scope.formData = {};
@@ -48,6 +48,35 @@
                 }
                 scope.prequalificationDocuments = data;
             });
+
+            //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
+            scope.downloadDocument = function (doc) {
+                
+                const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
+                    '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+                
+                $http({
+                    method: 'GET',
+                    url: $rootScope.hostUrl + url,
+                    responseType: 'arraybuffer',
+                }).then(function (response) {
+                    
+                    const blob = new Blob([response.data], { type: response.headers('Content-Type') });
+                    const fileName = doc.fileName || 'documento';
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Error al descargar el documento:', error);
+                    alert('No se pudo descargar el documento.');
+                });
+            };
+
+
 
             scope.submit = function () {
                 Upload.upload({
@@ -302,6 +331,8 @@
                     "name": member.name,
                     "dpi": member.dpi,
                     "locale": scope.optlang.code,
+                    "interestRatePerPeriod": member.interestRatePerPeriod,
+                    "principal": member.requestedAmount
                 };
                 delete data.isEdit;
                 resourceFactory.prequalificationResource.updateMember({
@@ -369,6 +400,92 @@
                      scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
                 }
             }
+
+
+            // -----------------------------Sección nuevo documento--------------------------------
+
+            // Abrir modal para subir documento
+            scope.openUploadDocumentModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'uploadDocumentModal.html',
+                    controller: UploadDocumentModalCtrl
+                });
+
+                modalInstance.result.then(function (document) {
+                    // Al cerrar el modal con éxito, subir el documento
+                    scope.uploadDocument(document.description, document.file);
+                });
+            };
+
+            // Controlador del modal
+            var UploadDocumentModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.document = {
+                    description: '',
+                    file: null
+                };
+
+                $scope.upload = function () {
+                    if (!$scope.document.file || !$scope.document.description) {
+                        alert("Debe proporcionar un archivo y una descripción");
+                        return;
+                    }
+                    $uibModalInstance.close($scope.document);
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            scope.uploadDocument = function (description, file) {
+                if (!file) {
+                    alert("Debe seleccionar un archivo");
+                    return;
+                }
+
+                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, ""); 
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId,
+                    data: {
+                        dpi: fileNameWithoutExt,
+                        description: description,
+                        file: file
+                    },
+                }).then(function (data) {
+                    if (!scope.$$phase) scope.$apply();
+                    location.path('/prequalificationsmenu');
+                });
+            };
+
+            //------------------------------- Sección añadir comentario de exepción ----------------------------------
+
+            scope.submitExceptionComment = function () {
+                // Validar que exista comentario
+                if (!scope.formData || !scope.formData.exceptionComment || scope.formData.exceptionComment.trim() === '') {
+                    alert("Debe ingresar un comentario de excepción antes de enviar.");
+                    return;
+                }
+
+                // Construcción del cuerpo a enviar
+                let dataToSend = {
+                    name: scope.groupData.groupName,
+                    description: 'Comentario de excepción',
+                    comment: scope.formData.exceptionComment
+                };
+
+                // Envío del comentario sin archivo
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: dataToSend,
+                }).then(function (response) {
+                    if (!scope.$$phase) scope.$apply();
+
+                }, function (error) {
+                    alert("Ocurrió un error al intentar guardar el comentario de excepción.");
+                });
+            };
+
+            
         }
     });
 

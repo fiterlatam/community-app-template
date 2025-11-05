@@ -101,7 +101,18 @@
                                     </button>
                                 </div>
 
-                                <a ng-click="promptPasswordReset()" class="text-primary">Forgot Password?</a>
+                                <div class="row">
+                                    <div class="col-lg-6 text-left">
+                                        <a ng-click="promptPasswordReset()" class="text-primary">{{'label.input.forgot'|translate}}</a>
+                                    </div>
+                                    <div class="col-lg-6 text-right">
+                                        <a ng-disabled="!loginCredentials.username"
+                                           ng-click="removeTwoFactorTokenFromStorage(loginCredentials.username)">{{'label.input.clear'|translate}}</a>
+                                    </div>
+                                </div>
+                                <div ng-if="isClearing" class="alert" style="background-color: #730db2; margin-top:10px; color: white">
+                                    <img data-ng-src="images/ring.svg" alt=""> <b>Clearing Tokens...</b>
+                                </div>
 
                             </form>
 
