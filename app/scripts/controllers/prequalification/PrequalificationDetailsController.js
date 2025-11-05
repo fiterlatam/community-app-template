@@ -205,6 +205,31 @@
                 });
             }
 
+            scope.getTimelineTooltip = function(item) {
+                var html = '';
+                if (item.changedBy) html += 'Cambiado por: ' + item.changedBy + '\n';
+                if (item.changeDate) html += 'Fecha: ' + item.changeDate + '\n';
+                if (item.comments) html += 'Comentarios: ' + item.comments;
+                return html;
+            };
+
+            scope.getFilteredExpectedTimeline = function() {
+                if (!scope.groupData.expectedTimeline || !scope.groupData.currentTimeline) return [];
+                // Find the object with the maximum index
+                var maxIndexObj = scope.groupData.currentTimeline.reduce(function(prev, curr) {
+                    return (prev.index > curr.index) ? prev : curr;
+                });
+                var maxStatusId = maxIndexObj.statusData.id;
+                // Find the position of maxStatusId in expectedTimeline
+                var maxIdx = scope.groupData.expectedTimeline.findIndex(function(step) {
+                    return step.id === maxStatusId;
+                });
+                // If not found, show all
+                if (maxIdx === -1) return scope.groupData.expectedTimeline;
+                // Show all expected steps up to and including maxIdx
+                return scope.groupData.currentTimeline;
+            };
+
             var RequestUpdatesCtrl = function ($scope, $uibModalInstance) {
                 $scope.updateData = {};
 
@@ -331,6 +356,13 @@
 
             scope.routeToClientView = function (clientId) {
                 location.path('/viewclient/' + clientId);
+            };
+
+            scope.isStepCompleted = function(step) {
+                if (!scope.groupData.currentTimeline) return false;
+                return scope.groupData.currentTimeline.some(function(t) {
+                    return t.statusData && t.statusData.id === step.id;
+                });
             };
         }
     });

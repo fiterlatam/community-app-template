@@ -333,28 +333,44 @@
             </table>
         </div>
         <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
-            <div class="row alert alert-default m-1" ng-if="prequalificationType==='analysis'">
-                <div class="col-sm-6 text-left">
+
+            <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis'">
+                <div class="text-left m-1">
                     <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoexception' | translate}}
                     </button>
                 </div>
 
-                <div class="col-sm-6 text-right">
+                <div class="text-right m-1 ms-auto">
                     <button ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoagency' | translate}}
                     </button>
                 </div>
+
             </div>
 
-            <div class="row alert alert-warning m-1">
+            <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center">
+                
+                <div class="text-left m-1">
+                    <button ng-click="processAnalysisRequest('pending','label.button.modifyapplication')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.modifyapplication' | translate}}
+                    </button>
 
-                <div class="col-sm-6 text-left" ng-if="prequalificationType==='analysis'">
+                    <button ng-if="orangeValidationCount == 0 && redValidationCount == 0 && yellowValidationCount == 0" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+
+                    <button ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
+                    </button>
+                </div>
+
+                <div class="text-left m-1" ng-if="prequalificationType==='analysis'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
                     </button>
                 </div>
-                <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
+                <div class="text-left m-1" ng-if="prequalificationType==='exceptionsqueue'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
                     </button>
@@ -362,19 +378,19 @@
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
                     </button>
                 </div>
-                <div class="col-sm-6 text-left" ng-if="prequalificationType==='agency'">
+                <div class="text-left m-1" ng-if="prequalificationType==='agency'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
                     </button>
                     <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL'" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
                     </button>
-                    <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL_WITH_EXCEPTIONS'" ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
+                    <!-- <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL_WITH_EXCEPTIONS'" ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
-                    </button>
+                    </button> -->
                 </div>
 
-                <div class="col-sm-6 text-left" ng-if="prequalificationType==='committeeapprovals'">
+                <div class="text-left m-1" ng-if="prequalificationType==='committeeapprovals'">
                     <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
                     </button>
@@ -383,13 +399,17 @@
                     </button>
                 </div>
 
-                <div class="col-sm-6 text-right">
-                    <button ng-click="processAnalysisRequest('rejectanalysis','label.button.reject')" type="button"
+                <div class="text-right m-1 ms-auto">
+                    <!-- <button ng-click="processAnalysisRequest('rejectanalysis','label.button.reject')" type="button"
                             class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.reject' | translate}}
+                    </button> -->
+                    <button ng-click="rejectPrequalification()" type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                        {{'label.button.reject' | translate}}
                     </button>
+
                 </div>
             </div>
-            <div class="alert alert-success m-1 text-center" ng-if="prequalificationType==='analysis'">
+            <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis'">
                 <button ng-click="processAnalysisRequest('approveanalysis', 'label.button.approve')" type="button"
                         class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.approve' | translate}}
                 </button>
@@ -457,7 +477,7 @@
         </div>
     </script>
 
-    
+    <!-- Charge document new view-->
     <script type="text/ng-template" id="uploadDocumentModal.html">
         <div class="modal-header silver">
             <h3 class="bolder">{{'label.heading.uploaddocuments' | translate}}</h3>
@@ -477,6 +497,31 @@
             <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
         </div>
     </script>
+    
+    <!-- Reject modal new view-->
+    <script type="text/ng-template" id="rejectPrequalificationModal.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.reject.confirmation' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>{{'label.input.rejectionreason' | translate}}:</label>
+                <select class="form-control" ng-model="selectedReason" 
+                        ng-options="dc.id as dc.name for dc in reasons">
+                    <option value="">{{'label.input.select.rejectreason' | translate}}</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label>{{'label.heading.comments' | translate}}:</label>
+                <textarea class="form-control" ng-model="optionalComment" 
+                          placeholder="{{'label.input.addcomments' | translate}}"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn btn-danger" ng-click="confirm()">{{'label.button.confirm' | translate}}</button>
+            <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+        </div>
+    </script>
+
 </div>
-
-

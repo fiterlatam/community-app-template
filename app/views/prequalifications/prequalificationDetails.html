@@ -127,6 +127,46 @@
                 </tr>
             </table>
             <hr/>
+            <div class="alert alert-default" ng-if="groupData.currentTimeline">
+                <h4>Timeline</h4>
+
+            </div>
+            <div class="timeline-container" ng-if="groupData.expectedTimeline && groupData.expectedTimeline.length > 0">
+                <h4>{{'label.heading.expectedTimeline' | translate}}</h4>
+                <ul class="timeline-horizontal">
+                    <li ng-repeat="step in groupData.expectedTimeline" class="timeline-step"
+                        ng-class="{'completed': isStepCompleted(step)}">
+                        <div class="timeline-badge">
+                            <span ng-if="isStepCompleted(step)"><i class="fa fa-check" aria-label="Completed"></i></span>
+                            <span ng-if="!isStepCompleted(step)"><i class="fa fa-circle-thin" aria-label="Pending"></i></span>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <span class="timeline-title">{{step.code | translate}}</span>
+                            </div>
+                            <div class="timeline-body">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="timeline-container" ng-if="groupData.currentTimeline && groupData.currentTimeline.length > 0">
+                <h4>{{'label.heading.currentTimeline' | translate}}</h4>
+                <ul class="timeline-horizontal">
+                    <li ng-repeat="step in getFilteredExpectedTimeline()" class="timeline-step completed">
+                        <div class="timeline-badge" uib-tooltip="{{getTimelineTooltip(step)}}" tooltip-append-to-body="true">
+                            <i class="fa fa-check" aria-label="Completed"
+                               ></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <span class="timeline-title">{{step.statusData.code | translate}}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <div>
                 <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
                         ng-click="validateHardPolicy()" type="button" value="validate"
