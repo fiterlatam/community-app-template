@@ -4321,6 +4321,8 @@
   "label.heading.cashmgmt.cashier.txnAmountCashOut": "Cash Out",
   "label.heading.cashmgmt.cashier.txnAmountSettle": "Settlement",
   "label.heading.cashmgmt.cashier.netAmount": "Net",
+  "label.heading.expectedTimeline": "Expected Timeline",
+  "label.heading.currentTimeline": "Current Timeline",
   "label.input.cashiername": "Cashier",
   "label.input.cashierallocationdetails": "Assignment Period",
   "label.input.teller.cashiertxn.txnDate": "Date",

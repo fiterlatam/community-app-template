@@ -231,6 +231,8 @@
 	"label.heading.noactiveloans": "No se encontraron préstamos activos para este cliente",
 	"label.heading.processtype": "Tipo de Proceso",
 	"label.heading.processquality": "Calidad del proceso",
+	"label.heading.expectedTimeline": "Cronograma esperado",
+	"label.heading.currentTimeline": "Cronograma actual",
 	"label.menu.selectloanofficer": "Seleccione personal",
 	"label.menu.selectone": "Seleccione uno",
 	"label.menu.constitution": "Seleccione Constitución",
