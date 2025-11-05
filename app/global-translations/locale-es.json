@@ -432,6 +432,8 @@
 	"label.selectentity": "Seleccionar entidad",
 	"label.selectaction": "Seleccionar acción",
 	"label.error": "Error",
+	"label.input.clear": "Limpiar tokens",
+	"label.input.forgot": "¿Olvidó su contraseña?",
 	"error.login.failed": "Inténtelo de nuevo. Sus credenciales no son válidas.",
 	"error.connection.failed": "No se pudo conectar con el servidor. Asegúrate de que utilizas la configuración correcta.",
 	"error.msg.command.unsupported": "Error de programación: la orden `command` emitida no se admite.",

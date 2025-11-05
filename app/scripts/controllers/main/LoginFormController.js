@@ -37,7 +37,7 @@
 
             scope.extractError = function (data,defaultmsg) {
                 msg = defaultmsg;
-                if (data.errors && data.errors.length > 0) {
+                if (data && data.errors && data.errors.length > 0) {
                     msg=data.errors[0].userMessageGlobalisationCode;
                 }
                 return msg;
@@ -137,9 +137,8 @@
                 $scope.save = function (staffId) {
                     $scope.isLoading=true;
                     let command = $scope.requested? 'resetPassword':'requestPasswordReset';
-                    if ($scope.formData.logoutDevices){
-                        removeTwoFactorTokenFromStorage($scope.formData.username)
-                    }
+                    scope.removeTwoFactorTokenFromStorage($scope.formData.username)
+
                     resourceFactory.resetUserAccountResource.update({
                         'username': $scope.formData.username,'command': command,
                         'logoutDevices':$scope.formData.logoutDevices,'otp':$scope.formData.otp}, $scope.formData, function (data) {
@@ -158,15 +157,24 @@
                     $uibModalInstance.dismiss('cancel');
                 };
 
-                var removeTwoFactorTokenFromStorage = function (username) {
-                    var storageData = localStorageService.getFromLocalStorage("twofactor");
-                    if(!storageData) {
-                        return;
-                    }
 
-                    delete storageData[username]
-                    localStorageService.addToLocalStorage('twofactor', storageData);
-                };
+            };
+
+            scope.removeTwoFactorTokenFromStorage = function (username) {
+                scope.isClearing=true;
+                console.log("Removing two-factor token from storage for user "+ username);
+
+                var storageData = localStorageService.getFromLocalStorage("twofactor");
+                if(!storageData) {
+                    return;
+                }
+
+                delete storageData[username]
+                localStorageService.removeFromLocalStorage("twofactor");
+                localStorageService.addToLocalStorage('twofactor', storageData);
+                timer = $timeout(function(){
+                    scope.isClearing=false;
+                },2000);
             };
 
 
