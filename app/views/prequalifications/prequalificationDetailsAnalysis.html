@@ -99,19 +99,33 @@
                                 class="pull-right">{{groupData.statusChangedBy}}</span></span>
                     </div>
                     <div class="alert alert-info">
-                        <span>{{'label.input.comments' | translate}}: <span
-                                class="pull-right">{{groupData.latestComments}}</span></span>
+                        <span>{{'label.input.comments' | translate}}: <span class="pull-right">{{groupData.latestComments}}</span></span>
                     </div>
-                    <div class="">
-                        <span>{{'label.input.addcomments' | translate}}: <span
-                                class="pull-right">
-                            <textarea rows="3" type="text" class="form-control" name="comms"
-                                   placeholder="{{'label.input.comments'|translate}}"
-                                      ng-model="formData.comments" id="comms" required></textarea>
-                        </span></span>
+                    <div class="alert alert-info">
+                        <span>{{'label.input.exceptioncomments' | translate}}: <span class="pull-right">{{groupData.exceptionComment}}</span></span>
                     </div>
 
-
+                    <div class="form-group">
+                        <label>{{'label.input.addcomments' | translate}}</label>
+                        <textarea rows="3" class="form-control" name="comments" placeholder="{{'label.input.comments' | translate}}"
+                            ng-model="formData.comments" id="comments" required></textarea>
+                    </div>
+                    
+                    <!-- Comentario de excepciones-->
+                    <div class="form-group">
+                        <label>{{'label.input.addexceptioncomments' | translate}}</label>
+                        <textarea rows="3" class="form-control" name="exceptionComment"
+                            placeholder="{{'label.input.addexceptioncomments' | translate}}" ng-model="formData.exceptionComment"
+                            id="exceptionComment"></textarea>
+                    </div>
+                    
+                    <!-- Botón para enviar el comentario -->
+                    <div class="text-right" ng-if="formData.exceptionComment && formData.exceptionComment.trim() !== ''">
+                        <button class="btn btn-success" ng-click="submitExceptionComment()">
+                            <i class="fa fa-comment"></i> {{'label.anchor.save' | translate}}
+                        </button>
+                    </div>
+                    
                 </div>
 
             </div>
@@ -129,7 +143,12 @@
                 <tr>
                     <th>{{'label.input.name' | translate}}</th>
                     <th>{{'label.input.amount.requested' | translate}}</th>
+                    <th>{{'label.description.additional.tasa' | translate}}</th>
+                    <th>{{'label.description.additional.cuota' | translate}}</th>
+                    <th>{{'label.description.additional.plazoOnly' | translate}}</th>
                     <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
+                    <th>{{'label.heading.collaterals' | translate}}</th>
+                    <th>{{'label.heading.destination' | translate}}</th>
                     <th>{{'label.input.bureau.status' | translate}}</th>
                     <th ng-if="prequalificationType==='agency' || prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{'label.input.agency.bureau.status' | translate}}</th>
                     <th>{{'label.heading.hard.policy.status' | translate}}</th>
@@ -156,11 +175,47 @@
                                placeholder="{{'label.input.amount.requested'|translate}}"
                                ng-model="groupMembers[$index].requestedAmount" id="amtreq" required>
                     </td>
+                    <td class="pointer">
+                        <input type="text" class="form-control" name="interesRatePerPeriod" style="width: 90% !important;"
+                               ng-disabled="!groupMembers[$index].isEdit || prequalificationType!=='agency'"  number-format
+                               placeholder="{{'label.description.additional.tasa'|translate}}"
+                               ng-model="groupMembers[$index].interestRatePerPeriod" id="interesRatePerPeriod" required>
+                    </td>
+                    <td class="pointer">
+                        <input type="text" class="form-control" name="quotaAmount" style="width: 90% !important;"
+                               ng-disabled="true"  number-format
+                               placeholder="{{'label.description.additional.cuota'|translate}}"
+                               ng-model="groupMembers[$index].quotaAmount" id="quotaAmount" required>
+
+                    </td>
+                    <td class="pointer">
+                        <input type="text" class="form-control" name="period" style="width: 90% !important;"
+                               ng-disabled="true"  number-format
+                               placeholder="{{'label.description.additional.plazoOnly'|translate}}"
+                               ng-model="groupMembers[$index].period" id="period" required>
+
+                    </td>
+
+
                     <td ng-if="prequalificationType==='analysis'">
                         <input type="text" class="form-control" style="width: 90% !important;" name="amntApproved"
                                ng-disabled="!groupMembers[$index].isEdit"  number-format
                                placeholder="{{'label.input.amount.approved'|translate}}"
                                ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
+                    </td>
+                    <td class="pointer">
+                        <input type="text" class="form-control" name="collateral" style="width: 90% !important;"
+                               ng-disabled="true"
+                               placeholder="{{'label.heading.collaterals' | translate}}"
+                               ng-model="groupMembers[$index].collateral" id="collateral" required>
+
+                    </td>
+                    <td class="pointer">
+                        <input type="text" class="form-control" name="destination" style="width: 90% !important;"
+                               ng-disabled="true"
+                               placeholder="{{'label.heading.destination' | translate}}"
+                               ng-model="groupMembers[$index].destination" id="destination" required>
+
                     </td>
 
                     <td class="pointer" style="font-size: 25px" data-ng-click="viewBuroResult(member.id)"><i ng-if="member.bureauCheckStatus"
@@ -225,6 +280,16 @@
             </button>
             <api-validate></api-validate>
             <hr/>
+            <hr/>
+            
+            <!-- Botón para abrir modal de carga de documento -->
+            <div class="text-right m-2">
+                <button class="btn btn-primary" ng-click="openUploadDocumentModal()">
+                    <i class="fa fa-plus"></i> {{'label.heading.attachfile' | translate}}
+                </button>
+            </div>
+
+
             <div>
                 <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
                         ng-click="validateHardPolicy()" type="button" value="validate"
@@ -259,8 +324,7 @@
                     <td>{{document.description}}</td>
                     <td>{{document.fileName}}</td>
                     <td>
-                        <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
-                                class="fa fa-cloud-download"></i></a>&nbsp;
+                        <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
                         <!--                        <a ng-show="document.fileIsImage" ng-click="previewDocument(document.docUrl,document.fileName)"><i class="fa fa-eye"></i></a>-->
                         <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
                     </td>
@@ -392,4 +456,27 @@
             </div>
         </div>
     </script>
+
+    
+    <script type="text/ng-template" id="uploadDocumentModal.html">
+        <div class="modal-header silver">
+            <h3 class="bolder">{{'label.heading.uploaddocuments' | translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>{{'label.heading.description' | translate}}</label>
+                <input type="text" class="form-control" ng-model="document.description" placeholder="{{'label.heading.description' | translate}}">
+            </div>
+            <div class="form-group">
+                <label>{{'label.input.selectfile' | translate}}</label>
+                <input type="file" ngf-select ng-model="document.file" name="file" class="form-control" accept="application/*">
+            </div>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn btn-success" ng-click="upload()"><i class="fa fa-upload"></i> {{'label.heading.uploaddocuments' | translate}}</button>
+            <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+        </div>
+    </script>
 </div>
+
+
