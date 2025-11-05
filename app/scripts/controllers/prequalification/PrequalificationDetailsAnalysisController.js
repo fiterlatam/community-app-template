@@ -22,6 +22,18 @@
                 scope.groupData = data;
                 scope.groupMembers = data.groupMembers;
 
+                scope.yellowValidationCount = scope.groupMembers.reduce((acc, member) => {
+                    return acc + (member.yellowValidationCount || 0);
+                }, 0);
+
+                scope.redValidationCount = scope.groupMembers.reduce((acc, member) => {
+                    return acc + (member.redValidationCount || 0);
+                }, 0);
+
+                scope.orangeValidationCount = scope.groupMembers.reduce((acc, member) => {
+                    return acc + (member.orangeValidationCount || 0);
+                }, 0);
+
                 console.log("group data", JSON.stringify(scope.groupData));
                 console.log("current session data", JSON.stringify(scope.currentSession));
                 scope.formData.isAllMembersSelected = true;
@@ -485,7 +497,68 @@
                 });
             };
 
-            
+
+            // --------------------------------------------- NEW REJECTED VIEW ----------------------------------
+            scope.rejectPrequalification = function () {
+                resourceFactory.codeValueNameResource.getAllCodeValues({ codeName: 'Rejected Prequalification Options' }).$promise
+                    .then(function (data) {
+                        scope.rejectReasons = data;
+
+                        var modalInstance = $uibModal.open({
+                            templateUrl: 'rejectPrequalificationModal.html',
+                            controller: RejectModalCtrl,
+                            resolve: {
+                                reasons: function () { return scope.rejectReasons; }
+                            }
+                        });
+
+                        modalInstance.result.then(function (result) {
+                            resourceFactory.prequalificationChecklistResource.processAnalysis(
+                                {
+                                    prequalificationId: routeParams.groupId,
+                                    command: 'rejectanalysis'
+                                },
+                                {
+                                    action: 'rejectanalysis',
+                                    reasonId: result.reasonId,
+                                    comments: result.comment,
+                                    members: scope.groupMembers.map(m => ({ id: m.id, isSelected: true }))
+                                },
+                                function (response) {
+                                    alert("Solicitud rechazada correctamente");
+                                    scope.routeTo("/prequalificationsmenu");
+                                }
+                            );
+                        });
+                    })
+                    .catch(function (err) {
+                        console.error("Error cargando razones de rechazo:", err);
+                    });
+            };
+
+
+            var RejectModalCtrl = ['$scope', '$uibModalInstance', 'reasons', function ($scope, $uibModalInstance, reasons) {
+                $scope.reasons = reasons;
+                $scope.selectedReason = null;
+                $scope.optionalComment = ""; 
+
+                $scope.confirm = function () {
+                    if (!$scope.selectedReason) {
+                        alert("Debe seleccionar una razón de rechazo");
+                        return;
+                    }
+
+                    $uibModalInstance.close({
+                        reasonId: $scope.selectedReason,
+                        comment: $scope.optionalComment
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }];
+
         }
     });
 
