@@ -190,7 +190,7 @@
                     </td>
                     <td class="pointer">
                         <input type="text" class="form-control" name="period" style="width: 90% !important;"
-                               ng-disabled="true"  number-format
+                               ng-disabled="!groupMembers[$index].isEdit || prequalificationType!=='agency'"  number-format
                                placeholder="{{'label.description.additional.plazoOnly'|translate}}"
                                ng-model="groupMembers[$index].period" id="period" required>
 
