@@ -344,7 +344,8 @@
                     "dpi": member.dpi,
                     "locale": scope.optlang.code,
                     "interestRatePerPeriod": member.interestRatePerPeriod,
-                    "principal": member.requestedAmount
+                    "principal": member.requestedAmount,
+                    "loanTermFrequency": member.period
                 };
                 delete data.isEdit;
                 resourceFactory.prequalificationResource.updateMember({

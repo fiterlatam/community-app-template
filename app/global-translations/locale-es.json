@@ -4557,6 +4557,7 @@
 	"label.button.prequalification.submitToReview": "Enviar a Revisión",
 	"label.button.prequalification.sendToAnalysis": "Enviar a Unidad de Analisis",
 	"label.button.prequalification.sendtoexception": "Enviar a Aprobación por Excepción",
+	"label.button.prequalification.sendtoAnalysisWithoutException": "Enviar a Aprobación sin Excepción",
 	"label.button.prequalification.revalidateHardPolicies": "Revalidar políticas duras",
 	"label.button.hardpolicyvalidations": "Ver validaciones de políticas duras",
 	"label.category.newclient": "Categorización de clienta nueva",
