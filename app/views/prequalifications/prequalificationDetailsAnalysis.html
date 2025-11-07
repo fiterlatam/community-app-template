@@ -356,12 +356,12 @@
                     <!-- ANAYLSIS APPROVAL A-B-C-D -->
 
                     <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
-                    <button ng-if="prequalificationType ==='analysis'" ng-click="processAnalysisRequestnot('sendToAnalysis','label.button.prequalification.sendtoAnalysisWithoutException')" type="button"
+                    <button ng-if="prequalificationType ==='analysis'" ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoAnalysisWithoutException')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoAnalysisWithoutException' | translate}}
                     </button>
 
                     <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
-                    <button ng-if="prequalificationType ==='analysis'" ng-click="processAnalysisRequestnot('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
+                    <button ng-if="prequalificationType ==='analysis'" ng-click="processAnalysisRequest('approvecommiteeWhitExc','label.button.prequalification.sendtoexception')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
                     </button>
 
