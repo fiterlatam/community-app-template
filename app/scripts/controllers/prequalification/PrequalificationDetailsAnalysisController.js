@@ -560,6 +560,63 @@
                 };
             }];
 
+
+
+
+            
+            // -----------------------------Sección Argumentar caso--------------------------------
+
+            // Abrir modal para argumentar caso
+            scope.argueACase = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'argueACase.html',
+                    controller: argueACaseModalCtrl
+                });
+
+                modalInstance.result.then(function (document) {
+                    // Al cerrar el modal con éxito, subir el documento
+                    scope.uploadDocument(document.description, document.file);
+                });
+            };
+
+            // Controlador del modal para argumentar caso
+            var argueACaseModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.document = {
+                    description: '',
+                    file: null
+                };
+
+                $scope.upload = function () {
+                    if (!$scope.document.description) {
+                        alert("Debe proporcionar una descripción");
+                        return;
+                    }
+                    $uibModalInstance.close($scope.document);
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            scope.uploadDocument = function (description, file) {
+
+                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, ""); 
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId,
+                    data: {
+                        dpi: fileNameWithoutExt,
+                        description: description,
+                        file: file,
+                        sendToCommittee: true,
+                        comment: description
+                    },
+                }).then(function (data) {
+                    if (!scope.$$phase) scope.$apply();
+                    location.path('/prequalificationsmenu');
+                });
+            };
+
         }
     });
 
