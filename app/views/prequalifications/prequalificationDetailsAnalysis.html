@@ -3,426 +3,503 @@
         <api-validate></api-validate>
 
         <div class="content">
-            <div class="toolbar">
-                <ul class="breadcrumb">
-                    <li><a href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
-                    <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
-                </ul>
+            <div ng-show="report" class="col-md-12 alert-block span tab-content">
+                <div id="printcontent">
+                    <iframe id="rptLoadingFrame" ng-src="{{reportURL}}" frameborder="0" width="100%"
+                            height="800px"></iframe>
+                </div>
+                <div class="col-md-13 center">
+                    <a id="back" ng-click="reloadPage()" class="btn btn-default">{{'label.button.back' | translate}}</a>
+                </div>
             </div>
-            <hr/>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="alert alert-info">
+
+            <div class="row"></div>
+            <div ng-hide="report">
+                <div class="toolbar">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
+                        <li class="active">{{'label.anchor.prequalification.details' | translate}}</li>
+                    </ul>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="alert alert-info">
                         <span>{{'label.input.prequalification.number' | translate}}: <span
                                 class="pull-right">{{groupData.prequalificationNumber}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.groupName">
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.groupName">
                         <span>{{'label.input.groupname' | translate}}: <span
                                 class="pull-right">{{groupData.groupName}}</span></span>
-                    </div>
-                    <div class="alert alert-info">
+                        </div>
+                        <div class="alert alert-info">
                         <span>{{'label.input.productname' | translate}}: <span
                                 class="pull-right">{{groupData.productName}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.createdAt">
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.createdAt">
                         <span>{{'label.heading.createdAt' | translate}}: <span
                                 class="pull-right">{{groupData.createdAt | DateTimeFormat}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.processType">
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.processType">
                         <span>{{'label.heading.processtype' | translate}}: <span
                                 class="pull-right">{{groupData.processType}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.processQuality">
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.processQuality">
                         <span>{{'label.heading.processquality' | translate}}: <span
                                 class="pull-right">{{groupData.processQuality}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="resolveTotalRequestedAmount()">
+                        </div>
+                        <div class="alert alert-info" ng-if="resolveTotalRequestedAmount()">
                         <span>{{'label.heading.totalRequestedAmount' | translate}}: <span
                                 class="pull-right">{{resolveTotalRequestedAmount() | number}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
+                        </div>
+                        <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
                         <span>{{'label.heading.totalApprovedAmount' | translate}}: <span
                                 class="pull-right">{{resolveTotalApprovedAmount() | number}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
+                        </div>
+                        <div class="alert alert-info" ng-if="resolveTotalApprovedAmount()">
                         <span>{{'label.heading.reducedamount' | translate}}: <span
                                 class="pull-right">{{getDifference(resolveTotalRequestedAmount(), resolveTotalApprovedAmount()) | number}}</span></span>
-                    </div>
+                        </div>
 
-                    <div class="alert alert-info text-right" ng-if="!groupData.assignedUserName" has-permission="ASSIGN_PREQUALIFICATIONS">
-                        <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i> {{'label.button.assigntomyself' |translate}}</button>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.assignedUserName">
-                        <span>{{'label.anchor.substatus'|translate}} <span class="pull-right">{{groupData.substatus.code |translate}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.assignedUserName">
-                        <span>Assigned to <strong class="pull-right">{{groupData.assignedUserName}}</strong></span>
-                    </div>
+                        <div class="alert alert-info text-right" ng-if="!groupData.assignedUserName"
+                             has-permission="ASSIGN_PREQUALIFICATIONS">
+                            <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i>
+                                {{'label.button.assigntomyself' | translate}}
+                            </button>
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.assignedUserName">
+                            <span>{{'label.anchor.substatus' | translate}} <span
+                                    class="pull-right">{{groupData.substatus.code | translate}}</span></span>
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.assignedUserName">
+                            <span>Assigned to <strong class="pull-right">{{groupData.assignedUserName}}</strong></span>
+                        </div>
 
 
-                </div>
-                <div class="col-sm-6">
-                    <div class="alert alert-info" ng-if="groupData.agencyName">
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="alert alert-info" ng-if="groupData.agencyName">
                         <span>{{'label.input.agency' | translate}}: <span
                                 class="pull-right">{{groupData.agencyName}}</span></span>
-                    </div>
-                    <div class="alert alert-info" ng-if="groupData.centerName">
+                        </div>
+                        <div class="alert alert-info" ng-if="groupData.centerName">
                         <span>{{'label.input.center' | translate}}: <span
                                 class="pull-right">{{groupData.centerName}}</span></span>
-                    </div>
-                    <div class="alert alert-info">
+                        </div>
+                        <div class="alert alert-info">
                         <span>{{'label.input.addedBy' | translate}}: <span
                                 class="pull-right">{{groupData.addedBy}}</span></span>
-                    </div>
-                    <div class="alert alert-info h4">
+                        </div>
+                        <div class="alert alert-info h4">
                         <span>{{'label.input.status' | translate}}: <span
                                 class="pull-right fa fa-stop {{groupData.status.code | StatusLookup}}"
                                 uib-tooltip-placement="right" uib-tooltip="{{groupData.status.code|translate}}">
-                            {{groupData.status.code|translate}} </span>
+                            {{groupData.status.code | translate}} </span>
                         </span>
-                    </div>
-                    <div class="alert alert-warning h4" ng-if="groupData.lastPrequalificationStatus">
+                        </div>
+                        <div class="alert alert-warning h4" ng-if="groupData.lastPrequalificationStatus">
                         <span>{{'label.heading.previous.status' | translate}}: <span
                                 class="pull-right fa fa-stop {{groupData.lastPrequalificationStatus.code | StatusLookup}}"
                                 uib-tooltip-placement="right"
                                 uib-tooltip="{{groupData.lastPrequalificationStatus.code|translate}}">
-                            {{groupData.lastPrequalificationStatus.code|translate}} </span>
+                            {{groupData.lastPrequalificationStatus.code | translate}} </span>
                         </span>
-                    </div>
+                        </div>
 
-                    <div class="alert alert-info" ng-if="groupData.statusChangedOn ">
+                        <div class="alert alert-info" ng-if="groupData.statusChangedOn ">
                         <span>{{'label.heading.updatedon' | translate}}: <span
                                 class="pull-right">{{groupData.statusChangedOn | DateFormat}}</span></span>
-                    </div>
-                    <div class="alert alert-info">
+                        </div>
+                        <div class="alert alert-info">
                         <span>{{'label.heading.updatedby' | translate}}: <span
                                 class="pull-right">{{groupData.statusChangedBy}}</span></span>
-                    </div>
-                    <div class="alert alert-info">
-                        <span>{{'label.input.comments' | translate}}: <span class="pull-right">{{groupData.latestComments}}</span></span>
-                    </div>
-                    <div class="alert alert-info">
-                        <span>{{'label.input.exceptioncomments' | translate}}: <span class="pull-right">{{groupData.exceptionComment}}</span></span>
+                        </div>
+                        <div class="alert alert-info">
+                            <span>{{'label.input.comments' | translate}}: <span
+                                    class="pull-right">{{groupData.latestComments}}</span></span>
+                        </div>
+                        <div class="alert alert-info">
+                            <span>{{'label.input.exceptioncomments' | translate}}: <span
+                                    class="pull-right">{{groupData.exceptionComment}}</span></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{'label.input.addcomments' | translate}}</label>
+                            <textarea rows="3" class="form-control" name="comments"
+                                      placeholder="{{'label.input.comments' | translate}}"
+                                      ng-model="formData.comments" id="comments" required></textarea>
+                        </div>
+
+                        <!-- Comentario de excepciones-->
+                        <div class="form-group">
+                            <label>{{'label.input.addexceptioncomments' | translate}}</label>
+                            <textarea rows="3" class="form-control" name="exceptionComment"
+                                      placeholder="{{'label.input.addexceptioncomments' | translate}}"
+                                      ng-model="formData.exceptionComment"
+                                      id="exceptionComment"></textarea>
+                        </div>
+
+                        <!-- Botón para enviar el comentario -->
+                        <div class="text-right"
+                             ng-if="formData.exceptionComment && formData.exceptionComment.trim() !== ''">
+                            <button class="btn btn-success" ng-click="submitExceptionComment()">
+                                <i class="fa fa-comment"></i> {{'label.anchor.save' | translate}}
+                            </button>
+                        </div>
+
                     </div>
 
-                    <div class="form-group">
-                        <label>{{'label.input.addcomments' | translate}}</label>
-                        <textarea rows="3" class="form-control" name="comments" placeholder="{{'label.input.comments' | translate}}"
-                            ng-model="formData.comments" id="comments" required></textarea>
+                </div>
+                <hr/>
+                <div class="toolbar">
+                    <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
+                        ng-click="routeTo('/prequalification/'+groupId+'/validations')"
+                        class="fa fa-circle fa-2x {{policyCheckColor(groupData)}}">{{policyCountColor(groupData)}}</i>
+                </div>
+                <h4 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h4>
+
+                <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg | translate}}</div>
+                <table class="width100" style="table-layout: fixed"
+                       ng-if="groupMembers && groupMembers.length>0">
+                    <tr>
+                        <th>{{'label.input.name' | translate}}</th>
+                        <th>{{'label.input.amount.requested' | translate}}</th>
+                        <th>{{'label.description.additional.tasa' | translate}}</th>
+                        <th>{{'label.description.additional.cuota' | translate}}</th>
+                        <th>{{'label.description.additional.plazoOnly' | translate}}</th>
+                        <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
+                        <th>{{'label.heading.collaterals' | translate}}</th>
+                        <th>{{'label.heading.destination' | translate}}</th>
+                        <th>{{'label.input.bureau.status' | translate}}</th>
+                        <th ng-if="prequalificationType==='agency' || prequalificationType==='analysis' || prequalificationType==='exceptionsqueue' || prequalificationType==='renegotiations'">
+                            {{'label.input.agency.bureau.status' | translate}}
+                        </th>
+                        <th>{{'label.heading.hard.policy.status' | translate}}</th>
+                        <th ng-if="prequalificationType==='analysis'"
+                            has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            <div class="checkbox form-group">
+                                <span>{{'label.heading.approve' | translate}}</span> &nbsp;&nbsp;
+                                <label for="isAllMembersSelected">
+                                    <input type="checkbox" id="isAllMembersSelected" name="isAllMembersSelected"
+                                           ng-model="formData.isAllMembersSelected" data-ng-change="selectAllMembers()">
+                                </label>
+                            </div>
+                        </th>
+                        <th ng-if="prequalificationType ==='analysis' || prequalificationType ==='agency' || prequalificationType ==='renegotiations'"
+                            colspan="2">{{'label.input.comments' | translate}}
+                        </th>
+                        <th ng-if="groupData.substatus.id==400">{{'label.input.upload.buro.evidence' | translate}}</th>
+                        <th ng-if="(prequalificationType ==='analysis' || prequalificationType ==='agency' || prequalificationType === 'renegotiations') &&groupData.substatus.id==200">
+                            {{'label.heading.action' | translate}}
+                        </th>
+                    </tr>
+
+                    <tr ng-repeat="member in groupMembers" class="pointer-main">
+                        <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}}
+                            {{member.groupPresident ? 'label.anchor.president' : '' | translate}}
+                        </td>
+                        <td class="pointer">
+                            <input type="text" class="form-control" name="amntReqsted" style="width: 90% !important;"
+                                   ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !=='renegotiations'"
+                                   number-format
+                                   placeholder="{{'label.input.amount.requested'|translate}}"
+                                   ng-model="groupMembers[$index].requestedAmount" id="amtreq" required>
+                        </td>
+                        <td class="pointer">
+                            <input type="text" class="form-control" name="interesRatePerPeriod"
+                                   style="width: 90% !important;"
+                                   ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !=='renegotiations'"
+                                   number-format
+                                   placeholder="{{'label.description.additional.tasa'|translate}}"
+                                   ng-model="groupMembers[$index].interestRatePerPeriod" id="interesRatePerPeriod"
+                                   required>
+                        </td>
+                        <td class="pointer">
+                            <input type="text" class="form-control" name="quotaAmount" style="width: 90% !important;"
+                                   ng-disabled="true" number-format
+                                   placeholder="{{'label.description.additional.cuota'|translate}}"
+                                   ng-model="groupMembers[$index].quotaAmount" id="quotaAmount" required>
+
+                        </td>
+                        <td class="pointer">
+                            <input type="text" class="form-control" name="period" style="width: 90% !important;"
+                                   ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !== 'renegotiations'"
+                                   number-format
+                                   placeholder="{{'label.description.additional.plazoOnly'|translate}}"
+                                   ng-model="groupMembers[$index].period" id="period" required>
+
+                        </td>
+
+
+                        <td ng-if="prequalificationType==='analysis'">
+                            <input type="text" class="form-control" style="width: 90% !important;" name="amntApproved"
+                                   ng-disabled="!groupMembers[$index].isEdit" number-format
+                                   placeholder="{{'label.input.amount.approved'|translate}}"
+                                   ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
+                        </td>
+                        <td class="pointer">
+                            <input type="text" class="form-control" name="collateral" style="width: 90% !important;"
+                                   ng-disabled="true"
+                                   placeholder="{{'label.heading.collaterals' | translate}}"
+                                   ng-model="groupMembers[$index].collateral" id="collateral" required>
+
+                        </td>
+                        <td class="pointer">
+                            <input type="text" class="form-control" name="destination" style="width: 90% !important;"
+                                   ng-disabled="true"
+                                   placeholder="{{'label.heading.destination' | translate}}"
+                                   ng-model="groupMembers[$index].destination" id="destination" required>
+
+                        </td>
+
+                        <td class="pointer" style="font-size: 25px" data-ng-click="viewBuroResult(member.id)"><i
+                                ng-if="member.bureauCheckStatus"
+                                class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
+                            {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
+                        </td>
+
+                        <td has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            <select id="agencyburo" name="agencyburo" class="form-control"
+                                    style="width: 50% !important;"
+                                    ng-model="groupMembers[$index].agencyBureauStatus"
+                                    ng-disabled="!groupMembers[$index].isEdit || prequalificationType!='agency' || prequalificationType==='renegotiations'"
+                                    ng-options="status.value as status.label for status in bureauStatusOptions"
+                                    value="{{status.value}}">
+                                <option value="">-- {{'label.input.agency.bureau.status' | translate}} --</option>
+                            </select>
+                        </td>
+                        <td>
+                            <i class="fa fa-circle fa-2x {{policyCheckColor(member)}}"
+                               ng-click="viewHardPolicyValidation(member.id)">{{policyCountColor(member)}}</i></td>
+                        <td ng-if="prequalificationType==='analysis'"
+                            has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            <div class="checkbox form-group">
+                                <label for="isSelected">
+                                    <input type="checkbox" id="isSelected" name="isSelected"
+                                           ng-model="member.isSelected">
+                                </label>
+                            </div>
+                        </td>
+                        <td ng-if="prequalificationType ==='analysis'||prequalificationType ==='agency'|| prequalificationType ==='renegotiations'"
+                            colspan="2">
+                        <textarea rows="2" class="form-control" style="width: 90% !important;" name="comments"
+                                  ng-disabled="!groupMembers[$index].isEdit"
+                                  placeholder="{{'label.input.comments'|translate}}"
+                                  ng-model="groupMembers[$index].comments" id="cmmnt" required></textarea>
+                        </td>
+                        <td ng-if="groupData.substatus.id==400">
+                            <div ng-if="(member.agencyBureauStatus != member.bureauCheckStatus.code) && member.documentCount<=0">
+                                <input id="buroEvidence" type="file" ngf-select="onEvidenceSelect($files, $index)"
+                                       name="groupMembers[$index].buroEvidence"
+                                       accept="application/*"
+                                       ng-model="buroEvidence"
+                                       class="form-control" style="width: 90% !important;" late-Validate/>
+                            </div>
+                        </td>
+
+                        <td ng-if="(prequalificationType==='analysis' || prequalificationType==='agency' || prequalificationType==='renegotiations') &&(groupData.substatus.id==200 || groupData.substatus.id==400)">
+                            <div>
+                                <button class="btn btn-primary" style="border-radius: 5px"
+                                        ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)"
+                                        ng-disabled="!groupData.assignedUser"><i
+                                        class="fa fa-pencil-square-o fa-2x"></i></button>
+                                <button class="btn btn-success" style="border-radius: 5px"
+                                        ng-if="groupMembers[$index].isEdit">
+                                    <i class="fa fa-save fa-2x"
+                                       ng-disabled="groupMembers[$index].approvedAmount>member.requestedAmount"
+                                       ng-click="updateApprovedAmount(groupMembers[$index])"></i></button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+
+                <button ng-if="groupData.substatus.id==500"
+                        ng-click="processAnalysisRequest('revalidateHardPolicy','label.button.prequalification.revalidateHardPolicies')"
+                        type="button"
+                        class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                    {{'label.button.prequalification.revalidateHardPolicies' | translate}}
+                </button>
+
+                <button ng-if="groupData.substatus.id==400" ng-click="obSubmitEvidence()" type="button"
+                        class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'><i
+                        class="fa fa-upload"></i>{{'label.heading.uploaddocuments' | translate}}
+                </button>
+                <api-validate></api-validate>
+                <hr/>
+                <hr/>
+
+                <!-- Botón para abrir modal de carga de documento -->
+                <div class="text-right m-2">
+                    <button class="btn btn-primary" ng-click="openUploadDocumentModal()">
+                        <i class="fa fa-plus"></i> {{'label.heading.attachfile' | translate}}
+                    </button>
+                </div>
+
+
+                <div>
+                    <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
+                            ng-click="validateHardPolicy()" type="button" value="validate"
+                            has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
+                        {{'label.button.validate' | translate}}
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button"
+                            class="btn btn-primary"
+                            has-permission='VALIDATE_BUREAU'>
+                        {{'label.button.prequalification.buralValidation' | translate}}
+                    </button>
+                </div>
+
+                <div>
+
+                </div>
+                <hr/>
+                <table class="table" ng-if="prequalificationDocuments.length > 0">
+                    <thead>
+                    <tr class="graybg">
+                        <th>{{'label.heading.name' | translate}}</th>
+                        <th>{{'label.heading.description' | translate}}</th>
+                        <th>{{'label.heading.filename' | translate}}</th>
+                        <th>{{'label.heading.actions' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="document in prequalificationDocuments">
+                        <td>{{document.name}}</td>
+                        <td>{{document.description}}</td>
+                        <td>{{document.fileName}}</td>
+                        <td>
+                            <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
+                            <!--                        <a ng-show="document.fileIsImage" ng-click="previewDocument(document.docUrl,document.fileName)"><i class="fa fa-eye"></i></a>-->
+                            <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
+
+                <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center">
+
+                    <div class="text-left m-1">
+
+                        <!-- ALL PARTS -->
+                        <button ng-if="prequalificationType !=='renegotiations'"
+                                ng-click="processAnalysisRequest('pending','label.button.modifyapplication')"
+                                type="button"
+                                class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.modifyapplication' | translate}}
+                        </button>
+
+                        <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
+                        <button ng-if="prequalificationType ==='agency' && orangeValidationCount == 0 && redValidationCount == 0 && yellowValidationCount == 0"
+                                ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendtoAnalysisWithoutException')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.prequalification.sendtoAnalysisWithoutException' | translate}}
+                        </button>
+
+                        <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
+                        <button ng-if="prequalificationType ==='agency'"
+                                ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.prequalification.sendtoexception' | translate}}
+                        </button>
+
+                        <!-- ANAYLSIS APPROVAL A-B-C-D -->
+
+                        <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
+                        <button ng-if="prequalificationType ==='analysis'"
+                                ng-click="processAnalysisRequest('approveCommittee','label.button.prequalification.sendtoCommitteeWithoutException')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.prequalification.sendtoCommitteeWithoutException' | translate}}
+                        </button>
+
+                        <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
+                        <button ng-if="prequalificationType ==='analysis'"
+                                ng-click="processAnalysisRequest('approvecommiteeWhitExc','label.button.prequalification.sendtoexception')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.prequalification.sendtoexception' | translate}}
+                        </button>
+
+                        <!-- EXCEPTIONS QUEUE VIEW-->
+
+                        <button ng-if="prequalificationType ==='exceptionsqueue'"
+                                ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.prequalification.sendToAnalysis' | translate}}
+                        </button>
+
+
+                        <!-- RENEGOTIATION-->
+
+                        <button ng-if="prequalificationType ==='renegotiations'"
+                                ng-click="processAnalysisRequestTODO('modifyCase','label.button.modifyCase')"
+                                type="button"
+                                class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.modifyCase' | translate}}
+                        </button>
+
+                        <button ng-if="prequalificationType ==='renegotiations'"
+                                ng-click="processAnalysisRequestTODO('acceptRenegotiation','label.button.acceptRenegotiation')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.acceptRenegotiation' | translate}}
+                        </button>
+
+
                     </div>
-                    
-                    <!-- Comentario de excepciones-->
-                    <div class="form-group">
-                        <label>{{'label.input.addexceptioncomments' | translate}}</label>
-                        <textarea rows="3" class="form-control" name="exceptionComment"
-                            placeholder="{{'label.input.addexceptioncomments' | translate}}" ng-model="formData.exceptionComment"
-                            id="exceptionComment"></textarea>
+
+                    <!-- BUTTONS RIGHT APPROVE ONLY commiteepprovals and reject all parts-->
+                    <div class="text-right m-1 ms-auto">
+
+                        <button ng-if="prequalificationType !=='renegotiations'" ng-click="rejectPrequalification()"
+                                type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.reject' | translate}}
+                        </button>
+
+                        <button ng-if="prequalificationType ==='renegotiations'" ng-click="argueACase()" type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.argueACase' | translate}}
+                        </button>
+
+                        <button ng-if="prequalificationType ==='committeeapprovals'"
+                                ng-click="processAnalysisRequest('approveCommittee','label.button.approve')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.approve' | translate}}
+                        </button>
+
                     </div>
-                    
-                    <!-- Botón para enviar el comentario -->
-                    <div class="text-right" ng-if="formData.exceptionComment && formData.exceptionComment.trim() !== ''">
-                        <button class="btn btn-success" ng-click="submitExceptionComment()">
-                            <i class="fa fa-comment"></i> {{'label.anchor.save' | translate}}
+                </div>
+
+                <!-- <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis'">
+
+                    <div class="text-left m-1">
+                        <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoexception' | translate}}
+                        </button>
+
+                        <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
+                                class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
                         </button>
                     </div>
-                    
-                </div>
+
+                    <div class="text-right m-1 ms-auto">
+                        <button ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')" type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoagency' | translate}}
+                        </button>
+                    </div>
+
+                </div> -->
 
             </div>
-            <hr/>
-            <div class="toolbar">
-                <h4>{{'label.heading.prequalification.validation.result' | translate}} </h4><i
-                    ng-click="routeTo('/prequalification/'+groupId+'/validations')"
-                    class="fa fa-circle fa-2x {{policyCheckColor(groupData)}}">{{policyCountColor(groupData)}}</i>
-            </div>
-            <h4 ng-if="groupMembers && groupMembers.length>0">{{'label.heading.members' | translate }}</h4>
-
-            <div ng-if="errorMsg" class="alert alert-danger">{{errorMsg|translate}}</div>
-            <table class="width100" style="table-layout: fixed"
-                   ng-if="groupMembers && groupMembers.length>0">
-                <tr>
-                    <th>{{'label.input.name' | translate}}</th>
-                    <th>{{'label.input.amount.requested' | translate}}</th>
-                    <th>{{'label.description.additional.tasa' | translate}}</th>
-                    <th>{{'label.description.additional.cuota' | translate}}</th>
-                    <th>{{'label.description.additional.plazoOnly' | translate}}</th>
-                    <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
-                    <th>{{'label.heading.collaterals' | translate}}</th>
-                    <th>{{'label.heading.destination' | translate}}</th>
-                    <th>{{'label.input.bureau.status' | translate}}</th>
-                    <th ng-if="prequalificationType==='agency' || prequalificationType==='analysis' || prequalificationType==='exceptionsqueue' || prequalificationType==='renegotiations'">{{'label.input.agency.bureau.status' | translate}}</th>
-                    <th>{{'label.heading.hard.policy.status' | translate}}</th>
-                    <th ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                        <div class="checkbox form-group">
-                           <span>{{'label.heading.approve' | translate}}</span> &nbsp;&nbsp;
-                            <label for="isAllMembersSelected">
-                                <input type="checkbox" id="isAllMembersSelected" name="isAllMembersSelected"
-                                       ng-model="formData.isAllMembersSelected" data-ng-change="selectAllMembers()">
-                            </label>
-                        </div>
-                    </th>
-                    <th ng-if="prequalificationType ==='analysis' || prequalificationType ==='agency' || prequalificationType ==='renegotiations'" colspan="2">{{'label.input.comments' | translate}}</th>
-                    <th ng-if="groupData.substatus.id==400">{{'label.input.upload.buro.evidence' | translate}}</th>
-                    <th ng-if="(prequalificationType ==='analysis' || prequalificationType ==='agency' || prequalificationType === 'renegotiations') &&groupData.substatus.id==200">
-                        {{'label.heading.action' | translate}}</th>
-                </tr>
-
-                <tr ng-repeat="member in groupMembers" class="pointer-main">
-                    <td class="pointer" data-ng-click="routeToClientView(member.clientId)">{{member.name}} {{member.groupPresident?'label.anchor.president':'' | translate}}</td>
-                    <td class="pointer" >
-                        <input type="text" class="form-control" name="amntReqsted" style="width: 90% !important;"
-                               ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !=='renegotiations'"  number-format
-                               placeholder="{{'label.input.amount.requested'|translate}}"
-                               ng-model="groupMembers[$index].requestedAmount" id="amtreq" required>
-                    </td>
-                    <td class="pointer">
-                        <input type="text" class="form-control" name="interesRatePerPeriod" style="width: 90% !important;"
-                               ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !=='renegotiations'"  number-format
-                               placeholder="{{'label.description.additional.tasa'|translate}}"
-                               ng-model="groupMembers[$index].interestRatePerPeriod" id="interesRatePerPeriod" required>
-                    </td>
-                    <td class="pointer">
-                        <input type="text" class="form-control" name="quotaAmount" style="width: 90% !important;"
-                               ng-disabled="true"  number-format
-                               placeholder="{{'label.description.additional.cuota'|translate}}"
-                               ng-model="groupMembers[$index].quotaAmount" id="quotaAmount" required>
-
-                    </td>
-                    <td class="pointer">
-                        <input type="text" class="form-control" name="period" style="width: 90% !important;"
-                               ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !== 'renegotiations'"  number-format
-                               placeholder="{{'label.description.additional.plazoOnly'|translate}}"
-                               ng-model="groupMembers[$index].period" id="period" required>
-
-                    </td>
-
-
-                    <td ng-if="prequalificationType==='analysis'">
-                        <input type="text" class="form-control" style="width: 90% !important;" name="amntApproved"
-                               ng-disabled="!groupMembers[$index].isEdit"  number-format
-                               placeholder="{{'label.input.amount.approved'|translate}}"
-                               ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
-                    </td>
-                    <td class="pointer">
-                        <input type="text" class="form-control" name="collateral" style="width: 90% !important;"
-                               ng-disabled="true"
-                               placeholder="{{'label.heading.collaterals' | translate}}"
-                               ng-model="groupMembers[$index].collateral" id="collateral" required>
-
-                    </td>
-                    <td class="pointer">
-                        <input type="text" class="form-control" name="destination" style="width: 90% !important;"
-                               ng-disabled="true"
-                               placeholder="{{'label.heading.destination' | translate}}"
-                               ng-model="groupMembers[$index].destination" id="destination" required>
-
-                    </td>
-
-                    <td class="pointer" style="font-size: 25px" data-ng-click="viewBuroResult(member.id)"><i ng-if="member.bureauCheckStatus"
-                                                                   class="fa fa-circle {{member.bureauCheckStatus.value| StatusLookup}}"></i>
-                        {{member.bureauCheckStatus ? member.bureauCheckStatus.code : '---'}}
-                    </td>
-
-                    <td has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                        <select id="agencyburo" name="agencyburo" class="form-control" style="width: 50% !important;"
-                                ng-model="groupMembers[$index].agencyBureauStatus" ng-disabled="!groupMembers[$index].isEdit || prequalificationType!='agency' || prequalificationType==='renegotiations'"
-                                ng-options="status.value as status.label for status in bureauStatusOptions"
-                                value="{{status.value}}">
-                            <option value="">-- {{'label.input.agency.bureau.status' | translate}} --</option>
-                        </select>
-                    </td>
-                    <td>
-                        <i class="fa fa-circle fa-2x {{policyCheckColor(member)}}"
-                           ng-click="viewHardPolicyValidation(member.id)">{{policyCountColor(member)}}</i></td>
-                    <td ng-if="prequalificationType==='analysis'" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                        <div class="checkbox form-group">
-                            <label for="isSelected">
-                                <input type="checkbox" id="isSelected" name="isSelected" ng-model="member.isSelected">
-                            </label>
-                        </div>
-                    </td>
-                    <td ng-if="prequalificationType ==='analysis'||prequalificationType ==='agency'|| prequalificationType ==='renegotiations'" colspan="2">
-                        <textarea rows="2" class="form-control" style="width: 90% !important;" name="comments"
-                               ng-disabled="!groupMembers[$index].isEdit"
-                               placeholder="{{'label.input.comments'|translate}}"
-                                  ng-model="groupMembers[$index].comments" id="cmmnt" required></textarea>
-                    </td>
-                    <td ng-if="groupData.substatus.id==400">
-                        <div ng-if="(member.agencyBureauStatus != member.bureauCheckStatus.code) && member.documentCount<=0">
-                            <input id="buroEvidence" type="file" ngf-select="onEvidenceSelect($files, $index)"
-                                   name="groupMembers[$index].buroEvidence"
-                                   accept="application/*"
-                                   ng-model="buroEvidence"
-                                   class="form-control" style="width: 90% !important;" late-Validate/>
-                        </div>
-                    </td>
-
-                    <td ng-if="(prequalificationType==='analysis' || prequalificationType==='agency' || prequalificationType==='renegotiations') &&(groupData.substatus.id==200 || groupData.substatus.id==400)">
-                        <div>
-                            <button class="btn btn-primary" style="border-radius: 5px" ng-if="!groupMembers[$index].isEdit" ng-click="editAmount($index)" ng-disabled="!groupData.assignedUser"><i
-                                    class="fa fa-pencil-square-o fa-2x"></i></button>
-                            <button class="btn btn-success" style="border-radius: 5px"  ng-if="groupMembers[$index].isEdit">
-                                <i class="fa fa-save fa-2x"
-                                   ng-disabled="groupMembers[$index].approvedAmount>member.requestedAmount"
-                                   ng-click="updateApprovedAmount(groupMembers[$index])"></i></button>
-                        </div>
-                    </td>
-
-                </tr>
-            </table>
-
-            <button ng-if="groupData.substatus.id==500" ng-click="processAnalysisRequest('revalidateHardPolicy','label.button.prequalification.revalidateHardPolicies')" type="button"
-                    class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.revalidateHardPolicies' | translate}}
-            </button>
-
-            <button ng-if="groupData.substatus.id==400" ng-click="obSubmitEvidence()" type="button"
-                    class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'><i class="fa fa-upload"></i>{{'label.heading.uploaddocuments' | translate}}
-            </button>
-            <api-validate></api-validate>
-            <hr/>
-            <hr/>
-            
-            <!-- Botón para abrir modal de carga de documento -->
-            <div class="text-right m-2">
-                <button class="btn btn-primary" ng-click="openUploadDocumentModal()">
-                    <i class="fa fa-plus"></i> {{'label.heading.attachfile' | translate}}
-                </button>
-            </div>
-
-
-            <div>
-                <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
-                        ng-click="validateHardPolicy()" type="button" value="validate"
-                        has-permission='VALIDATEHARDPOLICIES_PREQUALIFICATION_CHECKLIST'>
-                    {{'label.button.validate' | translate}}
-                </button>
-            </div>
-
-            <div class="text-center">
-                <button ng-if="groupData.status.value==='CONSENT_ADDED'" ng-click="validateBeaural()" type="button"
-                        class="btn btn-primary"
-                        has-permission='VALIDATE_BUREAU'>{{'label.button.prequalification.buralValidation' | translate}}
-                </button>
-            </div>
-
-            <div>
-
-            </div>
-            <hr/>
-            <table class="table" ng-if="prequalificationDocuments.length > 0">
-                <thead>
-                <tr class="graybg">
-                    <th>{{'label.heading.name' | translate}}</th>
-                    <th>{{'label.heading.description' | translate}}</th>
-                    <th>{{'label.heading.filename' | translate}}</th>
-                    <th>{{'label.heading.actions' | translate}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="document in prequalificationDocuments">
-                    <td>{{document.name}}</td>
-                    <td>{{document.description}}</td>
-                    <td>{{document.fileName}}</td>
-                    <td>
-                        <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
-                        <!--                        <a ng-show="document.fileIsImage" ng-click="previewDocument(document.docUrl,document.fileName)"><i class="fa fa-eye"></i></a>-->
-                        <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
-
-            <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center">
-                
-                <div class="text-left m-1">
-
-                    <!-- ALL PARTS -->
-                    <button ng-if="prequalificationType !=='renegotiations'" ng-click="processAnalysisRequest('pending','label.button.modifyapplication')" type="button"
-                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.modifyapplication' | translate}}
-                    </button>
-
-                    <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
-                    <button ng-if="prequalificationType ==='agency' && orangeValidationCount == 0 && redValidationCount == 0 && yellowValidationCount == 0" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendtoAnalysisWithoutException')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoAnalysisWithoutException' | translate}}
-                    </button>
-
-                    <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
-                    <button ng-if="prequalificationType ==='agency'" ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
-                    </button>
-
-                    <!-- ANAYLSIS APPROVAL A-B-C-D -->
-
-                    <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
-                    <button ng-if="prequalificationType ==='analysis'" ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoAnalysisWithoutException')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoAnalysisWithoutException' | translate}}
-                    </button>
-
-                    <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
-                    <button ng-if="prequalificationType ==='analysis'" ng-click="processAnalysisRequest('approvecommiteeWhitExc','label.button.prequalification.sendtoexception')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
-                    </button>
-
-                    <!-- EXCEPTIONS QUEUE VIEW-->
-
-                    <button ng-if="prequalificationType ==='exceptionsqueue'" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
-                    </button>
-
-                    
-                    <!-- RENEGOTIATION-->
-
-                    <button ng-if="prequalificationType ==='renegotiations'" ng-click="processAnalysisRequestTODO('modifyCase','label.button.modifyCase')" type="button"
-                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.modifyCase' | translate}}
-                    </button>
-
-                    <button ng-if="prequalificationType ==='renegotiations'" ng-click="processAnalysisRequestTODO('acceptRenegotiation','label.button.acceptRenegotiation')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.acceptRenegotiation' | translate}}
-                    </button>
-
-
-                </div>
-
-                <!-- BUTTONS RIGHT APPROVE ONLY commiteepprovals and reject all parts-->
-                <div class="text-right m-1 ms-auto">
-
-                    <button ng-if="prequalificationType !=='renegotiations'" ng-click="rejectPrequalification()" type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                        {{'label.button.reject' | translate}}
-                    </button>
-
-                    <button ng-if="prequalificationType ==='renegotiations'" ng-click="argueACase()" type="button" class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                        {{'label.button.argueACase' | translate}}
-                    </button>
-
-                    <button ng-if="prequalificationType ==='committeeapprovals'" ng-click="processAnalysisRequest('approveCommittee','label.button.approve')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.approve' | translate}}
-                    </button>
-
-                </div>
-            </div>
-
-            <!-- <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis'">
-
-                <div class="text-left m-1">
-                    <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoexception' | translate}}
-                    </button>
-
-                    <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
-                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
-                    </button>
-                </div>
-
-                <div class="text-right m-1 ms-auto">
-                    <button ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')" type="button"
-                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoagency' | translate}}
-                    </button>
-                </div>
-
-            </div> -->
-
         </div>
     </div>
 
@@ -452,7 +529,7 @@
                         <div class="alert alert-info">
                                                         <span class="h4">{{memberResults.columnHeaders[$index] | translate}}
                                 <span class="pull-right {{checkValidationColor(member)}}">
-                                    <span ng-if="colorLabel(member)">{{colorLabel(member)|translate}}</span>
+                                    <span ng-if="colorLabel(member)">{{colorLabel(member) | translate}}</span>
                                     <span ng-if="!colorLabel(member)">{{member}}</span>
                                 </span></span>
                         </div>
@@ -476,7 +553,8 @@
         </div>
         <div class="modal-body">
             <div class="alert alert-info">
-                {{'confirmation.message.first.part.one' | translate}} <strong>{{confirmationMessage|translate}}</strong> {{'confirmation.message.first.part.two' | translate}}
+                {{'confirmation.message.first.part.one' | translate}}
+                <strong>{{confirmationMessage | translate}}</strong> {{'confirmation.message.first.part.two' | translate}}
             </div>
             <br>
             <div class="text-center">
@@ -494,19 +572,23 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>{{'label.heading.description' | translate}}</label>
-                <input type="text" class="form-control" ng-model="document.description" placeholder="{{'label.heading.description' | translate}}">
+                <input type="text" class="form-control" ng-model="document.description"
+                       placeholder="{{'label.heading.description' | translate}}">
             </div>
             <div class="form-group">
                 <label>{{'label.input.selectfile' | translate}}</label>
-                <input type="file" ngf-select ng-model="document.file" name="file" class="form-control" accept="application/*">
+                <input type="file" ngf-select ng-model="document.file" name="file" class="form-control"
+                       accept="application/*">
             </div>
         </div>
         <div class="modal-footer text-center">
-            <button class="btn btn-success" ng-click="upload()"><i class="fa fa-upload"></i> {{'label.heading.uploaddocuments' | translate}}</button>
+            <button class="btn btn-success" ng-click="upload()"><i class="fa fa-upload"></i>
+                {{'label.heading.uploaddocuments' | translate}}
+            </button>
             <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
         </div>
     </script>
-    
+
     <!-- Reject modal new view-->
     <script type="text/ng-template" id="rejectPrequalificationModal.html">
         <div class="modal-header silver">
@@ -515,15 +597,15 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>{{'label.input.rejectionreason' | translate}}:</label>
-                <select class="form-control" ng-model="selectedReason" 
+                <select class="form-control" ng-model="selectedReason"
                         ng-options="dc.id as dc.name for dc in reasons">
                     <option value="">{{'label.input.select.rejectreason' | translate}}</option>
                 </select>
             </div>
-    
+
             <div class="form-group">
                 <label>{{'label.heading.comments' | translate}}:</label>
-                <textarea class="form-control" ng-model="optionalComment" 
+                <textarea class="form-control" ng-model="optionalComment"
                           placeholder="{{'label.input.addcomments' | translate}}"></textarea>
             </div>
         </div>
@@ -541,11 +623,13 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>{{'label.heading.comments' | translate}}</label>
-                <input type="text" class="form-control" ng-model="document.description" placeholder="{{'label.input.addcomments' | translate}}" required>
+                <input type="text" class="form-control" ng-model="document.description"
+                       placeholder="{{'label.input.addcomments' | translate}}" required>
             </div>
             <div class="form-group">
                 <label>{{'label.input.selectfile' | translate}}</label>
-                <input type="file" ngf-select ng-model="document.file" name="file" class="form-control" accept="application/*">
+                <input type="file" ngf-select ng-model="document.file" name="file" class="form-control"
+                       accept="application/*">
             </div>
         </div>
         <div class="modal-footer text-center">
