@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload,$sce) {
 
             scope.groupData = {};
             scope.formData = {};
@@ -296,6 +296,9 @@
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
                         {action: scope.analysisStatus,comments:scope.formData.comments, members: members},
                         function (data) {
+                            if (data.reportToPrint){
+                                scope.printReport(data)
+                            }
                             scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
                         });
@@ -305,6 +308,34 @@
                 };
             };
 
+            scope.printReport= function(data){
+                scope.report = true;
+                var reportURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent(data.reportToPrint);
+                reportURL += "?output-type=" + encodeURIComponent('PDF') + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
+                var reportParams = "";
+                reportParams += encodeURIComponent("R_prequalificationId") + "=" + encodeURIComponent(data.resourceId);
+                reportParams += "&" + encodeURIComponent("R_loanId") + "=" + encodeURIComponent(data.loanId);
+                if (reportParams > "") {
+                    reportURL += "&" + reportParams;
+                }
+                reportURL = $sce.trustAsResourceUrl(reportURL);
+                reportURL = $sce.valueOf(reportURL);
+                $http.get(reportURL, {responseType: 'arraybuffer'})
+                    .then(function(response) {
+                        let data = response.data;
+                        let status = response.status;
+                        let headers = response.headers;
+                        let config = response.config;
+                        var contentType = headers('Content-Type');
+                        var file = new Blob([data], {type: contentType});
+                        var fileContent = URL.createObjectURL(file);
+                        scope.reportURL = $sce.trustAsResourceUrl(fileContent);
+                    }).catch(function(error){
+                    console.log(JSON.stringify(error))
+                    $log.error(`Error loading ${scope.reportType} report`);
+                    $log.error(error);
+                });
+            }
 
             scope.routeTo = function (path) {
                 location.path(path);
@@ -620,7 +651,7 @@
         }
     });
 
-    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
+    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload','$sce', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
         $log.info("PrequalificationDetailsAnalysisController initialized");
     });
 }(mifosX.controllers || {}));

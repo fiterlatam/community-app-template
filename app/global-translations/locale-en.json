@@ -4930,6 +4930,7 @@
   "label.button.prequalification.submitToReview": "Submit to Review",
   "label.button.prequalification.sendToAnalysis": "Send To Analysis unit",
   "label.button.prequalification.sendtoAnalysisWithoutException": "Send To Analysis unit without exception",
+  "label.button.prequalification.sendtoCommitteeWithoutException": "Send To Committee without exception",
   "label.button.prequalification.revalidateHardPolicies": "Re-Validate Hard Policies",
   "label.heading.groupcredit.prequalification": "Group Credit Prequalification",
   "label.button.hardpolicyvalidations": "View Hard-policy Validations",
