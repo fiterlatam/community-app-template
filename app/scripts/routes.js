@@ -1213,6 +1213,8 @@
             templateUrl: 'views/prequalifications/prequalificationsGroups.html'
         }).when('/prequalificationAnalysis/:type', {
             templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
+        }).when('/prequalificationAnalysis/:type/:groupingType', {
+            templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
         }).when('/prequalifications/newprequalification/new/:groupingType', {
             templateUrl: 'views/prequalifications/newgroup.html'
         }).when('/prequalifications/newprequalification/existing', {
