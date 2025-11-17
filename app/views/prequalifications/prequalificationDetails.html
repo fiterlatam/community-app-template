@@ -127,11 +127,11 @@
                 </tr>
             </table>
             <hr/>
-            <div class="alert alert-default" ng-if="groupData.currentTimeline">
+            <div class="alert alert-default" ng-if="groupData.currentTimeline && groupingType=='pae'">
                 <h4>Timeline</h4>
 
             </div>
-            <div class="timeline-container" ng-if="groupData.expectedTimeline && groupData.expectedTimeline.length > 0">
+            <div class="timeline-container" ng-if="groupData.expectedTimeline && groupData.expectedTimeline.length > 0 && groupingType=='pae'">
                 <h4>{{'label.heading.expectedTimeline' | translate}}</h4>
                 <ul class="timeline-horizontal">
                     <li ng-repeat="step in groupData.expectedTimeline" class="timeline-step"
@@ -150,7 +150,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="timeline-container" ng-if="groupData.currentTimeline && groupData.currentTimeline.length > 0">
+            <div class="timeline-container" ng-if="groupData.currentTimeline && groupData.currentTimeline.length > 0 && groupingType=='pae'">
                 <h4>{{'label.heading.currentTimeline' | translate}}</h4>
                 <ul class="timeline-horizontal">
                     <li ng-repeat="step in getFilteredExpectedTimeline()" class="timeline-step completed">

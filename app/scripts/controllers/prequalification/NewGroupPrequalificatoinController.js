@@ -165,7 +165,7 @@
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
                 this.formData.individual = false;
-                if(scope.groupingType === 'individual'){
+                if(scope.groupingType === 'individual' || scope.groupingType === 'pae'){
                     this.formData.individual = true;
                 }
                 scope.errorMessage = undefined;
