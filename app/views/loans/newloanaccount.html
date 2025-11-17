@@ -1095,7 +1095,7 @@
         </wz-step>
 
         <wz-step wz-title="{{ 'label.heading.additionals' | translate }}"
-                 wz-disabled="{{prequalificationType !== 'INDIVIDUAL'}}">
+                 wz-disabled="{{prequalificationType !== 'INDIVIDUAL' && prequalificationType !== 'PAE'}}">
             <form name="Additionals" ng-submit="goNext(Additionals)" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>
