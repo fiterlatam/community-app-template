@@ -18,29 +18,33 @@
             scope.prequalificationType = routeParams.prequalificationType;
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
 
-            resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
-                scope.groupData = data;
-                scope.groupMembers = data.groupMembers;
+            scope.fetchPrequalificationDetails = function () {
+                resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
+                    scope.groupData = data;
+                    scope.groupMembers = data.groupMembers;
 
-                scope.yellowValidationCount = scope.groupMembers.reduce((acc, member) => {
-                    return acc + (member.yellowValidationCount || 0);
-                }, 0);
+                    scope.yellowValidationCount = scope.groupMembers.reduce((acc, member) => {
+                        return acc + (member.yellowValidationCount || 0);
+                    }, 0);
 
-                scope.redValidationCount = scope.groupMembers.reduce((acc, member) => {
-                    return acc + (member.redValidationCount || 0);
-                }, 0);
+                    scope.redValidationCount = scope.groupMembers.reduce((acc, member) => {
+                        return acc + (member.redValidationCount || 0);
+                    }, 0);
 
-                scope.orangeValidationCount = scope.groupMembers.reduce((acc, member) => {
-                    return acc + (member.orangeValidationCount || 0);
-                }, 0);
+                    scope.orangeValidationCount = scope.groupMembers.reduce((acc, member) => {
+                        return acc + (member.orangeValidationCount || 0);
+                    }, 0);
 
-                console.log("group data", JSON.stringify(scope.groupData));
-                console.log("current session data", JSON.stringify(scope.currentSession));
-                scope.formData.isAllMembersSelected = true;
-                for (var i = 0; i < scope.groupMembers.length; i++ ){
-                    scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
-                }
-            });
+                    console.log("group data", JSON.stringify(scope.groupData));
+                    console.log("current session data", JSON.stringify(scope.currentSession));
+                    scope.formData.isAllMembersSelected = true;
+                    for (var i = 0; i < scope.groupMembers.length; i++ ){
+                        scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
+                    }
+                });
+            }
+
+            scope.fetchPrequalificationDetails();
 
             resourceFactory.entityDocumentsResource.getAllDocuments({
                 entity: 'prequalifications',
@@ -630,6 +634,24 @@
                 };
             };
 
+            scope.processAnalysisRenegotiation = function (status, inMessage) {
+                scope.analysisStatus = status;
+                scope.confirmationMessage = inMessage
+                $uibModal.open({
+                    templateUrl: 'renegotiationModal.html',
+                    controller: RenegotiationModalCtrl
+                });
+            }
+
+            scope.processRenegotiationAction = function (status, inMessage) {
+                scope.analysisStatus = status;
+                scope.confirmationMessage = inMessage
+                $uibModal.open({
+                    templateUrl: 'renegotiationConfirmationModal.html',
+                    controller: RenegotiationConfirmationModalCtrl
+                });
+            }
+
             scope.uploadDocument = function (description, file) {
 
                 let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, ""); 
@@ -646,6 +668,63 @@
                     if (!scope.$$phase) scope.$apply();
                     location.path('/prequalificationsmenu');
                 });
+            };
+
+            var RenegotiationModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.groupMember = scope.groupMembers? scope.groupMembers[0]: {};
+                $scope.renegotiationData = {
+                    locale: scope.optlang.code,
+                };
+                $scope.confirm = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
+                        {action: scope.analysisStatus,comments:scope.formData.comments, renegotiationData: $scope.renegotiationData},
+                        function (data) {
+                            scope.fetchPrequalificationDetails();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+            var RenegotiationConfirmationModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.isApproval = true;
+                resourceFactory.codeValueNameResource.getAllCodeValues({ codeName: 'Rejected Prequalification Options' }).$promise
+                    .then(function (data) {
+                        $scope.rejectReasons = data;
+                    });
+                $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.groupMember = scope.groupMembers? scope.groupMembers[0]: {};
+                $scope.renegotiationData = {
+                    locale: scope.optlang.code,
+                };
+                $scope.confirm = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: "approverenegotiation"},
+                        {action: "approverenegotiation",comments:scope.formData.comments, renegotiationData: $scope.renegotiationData},
+                        function (data) {
+                            scope.fetchPrequalificationDetails();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+                $scope.rejectRenegotiation = function () {
+                    $scope.isApproval = !$scope.isApproval;
+                };
+
+                $scope.confirmReject = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: "rejectrenegotiation"},
+                        {action: "rejectrenegotiation",comments:scope.formData.comments, renegotiationData: $scope.renegotiationData},
+                        function (data) {
+                            scope.fetchPrequalificationDetails();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                };
             };
 
         }

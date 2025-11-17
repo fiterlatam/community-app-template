@@ -353,8 +353,29 @@
                     </button>
                 </div>
 
-                <div>
-
+                <div ng-if="groupData.renegotiations && prequalificationType =='renegotiations'" class="alert alert-warning">
+                    <h3>{{'label.heading.renegotiationDetails'|translate}}</h3>
+                    <hr/>
+                    <table class="table table-striped table-bordered" ng-if="groupData.renegotiations && groupData.renegotiations.length">
+                        <thead>
+                        <tr class="graybg">
+                            <th>{{'label.description.additional.tasa' | translate}}</th>
+                            <th>{{'label.description.additional.plazo' | translate}}</th>
+                            <th>{{'label.input.amount.requested' | translate}}</th>
+                            <th>{{'label.input.comments' | translate}}</th>
+                            <th>{{'label.heading.status' | translate}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="renegotiation in groupData.renegotiations">
+                            <td>{{renegotiation.proposedInterest}} %</td>
+                            <td>{{renegotiation.proposedTerm}}</td>
+                            <td>{{renegotiation.proposedAmount | number}}</td>
+                            <td>{{renegotiation.comments}}</td>
+                            <td>{{renegotiation.status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <hr/>
                 <table class="table" ng-if="prequalificationDocuments.length > 0">
@@ -439,20 +460,13 @@
 
                         <!-- RENEGOTIATION-->
 
-                        <button ng-if="prequalificationType ==='renegotiations'"
-                                ng-click="processAnalysisRequestTODO('modifyCase','label.button.modifyCase')"
+                        <button ng-if="prequalificationType ==='committeeapprovals'"
+                                ng-click="processAnalysisRenegotiation('sendToRenegotiation','label.button.sendRenegotiation')"
                                 type="button"
-                                class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                            {{'label.button.modifyCase' | translate}}
+                                class="btn btn-default" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            <i class="fa fa-arrow-circle-left"></i>
+                            {{'label.button.sendRenegotiation' | translate}}
                         </button>
-
-                        <button ng-if="prequalificationType ==='renegotiations'"
-                                ng-click="processAnalysisRequestTODO('acceptRenegotiation','label.button.acceptRenegotiation')"
-                                type="button"
-                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                            {{'label.button.acceptRenegotiation' | translate}}
-                        </button>
-
 
                     </div>
 
@@ -638,4 +652,96 @@
         </div>
     </script>
 
+        <script type="text/ng-template" id="renegotiationModal.html">
+            <div class="modal-header silver">
+                <h3 class="bolder">{{'label.heading.renegotiationDetails' | translate}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="alert alert-default">
+                            <span>{{'label.input.amount.requested'|translate}}<span class="pull-right">{{groupMember.requestedAmount|number}}</span></span>
+                        </div>
+                        <div class="alert alert-default">
+                            <span>{{'label.description.additional.plazo'|translate}}<span class="pull-right">{{groupMember.period}}</span></span>
+                        </div>
+                        <div class="alert alert-default">
+                            <span>{{'label.description.additional.tasa'|translate}}<span class="pull-right">{{groupMember.interestRatePerPeriod}} %</span></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div>
+                            <input type="text" class="alert alert-default" name="reqAmnt" style="width: 90% !important;"
+                                   number-format placeholder="{{'label.input.amount.requested'|translate}}"
+                                   ng-model="renegotiationData.proposedAmount" id="renAmount" required>
+                        </div>
+                        <div>
+                            <input type="text" class="alert alert-default" name="lnTerm" style="width: 90% !important;"
+                                   number-format placeholder="{{'label.description.additional.plazo'|translate}}"
+                                   ng-model="renegotiationData.proposedTerm" id="lntrm" required>
+                        </div>
+                        <div>
+                            <input type="text" class="alert alert-default" name="intRate" style="width: 90% !important;"
+                                   number-format placeholder="{{'label.description.additional.tasa'|translate}}"
+                                   ng-model="renegotiationData.proposedInterestRate" id="intRt" required>
+                        </div>
+                        <div>
+                            <textarea rows="3" class="form-control" name="comments"
+                                      placeholder="{{'label.input.comments' | translate}}"
+                                      ng-model="renegotiationData.comments" id="comms" required></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="text-center">
+                    <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+                    <button class="btn btn-primary" ng-click="confirm()">{{'label.button.sendProposal' | translate}}</button>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="renegotiationConfirmationModal.html">
+            <div class="modal-header silver">
+                <h3 class="bolder">{{'label.heading.renegotiationDetails' | translate}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12" ng-if="!isApproval">
+                        <div class="form-group">
+                            <label>{{'label.input.rejectionreason' | translate}}:</label>
+                            <select class="form-control" ng-model="renegotiationData.selectedReason"
+                                    ng-options="dc.id as dc.name for dc in rejectReasons">
+                                <option value="">{{'label.input.select.rejectreason' | translate}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{'label.heading.comments' | translate}}:</label>
+                            <textarea class="form-control" ng-model="renegotiationData.optionalComment"
+                                      placeholder="{{'label.input.addcomments' | translate}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" ng-if="isApproval">
+                        <div class="alert alert-default">
+                            <span>{{'label.input.amount.requested'|translate}}<span class="pull-right">{{groupMember.requestedAmount|number}}</span></span>
+                        </div>
+                        <div class="alert alert-default">
+                            <span>{{'label.description.additional.plazo'|translate}}<span class="pull-right">{{groupMember.period}}</span></span>
+                        </div>
+                        <div class="alert alert-default">
+                            <span>{{'label.description.additional.tasa'|translate}}<span class="pull-right">{{groupMember.interestRatePerPeriod}} %</span></span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="text-center">
+                    <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+                    <button class="btn btn-danger" ng-click="rejectRenegotiation()" ng-if="isApproval">{{'label.button.reject' | translate}}</button>
+                    <button class="btn btn-danger" ng-click="confirmReject()" ng-if="!isApproval">{{'label.heading.reject' | translate}}</button>
+                    <button class="btn btn-primary" ng-click="confirm()" ng-if="isApproval">{{'label.button.approve' | translate}}</button>
+                </div>
+            </div>
+        </script>
+    </div>
 </div>
