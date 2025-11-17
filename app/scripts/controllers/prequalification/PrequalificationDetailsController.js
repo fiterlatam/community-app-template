@@ -70,7 +70,7 @@
             });
 
             scope.submit = function () {
-                if (routeParams.groupingType === 'individual'){
+                if (routeParams.groupingType === 'individual' || routeParams.groupingType === 'pae'){
                     scope.groupData.groupName = scope.groupData.prequalificationNumber;
                 }
                 Upload.upload({
