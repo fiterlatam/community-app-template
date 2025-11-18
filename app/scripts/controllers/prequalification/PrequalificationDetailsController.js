@@ -86,14 +86,7 @@
                     if (!scope.$$phase) {
                         scope.$apply();
                     }
-
-                    if (routeParams.groupingType === 'group'){
-                        location.path('/prequalificationGroups/group/list');
-                    }
-
-                    if (routeParams.groupingType === 'individual'){
-                        location.path('/prequalificationGroups/individual/list');
-                    }
+                    location.path('/prequalificationGroups/'+routeParams.groupingType+'/list');
                 });
             };
 
