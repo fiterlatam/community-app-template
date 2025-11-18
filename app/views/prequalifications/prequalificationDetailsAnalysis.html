@@ -164,12 +164,12 @@
                     <tr>
                         <th>{{'label.input.name' | translate}}</th>
                         <th>{{'label.input.amount.requested' | translate}}</th>
-                        <th>{{'label.description.additional.tasa' | translate}}</th>
-                        <th>{{'label.description.additional.cuota' | translate}}</th>
-                        <th>{{'label.description.additional.plazoOnly' | translate}}</th>
+                        <th ng-if="groupData.prequalificationType.value=='PAE'">{{'label.description.additional.tasa' | translate}}</th>
+                        <th ng-if="groupData.prequalificationType.value=='PAE'">{{'label.description.additional.cuota' | translate}}</th>
+                        <th ng-if="groupData.prequalificationType.value=='PAE'">{{'label.description.additional.plazoOnly' | translate}}</th>
                         <th ng-if="prequalificationType==='analysis'">{{'label.input.amount.approved' | translate}}</th>
-                        <th>{{'label.heading.collaterals' | translate}}</th>
-                        <th>{{'label.heading.destination' | translate}}</th>
+                        <th ng-if="groupData.prequalificationType.value=='PAE'">{{'label.heading.collaterals' | translate}}</th>
+                        <th ng-if="groupData.prequalificationType.value=='PAE'">{{'label.heading.destination' | translate}}</th>
                         <th>{{'label.input.bureau.status' | translate}}</th>
                         <th ng-if="prequalificationType==='agency' || prequalificationType==='analysis' || prequalificationType==='exceptionsqueue' || prequalificationType==='renegotiations'">
                             {{'label.input.agency.bureau.status' | translate}}
@@ -205,7 +205,7 @@
                                    placeholder="{{'label.input.amount.requested'|translate}}"
                                    ng-model="groupMembers[$index].requestedAmount" id="amtreq" required>
                         </td>
-                        <td class="pointer">
+                        <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="interesRatePerPeriod"
                                    style="width: 90% !important;"
                                    ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !=='renegotiations'"
@@ -214,14 +214,14 @@
                                    ng-model="groupMembers[$index].interestRatePerPeriod" id="interesRatePerPeriod"
                                    required>
                         </td>
-                        <td class="pointer">
+                        <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="quotaAmount" style="width: 90% !important;"
                                    ng-disabled="true" number-format
                                    placeholder="{{'label.description.additional.cuota'|translate}}"
                                    ng-model="groupMembers[$index].quotaAmount" id="quotaAmount" required>
 
                         </td>
-                        <td class="pointer">
+                        <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="period" style="width: 90% !important;"
                                    ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !== 'renegotiations'"
                                    number-format
@@ -237,14 +237,14 @@
                                    placeholder="{{'label.input.amount.approved'|translate}}"
                                    ng-model="groupMembers[$index].approvedAmount" id="grpnm" required>
                         </td>
-                        <td class="pointer">
+                        <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="collateral" style="width: 90% !important;"
                                    ng-disabled="true"
                                    placeholder="{{'label.heading.collaterals' | translate}}"
                                    ng-model="groupMembers[$index].collateral" id="collateral" required>
 
                         </td>
-                        <td class="pointer">
+                        <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="destination" style="width: 90% !important;"
                                    ng-disabled="true"
                                    placeholder="{{'label.heading.destination' | translate}}"
@@ -330,7 +330,7 @@
                 <hr/>
 
                 <!-- Botón para abrir modal de carga de documento -->
-                <div class="text-right m-2">
+                <div class="text-right m-2" ng-if="groupData.prequalificationType.value=='PAE'">
                     <button class="btn btn-primary" ng-click="openUploadDocumentModal()">
                         <i class="fa fa-plus"></i> {{'label.heading.attachfile' | translate}}
                     </button>
