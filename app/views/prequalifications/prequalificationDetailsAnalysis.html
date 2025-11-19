@@ -131,7 +131,7 @@
                         </div>
 
                         <!-- Comentario de excepciones-->
-                        <div class="form-group">
+                        <div class="form-group" ng-if="groupData.prequalificationType.value=='PAE'">
                             <label>{{'label.input.addexceptioncomments' | translate}}</label>
                             <textarea rows="3" class="form-control" name="exceptionComment"
                                       placeholder="{{'label.input.addexceptioncomments' | translate}}"
@@ -141,7 +141,7 @@
 
                         <!-- Botón para enviar el comentario -->
                         <div class="text-right"
-                             ng-if="formData.exceptionComment && formData.exceptionComment.trim() !== ''">
+                             ng-if="formData.exceptionComment && formData.exceptionComment.trim() !== '' && groupData.prequalificationType.value=='PAE'">
                             <button class="btn btn-success" ng-click="submitExceptionComment()">
                                 <i class="fa fa-comment"></i> {{'label.anchor.save' | translate}}
                             </button>
