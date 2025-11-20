@@ -433,15 +433,15 @@
                         <!-- ANAYLSIS APPROVAL A-B-C-D -->
 
                         <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
-                        <button ng-if="prequalificationType ==='analysis'"
-                                ng-click="processAnalysisRequest('approveCommittee','label.button.prequalification.sendtoCommitteeWithoutException')"
+                        <button ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value=='PAE'"
+                                ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
                                 type="button"
                                 class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.prequalification.sendtoCommitteeWithoutException' | translate}}
                         </button>
 
                         <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
-                        <button ng-if="prequalificationType ==='analysis'"
+                        <button ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value=='PAE'"
                                 ng-click="processAnalysisRequest('approvecommiteeWhitExc','label.button.prequalification.sendtoexception')"
                                 type="button"
                                 class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -460,7 +460,7 @@
 
                         <!-- RENEGOTIATION-->
 
-                        <button ng-if="prequalificationType ==='committeeapprovals'"
+                        <button ng-if="prequalificationType ==='committeeapprovals' && groupData.prequalificationType.value=='PAE'"
                                 ng-click="processAnalysisRenegotiation('sendToRenegotiation','label.button.sendRenegotiation')"
                                 type="button"
                                 class="btn btn-default" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -473,7 +473,12 @@
                     <!-- BUTTONS RIGHT APPROVE ONLY commiteepprovals and reject all parts-->
                     <div class="text-right m-1 ms-auto">
 
-                        <button ng-if="prequalificationType !=='renegotiations'" ng-click="rejectPrequalification()"
+                        <button ng-if="prequalificationType !=='renegotiations' &&  groupData.prequalificationType.value=='PAE'" ng-click="rejectPrequalification()"
+                                type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.reject' | translate}}
+                        </button>
+
+                        <button ng-if="groupData.prequalificationType.value!='PAE'" ng-click="processAnalysisRequest('reject' ,'label.button.reject')"
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.reject' | translate}}
                         </button>
@@ -485,6 +490,13 @@
 
                         <button ng-if="prequalificationType ==='committeeapprovals'"
                                 ng-click="processAnalysisRequest('approveCommittee','label.button.approve')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.approve' | translate}}
+                        </button>
+
+                        <button ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='PAE'"
+                                ng-click="processAnalysisRequest('approveanalysis','label.button.approve')"
                                 type="button"
                                 class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.approve' | translate}}
