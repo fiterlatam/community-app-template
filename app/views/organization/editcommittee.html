@@ -75,7 +75,7 @@
 								<hr/>
 								<div class="row">
 									<div class="col-sm-4">
-										<input type="number" class="form-control" placeholder="{{'label.input.from'|translate}}" ng-model="belowLimitInput.from" ng-disabled="belowLimitInput.from > 0" />
+										<input type="number" class="form-control" placeholder="{{'label.input.from'|translate}}" ng-model="belowLimitInput.from" ng-disabled="belowExceptionLimits.length>0" />
 									</div>
 									<div class="col-sm-4">
 										<input type="number" class="form-control" placeholder="{{'label.input.to'|translate}}" ng-model="belowLimitInput.to" />
@@ -84,7 +84,7 @@
 										<button type="button" class="btn btn-success" ng-click="addBelowLimit()"><i class="fa fa-plus"></i></button>
 									</div>
 								</div>
-								<div class="row" style="margin-top:10px;" ng-if="belowExceptionLimits.length">
+								<div class="row" style="margin-top:10px;" ng-if="belowExceptionLimits.length>0">
 									<div class="col-sm-12">
 										<table class="table table-bordered table-condensed">
 											<thead>
@@ -113,7 +113,7 @@
 								<hr/>
 								<div class="row">
 									<div class="col-sm-4">
-										<input type="number" class="form-control" placeholder="{{'label.input.from'|translate}}" ng-model="aboveLimitInput.from" ng-disabled="aboveLimitInput.from > 0" />
+										<input type="number" class="form-control" placeholder="{{'label.input.from'|translate}}" ng-model="aboveLimitInput.from" ng-disabled="aboveExceptionLimits.length>0" />
 									</div>
 									<div class="col-sm-4">
 										<input type="number" class="form-control" placeholder="{{'label.input.to'|translate}}" ng-model="aboveLimitInput.to" />
@@ -122,7 +122,7 @@
 										<button type="button" class="btn btn-success" ng-click="addAboveLimit()"><i class="fa fa-plus"></i></button>
 									</div>
 								</div>
-								<div class="row" style="margin-top:10px;" ng-if="aboveExceptionLimits.length">
+								<div class="row" style="margin-top:10px;" ng-if="aboveExceptionLimits.length>0">
 									<div class="col-sm-12">
 										<table class="table table-bordered table-condensed">
 											<thead>
