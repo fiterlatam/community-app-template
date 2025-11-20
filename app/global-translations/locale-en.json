@@ -1442,6 +1442,7 @@
   "label.heading.balancesheet": "Balance Sheet",
   "label.heading.incomes": "Incomes",
   "label.heading.xbrl.report": "XBRL Report",
+  "label.heading.promissory.report":"Promissory Note Template PAE",
   "#Anchors": "..",
   "label.anchor.managereports": "Manage Reports",
   "label.anchor.createreport": "Create Report",

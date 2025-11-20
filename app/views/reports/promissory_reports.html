@@ -1,0 +1,115 @@
+<div class="content-container" ng-controller="PromissoryNoteController">
+
+    <ul class="breadcrumb">
+        <li><a href="#/reports/all">{{ 'label.heading.promissory.report' | translate }}</a></li>
+        <li class="active">Pagaré personalizado</li>
+    </ul>
+
+    <div class="card well">
+
+        <div class="span gray-head" style="margin-left:0%; height:30px;">
+            <span style="margin-left: 10px; font-size:20px;">
+                <strong>Pagaré personalizado</strong>
+            </span>
+        </div>
+
+        <div class="alert-block form-horizontal">
+            <br>
+
+            <!-- SELECCIONAR PLANTILLA -->
+            <div class="form-group info">
+                <label class="control-label col-sm-2">Plantilla</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-xlarge" ng-model="formData.template"
+                        ng-options="t.id as t.name for t in templates" ng-change="onTemplateSelected()">
+                    </select>
+                </div>
+            </div>
+
+            <!-- INPUT PARA BUSCAR CRÉDITO -->
+            <div class="form-group info" ng-show="showCreditSelect">
+                <label class="control-label col-sm-2">Buscar crédito</label>
+                
+                <div class="col-sm-3" style="position:relative; padding:0;">
+                
+                    <!-- INPUT -->
+                    <input type="text" class="form-control" ng-model="searchLoan" placeholder="Ingrese número de cuenta"
+                        style="padding-right: 30px;">
+                    <!-- espacio para la lupa -->
+                
+                    <!-- ÍCONO LUPA -->
+                    <span ng-click="searchLoans()" style="
+                                position:absolute;
+                                right:10px;
+                                top:50%;
+                                transform:translateY(-50%);
+                                cursor:pointer;">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- SELECT CRÉDITO -->
+            <div class="form-group info" ng-show="showCreditSelect">
+                <label class="control-label col-sm-2">Crédito</label>
+                <div class="col-sm-4">
+                    <select chosen="credits" class="form-control input-xlarge" ng-model="formData.loanId"
+                        ng-options="c.id as c.name for c in credits">
+                    </select>
+                </div>
+            </div>
+
+            <!-- CAMPOS TESTIGO Y FIADOR -->
+            <div ng-show="showWitnessFields">
+
+                <div class="form-group info">
+                    <label class="control-label col-sm-2">Nombre del testigo</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="formData.witnessName">
+                    </div>
+                </div>
+
+                <div class="form-group info">
+                    <label class="control-label col-sm-2">DPI del testigo</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="formData.witnessDpi">
+                    </div>
+                </div>
+
+                <div class="form-group info">
+                    <label class="control-label col-sm-2">Dirección del fiador</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="formData.fiadorAddress">
+                    </div>
+                </div>
+
+                <div class="form-group info">
+                    <label class="control-label col-sm-2">Testigo para fiador</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="formData.fiadorWitness">
+                    </div>
+                </div>
+
+                <div class="form-group info">
+                    <label class="control-label col-sm-2">DPI del testigo para el fiador</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="formData.fiadorWitnessDpi">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTÓN EJECUTAR -->
+            <div class="form-group info">
+                <div class="col-sm-offset-2 col-sm-3">
+                    <a class="btn btn-primary control" ng-click="generate()">
+                        {{ 'label.button.runreport' | translate }}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

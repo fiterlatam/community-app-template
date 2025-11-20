@@ -1305,6 +1305,7 @@
 	"label.heading.balancesheet": "Balance general",
 	"label.heading.incomes": "Ingresos",
 	"label.heading.xbrl.report": "Informe XBRL",
+	"label.heading.promissory.report": "Plantilla pagaré PAE",
 	"label.anchor.managereports": "Administrar Informes",
 	"label.anchor.createreport": "Crear informe",
 	"label.anchor.editreport": "Editar informe",

@@ -533,6 +533,9 @@
             .when('/editPaymentType/:id', {
                 templateUrl: 'views/organization/editpaymenttype.html'
             })
+            .when('/reports/promissory', {
+                templateUrl: 'views/reports/promissory_reports.html'
+            })
             .when('/reports/:type', {
                 templateUrl: 'views/reports/view_reports.html'
             })
