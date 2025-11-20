@@ -206,6 +206,9 @@
                                             }
                                         }
                     }),
+                    runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote/:type", { type: '@type'}, {
+                        generate: {method: 'POST', params: {}, isArray: false}
+                    }),
                     reportsResource: defineResource(apiVer + "/reports/:id/:resourceType", {id: '@id', resourceType: '@resourceType'}, {
                         get: {method: 'GET', params: {id: '@id'}},
                         getReport: {method: 'GET', params: {id: '@id'}, isArray: true},
@@ -282,6 +285,9 @@
                         getAllLoans: {method: 'GET', params: {limit:'@limit', sqlSearch: '@sqlSearch'}},
                         getAllNotes: {method: 'GET', params: {}, isArray: true},
                         put: {method: 'PUT', params: {}}
+                    }),
+                    loanResourceTemplates: defineResource(apiVer + "/loans/promissorytemplate/:loanId", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
                     }),
 
                     loanChargeTemplateResource: defineResource(apiVer + "/loans/:loanId/charges/template", {loanId: '@loanId'}, {
