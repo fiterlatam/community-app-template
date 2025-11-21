@@ -492,10 +492,10 @@
                     <!-- BUTTONS RIGHT APPROVE ONLY commiteepprovals and reject all parts-->
                     <div class="text-right m-1 ms-auto" ng-if="groupData.prequalificationType.value=='PAE'">
 
-                        <button ng-if="prequalificationType !=='renegotiations' &&  groupData.prequalificationType.value=='PAE'" ng-click="rejectPrequalification()"
+                        <!--<button ng-if="prequalificationType !=='renegotiations' &&  groupData.prequalificationType.value=='PAE'" ng-click="rejectPrequalification()"
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.reject' | translate}}
-                        </button>
+                        </button>-->
 
                         <button ng-if="groupData.prequalificationType.value=='PAE'" ng-click="processAnalysisRequest('reject' ,'label.button.reject')"
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -812,7 +812,7 @@
                 <br>
                 <div class="text-center">
                     <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
-                    <button class="btn btn-danger" ng-click="rejectRenegotiation()" ng-if="isApproval">{{'label.button.rejects' | translate}}</button>
+                    <button class="btn btn-danger" ng-click="rejectRenegotiation()" ng-if="isApproval">{{'label.button.reject' | translate}}</button>
                     <button class="btn btn-danger" ng-click="confirmReject()" ng-if="!isApproval">{{'label.heading.reject' | translate}}</button>
                     <button class="btn btn-primary" ng-click="confirm()" ng-if="isApproval">{{'label.button.approve' | translate}}</button>
                 </div>
