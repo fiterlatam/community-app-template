@@ -118,7 +118,7 @@
                             <span>{{'label.input.comments' | translate}}: <span
                                     class="pull-right">{{groupData.latestComments}}</span></span>
                         </div>
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" ng-if="groupData.prequalificationType.value=='PAE'">
                             <span>{{'label.input.exceptioncomments' | translate}}: <span
                                     class="pull-right">{{groupData.exceptionComment}}</span></span>
                         </div>
@@ -208,7 +208,7 @@
                         <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="interesRatePerPeriod"
                                    style="width: 90% !important;"
-                                   ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !=='renegotiations'"
+                                   ng-disabled="groupData.prequalificationType.value!='PAE' && (!groupMembers[$index].isEdit || (prequalificationType !== 'agency' && prequalificationType !== 'renegotiations'))"
                                    number-format
                                    placeholder="{{'label.description.additional.tasa'|translate}}"
                                    ng-model="groupMembers[$index].interestRatePerPeriod" id="interesRatePerPeriod"
@@ -216,14 +216,14 @@
                         </td>
                         <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="quotaAmount" style="width: 90% !important;"
-                                   ng-disabled="true" number-format
+                                   ng-disabled="groupData.prequalificationType.value!='PAE'" number-format
                                    placeholder="{{'label.description.additional.cuota'|translate}}"
                                    ng-model="groupMembers[$index].quotaAmount" id="quotaAmount" required>
 
                         </td>
                         <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="period" style="width: 90% !important;"
-                                   ng-disabled="!groupMembers[$index].isEdit || prequalificationType !=='agency' && prequalificationType !== 'renegotiations'"
+                                   ng-disabled="groupData.prequalificationType.value!='PAE' && (!groupMembers[$index].isEdit || (prequalificationType !== 'agency' && prequalificationType !== 'renegotiations'))"
                                    number-format
                                    placeholder="{{'label.description.additional.plazoOnly'|translate}}"
                                    ng-model="groupMembers[$index].period" id="period" required>
@@ -239,14 +239,14 @@
                         </td>
                         <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="collateral" style="width: 90% !important;"
-                                   ng-disabled="true"
+                                   ng-disabled="groupData.prequalificationType.value!='PAE'"
                                    placeholder="{{'label.heading.collaterals' | translate}}"
                                    ng-model="groupMembers[$index].collateral" id="collateral" required>
 
                         </td>
                         <td class="pointer" ng-if="groupData.prequalificationType.value=='PAE'">
                             <input type="text" class="form-control" name="destination" style="width: 90% !important;"
-                                   ng-disabled="true"
+                                   ng-disabled="groupData.prequalificationType.value!='PAE'"
                                    placeholder="{{'label.heading.destination' | translate}}"
                                    ng-model="groupMembers[$index].destination" id="destination" required>
 
@@ -402,9 +402,24 @@
                 </table>
             <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
 
-                <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center">
+            <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis' && groupData.prequalificationType.value!='PAE'">
+                <div class="text-left m-1">
+                    <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoexception' | translate}}
+                    </button>
+                </div>
 
-                    <div class="text-left m-1">
+                <div class="text-right m-1 ms-auto">
+                    <button ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoagency' | translate}}
+                    </button>
+                </div>
+
+            </div>
+
+                <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="groupData.prequalificationType.value=='PAE'">
+
+                    <div class="text-left m-1" ng-if="groupData.prequalificationType.value=='PAE'">
 
                         <!-- ALL PARTS -->
                         <button ng-if="prequalificationType !=='renegotiations'"
@@ -412,6 +427,10 @@
                                 type="button"
                                 class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.modifyapplication' | translate}}
+                        </button>
+
+                        <button ng-if="orangeValidationCount == 0 && redValidationCount == 0 && yellowValidationCount == 0 && groupData.prequalificationType.value!='PAE'" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
                         </button>
 
                         <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
@@ -471,14 +490,14 @@
                     </div>
 
                     <!-- BUTTONS RIGHT APPROVE ONLY commiteepprovals and reject all parts-->
-                    <div class="text-right m-1 ms-auto">
+                    <div class="text-right m-1 ms-auto" ng-if="groupData.prequalificationType.value=='PAE'">
 
                         <button ng-if="prequalificationType !=='renegotiations' &&  groupData.prequalificationType.value=='PAE'" ng-click="rejectPrequalification()"
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.reject' | translate}}
                         </button>
 
-                        <button ng-if="groupData.prequalificationType.value!='PAE'" ng-click="processAnalysisRequest('reject' ,'label.button.reject')"
+                        <button ng-if="groupData.prequalificationType.value=='PAE'" ng-click="processAnalysisRequest('reject' ,'label.button.reject')"
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.reject' | translate}}
                         </button>
@@ -504,6 +523,49 @@
 
                     </div>
                 </div>
+
+                <div class="row alert alert-warning m-1" ng-if="groupData.prequalificationType.value!='PAE'">
+
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='analysis'">
+                    <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
+                    </button>
+                </div>
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
+                    <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
+                    </button>
+                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                </div>
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='agency'">
+                    <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendToPrevious' | translate}}
+                    </button>
+                    <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL'" ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                    <button ng-if="groupData.status.value === 'AGENCY_LEAD_PENDING_APPROVAL_WITH_EXCEPTIONS'" ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendtoexception' | translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-6 text-left" ng-if="prequalificationType==='committeeapprovals'">
+                    <button ng-click="processAnalysisRequest('sendToAnalysis','label.button.prequalification.sendToAnalysis')" type="button"
+                            class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.prequalification.sendToAnalysis' | translate}}
+                    </button>
+                    <button ng-click="processAnalysisRequest('approveCommittee','label.button.approve')" type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.approve' | translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-6 text-right">
+                    <button ng-click="processAnalysisRequest('rejectanalysis','label.button.reject')" type="button"
+                            class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.reject' | translate}}
+                    </button>
+                </div>
+            </div>
 
                 <!-- <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis'">
 
@@ -750,7 +812,7 @@
                 <br>
                 <div class="text-center">
                     <button class="btn btn-warning" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
-                    <button class="btn btn-danger" ng-click="rejectRenegotiation()" ng-if="isApproval">{{'label.button.reject' | translate}}</button>
+                    <button class="btn btn-danger" ng-click="rejectRenegotiation()" ng-if="isApproval">{{'label.button.rejects' | translate}}</button>
                     <button class="btn btn-danger" ng-click="confirmReject()" ng-if="!isApproval">{{'label.heading.reject' | translate}}</button>
                     <button class="btn btn-primary" ng-click="confirm()" ng-if="isApproval">{{'label.button.approve' | translate}}</button>
                 </div>
