@@ -20,11 +20,6 @@
             $scope.showWitnessFields = false;
             $scope.loanSelected = {};
 
-            // Cuando se escoge plantilla
-            $scope.onTemplateSelected = function () {
-                $scope.showCreditSelect = true;
-            };
-
             // BUSCAR CRÉDITOS EN VIVO
             $scope.searchLoans = function () {
 
@@ -54,15 +49,49 @@
             // Cuando seleccionan un crédito
             $scope.$watch("formData.loanId", function (newVal) {
                 if (newVal) {
+                    // resourceFactory.LoanAccountResource.getLoanAccountDetails({ loanId: newVal, associations: 'all', exclude: 'guarantors,futureSchedule' }, function (data) {
+                    // });
+                    resourceFactory.loanResourceTemplates.get({loanId: newVal}, function (data) {
+                        $scope.formData.witnessName = data?.lider_agencia;
+                    });
+
                     $scope.showWitnessFields = true;
                 }
-                resourceFactory.searchLoan
             });
 
             // Acción final
             $scope.generate = function () {
                 console.log("DATOS A ENVIAR:", $scope.formData);
-                alert("Generando pagaré personalizado...");
+                resourceFactory.runReportsPromissory.generate(
+                    { type: 1 },
+                    $scope.formData,
+                    function (response) {
+
+                        // Tomar el Base64 desderespuesta
+                        var base64 = response.pdfBase64;
+
+                        //  convertir base64 a Blob
+                        var byteCharacters = atob(base64);
+                        var byteNumbers = new Array(byteCharacters.length);
+                        for (var i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        var byteArray = new Uint8Array(byteNumbers);
+                        var blob = new Blob([byteArray], { type: "application/pdf" });
+
+                        // Crear URL temporal
+                        var blobUrl = URL.createObjectURL(blob);
+
+                        // Crear link invisible y empezar descarga
+                        var link = document.createElement('a');
+                        link.href = blobUrl;
+                        link.download = "promissory_note.pdf";
+                        document.body.appendChild(link);
+                        link.click();
+
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(blobUrl);
+                    });
             };
 
         }

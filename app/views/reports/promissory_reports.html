@@ -16,21 +16,11 @@
         <div class="alert-block form-horizontal">
             <br>
 
-            <!-- SELECCIONAR PLANTILLA -->
-            <div class="form-group info">
-                <label class="control-label col-sm-2">Plantilla</label>
-                <div class="col-sm-3">
-                    <select class="form-control input-xlarge" ng-model="formData.template"
-                        ng-options="t.id as t.name for t in templates" ng-change="onTemplateSelected()">
-                    </select>
-                </div>
-            </div>
-
             <!-- INPUT PARA BUSCAR CRÉDITO -->
-            <div class="form-group info" ng-show="showCreditSelect">
+            <div class="form-group info">
                 <label class="control-label col-sm-2">Buscar crédito</label>
                 
-                <div class="col-sm-3" style="position:relative; padding:0;">
+                <div class="col-sm-3">
                 
                     <!-- INPUT -->
                     <input type="text" class="form-control" ng-model="searchLoan" placeholder="Ingrese número de cuenta"
@@ -40,7 +30,7 @@
                     <!-- ÍCONO LUPA -->
                     <span ng-click="searchLoans()" style="
                                 position:absolute;
-                                right:10px;
+                                right:30px;
                                 top:50%;
                                 transform:translateY(-50%);
                                 cursor:pointer;">
@@ -51,7 +41,7 @@
 
 
             <!-- SELECT CRÉDITO -->
-            <div class="form-group info" ng-show="showCreditSelect">
+            <div class="form-group info">
                 <label class="control-label col-sm-2">Crédito</label>
                 <div class="col-sm-4">
                     <select chosen="credits" class="form-control input-xlarge" ng-model="formData.loanId"
@@ -73,7 +63,7 @@
                 <div class="form-group info">
                     <label class="control-label col-sm-2">DPI del testigo</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" ng-model="formData.witnessDpi">
+                        <input type="text" class="form-control" ng-model="formData.witnessDPI">
                     </div>
                 </div>
 
