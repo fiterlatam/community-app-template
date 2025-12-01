@@ -4703,6 +4703,8 @@
 	"label.button.assign": "Asignar",
 	"label.heading.assign.cheques.to.loans": "Asignar cheques de préstamo",
 	"label.heading.select.bank.account": "Por favor seleccione una cuenta bancaria ...",
+	"label.heading.warantydocuments": "Documentos de garantía",
+	"label.heading.guarantyevaluation": "Evaluación de garantía",
 	"label.anchor.managecommittes": "Administrar comités",
 	"label.addnewcommitteeormodifycommittee": "Agregar nuevo comité o modificar comité existente",
 	"label.heading.committeeeUsers": "Nro. de usuarios",

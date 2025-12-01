@@ -5073,6 +5073,8 @@
   "label.heading.deposit.guarantee.amount": "To Deposit Amount",
   "label.heading.deposit.number": "Deposit No.",
   "label.heading.select.bank.account": "Please select a bank account ...",
+  "label.heading.warantydocuments": "Warranty Documents",
+  "label.heading.guarantyevaluation": "Guarantee Evaluation",
   "label.anchor.managecommittes": "Manage Committees",
   "label.addnewcommitteeormodifycommittee": "Add new or modify committee",
   "label.heading.committeeeUsers": "Number of users",
