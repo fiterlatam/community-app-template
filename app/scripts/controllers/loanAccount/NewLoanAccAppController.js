@@ -31,6 +31,9 @@
             scope.currentLoanData = {};
             scope.currentLoanDocs = {}
             scope.loanDocuments = [];
+            scope.guarantyFiles = [];
+            scope.paeRequiredGuaranteeOptions;
+            scope.requiresGuaranteeDocuments = false;
             scope.product;
             scope.clientHousingType;
             scope.formData.totalExternalLoanAmount =0;
@@ -230,6 +233,7 @@
                     scope.datatables = data.datatables;
                     scope.handleDatatables(scope.datatables);
                     scope.disabled = false;
+                    scope.paeRequiredGuaranteeOptions = data.paeRequiredGuaranteeOptions;
                 });
 
                 resourceFactory.loanResource.get({
@@ -963,6 +967,43 @@
                 scope.formData.businessProfit=0;
                 scope.formData.businessProfit=Number(sales?sales:0) - Number(purchases?purchases:0);
                 return scope.formData.businessProfit;
+            }
+            scope.updateRequiredPrequalificationCount = function (index) {
+                let count = 0;
+                if (scope.paeRequiredGuaranteeOptions[index].selected){
+                    scope.paeRequiredGuaranteeOptions[index].quantity=1;
+                }else{
+                    scope.paeRequiredGuaranteeOptions[index].quantity=0;
+                }
+                for (doc in scope.paeRequiredGuaranteeOptions){
+                    if (doc.selected){
+                        console.log("updated required docs to true")
+                        scope.requiresGuaranteeDocuments=true;
+                        break;
+                    }
+                }
+            }
+
+            scope.onGuarantyFileSelect = function($files, parentIndex, finalIndex){
+                console.log("File selected for guaranty document upload:", parentIndex, finalIndex);
+                // Ensure the array exists
+                if (!scope.paeRequiredGuaranteeOptions[parentIndex].documents) {
+                    scope.paeRequiredGuaranteeOptions[parentIndex].documents = [];
+                }
+                // Store the file(s) at the correct index
+                scope.paeRequiredGuaranteeOptions[parentIndex].documents[finalIndex] = $files[0];
+            }
+
+            scope.requiresGuaranteeDocs = function () {
+                let requiresGuaranteeDocs = false;
+                for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
+                    let guaranteeOption = scope.paeRequiredGuaranteeOptions[i];
+                    if (guaranteeOption.selected){
+                        requiresGuaranteeDocs = true;
+                        break;
+                    }
+                }
+                scope.requiresGuaranteeDocuments =  requiresGuaranteeDocs;
             }
         }
     });
