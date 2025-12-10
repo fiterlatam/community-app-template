@@ -611,7 +611,7 @@
                                 </label>
                                 <label data-ng-show="loanaccountinfo.interestRecalculationData.recalculationRestFrequencyType.id == 3 &&
                                             loanaccountinfo.interestRecalculationData.recalculationRestFrequencyWeekday != null">
-                                    {{label.heading.on}}
+                                    {{'label.heading.on' | translate}}
                                     {{ loanaccountinfo.interestRecalculationData.recalculationRestFrequencyWeekday.value}}
                                 </label>
                                 <label data-ng-show="loanaccountinfo.interestRecalculationData.recalculationRestFrequencyType.id == 4 &&
@@ -987,6 +987,73 @@
                     </div>
                     <br>
                     <hr>
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+<!--WARRANTY DOCUMENTS TAB-->
+        <wz-step wz-title="{{ 'label.heading.guarantyevaluation' | translate }}" wz-disabled="{{!paeRequiredGuaranteeOptions}}">
+            <form name="WarantyDocuments" novalidate="" ng-submit="goNext(WarantyDocuments)">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <!--<h3>{{'label.heading.charges' | translate}}</h3>-->
+                    <hr>
+                    <table class="table table-bordered table-striped" style="width:50%; table-layout: fixed">
+                        <tbody>
+                        <tr ng-repeat="docOption in paeRequiredGuaranteeOptions">
+                            <td>
+                                <label>
+                                    <input type="checkbox" ng-model="paeRequiredGuaranteeOptions[$index].selected" ng-change="updateRequiredPrequalificationCount($index)"/>
+                                    {{docOption.name}}
+                                </label>
+                            </td>
+                            <td>
+                                <input id="count" ng-if="paeRequiredGuaranteeOptions[$index].selected" type="number" name="count"
+                                       ng-model="paeRequiredGuaranteeOptions[$index].quantity"
+                                       class="form-control" late-Validate/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <wz-step wz-title="{{ 'label.heading.warantydocuments' | translate }}" wz-disabled="{{!paeRequiredGuaranteeOptions}}">
+            <form name="GuarantyDocuments" ng-submit="goNext(GuarantyDocuments)" class="form-horizontal">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <br>
+                    <div class="row" ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" ng-if="requiredDoc.selected">
+                        <div class="col-sm-6 alert alert-default">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="name">{{requiredDoc.name}}<span class="required">*</span></label>
+
+                                    <div class="col-sm-6">
+                                        <div ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" style="margin-top: 10px;">
+                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" ng-model="guarantyFiles[$parent.$index][$index]"
+                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index, $index)" required late-validate>
+                                            <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
@@ -2759,4 +2826,4 @@
     </script>
 
 </div>
-</div>
+
