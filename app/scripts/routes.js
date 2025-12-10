@@ -1291,6 +1291,10 @@
             templateUrl: 'views/organization/viewcommittee.html'
         }).when('/editcommittee/:id', {
             templateUrl: 'views/organization/editcommittee.html'
+        }).when('/paedocumentation', {
+            templateUrl: 'views/paedocumentation/paedocumentation.html'
+        }).when('/paedocumentationview/:id', {
+            templateUrl: 'views/paedocumentation/paedocumentationview.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
