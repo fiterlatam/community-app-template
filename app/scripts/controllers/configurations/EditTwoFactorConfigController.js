@@ -18,7 +18,8 @@
                 for (var i in data.toJSON()) {
                     if(configs[scope.configType].indexOf(i) > -1) {
                         scope.configs.push({
-                            name: (timeConfigs.indexOf(i) > -1)? i +' (in seconds)': i,
+                            name: i,
+                            label: (timeConfigs.indexOf(i) > -1)? i +' (in seconds)': i,
                             value: data[i].toString(),
                             type: getConfigType(i)
                         });
