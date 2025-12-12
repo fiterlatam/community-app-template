@@ -106,6 +106,13 @@
 
                         updateMember: {method: 'PUT', params: {}},
                     }),
+                    paeDocumentationResource: defineResource(apiVer + "/paedocumentation/:documentId/", {documentId: '@documentId'}, {
+                        getAll: {method: 'GET', params: {categoryId: '@categoryId'},isArray:true},
+                        save: {method: 'POST', params: {}},
+                        update: {method: 'PUT', params: {}},
+                        delete:{method:'DELETE',params:{}},
+                        updateMember: {method: 'PUT', params: {}},
+                    }),
                     individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/:clientId", {clientId: '@clientId'}, {
                         get: {method: 'GET', params: {}},
                         save: {method: 'POST', params: {}},
@@ -422,6 +429,9 @@
                     codeValueNameResource: defineResource(apiVer + "/codes/codevalues/:codeName", {codeName: '@codeName'}, {
                         getAllCodeValues: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT', params: {} }
+                    }),
+                    requiredDocumentsResource: defineResource(apiVer + "/codes/codevalues/:codeValueId/requireddocuments", {codeValueId: '@codeValueId'}, {
+                        get: {method: 'GET', params: {}, isArray: true}
                     }),
 					hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
                         getAllHooks: {method: 'GET', params: {}, isArray: true},
@@ -1037,9 +1047,6 @@
                         update: { method: 'PUT'},
                         delete: { method: 'DELETE'},
                         template: {method: 'GET',params:{}},
-                    }),
-                    bankAccountTemplateResource: defineResource(apiVer + "/bankaccounts/template", {}, {
-                        get: {method: 'GET', params: {}}
                     }),
                     chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
                         get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
