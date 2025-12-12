@@ -1,0 +1,36 @@
+<div class="content-container"  ng-controller="PaeDocumentationController">
+    <div class="card">
+        <div class="content">
+            <div class="toolbar">
+                <h4 class="pull-left">{{'label.anchor.paedocumentation' | translate}}</h4>
+            </div>
+            <div>
+                <!-- PAE Documentation content goes here -->
+                <p>{{'label.view.paedocumentation' | translate}}</p>
+                <!-- Table for Required Guarantees -->
+                <table class="table table-bordered table-striped" ng-if="requiredGuarantees.length">
+                    <thead>
+                        <tr>
+                            <th>{{'label.input.position' | translate}}</th>
+                            <th>{{'label.input.name' | translate}}</th>
+                            <th>{{'label.input.action' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in requiredGuarantees" class="pointer-main" ng-click="showRequiredGuaranteeDocumentation(item)">
+                            <td>{{item.position}}</td>
+                            <td>{{item.name}}</td>
+                            <td>
+                                <i ng-if="item.active" class="fa fa-check-circle btn-success"></i>
+                                <i ng-if="!item.active" class="fa fa-times-circle btn-default"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div ng-if="!requiredGuarantees.length">
+                    <em>{{'label.no.required.guarantees' | translate}}</em>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

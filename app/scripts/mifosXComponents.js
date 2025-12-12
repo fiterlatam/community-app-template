@@ -430,6 +430,8 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'bank/bankcheques/AuthorizeSingleChequeIssuanceController',
             'bank/bankcheques/PrintChequesController',
             'bank/bankcheques/PayGuaranteesWithChequesController',
+            'paedocumentation/PaeDocumentationController',
+            'paedocumentation/PaeDocumentationViewController',
         ],
         filters: [
             'StatusLookup',
