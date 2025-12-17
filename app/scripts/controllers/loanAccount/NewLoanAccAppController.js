@@ -250,6 +250,9 @@
             scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
             }
+            scope.extractExtraData = function (extraData) {
+                return extraData;
+            }
 
             scope.fetchAdditinalDataTemplate = function () {
                 resourceFactory.loanResource.get({
