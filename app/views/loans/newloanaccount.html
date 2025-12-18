@@ -38,6 +38,8 @@
                                     </option>
                                 </select>
                             </td>
+                        </tr>
+                        <tr>
                             <td class="width14">
                                 <label>{{ 'label.input.product' | translate }}
                                     <span class="required">*</span>:&nbsp;
@@ -1046,7 +1048,7 @@
 
                                     <div class="col-sm-6">
                                         <div style="margin-top: 10px;">
-                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" ng-model="guarantyFiles[$parent.$index][requiredDoc.id]"
+                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][requiredDoc.id]"
                                                    ngf-select="onGuarantyFileSelect($files, $parent.$index, docCollections.id)" ng-required="docCollections.required"
                                                    late-validate>
                                             <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>

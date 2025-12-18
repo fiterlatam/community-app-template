@@ -1008,6 +1008,28 @@
                 }
                 scope.requiresGuaranteeDocuments =  requiresGuaranteeDocs;
             }
+
+            scope.processAcceptedType= function (typeAccepted){
+                console.log("Processing accepted type:", typeAccepted);
+                if (typeAccepted){
+                    //resolve file type for these accepted types
+                    if (typeAccepted === 'PDF/IMAGE'){
+                        return 'application/pdf','image/*';
+                    }
+                    else if (typeAccepted === 'PDF'){
+                        return 'application/pdf';
+                    }
+                    else if (typeAccepted === 'WORD'){
+                        return 'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                    }
+                    else if (typeAccepted === 'EXCEL'){
+                        return 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                    }
+                    else if (typeAccepted === 'IMAGE') {
+                        return 'image/*';
+                    }
+                }
+            }
         }
     });
     mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',  'API_VERSION',  'Upload',  '$rootScope', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
