@@ -164,6 +164,10 @@
                 scope.isClearing=true;
                 console.log("Removing two-factor token from storage for user "+ username);
 
+                timer = $timeout(function(){
+                    scope.isClearing=false;
+                },2000);
+
                 var storageData = localStorageService.getFromLocalStorage("twofactor");
                 if(!storageData) {
                     return;
