@@ -1466,6 +1466,7 @@
   "label.input.pdfformat": "PDF format",
   "label.input.wordformat": "DOC format",
   "label.input.imageformat": "Image format",
+  "label.input.image.pdf.format": "JPG/PDF format",
   "label.input.reportname": "Report name",
   "label.input.reportdate": "Reporting Date",
   "label.input.reporttype": "Report type",
