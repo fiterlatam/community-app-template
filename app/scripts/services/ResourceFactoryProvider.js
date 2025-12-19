@@ -410,7 +410,8 @@
                     }),
                     accountingClosureResource: defineResource(apiVer + "/glclosures/:accId", {accId: "@accId"}, {
                         get: {method: 'GET', params: {}, isArray: true},
-                        getView: {method: 'GET', params: {}}
+                        getView: {method: 'GET', params: {}},
+                        update: { method: 'PUT', params: {} }
                     }),
                     periodicAccrualAccountingResource: defineResource(apiVer + "/runaccruals", {}, {
                         run: {method: 'POST', params: {}}

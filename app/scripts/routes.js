@@ -959,6 +959,9 @@
             .when('/loanforeclosure/:id', {
                 templateUrl: 'views/loans/loanforeclosure.html'
             })
+            .when('/loanforeclosureprojection/:id', {
+                templateUrl: 'views/loans/loanforeclosureprojection.html'
+            })
             .when('/loanfuturepayment/:id', {
                 templateUrl: 'views/loans/loanfuturepayment.html'
             })
@@ -1213,6 +1216,8 @@
             templateUrl: 'views/prequalifications/prequalificationsGroups.html'
         }).when('/prequalificationAnalysis/:type', {
             templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
+        }).when('/prequalificationAnalysis/:type/:groupingType', {
+            templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
         }).when('/prequalifications/newprequalification/new/:groupingType', {
             templateUrl: 'views/prequalifications/newgroup.html'
         }).when('/prequalifications/newprequalification/existing', {
@@ -1229,6 +1234,8 @@
             templateUrl: 'views/prequalifications/individualPrequalification.html'
         }).when('/loans/restructurecredit/:clientId', {
             templateUrl: 'views/loans/restructurecredits.html'
+        }).when('/loans/restructurecreditextension/:clientId/:isextenstion', {
+            templateUrl: 'views/loans/restructurecreditsextension.html'
         }).when('/banks', {
             templateUrl: 'views/banks/banks.html'
         }).when('/banks/createbank', {

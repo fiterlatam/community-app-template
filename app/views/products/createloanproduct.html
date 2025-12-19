@@ -105,7 +105,7 @@
                                        ng-false-value="false">
                             </label>
                         </div>
-                        
+
                         <label class="control-label col-sm-2 col-sm-offset-2">{{ 'label.input.usedFor' | translate }}
                             <span class="required">*</span>
                             <i class="fa fa-question-circle "
@@ -115,7 +115,7 @@
 
                         <div class="col-sm-2">
                             <select id="ownerType" class="form-control"
-                                ng-model="formData.ownerType" 
+                                ng-model="formData.ownerType"
                                 ng-options="ownerType.id as ownerType.value for ownerType in product.loanProductOwnerTypes"
                                 ng-change="loanproduct.ownerTypeOption.value = formValue(product.loanProductOwnerTypes,formData.ownerType)"
                                 value="{{ownerType.id}}">
@@ -227,7 +227,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="control-label col-sm-2">{{ 'label.input.useborrowerloancounter' | translate }}
                             <i class="fa fa-question-circle"
@@ -1039,6 +1039,10 @@
                                uib-tooltip="{{'label.tooltip.loanproduct.requireCommitteeApproval' | translate}}"
                                tooltip-append-to-body="true"></i>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+
                     </div>
 
 
