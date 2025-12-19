@@ -22033,3 +22033,11 @@ Interactive Layer
 .timeline-step:not(:last-child):not(.timeline-vertical .timeline-step)::after { content: ''; position: absolute; top: 20px; right: -60px; width: 60px; height: 4px; background: #ccc; z-index: 0; }
 .timeline-step.completed:not(:last-child):not(.timeline-vertical .timeline-step)::after { background: #4caf50; }
 
+
+
+.hyperlight {
+  color: #6f6f6f !important;
+}
+.hyperlight:hover {
+  color: #8fa9ff !important;
+}

@@ -1,24 +1,26 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        LoanForeclosureController: function (scope, routeParams, resourceFactory, location, route, http, $uibModal, dateFilter, $filter) {
+        LoanForeclosureProjectionController: function (scope, routeParams, resourceFactory, location, route, http, $uibModal, dateFilter, $filter) {
             scope.accountId = routeParams.id;
             scope.formData = {};
             scope.formData.loanId = scope.accountId;
             scope.taskTypeName = 'Foreclosure';
             scope.subTaskTypeName = 'Foreclosure';
-            scope.formData.transactionDate = new Date();
+            // scope.formData.transactionDate = new Date();
             scope.restrictDate = new Date();
 
             resourceFactory.LoanAccountResource.getLoanAccountDetails({loanId: routeParams.id, associations: 'all'}, function (data) {
                 scope.loandetails = data;
             });
             scope.$watch('formData.transactionDate',function(){
-                scope.retrieveLoanForeclosureTemplate();
+                if (scope.formData.transactionDate)
+                    scope.retrieveLoanForeclosureTemplate();
             });
 
             scope.retrieveLoanForeclosureTemplate = function() {
                 resourceFactory.loanTrxnsTemplateResource.get({
                     loanId: routeParams.id,
+                    isProjection: true,
                     command: 'foreclosure',
                     transactionDate: dateFilter(this.formData.transactionDate, scope.df),
                     dateFormat: scope.df,
@@ -81,7 +83,7 @@
             };
         }
     });
-    mifosX.ng.application.controller('LoanForeclosureController', ['$scope', '$routeParams', 'ResourceFactory', '$location', '$route', '$http', '$uibModal', 'dateFilter','$filter', mifosX.controllers.LoanForeclosureController]).run(function ($log) {
-        $log.info("LoanForeclosureController initialized");
+    mifosX.ng.application.controller('LoanForeclosureProjectionController', ['$scope', '$routeParams', 'ResourceFactory', '$location', '$route', '$http', '$uibModal', 'dateFilter','$filter', mifosX.controllers.LoanForeclosureProjectionController]).run(function ($log) {
+        $log.info("LoanForeclosureProjectionController initialized");
     });
 }(mifosX.controllers || {}));
