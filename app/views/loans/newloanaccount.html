@@ -38,6 +38,8 @@
                                     </option>
                                 </select>
                             </td>
+                        </tr>
+                        <tr>
                             <td class="width14">
                                 <label>{{ 'label.input.product' | translate }}
                                     <span class="required">*</span>:&nbsp;
@@ -1031,21 +1033,24 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="{{ 'label.heading.warantydocuments' | translate }}" wz-disabled="{{!paeRequiredGuaranteeOptions}}">
-            <form name="GuarantyDocuments" ng-submit="goNext(GuarantyDocuments)" class="form-horizontal">
+        <wz-step ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" wz-title="{{requiredDoc.name}}"
+                 wz-disabled="{{!requiredDoc.selected}}">
+            <form name="GuarantyDocuments" ng-submit="goNext(GuarantyDocuments)" class="form-inline">
                 <fieldset>
                     <api-validate></api-validate>
                     <br>
-                    <div class="row" ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" ng-if="requiredDoc.selected">
-                        <div class="col-sm-6 alert alert-default">
-                            <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-5 m-2 alert alert-info" ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" ng-if="requiredDoc.extraData && requiredDoc.extraData.length>0">
+                            <h3>{{'label.heading.guarantee' | translate}} - {{$index+1}}</h3>
+                            <div class="form-inline alert alert-default" style="margin-bottom: 10px" ng-repeat="docCollections in requiredDoc.extraData" >
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4" for="name">{{requiredDoc.name}}<span class="required">*</span></label>
+                                    <label class="control-label col-sm-4" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required">*</span></label>
 
                                     <div class="col-sm-6">
-                                        <div ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" style="margin-top: 10px;">
-                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" ng-model="guarantyFiles[$parent.$index][$index]"
-                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index, $index)" required late-validate>
+                                        <div style="margin-top: 10px;">
+                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][requiredDoc.id]"
+                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index, docCollections.id)" ng-required="docCollections.required"
+                                                   late-validate>
                                             <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>
                                         </div>
                                     </div>
@@ -1064,7 +1069,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="{{ 'label.heading.documents' | translate }}">
+        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-disabled="{{product.ownerTypeOption.value === 'PAE'}}">
             <form name="LoanDocuments" class="form-horizontal" ng-submit="goNext(LoanDocuments)">
                 <fieldset>
                     <h3>{{'label.heading.uploaddocuments' | translate}}</h3>

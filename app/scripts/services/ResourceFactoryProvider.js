@@ -106,10 +106,11 @@
 
                         updateMember: {method: 'PUT', params: {}},
                     }),
-                    paeDocumentationResource: defineResource(apiVer + "/paedocumentation/:loanId/", {loanId: '@loanId'}, {
-                        get: {method: 'GET', params: {codeValueId: '@codeValueId'}},
+                    paeDocumentationResource: defineResource(apiVer + "/paedocumentation/:documentId/", {documentId: '@documentId'}, {
+                        getAll: {method: 'GET', params: {categoryId: '@categoryId'},isArray:true},
                         save: {method: 'POST', params: {}},
                         update: {method: 'PUT', params: {}},
+                        delete:{method:'DELETE',params:{}},
                         updateMember: {method: 'PUT', params: {}},
                     }),
                     individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/:clientId", {clientId: '@clientId'}, {

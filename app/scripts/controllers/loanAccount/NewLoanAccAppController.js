@@ -250,6 +250,9 @@
             scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
             }
+            scope.extractExtraData = function (extraData) {
+                return extraData;
+            }
 
             scope.fetchAdditinalDataTemplate = function () {
                 resourceFactory.loanResource.get({
@@ -1004,6 +1007,28 @@
                     }
                 }
                 scope.requiresGuaranteeDocuments =  requiresGuaranteeDocs;
+            }
+
+            scope.processAcceptedType= function (typeAccepted){
+                console.log("Processing accepted type:", typeAccepted);
+                if (typeAccepted){
+                    //resolve file type for these accepted types
+                    if (typeAccepted === 'PDF/IMAGE'){
+                        return 'application/pdf','image/*';
+                    }
+                    else if (typeAccepted === 'PDF'){
+                        return 'application/pdf';
+                    }
+                    else if (typeAccepted === 'WORD'){
+                        return 'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                    }
+                    else if (typeAccepted === 'EXCEL'){
+                        return 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                    }
+                    else if (typeAccepted === 'IMAGE') {
+                        return 'image/*';
+                    }
+                }
             }
         }
     });
