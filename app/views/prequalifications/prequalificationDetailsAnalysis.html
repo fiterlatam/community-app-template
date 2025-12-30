@@ -403,27 +403,26 @@
             <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
 
             <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType==='analysis' && groupData.prequalificationType.value!='PAE'">
-                <div class="text-left m-1">
+                <div class="text-right">
                     <button ng-click="processAnalysisRequest('sendtoexception','label.button.sendtoexception')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoexception' | translate}}
                     </button>
-                </div>
 
-                <div class="text-right m-1 ms-auto">
                     <button ng-click="processAnalysisRequest('sendtoagency','label.button.sendtoagency')" type="button"
                             class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.sendtoagency' | translate}}
                     </button>
                 </div>
-
-                <button ng-if="prequalificationType ==='analysis'"
-                                ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
-                                type="button"
-                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                            {{'label.button.prequalification.sendtoCommitteeWithoutException' | translate}}
-                        </button>
-
             </div>
 
+                <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='GROUP'">
+                    <button
+                            ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
+                            type="button"
+                            class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                        {{'label.button.prequalification.sendtoCommitteeWithoutException' | translate}}
+                    </button>
+
+                </div>
                 <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center" ng-if="groupData.prequalificationType.value=='PAE'">
 
                     <div class="text-left m-1" ng-if="groupData.prequalificationType.value=='PAE'">
@@ -459,7 +458,7 @@
                         <!-- ANAYLSIS APPROVAL A-B-C-D -->
 
                         <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
-                        <button ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value=='PAE'"
+                        <button ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!=='GROUP'"
                                 ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
                                 type="button"
                                 class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -529,6 +528,7 @@
                         </button>
 
                     </div>
+
                 </div>
 
                 <div class="row alert alert-warning m-1" ng-if="groupData.prequalificationType.value!='PAE'">
@@ -537,6 +537,12 @@
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
                     </button>
+                        <button ng-if="prequalificationType ==='analysis'"
+                                ng-click="processAnalysisRequest('approveanalysis','label.button.approve')"
+                                type="button"
+                                class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.approve' | translate}}
+                        </button>
                 </div>
                 <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
