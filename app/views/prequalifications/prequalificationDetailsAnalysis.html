@@ -522,6 +522,7 @@
                         </button>
 
                     </div>
+
                 </div>
 
                 <div class="row alert alert-warning m-1" ng-if="groupData.prequalificationType.value!='PAE'">
@@ -530,6 +531,12 @@
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.delaytoaccounting')" type="button"
                             class="btn btn-warning" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>{{'label.button.delaytoaccounting' | translate}}
                     </button>
+                        <button ng-if="prequalificationType ==='analysis'"
+                                ng-click="processAnalysisRequest('approveanalysis','label.button.approve')"
+                                type="button"
+                                class="btn btn-success" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.approve' | translate}}
+                        </button>
                 </div>
                 <div class="col-sm-6 text-left" ng-if="prequalificationType==='exceptionsqueue'">
                     <button ng-click="processAnalysisRequest('requestupdates','label.button.sendToPrevious')" type="button"
