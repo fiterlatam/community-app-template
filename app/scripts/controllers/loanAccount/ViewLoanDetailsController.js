@@ -178,6 +178,10 @@
                 scope.decimals = data.currency.decimalPlaces;
                 scope.loandetails = data;
                 scope.groupLoanAdditionalData = data.groupLoanAdditionalData;
+                if (data.prequalificationData){
+                    let prequalificationData = data.prequalificationData;
+                    scope.prequalificationType= prequalificationData.prequalificationType.value;
+                }
                 if(scope.loandetails.loanAdditionalData){
                     scope.loanAdditionalData = scope.loandetails.loanAdditionalData;
                     scope.caseId = scope.loandetails.loanAdditionalData.caseId;
@@ -549,6 +553,95 @@
                     scope.loandocuments = data;
                 });
 
+            };
+
+            scope.getPaeLoanDocuments = function () {
+                console.log("Fetching PAE Loan Documents");
+                resourceFactory.entityDocumentsResource.getAllDocuments({
+                    entity: 'paeloandocs',
+                    entityId: routeParams.id
+                }, function (data) {
+                    for (var l in data) {
+
+                        var bldocs = {};
+                        bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                        data[l].docUrl = bldocs;
+                        if (data[l].fileName)
+                            if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1)
+                                data[l].fileIsImage = true;
+                        if (data[l].type)
+                            if (data[l].type.toLowerCase().indexOf('image') != -1)
+                                data[l].fileIsImage = true;
+                    }
+                    scope.paeLoandocuments = data;
+                });
+
+            };
+
+            // Add downloadAllPaeDocuments to scope
+            scope.downloadAllPaeDocuments = function() {
+                if (!scope.paeLoandocuments || scope.paeLoandocuments.length === 0) {
+                    alert('No PAE documents to download.');
+                    return;
+                }
+                var zip = new JSZip();
+                var count = 0;
+                var zipFilename = 'pae_documents_' + (scope.loandetails.accountNo || 'loan') + '.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                scope.paeLoandocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var filename = doc.fileName || doc.name || ('document_' + doc.id);
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            zip.file(filename, blob);
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(filename);
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.paeLoandocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
             };
 
             resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan'}, function (data) {

@@ -31,8 +31,10 @@
             scope.currentLoanData = {};
             scope.currentLoanDocs = {}
             scope.loanDocuments = [];
+            scope.paeLoandocuments = [];
             scope.guarantyFiles = [];
             scope.paeRequiredGuaranteeOptions;
+            scope.paeRequiredGuaranteeDocuments=[];
             scope.requiresGuaranteeDocuments = false;
             scope.product;
             scope.clientHousingType;
@@ -746,10 +748,15 @@
                 } else {
                     delete scope.formData.datatables;
                 }
+                if (!scope.validatRequiredPaeDocs()){
+                    return;
+                }
                 resourceFactory.loanResource.save(this.formData, function (data) {
                     if(data.loanId){
                         scope.uploadDocuments(data.loanId)
+                        scope.uploadPaeDocuments(data.loanId)
                     }
+                    location.path('/viewloanaccount/' + data.loanId);
                 });
             };
 
@@ -765,7 +772,61 @@
                         }
                     });
                 }
-                location.path('/viewloanaccount/' + loanId);
+            }
+
+            scope.uploadPaeDocuments = function (loanId){
+                for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
+                    if (scope.paeRequiredGuaranteeOptions[i].selected){
+                        let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
+                        for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
+                            for (let k = 0; k < extraData.length; k++) {
+                                let requiredDoc = extraData[k];
+                                let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
+
+                                if (!guaranteeDocFile || !guaranteeDocFile.file) {
+                                    alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
+                                    return;
+                                }
+                                console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile.file);
+
+                                Upload.upload({
+                                    url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + loanId + '/paedocument',
+                                    data: {
+                                        name: guaranteeDocFile.name,
+                                        description: guaranteeDocFile.description,
+                                        categoryId: guaranteeDocFile.categoryId,
+                                        guaranteeNo: "GUARANTEE_"+(j+1),
+                                        file: guaranteeDocFile.file
+                                    },
+                                }).then(function (data) {
+                                    if (!scope.$$phase) {
+                                        scope.$apply();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            scope.validatRequiredPaeDocs = function (loanId){
+                for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
+                    if (scope.paeRequiredGuaranteeOptions[i].selected){
+                        let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
+                        for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
+                            for (let k = 0; k < extraData.length; k++) {
+                                let requiredDoc = extraData[k];
+                                let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
+
+                                if (!guaranteeDocFile || !guaranteeDocFile.file) {
+                                    alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                return true;
             }
 
            scope.searchByCaseId = function () {
@@ -987,14 +1048,17 @@
                 }
             }
 
-            scope.onGuarantyFileSelect = function($files, parentIndex, finalIndex){
-                console.log("File selected for guaranty document upload:", parentIndex, finalIndex);
+            scope.onGuarantyFileSelect = function($files, parentIndex, childIndex, currentDoc){
                 // Ensure the array exists
-                if (!scope.paeRequiredGuaranteeOptions[parentIndex].documents) {
-                    scope.paeRequiredGuaranteeOptions[parentIndex].documents = [];
+                if (!scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)]) {
+                    scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)] = [];
                 }
                 // Store the file(s) at the correct index
-                scope.paeRequiredGuaranteeOptions[parentIndex].documents[finalIndex] = $files[0];
+                scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)][parentIndex] =
+                    {file: $files[0], name:currentDoc.documentName,
+                    description:currentDoc.description,categoryId:currentDoc.categoryId };
+                console.log("Files selected for guaranty document upload:",scope.paeRequiredGuaranteeDocuments );
+
             }
 
             scope.requiresGuaranteeDocs = function () {
@@ -1010,7 +1074,6 @@
             }
 
             scope.processAcceptedType= function (typeAccepted){
-                console.log("Processing accepted type:", typeAccepted);
                 if (typeAccepted){
                     //resolve file type for these accepted types
                     if (typeAccepted === 'PDF/IMAGE'){
