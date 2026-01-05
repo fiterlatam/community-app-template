@@ -1098,7 +1098,7 @@
                             <tr ng-repeat="document in loandocuments">
                                 <td>{{document.name}}</td>
                                 <td>{{document.description}}</td>
-                                <td>{{document.fileName}}</td>
+                                <td>{{document.fileName}} `</td>
                                 <td>{{document.documentType}}</td>
                                 <td>
                                     <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
@@ -1112,7 +1112,7 @@
                             </tbody>
                         </table>
                         <div style="padding-left: 25%;">
-                            <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}"
+                            <object height="62%" width="70%" ng-show="preview" data="{{fileUrl}}"
                                     type="{{fileType}}"></object>
                         </div>
                     </uib-tab>
