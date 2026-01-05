@@ -344,6 +344,9 @@
                     LoanDocumentResource: defineResource(apiVer + "/loans/:loanId/documents/:documentId", {loanId: '@loanId', documentId: '@documentId'}, {
                         getLoanDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
+                    PaeLoanDocumentResource: defineResource(apiVer + "/paedocumentation/:loanId/documents/:documentId", {loanId: '@loanId', documentId: '@documentId'}, {
+                        getLoanDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
                     currencyConfigResource: defineResource(apiVer + "/currencies", {}, {
                         get: {method: 'GET', params: {}},
                         update: { method: 'PUT'},

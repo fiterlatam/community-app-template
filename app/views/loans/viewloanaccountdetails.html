@@ -1038,7 +1038,48 @@
                         </table>
                     </uib-tab>
 
-                    <uib-tab heading="{{'label.heading.loandocuments' | translate}}" select="getLoanDocuments()">
+                    <uib-tab ng-show="prequalificationType === 'PAE'" heading="{{'label.anchor.paedocumentation' | translate}}" select="getPaeLoanDocuments()">
+                        <div class="pull-right" data-ng-show="choice">
+                            <a href="#/addloandocument/{{loandetails.id}}" class="btn btn-primary"><i
+                                    class="fa fa-plus "></i>{{'label.button.upload'
+                            | translate}}</a>
+                        </div>
+                        <br>
+                        <table class="table" ng-show="paeLoandocuments.length > 0">
+                            <thead>
+                            <th>{{'label.heading.name' | translate}}</th>
+                            <th>{{'label.heading.description' | translate}}</th>
+                            <th>{{'label.heading.filename' | translate}}</th>
+                            <th>{{'label.heading.type' | translate}}</th>
+                            <th>{{'label.heading.actions' | translate}}</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="document in paeLoandocuments">
+                                <td>{{document.name}}</td>
+                                <td>{{document.description}}</td>
+                                <td>{{document.fileName}}</td>
+                                <td>{{document.documentType}}</td>
+                                <td>
+                                    <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
+                                            class="fa fa-cloud-download"></i></a>&nbsp;
+                                    <a ng-show="document.fileIsImage"
+                                       ng-click="previewDocument(document.docUrl,document.fileName)"><i
+                                            class="fa fa-eye"></i></a>
+                                    <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            <tr style="column-span: 5" class="text-right">
+                                <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i>Download All</button>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="padding-left: 25%;">
+                            <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}"
+                                    type="{{fileType}}"></object>
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab ng-show="prequalificationType !== 'PAE'"  heading="{{'label.heading.loandocuments' | translate}}" select="getLoanDocuments()">
                         <div class="pull-right" data-ng-show="choice">
                             <a href="#/addloandocument/{{loandetails.id}}" class="btn btn-primary"><i
                                     class="fa fa-plus "></i>{{'label.button.upload'
