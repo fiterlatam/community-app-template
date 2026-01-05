@@ -790,7 +790,7 @@
                                 console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile.file);
 
                                 Upload.upload({
-                                    url: $rootScope.hostUrl + API_VERSION + '/paeloandocs/' + loanId + '/paedocument',
+                                    url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + loanId + '/paedocument',
                                     data: {
                                         name: guaranteeDocFile.name,
                                         description: guaranteeDocFile.description,
