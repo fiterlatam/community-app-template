@@ -795,7 +795,7 @@
                                         name: guaranteeDocFile.name,
                                         description: guaranteeDocFile.description,
                                         categoryId: guaranteeDocFile.categoryId,
-                                        guaranteeNo: "GUARANTEE_"+(j+1),
+                                        guaranteeNo: (j+1),
                                         file: guaranteeDocFile.file
                                     },
                                 }).then(function (data) {
@@ -818,7 +818,7 @@
                                 let requiredDoc = extraData[k];
                                 let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
 
-                                if (!guaranteeDocFile || !guaranteeDocFile.file) {
+                                if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.file)) {
                                     alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
                                     return false;
                                 }
