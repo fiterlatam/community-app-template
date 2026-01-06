@@ -1068,11 +1068,11 @@
                                     <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
-                            <tr style="column-span: 5" class="text-right">
-                                <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i>Download All</button>
-                            </tr>
                             </tbody>
                         </table>
+                        <div class="text-right">
+                            <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> Download All</button>
+                        </div>
                         <div style="padding-left: 25%;">
                             <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}"
                                     type="{{fileType}}"></object>
