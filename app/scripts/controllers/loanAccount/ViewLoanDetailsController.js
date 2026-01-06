@@ -584,7 +584,7 @@
                     alert('No PAE documents to download.');
                     return;
                 }
-                var zip = new window.JSZip();
+                var zip = new JSZipService.getJSZip();
                 var count = 0;
                 var zipFilename = 'pae_documents_' + (scope.loandetails.accountNo || 'loan') + '.zip';
                 var failed = [];
