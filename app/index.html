@@ -9,8 +9,6 @@
     }</style>
     <link href="styles/styles.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
-    <script src="bower_components/jszip/dist/jszip.js"></script>
-    <script src="bower_components/file-saver/dist/FileSaver.js"></script>
 </head>
 <body class="preview whitebg" id="top" data-spy="scroll" data-target=".subnav" data-offset="80"
       data-ng-controller="MainController">
@@ -468,5 +466,7 @@
 </div>
 <!-- Le javascript -->
 <script type='text/javascript' data-main="scripts/loader.js" src='bower_components/requirejs/require.js'></script>
+<script type='text/javascript' data-main="scripts/loader.js" src="bower_components/jszip/dist/jszip.js"></script>
+<script type='text/javascript' data-main="scripts/loader.js" src="bower_components/file-saver/dist/FileSaver.js"></script>
 </body>
 </html>
