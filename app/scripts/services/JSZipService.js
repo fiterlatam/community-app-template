@@ -1,7 +1,9 @@
 (function(module) {
     mifosX.services = _.extend(module, {
         JSZipService: function() {
-            return window.JSZip;
+            this.getJSZip = function(){
+                return new window.JSZip;
+            }
         }
     });
     mifosX.ng.services.service('JSZipService', mifosX.services.JSZipService);
