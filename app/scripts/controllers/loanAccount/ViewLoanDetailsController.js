@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        ViewLoanDetailsController: function (scope, routeParams, resourceFactory,paginatorService, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope, $locale) {
+        ViewLoanDetailsController: function (scope, routeParams, resourceFactory,paginatorService, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope, $locale, JSZipService) {
             scope.loandocuments = [];
             scope.report = false;
             scope.hidePentahoReport = true;
@@ -584,7 +584,7 @@
                     alert('No PAE documents to download.');
                     return;
                 }
-                var zip = new JSZip();
+                var zip = new JSZipService();
                 var count = 0;
                 var zipFilename = 'pae_documents_' + (scope.loandetails.accountNo || 'loan') + '.zip';
                 var failed = [];
@@ -893,7 +893,7 @@
             };
         }
     });
-    mifosX.ng.application.controller('ViewLoanDetailsController', ['$scope', '$routeParams', 'ResourceFactory','PaginatorService', '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope', '$locale', mifosX.controllers.ViewLoanDetailsController]).run(function ($log) {
+    mifosX.ng.application.controller('ViewLoanDetailsController', ['$scope', '$routeParams', 'ResourceFactory','PaginatorService', '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope', '$locale', 'JSZipService', mifosX.controllers.ViewLoanDetailsController]).run(function ($log) {
         $log.info("ViewLoanDetailsController initialized");
     });
 }(mifosX.controllers || {}));
