@@ -609,6 +609,16 @@
                     authHeader['Fineract-Platform-TenantId'] = tenant;
                 }
 
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData.username;
+                    let token = JSON.parse(tokenData)[username].token;
+                    console.log("Adding 2FA token to request: " + token);
+                    authHeader['fineract-platform-tfa-token'] = token;
+                }
+
                 scope.paeLoandocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
                     var filename = doc.fileName || doc.name || ('document_' + doc.id);
