@@ -585,6 +585,8 @@
                     return;
                 }
                 var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('pdfs');
+                var otherFolder = zip.folder('others');
                 var count = 0;
                 var zipFilename = 'pae_documents_' + (scope.loandetails.accountNo || 'loan') + '.zip';
                 var failed = [];
@@ -613,8 +615,10 @@
                 var tokenData = localStorage.getItem('mifosX.twofactor');
                 if (tokenData) {
                     let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
-                    let username = userData.username;
-                    let token = JSON.parse(tokenData)[username].token;
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
 
                     if (token) authHeader['fineract-platform-tfa-token'] = token;
                 }
@@ -622,13 +626,17 @@
                 scope.paeLoandocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
                     var filename = doc.fileName || doc.name || ('document_' + doc.id);
+
                     fetch(url, { credentials: 'include', headers: authHeader })
                         .then(function(response) {
                             if (!response.ok) throw new Error('Network response was not ok');
                             return response.blob();
                         })
                         .then(function(blob) {
-                            zip.file(filename, blob);
+                            var lowerName = filename.toLowerCase();
+                            var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
+                            targetFolder.file(filename, blob);
+
                             count++;
                             if (count === scope.paeLoandocuments.length) {
                                 zip.generateAsync({ type: 'blob' }).then(function(content) {
