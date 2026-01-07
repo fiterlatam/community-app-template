@@ -615,8 +615,8 @@
                     let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
                     let username = userData.username;
                     let token = JSON.parse(tokenData)[username].token;
-                    console.log("Adding 2FA token to request: " + token);
-                    authHeader['fineract-platform-tfa-token'] = token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
                 }
 
                 scope.paeLoandocuments.forEach(function(doc) {
