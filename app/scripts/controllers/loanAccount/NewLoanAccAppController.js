@@ -810,17 +810,21 @@
             }
 
             scope.validatRequiredPaeDocs = function (loanId){
-                for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
-                    if (scope.paeRequiredGuaranteeOptions[i].selected){
-                        let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
-                        for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
-                            for (let k = 0; k < extraData.length; k++) {
-                                let requiredDoc = extraData[k];
-                                let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
+                if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0){
+                    for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
+                        if (scope.paeRequiredGuaranteeOptions[i].selected){
+                            let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
+                            if (extraData && extraData.length > 0) {
+                                for (let j = 0; j < scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
+                                    for (let k = 0; k < extraData.length; k++) {
+                                        let requiredDoc = extraData[k];
+                                        let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
 
-                                if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.file)) {
-                                    alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
-                                    return false;
+                                        if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.file)) {
+                                            alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
+                                            return false;
+                                        }
+                                    }
                                 }
                             }
                         }
