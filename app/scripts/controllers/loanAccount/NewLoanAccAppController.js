@@ -775,34 +775,39 @@
             }
 
             scope.uploadPaeDocuments = function (loanId){
-                for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
-                    if (scope.paeRequiredGuaranteeOptions[i].selected){
-                        let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
-                        for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
-                            for (let k = 0; k < extraData.length; k++) {
-                                let requiredDoc = extraData[k];
-                                let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
+                if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0){
+                    for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
+                        if (scope.paeRequiredGuaranteeOptions[i].selected){
+                            let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
+                            for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
+                                if (extraData && extraData.length > 0) {
+                                    for (let k = 0; k < extraData.length; k++) {
+                                        let requiredDoc = extraData[k];
+                                        let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
 
-                                if (!guaranteeDocFile || !guaranteeDocFile.file) {
-                                    alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
-                                    return;
-                                }
-                                console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile.file);
+                                        if (!guaranteeDocFile || !guaranteeDocFile.file) {
+                                            alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
+                                            return;
+                                        }
+                                        console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile.file);
 
-                                Upload.upload({
-                                    url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + loanId + '/paedocument',
-                                    data: {
-                                        name: guaranteeDocFile.name,
-                                        description: guaranteeDocFile.description,
-                                        categoryId: guaranteeDocFile.categoryId,
-                                        guaranteeNo: (j+1),
-                                        file: guaranteeDocFile.file
-                                    },
-                                }).then(function (data) {
-                                    if (!scope.$$phase) {
-                                        scope.$apply();
+                                        Upload.upload({
+                                            url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + loanId + '/paedocument',
+                                            data: {
+                                                name: guaranteeDocFile.name,
+                                                description: guaranteeDocFile.description,
+                                                categoryId: guaranteeDocFile.categoryId,
+                                                guaranteeNo: (j+1),
+                                                file: guaranteeDocFile.file
+                                            },
+                                        }).then(function (data) {
+                                            if (!scope.$$phase) {
+                                                scope.$apply();
+                                            }
+                                        });
                                     }
-                                });
+                                }
+
                             }
                         }
                     }
