@@ -234,6 +234,10 @@
                 });
             }
 
+            scope.reloadPage = function(){
+                scope.routeTo("/prequalificationsmenu");
+            }
+
             var ViewMemberHardPolicyCtrl = function ($scope, $uibModalInstance) {
                 $scope.memberResults = scope.memberHardPolicyResults;
 
@@ -303,7 +307,7 @@
                             if (data.reportToPrint){
                                 scope.printReport(data)
                             }
-                            scope.routeTo("/prequalificationsmenu");
+                            // scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
                         });
                 }
@@ -313,6 +317,7 @@
             };
 
             scope.printReport= function(data){
+                console.log("going to print report "+data.reportToPrint)
                 scope.report = true;
                 var reportURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent(data.reportToPrint);
                 reportURL += "?output-type=" + encodeURIComponent('PDF') + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
