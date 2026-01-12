@@ -546,6 +546,7 @@
 	"error.msg.loan.repayment.or.waiver.account.is.not.active": "Cuenta de préstamo no está activa",
 	"error.msg.center.group.meeting.times.collision": "Grupo central  `{{params[0].value}}` con id `{{params[1].value}}` En el centro de destino tiene una reunión colisionante en un tiempo determinado: `{{params[2].value}}` - {{params[3].value}}",
 	"error.msg.payment.amount.not.enough.invalid": "El pago del monto `{{params[0].value}}` no es suficiente para cubrir el saldo del préstamo de `{{params[1].value}}` y liberar el monto garantizado de `{{params[2]. valor}}`",
+	"loan.with.advanced.repayment.on.installment.cannot.be.foreclosured": "El préstamo tiene un pago anticipado en la cuota n.º `{{params[0].value}}` y no puede ser ejecutado anticipadamente.",
 	"validation.msg.floatingrate.ratePeriods.cannot.be.empty": "Flotante de periodos de tasa no puede estar vacío",
 	"validation.msg.floatingrate.fromDate.is.less.than.date": "Flotante de tarifas por períodos de fecha debe ser mayor que fecha actual",
 	"validation.msg.floatingrate.isBaseLendingRate.baselendingrate.duplicate": "Tasa de interés ya está definida",
