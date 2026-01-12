@@ -2107,6 +2107,7 @@
   "validation.msg.rescheduleloan.rescheduleReasonId.cannot.be.blank": "Reason for Rescheduling cannot be empty",
   "validation.msg.rescheduleloan.loan.reschedule.interestrecalculation.error.code": "Error in Recalculation of Interest",
   "validation.msg.rescheduleloan.rescheduleFromDate.adjustedDueDate.before.rescheduleFromDate": "Installment Rescheduled to can not be before  Rescheduled from date.",
+  "loan.with.advanced.repayment.on.installment.cannot.be.foreclosured": "The Loan has an advanced payment on installment no.`{{params[0].value}}` cannot be foreclosed.",
   "#-------": "------------",
   "#Savings and Deposit accounts": "....",
   "#Headings": "..",
