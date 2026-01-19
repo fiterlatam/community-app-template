@@ -795,7 +795,7 @@
                                             url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + loanId + '/paedocument',
                                             data: {
                                                 name: guaranteeDocFile.name,
-                                                description: guaranteeDocFile.description,
+                                                description: `${guaranteeDocFile.name}(GUARANTEE_${j + 1})`,
                                                 categoryId: guaranteeDocFile.categoryId,
                                                 guaranteeNo: (j+1),
                                                 file: guaranteeDocFile.file
