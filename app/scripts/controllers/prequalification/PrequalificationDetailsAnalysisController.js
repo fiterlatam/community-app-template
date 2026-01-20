@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload,$sce) {
+        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload,$sce,JSZipService) {
 
             scope.groupData = {};
             scope.formData = {};
@@ -732,10 +732,94 @@
                 };
             };
 
+            // Add downloadAllPaeDocuments to scope
+            scope.downloadAllDocuments = function() {
+                if (!scope.prequalificationDocuments || scope.prequalificationDocuments.length === 0) {
+                    alert('No documents to download.');
+                    return;
+                }
+                var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('PDF');
+                var otherFolder = zip.folder('OTROS');
+                var count = 0;
+                var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                scope.prequalificationDocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var filename =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            var lowerName = filename.toLowerCase();
+                            var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
+                            targetFolder.file(filename, blob);
+
+                            count++;
+                            if (count === scope.prequalificationDocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(filename);
+                            count++;
+                            if (count === scope.prequalificationDocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.prequalificationDocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
+            };
+
         }
     });
 
-    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload','$sce', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
+    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload','$sce','JSZipService', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
         $log.info("PrequalificationDetailsAnalysisController initialized");
     });
 }(mifosX.controllers || {}));

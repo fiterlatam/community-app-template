@@ -893,6 +893,7 @@
   "label.button.loandetails": "Loan Details",
   "label.button.upload": "Upload",
   "label.button.download": "Download",
+  "label.button.download.all": "Download All",
   "label.button.capture": "Capture",
   "label.button.viewclosedloans": "View Closed Loans",
   "label.button.viewclosedsavings": "View Closed Savings",

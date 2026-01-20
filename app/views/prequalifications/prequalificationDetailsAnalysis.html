@@ -398,6 +398,13 @@
                             <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="text-right">
+                                <button class="btn btn-primary" ng-click="downloadAllDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             <div ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
