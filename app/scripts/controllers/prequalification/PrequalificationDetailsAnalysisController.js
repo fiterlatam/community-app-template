@@ -60,7 +60,7 @@
                     bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
                     data[l].docUrl = bldocs;
                     if (data[l].fileName)
-                        if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1)
+                        if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1|| data[l].fileName.toLowerCase().indexOf('.pdf') != -1)
                             data[l].fileIsImage = true;
                     if (data[l].type)
                         if (data[l].type.toLowerCase().indexOf('image') != -1)
@@ -869,6 +869,28 @@
 
                             }
                         });
+                });
+            };
+
+            scope.previewDocument = function (url, fileName) {
+                scope.preview =  !scope.preview;
+                scope.fileUrl = $sce.trustAsResourceUrl(scope.hostUrl + url);
+                if(fileName.toLowerCase().indexOf('.png') != -1)
+                    scope.fileType = 'image/png';
+                else if((fileName.toLowerCase().indexOf('.jpg') != -1) || (fileName.toLowerCase().indexOf('.jpeg') != -1))
+                    scope.fileType = 'image/jpg';
+                else if((fileName.toLowerCase().indexOf('.pdf') != -1))
+                    scope.fileType = 'pdf';
+
+                //timeout 10 seconds and close preview
+                $timeout(function(){
+                    scope.preview =  false;
+                },10000);
+            };
+
+            scope.deleteDocument = function (documentId, index) {
+                resourceFactory.entityDocumentsResource.delete({entity: scope.groupId, documentId: documentId}, '', function (data) {
+                    scope.loandocuments.splice(index, 1);
                 });
             };
 
