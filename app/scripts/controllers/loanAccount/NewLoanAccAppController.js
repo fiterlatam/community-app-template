@@ -1086,7 +1086,7 @@
                 if (typeAccepted){
                     //resolve file type for these accepted types
                     if (typeAccepted === 'PDF/IMAGE'){
-                        return 'application/pdf','image/*';
+                        return 'application/pdf,image/*';
                     }
                     else if (typeAccepted === 'PDF'){
                         return 'application/pdf';
