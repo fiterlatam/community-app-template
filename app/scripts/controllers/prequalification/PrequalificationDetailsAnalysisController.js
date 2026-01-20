@@ -17,11 +17,15 @@
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
+            scope.showAllComments = false;
+            scope.showAllExceptionComments = false;
 
             scope.fetchPrequalificationDetails = function () {
                 resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                     scope.groupData = data;
                     scope.groupMembers = data.groupMembers;
+                    scope.formData.listComments = data.listComments || [];
+                    scope.formData.exceptionListComments = data.exceptionListComments || [];
 
                     scope.yellowValidationCount = scope.groupMembers.reduce((acc, member) => {
                         return acc + (member.yellowValidationCount || 0);
@@ -510,6 +514,34 @@
                 });
             };
 
+            //------------------------------- Add comment -------------------------------------------------
+
+            scope.submitComment = function() {
+                if (!scope.formData || !scope.formData.comments || scope.formData.comments.trim() === '') {
+                    alert("Debe ingresar un comentario de excepción antes de enviar.");
+                    return;
+                }
+
+                // Construcción del cuerpo a enviar
+                let dataToSend = {
+                    name: scope.groupData.groupName,
+                    description: 'normal',
+                    comment: scope.formData.comments
+                };
+
+                // Envío del comentario sin archivo
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: dataToSend,
+                }).then(function (response) {
+                    if (!scope.$$phase) scope.$apply();
+                    alert("Comentario añadido exitosamente.");
+                    scope.formData.comments = '';
+                }, function (error) {
+                    alert("Ocurrió un error al intentar guardar el comentario.");
+                });
+            }
+
             //------------------------------- Sección añadir comentario de exepción ----------------------------------
 
             scope.submitExceptionComment = function () {
@@ -522,7 +554,7 @@
                 // Construcción del cuerpo a enviar
                 let dataToSend = {
                     name: scope.groupData.groupName,
-                    description: 'Comentario de excepción',
+                    description: 'exception',
                     comment: scope.formData.exceptionComment
                 };
 
@@ -532,6 +564,8 @@
                     data: dataToSend,
                 }).then(function (response) {
                     if (!scope.$$phase) scope.$apply();
+                    alert("Comentario añadido exitosamente.");
+                    scope.formData.exceptionComment = '';
 
                 }, function (error) {
                     alert("Ocurrió un error al intentar guardar el comentario de excepción.");
@@ -731,6 +765,28 @@
                         });
                 };
             };
+            //--------------- COMMENTS VIEW ----------------
+            scope.visibleComments = function () {
+                if (!scope.formData || !scope.formData.listComments) return [];
+                return scope.showAllComments
+                    ? scope.formData.listComments
+                    : scope.formData.listComments.slice(0, 2);
+            };
+
+            scope.visibleExceptionComments = function () {
+                if (!scope.formData || !scope.formData.exceptionListComments) return [];
+                return scope.showAllExceptionComments
+                    ? scope.formData.exceptionListComments
+                    : scope.formData.exceptionListComments.slice(0, 2);
+            };
+
+            scope.updateShowAllExceptionComments = function () {
+                scope.showAllExceptionComments = !scope.showAllExceptionComments;
+            }
+            
+            scope.updateShowAllComments = function () {
+                scope.showAllComments = !scope.showAllComments;
+            }
 
         }
     });
