@@ -1060,18 +1060,18 @@
                                 <td>{{document.fileName}}</td>
                                 <td>{{document.documentType}}</td>
                                 <td>
-                                    <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
+                                    <a target="_blank" ng-click="downloadSingleDoc(document)"><i
                                             class="fa fa-cloud-download"></i></a>&nbsp;
                                     <a ng-show="document.fileIsImage"
                                        ng-click="previewDocument(document.docUrl,document.fileName)"><i
                                             class="fa fa-eye"></i></a>
-                                    <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>
+                                    <a ng-click="deletePaeDocument(document.id,$index)"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="text-right">
-                            <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> Download All</button>
+                            <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
                         </div>
                         <div style="padding-left: 25%;">
                             <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}"
@@ -1101,7 +1101,7 @@
                                 <td>{{document.fileName}}</td>
                                 <td>{{document.documentType}}</td>
                                 <td>
-                                    <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
+                                    <a target="_blank" ng-click="downloadSingleDoc(document)"><i
                                             class="fa fa-cloud-download"></i></a>&nbsp;
                                     <a ng-show="document.fileIsImage"
                                        ng-click="previewDocument(document.docUrl,document.fileName)"><i

@@ -585,10 +585,10 @@
                     return;
                 }
                 var zip = new JSZipService.getJSZip();
-                var pdfFolder = zip.folder('pdfs');
-                var otherFolder = zip.folder('others');
+                var pdfFolder = zip.folder('PDF');
+                var otherFolder = zip.folder('OTROS');
                 var count = 0;
-                var zipFilename = 'pae_documents_' + (scope.loandetails.accountNo || 'loan') + '.zip';
+                var zipFilename = 'LOAN_' + (scope.loandetails.id || 'loan') + '_GARANTIAS.zip';
                 var failed = [];
 
                 // Get auth headers from session/local storage
@@ -625,7 +625,7 @@
 
                 scope.paeLoandocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
-                    var filename = doc.fileName || doc.name || ('document_' + doc.id);
+                    var filename =  doc.description || doc.fileName || ('document_' + doc.id);
 
                     fetch(url, { credentials: 'include', headers: authHeader })
                         .then(function(response) {
@@ -661,6 +661,58 @@
                         });
                 });
             };
+
+            scope.downloadSingleDoc=function(doc) {
+
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+
+                var url = scope.hostUrl + doc.docUrl;
+                var filename =  doc.description || doc.fileName || ('document_' + doc.id);
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        saveAs(blob, doc.fileName);
+                    })
+                    .catch(function(err) {
+                        console.log("Failed to Download file: "+doc.fileName);
+                    });
+            }
 
             resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan'}, function (data) {
                 scope.loandatatables = data;
@@ -810,6 +862,15 @@
             scope.deleteDocument = function (documentId, index) {
                 resourceFactory.LoanDocumentResource.delete({loanId: scope.loandetails.id, documentId: documentId}, '', function (data) {
                     scope.loandocuments.splice(index, 1);
+                });
+            };
+
+            scope.deletePaeDocument = function (documentId, index) {
+                scope.preview=false;
+                scope.fileUrl=undefined;
+                resourceFactory.LoanDocumentResource.delete({loanId: scope.loandetails.id, documentId: documentId}, '', function (data) {
+                    scope.paeLoandocuments.splice(index, 1);
+                    // route.reload()
                 });
             };
 

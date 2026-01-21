@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload,$sce) {
+        PrequalificationDetailsAnalysisController: function (scope, routeParams, route, dateFilter, location, resourceFactory, $http, $uibModal, API_VERSION, $timeout, $rootScope, Upload,$sce,JSZipService) {
 
             scope.groupData = {};
             scope.formData = {};
@@ -17,11 +17,15 @@
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
+            scope.showAllComments = false;
+            scope.showAllExceptionComments = false;
 
             scope.fetchPrequalificationDetails = function () {
                 resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                     scope.groupData = data;
                     scope.groupMembers = data.groupMembers;
+                    scope.formData.listComments = data.listComments || [];
+                    scope.formData.exceptionListComments = data.exceptionListComments || [];
 
                     scope.yellowValidationCount = scope.groupMembers.reduce((acc, member) => {
                         return acc + (member.yellowValidationCount || 0);
@@ -56,7 +60,7 @@
                     bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
                     data[l].docUrl = bldocs;
                     if (data[l].fileName)
-                        if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1)
+                        if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1|| data[l].fileName.toLowerCase().indexOf('.pdf') != -1)
                             data[l].fileIsImage = true;
                     if (data[l].type)
                         if (data[l].type.toLowerCase().indexOf('image') != -1)
@@ -510,6 +514,34 @@
                 });
             };
 
+            //------------------------------- Add comment -------------------------------------------------
+
+            scope.submitComment = function() {
+                if (!scope.formData || !scope.formData.comments || scope.formData.comments.trim() === '') {
+                    alert("Debe ingresar un comentario de excepción antes de enviar.");
+                    return;
+                }
+
+                // Construcción del cuerpo a enviar
+                let dataToSend = {
+                    name: scope.groupData.groupName,
+                    description: 'normal',
+                    comment: scope.formData.comments
+                };
+
+                // Envío del comentario sin archivo
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: dataToSend,
+                }).then(function (response) {
+                    if (!scope.$$phase) scope.$apply();
+                    alert("Comentario añadido exitosamente.");
+                    scope.formData.comments = '';
+                }, function (error) {
+                    alert("Ocurrió un error al intentar guardar el comentario.");
+                });
+            }
+
             //------------------------------- Sección añadir comentario de exepción ----------------------------------
 
             scope.submitExceptionComment = function () {
@@ -522,7 +554,7 @@
                 // Construcción del cuerpo a enviar
                 let dataToSend = {
                     name: scope.groupData.groupName,
-                    description: 'Comentario de excepción',
+                    description: 'exception',
                     comment: scope.formData.exceptionComment
                 };
 
@@ -532,6 +564,8 @@
                     data: dataToSend,
                 }).then(function (response) {
                     if (!scope.$$phase) scope.$apply();
+                    alert("Comentario añadido exitosamente.");
+                    scope.formData.exceptionComment = '';
 
                 }, function (error) {
                     alert("Ocurrió un error al intentar guardar el comentario de excepción.");
@@ -731,11 +765,139 @@
                         });
                 };
             };
+            //--------------- COMMENTS VIEW ----------------
+            scope.visibleComments = function () {
+                if (!scope.formData || !scope.formData.listComments) return [];
+                return scope.showAllComments
+                    ? scope.formData.listComments
+                    : scope.formData.listComments.slice(0, 2);
+            };
+
+            scope.visibleExceptionComments = function () {
+                if (!scope.formData || !scope.formData.exceptionListComments) return [];
+                return scope.showAllExceptionComments
+                    ? scope.formData.exceptionListComments
+                    : scope.formData.exceptionListComments.slice(0, 2);
+            };
+
+            scope.updateShowAllExceptionComments = function () {
+                scope.showAllExceptionComments = !scope.showAllExceptionComments;
+            }
+            
+            scope.updateShowAllComments = function () {
+                scope.showAllComments = !scope.showAllComments;
+            }
+
+            // Add downloadAllPaeDocuments to scope
+            scope.downloadAllDocuments = function() {
+                if (!scope.prequalificationDocuments || scope.prequalificationDocuments.length === 0) {
+                    alert('No documents to download.');
+                    return;
+                }
+                var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('PDF');
+                var otherFolder = zip.folder('OTROS');
+                var count = 0;
+                var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                scope.prequalificationDocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var filename =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            var lowerName = filename.toLowerCase();
+                            var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
+                            targetFolder.file(filename, blob);
+
+                            count++;
+                            if (count === scope.prequalificationDocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(filename);
+                            count++;
+                            if (count === scope.prequalificationDocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.prequalificationDocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
+            };
+
+            scope.previewDocument = function (url, fileName) {
+                scope.preview =  !scope.preview;
+                scope.fileUrl = $sce.trustAsResourceUrl(scope.hostUrl + url);
+                if(fileName.toLowerCase().indexOf('.png') != -1)
+                    scope.fileType = 'image/png';
+                else if((fileName.toLowerCase().indexOf('.jpg') != -1) || (fileName.toLowerCase().indexOf('.jpeg') != -1))
+                    scope.fileType = 'image/jpg';
+                else if((fileName.toLowerCase().indexOf('.pdf') != -1))
+                    scope.fileType = 'pdf';
+
+                //timeout 10 seconds and close preview
+                $timeout(function(){
+                    scope.preview =  false;
+                },10000);
+            };
+
+            scope.deleteDocument = function (documentId, index) {
+                resourceFactory.entityDocumentsResource.delete({entity: scope.groupId, documentId: documentId}, '', function (data) {
+                    scope.loandocuments.splice(index, 1);
+                });
+            };
 
         }
     });
 
-    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload','$sce', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
+    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload','$sce','JSZipService', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
         $log.info("PrequalificationDetailsAnalysisController initialized");
     });
 }(mifosX.controllers || {}));
