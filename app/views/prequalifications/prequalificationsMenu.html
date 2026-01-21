@@ -1,3 +1,4 @@
+<div ng-controller="RunReportsController">
 <div class="content-container">
     <div class="card">
         <div class="content">
@@ -82,8 +83,18 @@
                             | translate}}</h5>
                         </a>
                     </div>
+
+                    <div class="list-group" has-permission="VIEW_COMMITTEE_APPROVALS">
+                        <a class="list-group-item" ng-click="generateReject()" style="cursor: pointer;">
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-download"></i>&nbsp;&nbsp;
+                                {{ 'label.button.runreportrejects' | translate }}
+                            </h5>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

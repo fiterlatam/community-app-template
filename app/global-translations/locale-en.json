@@ -779,6 +779,7 @@
   "#Buttons": "..",
   "label.button.login": "Login",
   "label.button.approve": "Approve",
+  "label.button.recommend": "Recommend",
   "label.button.offices": "Offices",
   "label.button.loanofficers": "Loan Officers",
   "label.button.centers": "Centers",
