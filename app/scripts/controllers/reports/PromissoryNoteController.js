@@ -63,7 +63,6 @@
             $scope.generate = function () {
                 console.log("DATOS A ENVIAR:", $scope.formData);
                 resourceFactory.runReportsPromissory.generate(
-                    { type: 1 },
                     $scope.formData,
                     function (response) {
 

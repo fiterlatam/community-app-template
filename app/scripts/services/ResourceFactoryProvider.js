@@ -213,7 +213,7 @@
                                             }
                                         }
                     }),
-                    runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote/:type", { type: '@type'}, {
+                    runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote", {}, {
                         generate: {method: 'POST', params: {}, isArray: false}
                     }),
                     reportsResource: defineResource(apiVer + "/reports/:id/:resourceType", {id: '@id', resourceType: '@resourceType'}, {
@@ -342,6 +342,9 @@
                         update: {method: 'PUT'}
                     }),
                     LoanDocumentResource: defineResource(apiVer + "/loans/:loanId/documents/:documentId", {loanId: '@loanId', documentId: '@documentId'}, {
+                        getLoanDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    PrequalificationDocumentResource: defineResource(apiVer + "/prequalifications/:groupId/documents/:documentId", {groupId: '@groupId', documentId: '@documentId'}, {
                         getLoanDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
                     PaeLoanDocumentResource: defineResource(apiVer + "/paedocumentation/:loanId/documents/:documentId", {loanId: '@loanId', documentId: '@documentId'}, {
