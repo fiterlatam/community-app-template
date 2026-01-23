@@ -357,6 +357,9 @@
                     return t.statusData && t.statusData.id === step.id;
                 });
             };
+            scope.downloadCommiteeReport = function() {
+
+            };
         }
     });
 

@@ -231,6 +231,14 @@
                         <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
                     </td>
                 </tr>
+                <tr ng-if="groupData.status.id ==900 && ( groupData.lastPrequalificationStatus.id ==1003 || groupData.lastPrequalificationStatus.id ==1004
+                    || groupData.lastPrequalificationStatus.id ==1005 || groupData.lastPrequalificationStatus.id ==1006)">
+                    <td colspan="4">
+                        <div>
+                            <button ng-click="downloadCommiteeReport()" type="button" style="background-color: #740808; color: white" class="btn"><i class="fa fa-file-pdf-o"></i> {{'label.button.commitee.approval' | translate}}</button>
+                        </div>
+                    </td>
+                </tr>
                 </tbody>
             </table>
 
