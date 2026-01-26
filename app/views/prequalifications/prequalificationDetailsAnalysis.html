@@ -502,7 +502,7 @@
                     </div>
 
                     <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center"
-                        ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='GROUP'">
+                        ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='GROUP', !groupData.prequalificationType.value=='PAE'">
                         <button
                             ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
                             type="button" class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -531,6 +531,14 @@
                                 | translate}}
                             </button>
 
+                            <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
+                            <button ng-if="prequalificationType ==='agency'"
+                                ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')"
+                                type="button" class="btn btn-primary"
+                                has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                                {{'label.button.prequalification.sendtoexception' | translate}}
+                            </button>
+
                             <!-- SEND TO ANALYSIS UNIT AGENCY VIEW-->
                             <button
                                 ng-if="prequalificationType ==='agency' && orangeValidationCount == 0 && redValidationCount == 0 && yellowValidationCount == 0"
@@ -538,14 +546,6 @@
                                 type="button" class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.prequalification.sendtoAnalysisWithoutException' | translate}}
-                            </button>
-
-                            <!-- SEND QUEUE EXCEPTION AGENCY VIEW-->
-                            <button ng-if="prequalificationType ==='agency'"
-                                ng-click="processAnalysisRequest('sendtoexception','label.button.prequalification.sendtoexception')"
-                                type="button" class="btn btn-primary"
-                                has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                                {{'label.button.prequalification.sendtoexception' | translate}}
                             </button>
 
                             <!-- ANAYLSIS APPROVAL A-B-C-D -->
@@ -616,6 +616,31 @@
                                 type="button" class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.approve' | translate}}
+                            </button>
+
+                             <button ng-if="prequalificationType ==='committeeapprovals' && !(
+                            (
+                                groupMember.requestedAmount < 20000 &&
+                                groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL'
+                            ) ||
+                            (
+                                groupMember.requestedAmount >= 20000 &&
+                                groupMember.requestedAmount < 80000 &&
+                                groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL'
+                            ) ||
+                            (
+                                groupMember.requestedAmount >= 80000 &&
+                                groupMember.requestedAmount <= 250000 &&
+                                groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL'
+                            ) ||
+                            (
+                                groupMember.requestedAmount > 250000 &&
+                                groupData.status.value === 'PRE_COMMITTEE_A_PENDING_APPROVAL'
+                            )
+                            )" ng-click="processAnalysisRequest('recommendCommittee','label.button.recommend')"
+                                type="button"
+                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                            {{'label.button.recommend' | translate}}
                             </button>
 
                             <button

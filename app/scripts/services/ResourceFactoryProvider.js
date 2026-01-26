@@ -213,7 +213,7 @@
                                             }
                                         }
                     }),
-                    runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote/:type", { type: '@type'}, {
+                    runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote", {}, {
                         generate: {method: 'POST', params: {}, isArray: false}
                     }),
                     reportsResource: defineResource(apiVer + "/reports/:id/:resourceType", {id: '@id', resourceType: '@resourceType'}, {
