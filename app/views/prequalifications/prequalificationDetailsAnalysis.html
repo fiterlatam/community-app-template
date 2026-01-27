@@ -611,7 +611,7 @@
                                 {{'label.button.argueACase' | translate}}
                             </button>
 
-                            <button ng-if="prequalificationType ==='committeeapprovals'"
+                            <button ng-if="prequalificationType ==='committeeapprovals' || prequalificationType ==='renegotiations'"
                                 ng-click="processAnalysisRequest('approveCommittee','label.button.approve')"
                                 type="button" class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
