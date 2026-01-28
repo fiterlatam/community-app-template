@@ -618,37 +618,33 @@
                                 {{'label.button.argueACase' | translate}}
                             </button>
 
-                            <button ng-if="prequalificationType ==='committeeapprovals' || prequalificationType ==='renegotiations'"
+                            <button ng-if=" prequalificationType ==='renegotiations' || (prequalificationType ==='committeeapprovals' && (
+                                    !((groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 20000 )
+                                    && !((groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 80000 )
+                                    && !((groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 250000 )
+
+                                ))"
                                 ng-click="processAnalysisRequest('approveCommittee','label.button.approve')"
                                 type="button" class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.approve' | translate}}
                             </button>
 
-                             <button ng-if="prequalificationType ==='committeeapprovals' && !(
-                            (
-                                groupMember.requestedAmount < 20000 &&
-                                groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL'
-                            ) ||
-                            (
-                                groupMember.requestedAmount >= 20000 &&
-                                groupMember.requestedAmount < 80000 &&
-                                groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL'
-                            ) ||
-                            (
-                                groupMember.requestedAmount >= 80000 &&
-                                groupMember.requestedAmount <= 250000 &&
-                                groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL'
-                            ) ||
-                            (
-                                groupMember.requestedAmount > 250000 &&
-                                groupData.status.value === 'PRE_COMMITTEE_A_PENDING_APPROVAL'
-                            )
-                            )" ng-click="processAnalysisRequest('recommendCommittee','label.button.recommend')"
+                             <button 
+                                ng-if="prequalificationType === 'committeeapprovals' 
+                                && (
+                                    ((groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 20000 )
+                                    || ((groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 80000 )
+                                    || ((groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 250000 )
+
+                                )" 
+                                ng-click="processAnalysisRequest('recommendCommittee','label.button.recommend')"
                                 type="button"
-                                class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
-                            {{'label.button.recommend' | translate}}
+                                class="btn btn-primary" 
+                                has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
+                                {{'label.button.recommend' | translate}}
                             </button>
+<p> {{groupData.status.value}} {{groupData.totalRequestedAmount}}</p>
 
                             <button
                                 ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='PAE'"
