@@ -140,27 +140,42 @@ angular.module('modified.datepicker', ['strap.position'])
                     var year = date.getFullYear(), month = date.getMonth(), firstDayOfMonth = new Date(year, month, 1);
                     var difference = startingDay - firstDayOfMonth.getDay(),
                         numDisplayedFromPreviousMonth = (difference > 0) ? 7 - difference : -difference,
-                        numDisplayedFromNextMonth = 0,firstDate = new Date(firstDayOfMonth), numDates = 0;
+                        numDisplayedFromNextMonth = 0, firstDate = new Date(firstDayOfMonth), numDates = 0;
 
                     if (numDisplayedFromPreviousMonth > 0) {
                         numDisplayedFromNextMonth = (35 - getDaysInMonth(year, month + 1)) - numDisplayedFromPreviousMonth;
                         firstDate.setDate(-numDisplayedFromPreviousMonth + 1);
                         numDates += numDisplayedFromPreviousMonth; // Previous
-                    }else {
-                        numDisplayedFromNextMonth = 35 - getDaysInMonth(year, month + 1);
+                    } else {
+                        // When there are no days from the previous month, we start exactly on the first
+                        // day of the current month. In this case we shouldn't pre-assign any next-month
+                        // days based on a 35-cell baseline; instead, we derive them after numDates is
+                        // finalized so that only true overflow cells beyond the current month are treated
+                        // as next-month.
+                        numDisplayedFromNextMonth = 0;
                     }
                     numDates += getDaysInMonth(year, month + 1); // Current
+                    // Ensure total number of cells is a multiple of 7 by adding full extra weeks if needed
                     numDates += (7 - numDates % 7) % 7; // Next
+
+                    // Recompute how many of the trailing cells actually belong to the next month.
+                    // This is simply the number of cells beyond the current month (and any leading
+                    // previous-month cells) and guarantees that only true next-month days are disabled.
+                    var totalCurrentAndPrev = numDisplayedFromPreviousMonth + getDaysInMonth(year, month + 1);
+                    numDisplayedFromNextMonth = Math.max(0, numDates - totalCurrentAndPrev);
 
                     var days = getDates(firstDate, numDates), labels = new Array(7);
                     for (var i = 0; i < numDates; i++) {
                         var dt = new Date(days[i]);
                         if (numDisplayedFromPreviousMonth > 0 && i < numDisplayedFromPreviousMonth) {
                             days[i] = makeDate(dt, format.day, (selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()), dt.getMonth() !== month, true);
-                        }else if (numDisplayedFromNextMonth > 0 && i >= numDates - numDisplayedFromNextMonth) {
+                        } else if (numDisplayedFromNextMonth > 0 && i >= numDates - numDisplayedFromNextMonth) {
+                            // Trailing overflow cells that belong to the next month should be visible
+                            // but not selectable.
                             days[i] = makeDate(dt, format.day, (selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()), dt.getMonth() !== month, true);
-                        }else {
-                        days[i] = makeDate(dt, format.day, (selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()), dt.getMonth() !== month);
+                        } else {
+                            // Actual days of the current month are enabled/disabled only by isDisabled().
+                            days[i] = makeDate(dt, format.day, (selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()), dt.getMonth() !== month);
                         }
                     }
                     for (var j = 0; j < 7; j++) {
