@@ -385,7 +385,7 @@
         </div>
         <div class="modal-body">
             <div class="alert alert-info">
-                {{'confirmation.message.first.part.one' | translate}} <strong>{{confirmationMessage|translate}}</strong> {{'confirmation.message.first.part.two' | translate}}
+                {{'confirmation.message.first.part.one' | translate}} <strong>{{confirmationMessage|translate}}</strong> {{(partTwoMessage?partTwoMessage:'confirmation.message.first.part.two') | translate}}
             </div>
             <br>
             <div class="text-center">
