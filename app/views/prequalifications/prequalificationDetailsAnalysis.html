@@ -428,6 +428,7 @@
                                 <th>{{'label.input.amount.requested' | translate}}</th>
                                 <th>{{'label.input.comments' | translate}}</th>
                                 <th>{{'label.heading.status' | translate}}</th>
+                                <th>{{'label.heading.actions' | translate}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -437,6 +438,12 @@
                                 <td>{{renegotiation.proposedAmount | number}}</td>
                                 <td>{{renegotiation.comments}}</td>
                                 <td>{{renegotiation.status}}</td>
+                                <td>
+                                    <button ng-if="renegotiation.status==='PENDING' && currentSession.user.name==groupData.assignedUser" ng-click="processRenegotiation(renegotiation,'approveRenegotiation','label.button.approve')" class="btn btn-success">
+                                        <i class="fa fa-check-circle"></i> {{'label.button.acceptRenegotiation' | translate}}</button>
+                                    <button ng-if="renegotiation.status==='PENDING' && currentSession.user.name==groupData.assignedUser" ng-click="processRenegotiation(renegotiation,'rejectRenegotiation','label.button.reject')" class="btn btn-danger">
+                                        <i class="fa fa-check-circle"></i> Reject</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -502,7 +509,7 @@
                     </div>
 
                     <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center"
-                        ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='GROUP', !groupData.prequalificationType.value=='PAE'">
+                        ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='GROUP' && !groupData.prequalificationType.value=='PAE'">
                         <button
                             ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
                             type="button" class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -611,12 +618,12 @@
                                 {{'label.button.argueACase' | translate}}
                             </button>
 
-                            <button ng-if="prequalificationType ==='committeeapprovals' && (
+                            <button ng-if=" prequalificationType ==='renegotiations' || (prequalificationType ==='committeeapprovals' && (
                                     !((groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 20000 )
                                     && !((groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 80000 )
                                     && !((groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 250000 )
 
-                                )"
+                                ))"
                                 ng-click="processAnalysisRequest('approveCommittee','label.button.approve')"
                                 type="button" class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
@@ -795,8 +802,7 @@
         </div>
         <div class="modal-body">
             <div class="alert alert-info">
-                {{'confirmation.message.first.part.one' | translate}}
-                <strong>{{confirmationMessage | translate}}</strong> {{'confirmation.message.first.part.two' | translate}}
+                {{'confirmation.message.first.part.one' | translate}} <strong>{{confirmationMessage|translate}}</strong> {{(partTwoMessage?partTwoMessage:'confirmation.message.first.part.two') | translate}}
             </div>
             <br>
             <div class="text-center">

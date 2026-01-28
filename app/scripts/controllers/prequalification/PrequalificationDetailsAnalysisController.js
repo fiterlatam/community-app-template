@@ -197,6 +197,11 @@
 
             };
 
+            scope.processRenegotiation =  function (renengotiation,action,buttonLabel){
+                scope.renegotiationId=renengotiation.id
+                scope.processAnalysisRequest(action,buttonLabel,'renegociación');
+            }
+
             scope.uploadBuroDocument = function (member){
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId ,
@@ -294,6 +299,7 @@
 
             var ConfirmationModalCtrl = function ($scope, $uibModalInstance) {
                 $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.partTwoMessage = scope.partTwoMessage;
                 $scope.confirm = function () {
                     var members = [];
                     var atLeastOneMemberSelected = false;
@@ -306,12 +312,12 @@
                     }
                     resourceFactory.prequalificationChecklistResource.processAnalysis(
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
-                        {action: scope.analysisStatus,comments:scope.formData.comments, members: members},
+                        {action: scope.analysisStatus,comments:scope.formData.comments, members: members,renegotiationId:scope.renegotiationId},
                         function (data) {
                             if (data.reportToPrint){
                                 scope.printReport(data)
                             }
-                            // scope.routeTo("/prequalificationsmenu");
+                            scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
                         });
                 }
@@ -407,9 +413,10 @@
                scope.processAnalysisRequest('assigntoself','label.button.assigntoself')
             }
 
-            scope.processAnalysisRequest = function (status, inMessage) {
+            scope.processAnalysisRequest = function (status, inMessage, partTwoMessage=undefined) {
                 scope.analysisStatus = status;
                 scope.confirmationMessage = inMessage
+                scope.partTwoMessage = partTwoMessage
                 $uibModal.open({
                     templateUrl: 'confirmationModal.html',
                     controller: ConfirmationModalCtrl

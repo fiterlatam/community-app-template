@@ -807,6 +807,7 @@
 	"label.button.upload": "Subir",
 	"label.button.download": "Descargar",
 	"label.button.download.all": "Descargar todo",
+	"label.button.commitee.approval": "Descargar Informe de Aprobación del Comité",
 	"label.button.capture": "Captura",
 	"label.button.viewclosedloans": "Ver préstamos cerrados",
 	"label.button.viewclosedsavings": "Ver ahorros cerrados",
