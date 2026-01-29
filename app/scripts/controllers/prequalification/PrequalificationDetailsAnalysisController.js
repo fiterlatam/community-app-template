@@ -881,7 +881,7 @@
             };
 
             scope.previewDocument = function (document) {
-
+                scope.previewUrl = undefined;
                 var url = scope.hostUrl + document.docUrl;
 
                 scope.preview =  !scope.preview;
@@ -924,7 +924,8 @@
                         return response.blob();
                     })
                     .then(function(blob) {
-                        scope.previewUrl = URL.createObjectURL(blob);
+                        const blobUrl = URL.createObjectURL(blob);
+                        scope.previewUrl = $sce.trustAsResourceUrl(blobUrl);
 
                     })
                     .catch(function(err) {
