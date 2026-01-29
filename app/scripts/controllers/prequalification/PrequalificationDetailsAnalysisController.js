@@ -19,6 +19,7 @@
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
             scope.showAllComments = false;
             scope.showAllExceptionComments = false;
+            scope.previewUrl;
 
             scope.fetchPrequalificationDetails = function () {
                 resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
@@ -60,11 +61,11 @@
                     bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
                     data[l].docUrl = bldocs;
                     if (data[l].fileName)
-                        if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1|| data[l].fileName.toLowerCase().indexOf('.pdf') != -1)
-                            data[l].fileIsImage = true;
+                        if (data[l].fileName.toLowerCase().indexOf('.zip') != -1) data[l].fileIsImage = false;
+                        else data[l].fileIsImage = true;
                     if (data[l].type)
-                        if (data[l].type.toLowerCase().indexOf('image') != -1)
-                            data[l].fileIsImage = true;
+                        if (data[l].type.toLowerCase().indexOf('zip') != -1) data[l].fileIsImage = false;
+                        else data[l].fileIsImage = true;
                 }
                 scope.prequalificationDocuments = data;
             });
@@ -879,15 +880,57 @@
                 });
             };
 
-            scope.previewDocument = function (url, fileName) {
+            scope.previewDocument = function (document) {
+
+                var url = scope.hostUrl + document.docUrl;
+
                 scope.preview =  !scope.preview;
-                scope.fileUrl = $sce.trustAsResourceUrl(scope.hostUrl + url);
-                if(fileName.toLowerCase().indexOf('.png') != -1)
-                    scope.fileType = 'image/png';
-                else if((fileName.toLowerCase().indexOf('.jpg') != -1) || (fileName.toLowerCase().indexOf('.jpeg') != -1))
-                    scope.fileType = 'image/jpg';
-                else if((fileName.toLowerCase().indexOf('.pdf') != -1))
-                    scope.fileType = 'pdf';
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        scope.previewUrl = URL.createObjectURL(blob);
+
+                    })
+                    .catch(function(err) {
+                        console.log('Some files could not be downloaded');
+                    });
+
 
                 //timeout 10 seconds and close preview
                 $timeout(function(){
