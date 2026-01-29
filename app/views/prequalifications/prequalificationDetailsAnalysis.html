@@ -522,7 +522,7 @@
 
                             <!-- ALL PARTS -->
                             <button ng-if="prequalificationType !=='renegotiations'"
-                                ng-click="processAnalysisRequest('pending','label.button.modifyapplication')"
+                                ng-click="processAnalysisRequest('restartflow','label.button.modifyapplication')"
                                 type="button" class="btn btn-warning"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.modifyapplication' | translate}}
@@ -603,7 +603,6 @@
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.reject' | translate}}
                         </button>-->
-
                             <button ng-if="groupData.prequalificationType.value=='PAE'"
                                 ng-click="rejectPrequalification()" type="button" class="btn btn-danger"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
