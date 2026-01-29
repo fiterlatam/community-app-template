@@ -466,7 +466,7 @@
                         <td>{{document.fileName}}</td>
                         <td>
                             <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
-                            <a ng-show="document.fileIsImage" ng-click="previewDocument(document.docUrl,document.fileName)"><i class="fa fa-eye"></i></a>
+                            <a ng-show="document.fileIsImage" ng-click="previewDocument(document)"><i class="fa fa-eye"></i></a>
                             <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
@@ -480,9 +480,7 @@
 
                     <tr ng-show="preview">
                         <td colspan="4">
-                                <object height="60%" width="70%" data="{{fileUrl}}" ng-if="fileType!=='pdf'"
-                                        type="{{fileType}}"></object>
-                            <iframe id="previewFrame2" ng-src="{{fileUrl}}" width="50%" ng-if="fileType==='pdf'"
+                            <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="50%" ng-if="previewUrl"
                                     height="400px"></iframe>
                         </td>
                     </tr>
