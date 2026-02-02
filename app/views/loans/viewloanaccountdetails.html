@@ -1074,6 +1074,8 @@
                             <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
                         </div>
                         <div style="padding-left: 25%;">
+                            <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
+                                    height="350px"></iframe>
                             <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}"
                                     type="{{fileType}}"></object>
                         </div>

@@ -482,13 +482,13 @@
                     <tr ng-show="preview">
                         <td colspan="4">
                             <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
-                                    height="62%"></iframe>
+                                    height="350px"></iframe>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <hr/>
-                <div ng-if="paeLoandocuments">
+                <div ng-if="paeLoandocuments && paeLoandocuments.length>0">
                     <h4>{{'label.anchor.pae.documentation'|translate}}</h4>
                     <table class="table" ng-if="paeLoandocuments.length > 0">
                         <thead>
