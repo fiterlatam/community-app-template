@@ -736,6 +736,8 @@
   "label.anchor.save": "Save",
   "label.anchor.removeblacklist": "Remove From Blacklist",
   "label.anchor.paedocumentation": "PAE Documentation",
+  "label.anchor.prequalification.documentation": "Prequalification Documentation",
+  "label.anchor.pae.documentation": "PAE Loan Documentation",
   "label.view.paedocumentation": "View and manage PAE documentation.",
   "#Inputs": "..",
   "label.input.searchbyuser": "Search by user",

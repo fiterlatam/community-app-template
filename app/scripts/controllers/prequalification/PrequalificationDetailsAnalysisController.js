@@ -14,6 +14,7 @@
                 {label:'D', value:'D'},
             ];
             scope.prequalificationDocuments = [];
+            scope.paeLoandocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
@@ -46,6 +47,7 @@
                     for (var i = 0; i < scope.groupMembers.length; i++ ){
                         scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
                     }
+                    scope.getPaeLoanDocuments();
                 });
             }
 
@@ -936,9 +938,33 @@
                 //timeout 10 seconds and close preview
                 $timeout(function(){
                     scope.preview =  false;
-                },10000);
+                },30000);
             };
 
+
+            scope.getPaeLoanDocuments = function () {
+                let loanId = scope.groupMembers[0].loanId;
+                if (loanId){
+                    console.log("Fetching PAE Loan Documents");
+                    resourceFactory.entityDocumentsResource.getAllDocuments({
+                        entity: 'paeloandocs',
+                        entityId: loanId
+                    }, function (data) {
+                        for (var l in data) {
+
+                            var bldocs = {};
+                            bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                            data[l].docUrl = bldocs;
+                            data[l].fileIsImage = true;
+                            if (data[l].fileName)
+                                data[l].fileIsImage = data[l].fileName.toLowerCase().indexOf('.zip') == -1;
+                            if (data[l].type)
+                                data[l].fileIsImage = data[l].type.toLowerCase().indexOf('zip') == -1;
+                        }
+                        scope.paeLoandocuments = data;
+                    });
+                }
+            };
             scope.deleteDocument = function (documentId, index) {
                 resourceFactory.entityDocumentsResource.delete({entity: scope.groupId, documentId: documentId}, '', function (data) {
                     scope.loandocuments.splice(index, 1);

@@ -666,6 +666,8 @@
 	"label.anchor.prequalification.details": "Detalles de precalificación",
 	"label.anchor.substatus": "Subestado",
 	"label.anchor.paedocumentation": "Documentación PAE",
+	"label.anchor.prequalification.documentation": "Documentación de precalificación",
+	"label.anchor.pae.documentation": "Documentación de Préstamo PAE",
 	"label.view.paedocumentation": "Ver documentación PAE",
 	"label.input.searchbyuser": "Búsqueda por usuario",
 	"label.input.clienttemplate": "Plantilla de cliente",
