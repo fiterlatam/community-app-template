@@ -4968,6 +4968,7 @@
   "label.button.prequalification.sendtoCommitteeWithoutException": "Send To Committee without exception",
   "label.button.prequalification.revalidateHardPolicies": "Re-Validate Hard Policies",
   "label.heading.groupcredit.prequalification": "Group Credit Prequalification",
+  "label.heading.groupcredit.rejectedprequalification": "Rejected cases",
   "label.heading.pae.prequalification": "PAE Credit Prequalification",
   "label.button.hardpolicyvalidations": "View Hard-policy Validations",
   "label.category.newclient": "New Client",
