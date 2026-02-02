@@ -317,8 +317,14 @@
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
                         {action: scope.analysisStatus,comments:scope.formData.comments, members: members,renegotiationId:scope.renegotiationId},
                         function (data) {
+                            if (data.resourceIdentifier) {
+                                scope.routeTo("/editloanaccount/" + data.resourceIdentifier);
+                                $uibModalInstance.dismiss('okay');
+                                return;
+                            }
                             if (data.reportToPrint){
-                                scope.printReport(data)
+                                scope.printReport(data);
+                               
                             }
                             scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
