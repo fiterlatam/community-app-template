@@ -48,6 +48,7 @@
                         scope.hasRedValidations = true;
                     }
                 }
+                scope.getPaeLoanDocuments();
             });
 
             resourceFactory.entityDocumentsResource.getAllDocuments({
@@ -393,6 +394,119 @@
             scope.reloadPage = function(){
                 scope.report = !scope.report;
             }
+
+            scope.getPaeLoanDocuments = function () {
+                let loanId = scope.groupMembers[0].loanId;
+                if (loanId){
+                    console.log("Fetching PAE Loan Documents");
+                    resourceFactory.entityDocumentsResource.getAllDocuments({
+                        entity: 'paeloandocs',
+                        entityId: loanId
+                    }, function (data) {
+                        for (var l in data) {
+
+                            var bldocs = {};
+                            bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                            data[l].docUrl = bldocs;
+                            data[l].fileIsImage = true;
+                            if (data[l].fileName)
+                                data[l].fileIsImage = data[l].fileName.toLowerCase().indexOf('.zip') == -1;
+                            if (data[l].type)
+                                data[l].fileIsImage = data[l].type.toLowerCase().indexOf('zip') == -1;
+                        }
+                        scope.paeLoandocuments = data;
+                    });
+                }
+            };
+
+
+            scope.previewDocument = function (document) {
+                scope.previewUrl = undefined;
+                var url = scope.hostUrl + document.docUrl;
+
+                scope.preview =  !scope.preview;
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        const blobUrl = URL.createObjectURL(blob);
+                        scope.previewUrl = $sce.trustAsResourceUrl(blobUrl);
+
+                    })
+                    .catch(function(err) {
+                        console.log('Some files could not be downloaded');
+                    });
+
+
+                //timeout 10 seconds and close preview
+                $timeout(function(){
+                    scope.preview =  false;
+                },30000);
+            }
+
+            //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
+            scope.downloadDocument = function (doc) {
+
+                const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
+                    '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+
+                $http({
+                    method: 'GET',
+                    url: $rootScope.hostUrl + url,
+                    responseType: 'arraybuffer',
+                }).then(function (response) {
+
+                    const blob = new Blob([response.data], { type: response.headers('Content-Type') });
+                    const fileName = doc.fileName || 'documento';
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Error al descargar el documento:', error);
+                    alert('No se pudo descargar el documento.');
+                });
+            };
+
+
 
 
         }

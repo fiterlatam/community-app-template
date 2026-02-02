@@ -449,6 +449,7 @@
                     </table>
                 </div>
                 <hr />
+                <h4>{{'label.anchor.prequalification.documentation'|translate}}</h4>
                 <table class="table"
                     ng-if="prequalificationDocuments.length > 0 && prequalificationType!=='exceptionsqueue'">
                     <thead>
@@ -480,12 +481,53 @@
 
                     <tr ng-show="preview">
                         <td colspan="4">
-                            <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="50%" ng-if="previewUrl"
-                                    height="400px"></iframe>
+                            <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
+                                    height="62%"></iframe>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <hr/>
+                <div ng-if="paeLoandocuments">
+                    <h4>{{'label.anchor.pae.documentation'|translate}}</h4>
+                    <table class="table" ng-if="paeLoandocuments.length > 0">
+                        <thead>
+                        <tr class="graybg">
+                            <th>{{'label.heading.name' | translate}}</th>
+                            <th>{{'label.heading.description' | translate}}</th>
+                            <th>{{'label.heading.filename' | translate}}</th>
+                            <th>{{'label.heading.actions' | translate}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="document in paeLoandocuments">
+                            <td>{{document.name}}</td>
+                            <td>{{document.description}}</td>
+                            <td>{{document.fileName}}</td>
+                            <td>
+                                <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
+                                <a ng-show="document.fileIsImage" ng-click="previewDocument(document)"><i class="fa fa-eye"></i></a>
+                                <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="text-right">
+                                    <button class="btn btn-primary" ng-click="downloadAllDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr ng-show="preview">
+                            <td colspan="4">
+                                <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
+                                        height="62%"></iframe>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <div
                     ng-if="groupData.assignedUser && currentSession.user.name==groupData.assignedUser && groupData.substatus.id==200">
 
