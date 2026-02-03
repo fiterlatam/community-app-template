@@ -1000,7 +1000,7 @@
         </wz-step>
 <!--WARRANTY DOCUMENTS TAB-->
         <wz-step wz-title="{{ 'label.heading.guarantyevaluation' | translate }}" wz-disabled="{{!paeRequiredGuaranteeOptions}}">
-            <form name="WarantyDocuments" novalidate="" ng-submit="goNext(WarantyDocuments)">
+            <form name="WarantyDocuments" ng-submit="goNext(WarantyDocuments)">
                 <fieldset>
                     <api-validate></api-validate>
                     <!--<h3>{{'label.heading.charges' | translate}}</h3>-->
@@ -1048,7 +1048,7 @@
 
                                     <div class="col-sm-6">
                                         <div style="margin-top: 10px;">
-                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][requiredDoc.id]"
+                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
                                                    ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)" required="docCollections.required">
                                             <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>
                                         </div>
