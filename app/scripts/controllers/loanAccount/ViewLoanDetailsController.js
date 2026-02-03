@@ -712,7 +712,7 @@
                     });
             }
 
-            resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan'}, function (data) {
+            resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan', loanId: routeParams.id},  function (data) {
                 scope.loandatatables = data;
             });
 
