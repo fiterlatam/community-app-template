@@ -563,7 +563,7 @@
                         <div class="text-left m-1" ng-if="groupData.prequalificationType.value=='PAE'">
 
                             <!-- ALL PARTS -->
-                            <button ng-if="prequalificationType !=='renegotiations'"
+                            <button ng-if="prequalificationType ==='renegotiations' || prequalificationType ==='analysis' || prequalificationType ==='agency'"
                                 ng-click="processAnalysisRequest('restartflow','label.button.modifyapplication')"
                                 type="button" class="btn btn-warning"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
