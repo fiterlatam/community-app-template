@@ -19939,14 +19939,17 @@ span.required {
   -moz-flex: 1;
   flex: 1;
 }
-
+.wiz-container{
+  overflow: scroll !important;
+}
 /* line 225, ../styles-dev/main/components/_content.scss */
 .progress-indicator {
   margin: 0;
   padding: 0;
   font-size: 80%;
-  text-transform: uppercase;
+  text-transform: capitalize;
   margin-bottom: 1em;
+  overflow: scroll !important;
 }
 /* line 232, ../styles-dev/main/components/_content.scss */
 .progress-indicator > li {
