@@ -22041,3 +22041,6 @@ Interactive Layer
 .hyperlight:hover {
   color: #8fa9ff !important;
 }
+.progress-indicator {
+  overflow: scroll !important;
+}
