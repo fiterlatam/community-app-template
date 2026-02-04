@@ -759,6 +759,7 @@
 	"label.heading.clientclosed": "Cliente cerrado",
 	"label.heading.clientrejected": "Cliente rechazado",
 	"label.heading.withdrawn": "Cliente Retirado",
+	"label.heading.metaData": "MetaData",
 	"label.anchor.clients": "Clientes",
 	"label.anchor.createclient": "Crear cliente",
 	"label.anchor.viewclient": "Ver cliente",

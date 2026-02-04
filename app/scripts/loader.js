@@ -47,7 +47,8 @@
             'ng-scrollbar':'../bower_components/ng-scrollbar/dist/ng-scrollbar',
             'ng-scrollbar-css':'../bower_components/ng-scrollbar/dist/ng-scrollbar.css',
             'styles-css': '../styles/styles.css',
-            'ui-config': '../scripts/config/UIconfig.json'
+            'ui-config': '../scripts/config/UIconfig.json',
+            'exif-js': '../bower_components/exif-js/exif'
         },
         shim: {
             'angular': { deps: ['jquery','chosen.jquery.min'],exports: 'angular' },
@@ -84,6 +85,7 @@
             'angular-wizard': {deps: ['angular', 'underscore']},
             'angular-utils-pagination': {deps: ['angular']},
             'ng-scrollbar': {deps: ['angular']},
+            'exif-js': {exports: 'EXIF'},
             'mifosX': {
                 deps: [
                     'angular',
@@ -117,7 +119,8 @@
                     'webcam-directive',
                     'angular-wizard',
                     'angular-utils-pagination',
-                    'ng-scrollbar'
+                    'ng-scrollbar',
+                    'exif-js'
                 ],
                 exports: 'mifosX'
             }
