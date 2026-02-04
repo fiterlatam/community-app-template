@@ -1051,6 +1051,7 @@
                             <th>{{'label.heading.description' | translate}}</th>
                             <th>{{'label.heading.filename' | translate}}</th>
                             <th>{{'label.heading.type' | translate}}</th>
+                            <th>{{'label.heading.metaData' | translate}}</th>
                             <th>{{'label.heading.actions' | translate}}</th>
                             </thead>
                             <tbody>
@@ -1059,6 +1060,7 @@
                                 <td>{{document.description}}</td>
                                 <td>{{document.fileName}}</td>
                                 <td>{{document.documentType}}</td>
+                                <td>{{document.documentMetaData?document.documentMetaData:'N/A'}}</td>
                                 <td>
                                     <a target="_blank" ng-click="downloadSingleDoc(document)"><i
                                             class="fa fa-cloud-download"></i></a>&nbsp;

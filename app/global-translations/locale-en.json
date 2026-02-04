@@ -235,6 +235,7 @@
   "label.heading.campaign": "Campaign",
   "label.heading.isactive": "Status",
   "label.heading.noactiveloans": "No Active Loans found for this client",
+  "label.heading.metaData": "MetaData",
   "#Menu Links": "..",
   "label.menu.selectloanofficer": "Select Staff",
   "label.menu.selectone": "Select One",

@@ -789,8 +789,18 @@
                                             alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
                                             return;
                                         }
-                                        console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile.file);
+                                        console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile);
 
+                                        let metaData = guaranteeDocFile.metaData;
+                                        let exifdata = guaranteeDocFile.file.exifdata;
+                                        if (!metaData && exifdata){
+                                            metaData = {};
+                                            metaData['DateTime'] = exifdata.DateTime;
+                                            exifdata.GPSLatitudeRef?metaData['GPSLatitudeRef']=exifdata.GPSLatitudeRef:"N/A";
+                                            exifdata.GPSLatitude?metaData['GPSLatitude']=exifdata.GPSLatitude:"N/A";
+                                            exifdata.GPSLongitudeRef?metaData['GPSLongitudeRef']=exifdata.GPSLongitudeRef:"N/A";
+                                            exifdata.GPSLongitude?metaData['GPSLongitude']=exifdata.GPSLongitude:"N/A";
+                                        }
                                         Upload.upload({
                                             url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + loanId + '/paedocument',
                                             data: {
@@ -798,7 +808,8 @@
                                                 description: `${guaranteeDocFile.name}(GUARANTEE_${j + 1})`,
                                                 categoryId: guaranteeDocFile.categoryId,
                                                 guaranteeNo: (j+1),
-                                                file: guaranteeDocFile.file
+                                                file: guaranteeDocFile.file,
+                                                metaData: JSON.stringify(metaData)
                                             },
                                         }).then(function (data) {
                                             if (!scope.$$phase) {
@@ -1062,10 +1073,47 @@
                 if (!scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)]) {
                     scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)] = [];
                 }
+
+                var file = $files[0];
+                var docData = {
+                    file: file,
+                    name: currentDoc.documentName,
+                    description: currentDoc.description,
+                    categoryId: currentDoc.categoryId
+                };
+
+                // Check if the file is an image
+                if (file && file.type && file.type.startsWith('image/')) {
+                    // Extract EXIF metadata from the image
+                    if (typeof EXIF !== 'undefined') {
+                        EXIF.getData(file, function() {
+                            var metaData = {};
+                            var allMetaData = EXIF.getAllTags(this);
+
+                            // Copy all EXIF tags to metaData object
+                            if (allMetaData){
+                                metaData['DateTime'] = allMetaData.DateTime;
+                                allMetaData.GPSLatitudeRef?metaData['GPSLatitudeRef']=allMetaData.GPSLatitudeRef:"N/A";
+                                allMetaData.GPSLatitude?metaData['GPSLatitude']=allMetaData.GPSLatitude:"N/A";
+                                allMetaData.GPSLongitudeRef?metaData['GPSLongitudeRef']=allMetaData.GPSLongitudeRef:"N/A";
+                                allMetaData.GPSLongitude?metaData['GPSLongitude']=allMetaData.GPSLongitude:"N/A";
+                            }
+
+                            // Add metadata to document data
+                            docData.metaData = metaData;
+                            console.log("EXIF metadata extracted:", metaData);
+
+                            if (!scope.$$phase) {
+                                scope.$apply();
+                            }
+                        });
+                    } else {
+                        console.warn("EXIF library not loaded");
+                    }
+                }
+
                 // Store the file(s) at the correct index
-                scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)][parentIndex] =
-                    {file: $files[0], name:currentDoc.documentName,
-                    description:currentDoc.description,categoryId:currentDoc.categoryId };
+                scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)][parentIndex] = docData;
                 console.log("Files selected for guaranty document upload:",scope.paeRequiredGuaranteeDocuments );
 
             }
