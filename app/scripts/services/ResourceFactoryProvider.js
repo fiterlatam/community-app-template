@@ -216,6 +216,14 @@
                     runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote", {}, {
                         generate: {method: 'POST', params: {}, isArray: false}
                     }),
+                    promissoryNoteTemplateResource: defineResource(apiVer + "/runreports/promissorynote/:templateId", { templateId: "@templateId" }, {
+                        // GET /promissorynote -> lista de plantillas
+                        getAll: { method: 'GET', params: {}, isArray: true, url: baseUrl + apiVer + "/runreports/promissorynote" },
+                        // GET /promissorynote/{templateId} -> una plantilla
+                        get: { method: 'GET', params: { templateId: '@templateId' } },
+                        // PUT /promissorynote -> actualización (id en el body)
+                        update: { method: 'PUT', params: {}, url: baseUrl + apiVer + "/runreports/promissorynote" }
+                    }),
                     reportsResource: defineResource(apiVer + "/reports/:id/:resourceType", {id: '@id', resourceType: '@resourceType'}, {
                         get: {method: 'GET', params: {id: '@id'}},
                         getReport: {method: 'GET', params: {id: '@id'}, isArray: true},

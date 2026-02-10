@@ -1,0 +1,126 @@
+<div class="content-container" ng-controller="ManagePromissoryNoteTemplatesController">
+    <ul class="breadcrumb">
+        <li><a href="#/system">{{'label.anchor.system' | translate}}</a></li>
+        <li class="active">{{'label.anchor.manageTemplates' | translate}}</li>
+    </ul>
+
+    <div class="card well">
+        <!-- Búsqueda -->
+        <!-- <div class="row">
+            <div class="col-md-8">
+                <label class="control-label">Plantillas pagaré:</label>
+                <div class="input-group">
+                    <input data-ng-model="formData.searchText" type="text"
+                           placeholder="Buscar por nombre o título"
+                           class="form-control unstyled" />
+                    <span class="input-group-btn">
+                        <button ng-click="search()" class="btn btn-primary form-control">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Errores de validación -->
+        <div class="alert alert-danger" ng-show="errorMessage">
+            <ul>
+                <li>
+                    {{ errorMessage }}
+                </li>
+            </ul>
+        </div>
+
+
+        <hr>
+
+        <!-- Tabla de resultados -->
+        <div>
+            <div data-ng-show="templates.length > 0">
+                <table class="table table-bordered" data-anchor>
+                    <thead>
+                    <tr class="graybg">
+                        <th>Número pagaré</th>
+                        <th>Nombre</th>
+                        <th>Título</th>
+                        <th>Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pointer-main"
+                        ng-repeat="tpl in templates"
+                        ng-class="{'info': selectedTemplate && selectedTemplate.id === tpl.id}">
+                        <td>{{tpl.promissoryNumber}}</td>
+                        <td>{{tpl.name}}</td>
+                        <td>{{tpl.title}}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm"
+                                    ng-click="select(tpl)">
+                                <i class="fa fa-pencil"></i> Editar
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 data-ng-show="templates.length === 0">
+                No hay datos para mostrar.
+            </h4>
+        </div>
+
+        <hr>
+
+        <!-- Formulario de edición -->
+        <div data-ng-show="selectedTemplate">
+            <h3>Editar plantilla #{{selectedTemplate.id}}</h3>
+            <form novalidate>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="selectedTemplate.name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="selectedTemplate.title">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Bloque 1</label>
+                    <textarea class="form-control"
+                              rows="5"
+                              ng-model="selectedTemplate.blockOne"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Bloque 2</label>
+                    <textarea class="form-control"
+                              rows="5"
+                              ng-model="selectedTemplate.blockTwo"></textarea>
+                </div>
+
+                <div class="form-group text-right">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="cancelEdit()">
+                        Cancelar
+                    </button>
+                    <button type="button"
+                            class="btn btn-primary"
+                            ng-click="save()">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
