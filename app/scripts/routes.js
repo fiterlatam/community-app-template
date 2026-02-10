@@ -1302,7 +1302,9 @@
             templateUrl: 'views/paedocumentation/paedocumentation.html'
         }).when('/paedocumentationview/:id', {
             templateUrl: 'views/paedocumentation/paedocumentationview.html'
-        });
+        }).when('/managetemplatespae', {
+                templateUrl: 'views/system/managetemplatespae.html'
+            });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };
