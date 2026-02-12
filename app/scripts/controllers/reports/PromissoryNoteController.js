@@ -53,6 +53,7 @@
                     // });
                     resourceFactory.loanResourceTemplates.get({loanId: newVal}, function (data) {
                         $scope.formData.witnessName = data?.lider_agencia;
+                        $scope.formData.witnessDPI = data?.user_dpi;
                     });
 
                     $scope.showWitnessFields = true;
