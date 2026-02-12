@@ -58,6 +58,17 @@
 	                <form-validate valattributeform="createuserform" valattribute="lastname"/>
 	            </div>
 	        </div>
+	        <div class="form-group">
+	            <label class="control-label col-sm-2" for="userDpi">{{'label.input.userDpi' | translate}}<span
+	                    class="required">*</span></label>
+
+	            <div class="col-sm-3">
+	                <input type="text" id="userDpi" name="userDpi" ng-model="formData.userDpi" class="form-control" required late-Validate/>
+	            </div>
+	            <div class="col-sm-3">
+	                <form-validate valattributeform="createuserform" valattribute="userDpi"/>
+	            </div>
+	        </div>
 	        <div data-ng-switch on="formData.sendPasswordToEmail">
 	            <div data-ng-switch-when="true">
 	                <div class="form-group">

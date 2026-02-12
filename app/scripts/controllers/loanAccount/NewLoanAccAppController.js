@@ -40,6 +40,10 @@
             scope.clientHousingType;
             scope.formData.totalExternalLoanAmount =0;
             scope.formData.totalInstallments =0
+            scope.unrestrictedDateOptions = {
+                minDate: null,
+                maxDate: null
+            };
             scope.institutionTypeOptions = [
                 {id:1,code:"MICROFINANCE",description:"Micro Finance"}
             ];
@@ -92,6 +96,52 @@
                     });
                 }
             }
+
+            scope.setAllNo = function () {
+
+                if(!scope.datatables || !scope.formData.datatables){
+                    return;
+                }
+
+                angular.forEach(scope.datatables, function(datatable, dtIndex){
+
+                    let tableData = scope.formData.datatables[dtIndex];
+                    if(!tableData || !tableData.data) return;
+
+                    angular.forEach(datatable.columnHeaderData, function(column){
+
+                        // BOOLEAN
+                        if(column.columnDisplayType === 'BOOLEAN'){
+                            tableData.data[column.columnName] = false;
+                        }
+
+                        // SELECT (SI / NO)
+                        if(column.columnValues && column.columnValues.length){
+
+                            let noOption = column.columnValues.find(function(opt){
+
+                                if(!opt.value) return false;
+
+                                let v = opt.value.toString().toLowerCase();
+
+                                return v === 'no'
+                                    || v === 'false'
+                                    || v === 'n';
+                            });
+
+                            if(noOption){
+                                tableData.data[column.columnName] =
+                                    noOption.id !== undefined
+                                        ? noOption.id
+                                        : noOption.value;
+                            }
+                        }
+
+                    });
+
+                });
+            };
+
 
             var AgeLimitCtrl = function ($scope, $uibModalInstance) {
                 $scope.loanProduct = scope.product;
@@ -343,8 +393,30 @@
                                 };
                             }
 
-                            if (datatable.columnHeaderData[i].columnDisplayType == 'DATETIME') {
-                                scope.formDat.datatables[index].data[datatable.columnHeaderData[i].columnName] = {};
+                            if (datatable.columnHeaderData[i].columnDisplayType == 'DATETIME' ||datatable.columnHeaderData[i].columnDisplayType == 'DATE' ) {
+                                let column = datatable.columnHeaderData[i];
+                                let columnName = column.columnName;
+
+                                // FECHA DE HOY SIN HORA
+                                let today = new Date();
+                                today.setHours(0,0,0,0);
+
+
+                                // DATE
+                                if (column.columnDisplayType === 'DATE') {
+
+                                    scope.formDat.datatables[index].data[columnName] = new Date(today);
+                                }
+
+
+                                // DATETIME
+                                if (column.columnDisplayType === 'DATETIME') {
+
+                                    scope.formDat.datatables[index].data[columnName] = {
+                                        date: new Date(today),
+                                        time: new Date()
+                                    };
+                                }
                             }
                         });
                     });
