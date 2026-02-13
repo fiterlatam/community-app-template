@@ -88,6 +88,15 @@
                     </div>
                 </div>
 
+                <!-- Errores de validación -->
+                <div class="alert alert-danger" ng-show="errorMessages.length">
+                    <ul>
+                        <li ng-repeat="msg in errorMessages">
+                            {{ msg }}
+                        </li>
+                    </ul>
+                </div>
+
             </div>
 
             <!-- BOTÓN EJECUTAR -->

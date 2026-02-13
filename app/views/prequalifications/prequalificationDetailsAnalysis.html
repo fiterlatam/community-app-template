@@ -645,13 +645,13 @@
                                 type="button" class="btn btn-danger" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.reject' | translate}}
                         </button>-->
-                            <button ng-if="groupData.prequalificationType.value=='PAE'"
+                            <button ng-if="groupData.prequalificationType.value=='PAE' && prequalificationType !=='renegotiations'"
                                 ng-click="rejectPrequalification()" type="button" class="btn btn-danger"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.reject' | translate}}
                             </button>
 
-                            <button ng-if="prequalificationType ==='renegotiations'" ng-click="argueACase()"
+                            <button ng-if="prequalificationType ==='renegotiations' && showArgueButton" ng-click="argueACase()"
                                 type="button" class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.argueACase' | translate}}

@@ -1,8 +1,10 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate, API_VERSION, Upload, $rootScope) {
+        NewLoanAccAppController: function (scope, routeParams, resourceFactory, location,$uibModal, dateFilter, uiConfigService, WizardHandler, translate, API_VERSION, Upload, $rootScope, $timeout) {
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
+            scope.draftId = routeParams.draftId;
+            scope.draftpayload = {};
             scope.groupId = routeParams.groupId;
             scope.restrictDate = new Date();
             scope.formData = {};
@@ -15,6 +17,7 @@
             scope.datatables = [];
             scope.noOfTabs = 1;
             scope.step = '-';
+            scope.draftStep = '-';
             scope.formData.datatables = [];
             scope.formDat.datatables = [];
             scope.tf = "HH:mm";
@@ -31,7 +34,9 @@
             scope.currentLoanData = {};
             scope.currentLoanDocs = {}
             scope.loanDocuments = [];
+            scope.draftDocuments = [];
             scope.paeLoandocuments = [];
+            scope.draftPaeDocuments = {};
             scope.guarantyFiles = [];
             scope.paeRequiredGuaranteeOptions;
             scope.paeRequiredGuaranteeDocuments=[];
@@ -96,6 +101,45 @@
                     });
                 }
             }
+
+            scope.onGuarantorTypeChange = function(columnHeader, datatable){
+
+                console.log(columnHeader);
+            
+
+                if(columnHeader.columnName !== 'guarantorType_cd_tipo_fiador_tercero' && columnHeader.columnName !== 'guarantee_cd_tipo_garantia'){
+                    return;
+                }
+
+                let dtIndex = scope.datatables.indexOf(datatable);
+
+                let selectedId =
+                    scope.formData.datatables[dtIndex]
+                    .data[columnHeader.columnName];
+
+                let selectedOption = columnHeader.columnValues.find(v => v.id == selectedId);
+
+                if(!selectedOption) return;
+
+                let guarantorName = selectedOption.value.toLowerCase().trim();
+                scope.paeRequiredGuaranteeOptions.forEach(function(option){
+
+                    let optionName = option.name.toLowerCase().trim();
+
+                    if(optionName === guarantorName){
+                        option.selected = true;
+                    }
+
+                    if(optionName === 'documentacion deudora'){
+                        option.selected = true;
+                        option.locked = true;
+                        return;
+                    }
+
+                });
+
+            };
+
 
             scope.setAllNo = function () {
 
@@ -284,8 +328,37 @@
                     scope.loandetails.transactionProcessingStrategyValue = scope.formValue(scope.loanaccountinfo.transactionProcessingStrategyOptions, scope.formData.transactionProcessingStrategyId, 'id', 'code');
                     scope.datatables = data.datatables;
                     scope.handleDatatables(scope.datatables);
+                    if (scope.draftPayload?.datatables && scope.formData.datatables) {
+                        scope.draftPayload.datatables.forEach(savedDt => {
+
+                            const liveDt = scope.formData.datatables
+                                .find(dt => dt.registeredTableName === savedDt.registeredTableName);
+
+                            if (liveDt) {
+                                liveDt.data = angular.copy(savedDt.data);
+                            }
+                        });
+                    }
+
                     scope.disabled = false;
                     scope.paeRequiredGuaranteeOptions = data.paeRequiredGuaranteeOptions;
+
+                    if (scope.draftPayload) {
+                        $timeout(function () {
+                            hydrateDraft(scope.draftPayload);
+                            if (scope.draftStep) {
+                                WizardHandler.wizard().goTo(scope.draftStep);
+                            }
+                        }, 0);
+                    }
+
+                    scope.paeRequiredGuaranteeOptions.forEach(function(option) {
+                        if(option.name === 'Documentacion Deudora'){
+                            option.selected = true;
+                            option.locked = true;
+                        }
+                    });
+
                 });
 
                 resourceFactory.loanResource.get({
@@ -298,6 +371,24 @@
                 });
 
             }
+
+            scope.$watch(
+                function () {
+                    return scope.loanaccountinfo && scope.loanaccountinfo.loanPurposeOptions;
+                },
+                function (options) {
+                    if (!options || !options.length || !scope.draftPayload) {
+                        return;
+                    }
+
+                    var id = Number(scope.draftPayload.loanPurposeId);
+
+                    if (options.some(o => o.id === id)) {
+                        scope.formData.loanPurposeId = id;
+                    }
+                }
+            );
+
 
             scope.goNext = function (form) {
                 WizardHandler.wizard().checkValid(form);
@@ -716,7 +807,7 @@
                 return fieldType;
             };
 
-            scope.submit = function () {
+            scope.submit = function (justAssignValues) {
                 // if (WizardHandler.wizard().getCurrentStep() != scope.noOfTabs) {
                 //     WizardHandler.wizard().next();
                 //     return;
@@ -820,16 +911,31 @@
                 } else {
                     delete scope.formData.datatables;
                 }
-                if (!scope.validatRequiredPaeDocs()){
-                    return;
-                }
-                resourceFactory.loanResource.save(this.formData, function (data) {
-                    if(data.loanId){
-                        scope.uploadDocuments(data.loanId)
-                        scope.uploadPaeDocuments(data.loanId)
+                
+                if (!justAssignValues) {
+
+                    if (!scope.validatRequiredPaeDocs()){
+                        return;
+                    } 
+                    
+                    if (scope.draftId) {
+                        this.formData.draftId = scope.draftId;
                     }
-                    location.path('/viewloanaccount/' + data.loanId);
-                });
+
+                    resourceFactory.loanResource.save(this.formData, function (data) {
+                        if(data.loanId){
+                            scope.uploadDocuments(data.loanId)
+                            scope.uploadPaeDocuments(data.loanId)
+                        }
+                        location.path('/viewloanaccount/' + data.loanId);
+                    });
+                } else {
+                    scope.uploadDraftDocuments(scope.draftId);
+                    scope.uploadDraftPaeDocuments(scope.draftId)
+                    .then(function () {
+                        scope.partialSave();
+                    })
+                }
             };
 
             scope.uploadDocuments = function (loanId){
@@ -855,9 +961,18 @@
                                 if (extraData && extraData.length > 0) {
                                     for (let k = 0; k < extraData.length; k++) {
                                         let requiredDoc = extraData[k];
-                                        let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
+                                        let key = "GUARANTEEDOC_" + (requiredDoc.id);
+                                        let guaranteeDocFile; 
+                                        if ( !scope.paeRequiredGuaranteeDocuments[key] || !scope.paeRequiredGuaranteeDocuments[key][j]) {
+                                                continue;
+                                        }
+                                        guaranteeDocFile = scope.paeRequiredGuaranteeDocuments[key][j];
 
                                         if (!guaranteeDocFile || !guaranteeDocFile.file) {
+                                            if (guaranteeDocFile && guaranteeDocFile.name && !guaranteeDocFile.file) {
+                                                console.log("Do not save document, it is from draft")
+                                                continue;
+                                            }
                                             alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
                                             return;
                                         }
@@ -898,6 +1013,7 @@
             }
 
             scope.validatRequiredPaeDocs = function (loanId){
+                
                 if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0){
                     for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
                         if (scope.paeRequiredGuaranteeOptions[i].selected){
@@ -906,11 +1022,24 @@
                                 for (let j = 0; j < scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
                                     for (let k = 0; k < extraData.length; k++) {
                                         let requiredDoc = extraData[k];
-                                        let guaranteeDocFile = scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_" + (requiredDoc.id)][j];
+                                        let key = "GUARANTEEDOC_" + requiredDoc.id;
+                                        let guaranteeDocFile;
 
-                                        if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.file)) {
-                                            alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
-                                            return false;
+                                        if (scope.paeRequiredGuaranteeDocuments[key] && scope.paeRequiredGuaranteeDocuments[key][j]) {
+                                            guaranteeDocFile = scope.paeRequiredGuaranteeDocuments[key][j];
+                                        } 
+                                        console.log("guaranteeDocFile: ", guaranteeDocFile)
+                                        if (scope.draftId) {
+
+                                            if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.name)) {
+                                                alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
+                                                return false;
+                                            }
+                                        } else {
+                                            if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.file)) {
+                                                alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
+                                                return false;
+                                            }
                                         }
                                     }
                                 }
@@ -1222,9 +1351,306 @@
                     }
                 }
             }
+
+            scope.hasDraftGuaranteeDoc = function (requiredDoc, guaranteeIndex) {
+                if (!scope.draftPaeDocuments || !requiredDoc) return false;
+
+                return (
+                    scope.draftPaeDocuments[requiredDoc.id] &&
+                    scope.draftPaeDocuments[requiredDoc.id]
+                        .some(d => d.guaranteeNo === (guaranteeIndex + 1))
+                );
+            };
+
+            scope.getDraftGuaranteeDoc = function (requiredDoc, guaranteeIndex) {
+                if (!scope.draftPaeDocuments || !requiredDoc) return null;
+
+                return scope.draftPaeDocuments[requiredDoc.id]
+                    ?.find(d => d.guaranteeNo === (guaranteeIndex + 1)) || null;
+            };
+
+            scope.uploadDraftDocuments = function (draftId) {
+
+                for (let i = 0; i < scope.loanDocuments.length; i++) {
+
+                    let loanDocument = scope.loanDocuments[i];
+
+                    Upload.upload({
+                        url: $rootScope.hostUrl + API_VERSION + '/loanapplicationdraft/' + draftId + '/documents',
+                        data: { name : loanDocument.name, description : loanDocument.description, documentType : loanDocument.documentType, file: loanDocument.file},
+                    }).then(function (resp) {
+
+                        scope.draftDocuments.push({
+                            documentId: resp.data.resourceId,
+                            name: loanDocument.file.name,
+                            description: loanDocument.description,
+                            documentType: loanDocument.documentType
+                        });
+                    });
+                }
+            }
+
+            scope.uploadDraftPaeDocuments = function (draftId) {
+                if (!draftId) {
+                    console.log("First save draft without documents")
+                    return Promise.resolve();
+                }
+
+                if (!scope.paeRequiredGuaranteeDocuments || Object.keys(scope.paeRequiredGuaranteeDocuments).length === 0) {
+                    console.log("Not draft pae documents to upload");
+                    return Promise.resolve();
+                }
+
+                let uploadPromises = [];
+                if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0){
+
+                    for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
+
+                        if (scope.paeRequiredGuaranteeOptions[i].selected){
+
+                            let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
+                            
+                            for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
+
+                                if (extraData && extraData.length > 0) {
+
+                                    for (let k = 0; k < extraData.length; k++) {
+                                        let requiredDoc = extraData[k];
+                                        let key = "GUARANTEEDOC_" + requiredDoc.id;
+
+                                        if ( !scope.paeRequiredGuaranteeDocuments[key] || !scope.paeRequiredGuaranteeDocuments[key][j]) {
+                                                continue;
+                                        }
+                                        let fileWrapper = scope.paeRequiredGuaranteeDocuments[key][j];
+
+                                        if (!fileWrapper || !fileWrapper.file) {
+                                            continue;
+                                        }
+                                        
+                                        if (!scope.draftPaeDocuments) {
+                                            scope.draftPaeDocuments = {};
+                                        }
+
+                                        if (!scope.draftPaeDocuments[requiredDoc.id]) {
+                                            scope.draftPaeDocuments[requiredDoc.id] = [];
+                                        }
+
+                                        let alreadySaved = false;
+
+                                        if (
+                                            scope.draftPaeDocuments &&
+                                            scope.draftPaeDocuments[requiredDoc.id]
+                                        ) {
+                                            alreadySaved = scope.draftPaeDocuments[requiredDoc.id]
+                                                .some(d => d.guaranteeNo === (j + 1));
+                                        }
+
+                                        if (alreadySaved) {
+                                            continue;
+                                        }
+
+                                        console.log("\n\n\n===>Uploading guarantee darft document: ", fileWrapper);
+
+                                        let promise = Upload.upload({
+                                            url: $rootScope.hostUrl + API_VERSION + '/loanapplicationdraft/' + draftId + '/documents',
+                                            data: {
+                                                name: fileWrapper.name,
+                                                description: `${fileWrapper.name}(GUARANTEE_${j + 1})`,
+                                                documentType: fileWrapper.categoryId,
+                                                documentPurpose: j + 1,
+                                                guaranteeNo: j + 1,
+                                                metaData: JSON.stringify(fileWrapper.metaData || {}),
+                                                file: fileWrapper.file
+                                            }
+                                        }).then(function (resp) {
+                                            scope.draftPaeDocuments[requiredDoc.id].push({
+                                                documentId: resp.data.resourceId,
+                                                guaranteeNo: j + 1,
+                                                name: fileWrapper.file.name
+                                            });
+
+                                        });
+
+                                        uploadPromises.push(promise);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $timeout(function () {
+                    scope.$applyAsync();
+                });
+                return Promise.all(uploadPromises);
+            };
+
+
+            scope.partialSave = function () {
+
+                //scope.submit(true);
+
+                var payload = angular.copy(scope.formData);
+
+                payload.paeRequiredGuaranteeOptions = angular.copy(scope.paeRequiredGuaranteeOptions);
+                payload.paeRequiredGuaranteeDocuments = angular.copy(scope.paeRequiredGuaranteeDocuments);
+
+                payload.documents = scope.draftDocuments;
+                payload.paeDocuments = scope.draftPaeDocuments;
+                
+                if (scope.draftId) {
+
+                    resourceFactory.loanApplicationDraftResource.update(
+                        { draftId: scope.draftId },
+                        {
+                            currentStep: scope.step,
+                            loanProductId: scope.formData.productId,
+                            payloadJson: angular.toJson(payload)
+                        }
+                    );
+
+                } else {
+
+                    var requestData = {
+                        clientId: scope.clientId,
+                        loanProductId: scope.formData.productId,
+                        currentStep: scope.step,
+                        payloadJson: angular.toJson(payload)
+                    };
+
+                    resourceFactory.loanApplicationDraftResource.save(
+                        requestData,
+                        function (response) {
+                            console.log('Saved draft', response);
+                            scope.draftId = response.resourceId;
+                        },
+                        function (error) {
+                            console.error('Error saving draft', error);
+                        }
+                    );
+                }
+            };
+
+
+            if (scope.draftId) {
+                resourceFactory.loanApplicationDraftResource.get(
+                    { draftId: routeParams.draftId },
+                    function (data) {
+                        scope.draftId = data.id;
+                        scope.draftStep = data.currentStep;
+                        scope.draftPayload = angular.fromJson(data.payloadJson);
+                        scope.prequalificationChange(scope.draftPayload.prequalificationId)
+                    }
+                );
+            }
+
+            function toDate(value) {
+                if (!value) {
+                    return null;
+                }
+
+                var parsed = Date.parse(value);
+                if (!isNaN(parsed)) {
+                    return new Date(parsed);
+                }
+
+                console.warn('Not date parsed automatically:', value);
+                return null;
+            }
+
+            function hydrateDraft(payload) {
+                if (!payload) return;
+
+                angular.merge(scope.formData, payload);
+
+                delete scope.formData.loanDocuments;
+                delete scope.formData.paeRequiredGuaranteeOptions;
+                delete scope.formData.paeRequiredGuaranteeDocuments;
+                delete scope.formData.documents;
+                delete scope.formData.paeDocuments;
+
+                scope.date = scope.date || {};
+
+                scope.date.first = toDate(payload.submittedOnDate, payload.dateFormat, payload.locale);
+                scope.date.second = toDate(payload.expectedDisbursementDate, payload.dateFormat, payload.locale);
+                scope.date.third = toDate(payload.interestChargedFromDate, payload.dateFormat, payload.locale);
+                scope.date.fourth = toDate(payload.repaymentsStartingFromDate, payload.dateFormat, payload.locale);
+                scope.date.fifth = toDate(payload.dateRequested, payload.dateFormat, payload.locale);
+                scope.date.sixth = toDate(payload.dateOfBirth, payload.dateFormat, payload.locale);
+
+                // --- Garantías ---
+                if (payload.paeRequiredGuaranteeOptions && payload.paeRequiredGuaranteeOptions.length > 0) {
+                    scope.paeRequiredGuaranteeOptions = angular.copy(payload.paeRequiredGuaranteeOptions);
+                    scope.requiresGuaranteeDocs();
+                }
+
+                // --- Charges ---
+                if (payload.charges && payload.charges.length > 0) {
+                    scope.charges = payload.charges.map(c => ({
+                        chargeId: c.chargeId,
+                        amount: c.amount,
+                        dueDate: toDate(c.dueDate, payload.dateFormat, payload.locale),
+                        name: resolveChargeName(c.chargeId),
+                        currency: scope.loanaccountinfo.currency,
+                        chargeCalculationType: {},
+                        chargeTimeType: {}
+                    }));
+                }
+
+                // --- Collateral ---
+                if (payload.collateral) {
+                    scope.collaterals = payload.collateral.map(c => ({
+                        collateralId: c.clientCollateralId,
+                        quantity: c.quantity
+                    }));
+                }
+
+                // --- Draft documents ---
+                if (payload.documents) {
+                    scope.draftDocuments = payload.documents;
+                }
+
+                // --- Draft PAE documents ---
+                if (payload.paeDocuments) {
+                    scope.draftPaeDocuments = payload.paeDocuments;
+                }
+                
+                Object.keys(payload.paeDocuments).forEach(function(docId) {
+
+                    const key = "GUARANTEEDOC_" + docId;
+
+                    scope.paeRequiredGuaranteeDocuments[key] = scope.paeRequiredGuaranteeDocuments[key] || [];
+
+                    payload.paeDocuments[docId].forEach(function(doc) {
+
+                        scope.paeRequiredGuaranteeDocuments[key].push({
+                            name: doc.name,
+                            documentId: doc.documentId
+
+                        });
+                    });
+                });
+
+                $timeout(function () {
+                    scope.$applyAsync();
+                });
+
+            }
+
+            function resolveChargeName(chargeId) {
+                if (!scope.loanaccountinfo || !scope.loanaccountinfo.chargeOptions) {
+                    return '';
+                }
+
+                var match = scope.loanaccountinfo.chargeOptions.find(c => c.id === chargeId);
+                return match ? match.name : '';
+            }
+
         }
+
+        
+
     });
-    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',  'API_VERSION',  'Upload',  '$rootScope', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
+    mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',  'API_VERSION',  'Upload',  '$rootScope', '$timeout', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
         $log.info("NewLoanAccAppController initialized");
     });
 }(mifosX.controllers || {}));
