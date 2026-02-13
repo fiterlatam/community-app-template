@@ -97,6 +97,45 @@
                 }
             }
 
+            scope.onGuarantorTypeChange = function(columnHeader, datatable){
+
+                console.log(columnHeader);
+            
+
+                if(columnHeader.columnName !== 'guarantorType_cd_tipo_fiador_tercero' && columnHeader.columnName !== 'guarantee_cd_tipo_garantia'){
+                    return;
+                }
+
+                let dtIndex = scope.datatables.indexOf(datatable);
+
+                let selectedId =
+                    scope.formData.datatables[dtIndex]
+                    .data[columnHeader.columnName];
+
+                let selectedOption = columnHeader.columnValues.find(v => v.id == selectedId);
+
+                if(!selectedOption) return;
+
+                let guarantorName = selectedOption.value.toLowerCase().trim();
+                scope.paeRequiredGuaranteeOptions.forEach(function(option){
+
+                    let optionName = option.name.toLowerCase().trim();
+
+                    if(optionName === guarantorName){
+                        option.selected = true;
+                    }
+
+                    if(optionName === 'documentacion deudora'){
+                        option.selected = true;
+                        option.locked = true;
+                        return;
+                    }
+
+                });
+
+            };
+
+
             scope.setAllNo = function () {
 
                 if(!scope.datatables || !scope.formData.datatables){
@@ -286,6 +325,12 @@
                     scope.handleDatatables(scope.datatables);
                     scope.disabled = false;
                     scope.paeRequiredGuaranteeOptions = data.paeRequiredGuaranteeOptions;
+                    scope.paeRequiredGuaranteeOptions.forEach(function(option) {
+                        if(option.name === 'Documentacion Deudora'){
+                            option.selected = true;
+                            option.locked = true;
+                        }
+                    });
                 });
 
                 resourceFactory.loanResource.get({

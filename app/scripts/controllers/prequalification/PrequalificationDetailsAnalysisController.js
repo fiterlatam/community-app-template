@@ -25,6 +25,17 @@
             scope.fetchPrequalificationDetails = function () {
                 resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
                     scope.groupData = data;
+                    scope.showArgueButton = false;
+                    if(scope.groupData.renegotiations && scope.groupData.renegotiations.length){
+                        console.log(scope.groupData.renegotiations)
+                        let lastRenegotiation = scope.groupData.renegotiations.reduce((max, current) => {
+                            return current.id > max.id ? current : max;
+                        });
+                        console.log(lastRenegotiation)
+
+                        scope.showArgueButton = lastRenegotiation.status === 'REJECTED';
+                    }
+
                     scope.groupMembers = data.groupMembers;
                     scope.formData.listComments = data.listComments || [];
                     scope.formData.exceptionListComments = data.exceptionListComments || [];
