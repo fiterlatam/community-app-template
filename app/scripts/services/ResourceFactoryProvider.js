@@ -1096,6 +1096,17 @@
                     committeeTemplateResource: defineResource(apiVer + "/committees/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    loanApplicationDraftResource: defineResource(apiVer + "/loandraft/:draftId", { draftId: '@draftId' }, {
+
+                        save: {method: 'POST', params: {}},
+
+                        get: {method: 'GET'},
+
+                        update: {method: 'PUT'},
+
+                        delete: {method: 'DELETE'},
+
+                    })
                 };
             }];
         }

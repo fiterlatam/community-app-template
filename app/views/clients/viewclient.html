@@ -499,6 +499,40 @@
 										</tr>
 									</table>
 								</div>
+								<div data-ng-show="clientAccounts.loanApplicationDrafts">
+
+									<table class="table table-condensed">
+										<span class="span gray-head">
+											<strong>{{ 'label.heading.loanapplicationdrafts' | translate }}</strong>
+										</span>
+
+										<tr class="graybg">
+											<th>{{ 'label.heading.loanproduct' | translate }}</th>		
+											<th>{{ 'label.heading.step' | translate }}</th>
+											<th class="center">{{ 'label.heading.actions' | translate }}</th>
+										</tr>
+
+										<tr class="pointer-main"
+											ng-repeat="draft in clientAccounts.loanApplicationDrafts | orderBy:'id':true">
+
+											<td class="pointer">
+												{{draft.loanProductName}}
+											</td>
+
+											<td class="pointer">
+												{{draft.currentStep}}
+											</td>
+
+											<td class="pointer center">
+												<a class="btn btn-xs btn-primary"
+												uib-tooltip="{{ 'label.button.proceed' | translate }}"
+												ng-href="#/continueloanapplicationdraft/{{client.id}}/{{draft.id}}">
+													<i class="fa fa-play"></i>
+												</a>
+											</td>
+										</tr>
+									</table>
+								</div>
 								<!-- Collateral Overview -->
 								<div data-ng-show="collateralSize != 0">
 									<div class="pull-right">
