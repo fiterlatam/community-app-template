@@ -19,6 +19,7 @@
             $scope.showCreditSelect = false;
             $scope.showWitnessFields = false;
             $scope.loanSelected = {};
+            $scope.errorMessages = [];
 
             // BUSCAR CRÉDITOS EN VIVO
             $scope.searchLoans = function () {
@@ -63,6 +64,7 @@
             // Acción final
             $scope.generate = function () {
                 console.log("DATOS A ENVIAR:", $scope.formData);
+                $scope.errorMessages = [];
                 resourceFactory.runReportsPromissory.generate(
                     $scope.formData,
                     function (response) {
@@ -91,7 +93,19 @@
 
                         document.body.removeChild(link);
                         URL.revokeObjectURL(blobUrl);
-                    });
+                    },
+                    function (error) {
+                        $scope.errorMessages = [];
+
+                        if (error.data && error.data.errors && error.data.errors.length) {
+                            error.data.errors.forEach(function (err) {
+                                $scope.errorMessages.push(err.defaultUserMessage);
+                            });
+                        } else {
+                            $scope.errorMessages.push('Unexpected error occurred');
+                        }
+                    }
+                );
             };
 
         }
