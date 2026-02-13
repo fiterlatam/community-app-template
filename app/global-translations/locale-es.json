@@ -5304,8 +5304,12 @@
 	"cuotas_prestamos": "Cuotas de Préstamos",
 	"guarantee_cd_tipo_garantia": "Seleccione el tipo de garantía",
 	"valor_garantia": "Valor de la garantía",
-	"YesNo_cd_debts_consolidated_shown_credit_bureaus": "¿LAs deudas a consolidar se muestran en los últimos 06 meses en centrales de riego?",
+	"YesNo_cd_debts_consolidated_shown_credit_bureaus": "¿Las deudas a consolidar se muestran en los últimos 06 meses en centrales de riego?",
 	"YesNo_cd_debt_purchased_less_than_80": "¿La deuda a comprar es menor al 80% del préstamo total?",
 	"YesNo_cd_loan_amount_purchased_less_q250k": "¿El monto del préstamo a comprar es menor a Q250K?",
-	"YesNo_cd_debt_purchased_from_unknown_lender_inst": "¿La deuda a comprar es de un prestamista o institución desconocida?"
+	"YesNo_cd_debt_purchased_from_unknown_lender_inst": "¿La deuda a comprar es de un prestamista o institución desconocida?",
+	"creditRecordPDAOptions_cd_antiguedad_negocio": "Récord creditio en PDA",
+	"fecha_avaluo": "Fecha del avalúo",
+	"YesNo_cd_is_real_estate_owned_by_a_third_party": "¿El inmueble es registrado?",
+	"YesNo_cd_is_registered_real_estate": "¿El inmueble es propiedad de un tercero?"
 }
