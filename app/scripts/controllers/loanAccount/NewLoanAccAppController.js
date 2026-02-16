@@ -128,11 +128,13 @@
 
                     if(optionName === guarantorName){
                         option.selected = true;
+                        option.quantity = 1;
                     }
 
                     if(optionName === 'documentacion deudora'){
                         option.selected = true;
                         option.locked = true;
+                        option.quantity = 1;
                         return;
                     }
 
@@ -356,6 +358,7 @@
                         if(option.name === 'Documentacion Deudora'){
                             option.selected = true;
                             option.locked = true;
+                            option.quantity = 1;
                         }
                     });
 
