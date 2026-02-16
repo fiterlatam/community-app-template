@@ -37,8 +37,7 @@
             'webcam-directive':'../bower_components/webcam-directive/dist/webcam.min',
             'angular-wizard': '../scripts/modules/angular-wizard',
             'angular-utils-pagination':'../bower_components/angular-utils-pagination/dirPagination.min',
-            'ng-scrollbar':'../bower_components/ng-scrollbar/dist/ng-scrollbar.min',
-            'exif-js': '../bower_components/exif-js/exif'
+            'ng-scrollbar':'../bower_components/ng-scrollbar/dist/ng-scrollbar.min'
         },
         shim: {
             'angular': { deps: ['jquery','chosen.jquery.min'], exports: 'angular' },
@@ -72,7 +71,6 @@
             'angular-wizard': {deps: ['angular', 'underscore']},
             'angular-utils-pagination': {deps: ['angular']},
             'ng-scrollbar': {deps: ['angular']},
-            'exif-js': {exports: 'EXIF'},
             'mifosX': {
                 deps: [
                     'angular',
@@ -102,8 +100,7 @@
                     'angular-wizard',
                     'webcam-directive',
                     'angular-utils-pagination',
-                    'ng-scrollbar',
-                    'exif-js'
+                    'ng-scrollbar'
                 ],
                 exports: 'mifosX'
             }
