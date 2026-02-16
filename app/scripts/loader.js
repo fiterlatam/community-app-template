@@ -66,6 +66,7 @@
             'webstorage': { deps: ['angular'] },
             'JSZip': { deps: ['angular'] },
             'filesaver': { deps: ['angular'] },
+            'exif-js': { deps: ['angular'] },
             'd3': {exports: 'd3'},
             'nvd3': { deps: ['d3']},
             'nvd3ChartDirectives': {deps: ['angular', 'nvd3']},
