@@ -63,8 +63,16 @@
                 </button>
             </div>
         </div>
+
+        <div style="padding-left: 25%;" ng-if="previewUrl">
+            <iframe id="previewfullFrame" ng-src="{{previewUrl}}" width="100%" height="800px"
+                    ></iframe>
+
+            <button ng-show="previewUrl" ng-click="closePreview()" class="btn btn-primary">{{'label.button.back' | translate}}
+            </button>
+        </div>
         <br>
-        <div ng-hide="report">
+        <div ng-hide="report || previewUrl">
             <div class="span gray-head" style="margin-left:0%;">
                       <span style="margin-left: 10px;font-size:24px">
                             <strong> <i ng-hide="loandetails.inArrears"
@@ -1075,12 +1083,6 @@
                         <div class="text-right">
                             <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
                         </div>
-                        <div style="padding-left: 25%;">
-                            <iframe id="previewFrame2" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
-                                    height="350px"></iframe>
-                            <object height="60%" width="70%" ng-show="preview" data="{{fileUrl}}"
-                                    type="{{fileType}}"></object>
-                        </div>
                     </uib-tab>
 
                     <uib-tab ng-show="prequalificationType !== 'PAE'"  heading="{{'label.heading.loandocuments' | translate}}" select="getLoanDocuments()">
@@ -1115,10 +1117,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div style="padding-left: 25%;">
-                            <iframe id="previewFrame2" ng-src="{{previewUrl}}" height="62%" width="70%"
-                                    ng-if="previewUrl"></iframe>
-                        </div>
+
                     </uib-tab>
 
                     <uib-tab heading="{{'label.heading.additionals' | translate}}" ng-if="groupLoanAdditionalData">
