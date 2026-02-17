@@ -882,6 +882,13 @@
             // };
 
             scope.previewDocument = function (document) {
+
+                if (true){
+                    scope.previewUrl = scope.hostUrl + document.docUrl
+                    return;
+                }
+
+
                 console.log("Previewing document ID: ",document);
                 scope.previewUrl = undefined;
                 var url = scope.hostUrl + document.docUrl;
@@ -945,6 +952,11 @@
 
             scope.downloadDocument = function (documentId) {
 
+            };
+
+            scope.closePreview = function (documentId) {
+                scope.preview = !scope.preview;
+                scope.previewUrl = undefined;
             };
 
             scope.transactionSort = {
