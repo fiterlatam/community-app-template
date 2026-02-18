@@ -54,9 +54,9 @@
                         <td>{{tpl.name}}</td>
                         <td>{{tpl.title}}</td>
                         <td>
-                            <button class="btn btn-primary btn-sm"
+                            <button has-permission='READ_PROMISSORY_NOTE' class="btn btn-primary btn-sm"
                                     ng-click="select(tpl)">
-                                <i class="fa fa-pencil"></i> Editar
+                                <i class="fa fa-pencil"></i> Ver ó Editar
                             </button>
                         </td>
                     </tr>
@@ -109,12 +109,12 @@
                 </div>
 
                 <div class="form-group text-right">
-                    <button type="button"
+                    <button has-permission='UPDATE_PROMISSORY_NOTE' type="button"
                             class="btn btn-default"
                             ng-click="cancelEdit()">
                         Cancelar
                     </button>
-                    <button type="button"
+                    <button has-permission='UPDATE_PROMISSORY_NOTE' type="button"
                             class="btn btn-primary"
                             ng-click="save()">
                         Guardar
