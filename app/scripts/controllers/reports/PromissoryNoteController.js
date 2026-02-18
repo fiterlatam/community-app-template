@@ -55,6 +55,9 @@
                     resourceFactory.loanResourceTemplates.get({loanId: newVal}, function (data) {
                         $scope.formData.witnessName = data?.lider_agencia;
                         $scope.formData.witnessDPI = data?.user_dpi;
+                        $scope.formData.fiadorAddress = data?.direccion_fiador;
+                        $scope.formData.fiadorName = data?.nombre_fiador;
+                        $scope.formData.fiadorDPI = data?.dpi_fiador;
                     });
 
                     $scope.showWitnessFields = true;
