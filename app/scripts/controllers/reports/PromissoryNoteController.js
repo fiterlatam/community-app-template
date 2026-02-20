@@ -58,6 +58,8 @@
                         $scope.formData.fiadorAddress = data?.direccion_fiador;
                         $scope.formData.fiadorName = data?.nombre_fiador;
                         $scope.formData.fiadorDPI = data?.dpi_fiador;
+                        $scope.formData.fiadorWitness = data?.lider_agencia;
+                        $scope.formData.fiadorWitnessDPI = data?.user_dpi;
                     });
 
                     $scope.showWitnessFields = true;
