@@ -13,80 +13,219 @@
         <li class="active">{{'label.anchor.loanapplication' | translate}}</li>
     </ul>
     <wizard current-step="step" on-finish="submit(false)" class="card well">
-        <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" wz-title="{{datatable.registeredTableName | translate}}" id="dynamicSteps"
-            wz-disabled="{{disabled}}" wz-order="{{$index + 1}}">
+        <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" ng-if="datatable.registeredTableName !== 'p_destino' && datatable.registeredTableName !== 'p_fiador' && datatable.registeredTableName !== 'p_garante'" wz-title="{{datatable.registeredTableName | translate}}" id="dynamicSteps"
+            wz-disabled="{{disabled}}" wz-order="{{datatableStepOrder[dtIndex] || (dtIndex + 1)}}" ng-init="dtIndex = $index">
             <form name="Datatables" class="form-horizontal" ng-submit="submit(false)">
                 <fieldset>
                     <api-validate></api-validate>
-                    <!--<h3><strong>{{datatable.registeredTableName}}</strong></h3>-->
                     <hr/>
-                    <div class="text-right" style="margin-bottom:15px;">
-                    <label class="switch">
-                        <input type="checkbox"
-                            ng-model="allNoSwitch"
-                            ng-change="toggleAllNo()"
-                            ng-click="setAllNo()">
-                        <span class="slider"></span>
-                    </label>
 
-                    <span style="margin-left:10px;">
-                        {{ allNoSwitch ? 'Todo en NO' : 'NO a todo' }}
-                    </span>
-                    </div>
-
-                    <div class="form-group" ng-repeat="columnHeader in datatable.columnHeaderData">
-                        <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
-                            <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
-                        </label>
-
-                        <div class="col-sm-3">
-                            <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text" ng-model="formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
-                                class="form-control" />
-                            <input ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text" min="minDate" datepicker-options="unrestrictedDateOptions" datepicker-pop="dd MMMM yyyy" ng-model="formDat.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
-                                is-open="opened{{$index}}" class="form-control" />
-                            <div ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
-                                <div class="form-group">
-                                    <input type="text" datepicker-pop="dd MMMM yyyy" min="minDate" datepicker-options="unrestrictedDateOptions" ng-model="formDat.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].date"
-                                        is-open="opened{{$index}}" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="time" placeholder="HH:MM:SS" ng-model="formDat.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].time"
-                                        class="form-control" />
+                    <!-- Tabla simple (objeto único) -->
+                    <div ng-if="!datatable._isMultiple">
+                        <div ng-repeat="columnHeader in datatable.columnHeaderData">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
+                                    <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                                </label>
+                                <div class="col-sm-3">
+                                    <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text" ng-model="formData.datatables[dtIndex].data[columnHeader.columnName]" class="form-control" />
+                                    <input ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text" min="minDate" datepicker-options="unrestrictedDateOptions" datepicker-pop="dd MMMM yyyy" ng-model="formDat.datatables[dtIndex].data[columnHeader.columnName]" is-open="opened{{$index}}" class="form-control" />
+                                    <div ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
+                                        <div class="form-group">
+                                            <input type="text" datepicker-pop="dd MMMM yyyy" min="minDate" datepicker-options="unrestrictedDateOptions" ng-model="formDat.datatables[dtIndex].data[columnHeader.columnName].date" is-open="opened{{$index}}" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="time" placeholder="HH:MM:SS" ng-model="formDat.datatables[dtIndex].data[columnHeader.columnName].time" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="formData.datatables[dtIndex].data[columnHeader.columnName]" value="true" /> {{'label.input.true' | translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="formData.datatables[dtIndex].data[columnHeader.columnName]" value="false" /> {{'label.input.false' | translate}}
+                                        </label>
+                                    </div>
+                                    <span data-ng-switch on="columnHeader.columnDisplayType">
+                                        <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODELOOKUP" ng-model="formData.datatables[dtIndex].data[columnHeader.columnName]"
+                                            ng-options="columnValue.id as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control" ng-change="onGuarantorTypeChange(columnHeader, datatable)">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                        <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODEVALUE" ng-model="formData.datatables[dtIndex].data[columnHeader.columnName]"
+                                            ng-options="columnValue.value as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
-                            <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]" value="true"
-                                    /> {{'label.input.true' | translate}}
+                            <!-- NO a todo: solo en p_solicitante, después de YesNo_cd_deuda_comprar_prestamista_inst; solo pone NO en 11 campos concretos -->
+                            <div ng-if="columnHeader.columnName === 'YesNo_cd_deuda_comprar_prestamista_inst' && (datatable.registeredTableName === 'p_solicitante' || datatable.registeredTableName === 'CP_solicitante')" class="text-right" style="margin-bottom:15px;">
+                                <label class="switch">
+                                    <input type="checkbox" ng-model="solicitanteNoSwitch" ng-click="setSolicitanteNoToSpecific()">
+                                    <span class="slider"></span>
                                 </label>
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]" value="false"
-                                    /> {{'label.input.false' | translate}}
-                                </label>
+                                <span style="margin-left:10px;">{{ solicitanteNoSwitch ? 'Todo en NO' : 'NO a todo' }}</span>
                             </div>
-                            <span data-ng-switch on="columnHeader.columnDisplayType">
-                                <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODELOOKUP" ng-model="formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
-                                    ng-options="columnValue.id as columnValue.value for columnValue in columnHeader.columnValues"
-                                    value="{{columnValue.id}}" class="form-control" ng-change="onGuarantorTypeChange(columnHeader, datatable)">
-                                    <option value="">{{'label.selectone' | translate}}</option>
-                                </select>
-                                <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODEVALUE" ng-model="formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]"
-                                    ng-options="columnValue.value as columnValue.value for columnValue in columnHeader.columnValues"
-                                    value="{{columnValue.id}}" class="form-control">
-                                    <option value="">{{'label.selectone' | translate}}</option>
-                                </select>
-                            </span>
+                            <!-- p_destino embebido: justo después de Actividad económica principal -->
+                            <div ng-if="columnHeader.columnName === 'classificationOptions_cd_actividad_economica_principal' && datatable.registeredTableName === 'p_solicitante' && destinoDatatable && destinoDatatableIndex >= 0" class="destino-embedded-section" style="margin-top:24px; margin-bottom:24px;">
+                            <hr/>
+                            <h4 class="margin-bottom-15">{{ destinoDatatable.registeredTableName | translate }}</h4>
+                            <div class="margin-bottom-15">
+                                <button type="button" class="btn btn-primary" ng-click="addDatatableRow(destinoDatatable, destinoDatatableIndex)">
+                                    <i class="fa fa-plus"></i> {{'label.button.add' | translate}} {{destinoDatatable.registeredTableName | translate}}
+                                </button>
+                            </div>
+                            <uib-accordion close-others="true" class="datatable-accordion">
+                                <uib-accordion-group ng-repeat="row in formData.datatables[destinoDatatableIndex].data track by $index" ng-init="rowIndex = $index" is-open="datatableAccordionOpen[destinoDatatableIndex][rowIndex]">
+                                    <div uib-accordion-heading class="datatable-accordion-heading" ng-click="toggleDestinoAccordion(destinoDatatableIndex, rowIndex); $event.stopPropagation()">
+                                        {{destinoDatatable.registeredTableName | translate}} {{$index + 1}}
+                                    </div>
+                                    <div class="pull-right margin-bottom-10">
+                                        <button type="button" class="btn btn-sm btn-danger" ng-click="removeDatatableRow(destinoDatatableIndex, rowIndex)" ng-disabled="formData.datatables[destinoDatatableIndex].data.length <= 1">
+                                            <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
+                                        </button>
+                                    </div>
+                                    <div class="form-group" ng-repeat="columnHeader in destinoDatatable.columnHeaderData" ng-if="showDestinoColumn(columnHeader.columnName, destinoDatatableIndex, rowIndex)">
+                                        <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
+                                            <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                                        </label>
+                                        <div class="col-sm-3">
+                                            <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text" ng-model="formData.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                            <input ng-if="ensureFormDatDateForMultiple(destinoDatatableIndex, rowIndex, columnHeader.columnName, 'DATE')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text" min="minDate" datepicker-options="unrestrictedDateOptions" datepicker-pop="dd MMMM yyyy" ng-model="formDat.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                            <div ng-if="ensureFormDatDateForMultiple(destinoDatatableIndex, rowIndex, columnHeader.columnName, 'DATETIME')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
+                                                <div class="form-group">
+                                                    <input type="text" datepicker-pop="dd MMMM yyyy" min="minDate" datepicker-options="unrestrictedDateOptions" ng-model="formDat.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName].date" class="form-control" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="time" placeholder="HH:MM:SS" ng-model="formDat.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName].time" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
+                                                <label class="radio-inline">
+                                                    <input type="radio" ng-model="formData.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName]" value="true" /> {{'label.input.true' | translate}}
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" ng-model="formData.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName]" value="false" /> {{'label.input.false' | translate}}
+                                                </label>
+                                            </div>
+                                            <span data-ng-switch on="columnHeader.columnDisplayType">
+                                                <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODELOOKUP" ng-model="formData.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName]"
+                                                    ng-options="columnValue.id as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control" ng-change="onGuarantorTypeChange(columnHeader, destinoDatatable, rowIndex)">
+                                                    <option value="">{{'label.selectone' | translate}}</option>
+                                                </select>
+                                                <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODEVALUE" ng-model="formData.datatables[destinoDatatableIndex].data[rowIndex][columnHeader.columnName]"
+                                                    ng-options="columnValue.value as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control">
+                                                    <option value="">{{'label.selectone' | translate}}</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </uib-accordion-group>
+                            </uib-accordion>
+                            <hr/>
+                        </div>
                         </div>
                     </div>
-                    <div class="col-md-offset-5" ng-if="$last">
-                    <button id="cancel3" type="reset" class="btn btn-default" ng-click="cancel()">
-                    {{'label.button.cancel' | translate}}
-                    </button>
-                    <button id="save3" type="submit" has-permission='CREATE_LOAN' class="btn btn-primary"-
-                    ng-show="loanaccountinfo">{{'label.button.save' |
-                   translate}}
-                   </button>
+
+                    <!-- Tabla múltiple (lista con acordeón) - ya no se usa para p_destino (está embebido en p_solicitante) -->
+                    <div ng-if="datatable._isMultiple">
+                        <div class="margin-bottom-15">
+                            <button type="button" class="btn btn-primary" ng-click="addDatatableRow(datatable, dtIndex)">
+                                <i class="fa fa-plus"></i> {{'label.button.add' | translate}} {{datatable.registeredTableName | translate}}
+                            </button>
+                        </div>
+                        <uib-accordion close-others="true" class="datatable-accordion">
+                            <uib-accordion-group ng-repeat="row in formData.datatables[dtIndex].data track by $index" ng-init="rowIndex = $index" is-open="datatableAccordionOpen[dtIndex][rowIndex]">
+                                <div uib-accordion-heading class="datatable-accordion-heading" ng-click="toggleDestinoAccordion(dtIndex, rowIndex); $event.stopPropagation()">
+                                    {{datatable.registeredTableName | translate}} {{$index + 1}}
+                                </div>
+                                <div class="pull-right margin-bottom-10">
+                                    <button type="button" class="btn btn-sm btn-danger" ng-click="removeDatatableRow(dtIndex, rowIndex)" ng-disabled="formData.datatables[dtIndex].data.length <= 1">
+                                        <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
+                                    </button>
+                                </div>
+                                <div class="form-group" ng-repeat="columnHeader in datatable.columnHeaderData">
+                                    <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
+                                        <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text" ng-model="formData.datatables[dtIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                        <input ng-if="ensureFormDatDateForMultiple(dtIndex, rowIndex, columnHeader.columnName, 'DATE')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text" min="minDate" datepicker-options="unrestrictedDateOptions" datepicker-pop="dd MMMM yyyy" ng-model="formDat.datatables[dtIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                        <div ng-if="ensureFormDatDateForMultiple(dtIndex, rowIndex, columnHeader.columnName, 'DATETIME')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
+                                            <div class="form-group">
+                                                <input type="text" datepicker-pop="dd MMMM yyyy" min="minDate" datepicker-options="unrestrictedDateOptions" ng-model="formDat.datatables[dtIndex].data[rowIndex][columnHeader.columnName].date" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="time" placeholder="HH:MM:SS" ng-model="formDat.datatables[dtIndex].data[rowIndex][columnHeader.columnName].time" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-model="formData.datatables[dtIndex].data[rowIndex][columnHeader.columnName]" value="true" /> {{'label.input.true' | translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-model="formData.datatables[dtIndex].data[rowIndex][columnHeader.columnName]" value="false" /> {{'label.input.false' | translate}}
+                                            </label>
+                                        </div>
+                                        <span data-ng-switch on="columnHeader.columnDisplayType">
+                                            <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODELOOKUP" ng-model="formData.datatables[dtIndex].data[rowIndex][columnHeader.columnName]"
+                                                ng-options="columnValue.id as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control" ng-change="onGuarantorTypeChange(columnHeader, datatable, rowIndex)">
+                                                <option value="">{{'label.selectone' | translate}}</option>
+                                            </select>
+                                            <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODEVALUE" ng-model="formData.datatables[dtIndex].data[rowIndex][columnHeader.columnName]"
+                                                ng-options="columnValue.value as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control">
+                                                <option value="">{{'label.selectone' | translate}}</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </uib-accordion-group>
+                        </uib-accordion>
                     </div>
+
+                    <div class="col-md-offset-5" ng-if="$last">
+                        <button id="cancel3" type="reset" class="btn btn-default" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
+                        <button id="save3" type="submit" has-permission='CREATE_LOAN' class="btn btn-primary" ng-show="loanaccountinfo">{{'label.button.save' | translate}}</button>
+                    </div>
+                    <hr>
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-warning" type="button" ng-hide="disabled" ng-click="submit(true)">
+                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
+                    </button>
+                    <button class="btn btn-default pull-right" type="button" wz-next>
+                        Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <!--WARRANTY DOCUMENTS TAB-->
+        <wz-step wz-title="{{ 'label.heading.guarantyevaluation' | translate }}" wz-order="20" wz-disabled="{{!paeRequiredGuaranteeOptions}}">
+            <form name="WarantyDocuments" ng-submit="goNext(WarantyDocuments)">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <!--<h3>{{'label.heading.charges' | translate}}</h3>-->
+                    <hr>
+                    <table class="table table-bordered table-striped" style="width:50%; table-layout: fixed">
+                        <tbody>
+                        <tr ng-repeat="docOption in paeRequiredGuaranteeOptions">
+                            <td>
+                                <label>
+                                    <input type="checkbox" ng-model="paeRequiredGuaranteeOptions[$index].selected" ng-change="updateRequiredPrequalificationCount($index)" ng-disabled="docOption.locked"/>
+                                    {{docOption.name}}
+                                </label>
+                            </td>
+                            <td>
+                                <input id="count" ng-if="paeRequiredGuaranteeOptions[$index].selected" type="number" name="count"
+                                       ng-model="paeRequiredGuaranteeOptions[$index].quantity"
+                                       ng-change="updateGuaranteeQuantityAndSyncFiador()"
+                                       class="form-control" late-Validate/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <hr>
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
@@ -95,16 +234,314 @@
                             ng-click="submit(true)">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
-                    <button class="btn btn-default pull-right"
-                            type="button"
-                            wz-next>
-                        Next&nbsp;&nbsp;
+                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
                         <i class="fa fa-arrow-right"></i>
                     </button>
                 </fieldset>
             </form>
         </wz-step>
-        <wz-step icon="fa fa-circle-o" wz-order="20" wz-title="{{'label.heading.details' | translate}}">
+
+        <wz-step ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" wz-order="30 + $index" wz-title="{{requiredDoc.name}}"
+                 wz-disabled="{{!requiredDoc.selected}}">
+            <form name="GuarantyDocuments" ng-submit="goNext(GuarantyDocuments)" class="form-inline">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-5 m-2 alert alert-info" ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" ng-if="requiredDoc.extraData && requiredDoc.extraData.length>0">
+                            <h3>{{'label.heading.guarantee' | translate}} - {{$index+1}}</h3>
+                            <div class="form-inline alert alert-default" style="margin-bottom: 10px" ng-repeat="docCollections in requiredDoc.extraData" >
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required">*</span></label>
+
+                                    <div class="col-sm-6">
+                                        <div style="margin-top: 10px;">
+                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
+                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)" required="docCollections.required">
+                                                <div
+                                                    ng-if="paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id] && paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][$parent.$index]"
+                                                    class="alert alert-success"
+                                                    style="margin-top:8px">
+
+                                                    <i class="fa fa-check-circle"></i>&nbsp;&nbsp;{{ 'label.input.selected' | translate }}
+
+                                                    <!--<button type="button"
+                                                            class="btn btn-link btn-xs text-danger"
+                                                            ng-click="removeDraftGuaranteeDoc(docCollections.id, $parent.$index)">
+                                                        Eliminar
+                                                    </button>-->
+                                                </div>
+                                            
+                                                <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-warning" type="button" ng-hide="disabled"
+                            ng-click="submit(true)">
+                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
+                    </button>
+                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <!-- p_fiador: solo visible cuando Guarantee Evaluation invoca tipos de fiador; orden 40 (después de documentos) -->
+        <wz-step ng-if="shouldShowFiadorStep()" icon="fa fa-circle-o" wz-title="{{ (fiadorDatatable || {}).registeredTableName | translate }}" id="stepFiador"
+            wz-disabled="{{disabled}}" wz-order="40">
+            <form name="DatatablesFiador" class="form-horizontal" ng-submit="submit(false)">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <hr/>
+                    <div class="margin-bottom-15">
+                        <button type="button" class="btn btn-primary" ng-click="addDatatableRow(fiadorDatatable, fiadorDatatableIndex)">
+                            <i class="fa fa-plus"></i> {{'label.button.add' | translate}} {{fiadorDatatable.registeredTableName | translate}}
+                        </button>
+                    </div>
+                    <uib-accordion close-others="true" class="datatable-accordion">
+                        <uib-accordion-group ng-repeat="row in formData.datatables[fiadorDatatableIndex].data track by $index" ng-init="rowIndex = $index" is-open="datatableAccordionOpen[fiadorDatatableIndex][rowIndex]">
+                            <div uib-accordion-heading class="datatable-accordion-heading" ng-click="toggleDestinoAccordion(fiadorDatatableIndex, rowIndex); $event.stopPropagation()">
+                                {{fiadorDatatable.registeredTableName | translate}} {{$index + 1}}
+                            </div>
+                            <div class="pull-right margin-bottom-10">
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="removeDatatableRow(fiadorDatatableIndex, rowIndex)" ng-disabled="formData.datatables[fiadorDatatableIndex].data.length <= 1">
+                                    <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
+                                </button>
+                            </div>
+                            <div class="form-group" ng-repeat="columnHeader in fiadorDatatable.columnHeaderData" ng-if="showFiadorColumn(columnHeader.columnName, fiadorDatatableIndex, rowIndex)">
+                                <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
+                                    <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                                </label>
+                                <div class="col-sm-3">
+                                    <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text" ng-model="formData.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                    <input ng-if="ensureFormDatDateForMultiple(fiadorDatatableIndex, rowIndex, columnHeader.columnName, 'DATE')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text" min="minDate" datepicker-options="unrestrictedDateOptions" datepicker-pop="dd MMMM yyyy" ng-model="formDat.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                    <div ng-if="ensureFormDatDateForMultiple(fiadorDatatableIndex, rowIndex, columnHeader.columnName, 'DATETIME')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
+                                        <div class="form-group">
+                                            <input type="text" datepicker-pop="dd MMMM yyyy" min="minDate" datepicker-options="unrestrictedDateOptions" ng-model="formDat.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName].date" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="time" placeholder="HH:MM:SS" ng-model="formDat.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName].time" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="formData.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName]" value="true" /> {{'label.input.true' | translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="formData.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName]" value="false" /> {{'label.input.false' | translate}}
+                                        </label>
+                                    </div>
+                                    <span data-ng-switch on="columnHeader.columnDisplayType">
+                                        <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODELOOKUP" ng-model="formData.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName]"
+                                            ng-options="columnValue.id as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control" ng-change="onGuarantorTypeChange(columnHeader, fiadorDatatable, rowIndex)">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                        <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODEVALUE" ng-model="formData.datatables[fiadorDatatableIndex].data[rowIndex][columnHeader.columnName]"
+                                            ng-options="columnValue.value as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                    <hr>
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-warning" type="button" ng-hide="disabled" ng-click="submit(true)">
+                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
+                    </button>
+                    <button class="btn btn-default pull-right" type="button" wz-next>
+                        Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <!-- p_garante: solo visible cuando Guarantee Evaluation invoca tipos de garantía; orden 41 (después de documentos) -->
+        <wz-step ng-if="shouldShowGaranteStep()" icon="fa fa-circle-o" wz-title="{{ (garanteDatatable || {}).registeredTableName | translate }}" id="stepGarante"
+            wz-disabled="{{disabled}}" wz-order="41">
+            <form name="DatatablesGarante" class="form-horizontal" ng-submit="submit(false)">
+                <fieldset>
+                    <api-validate></api-validate>
+                    <hr/>
+                    <div class="margin-bottom-15">
+                        <button type="button" class="btn btn-primary" ng-click="addDatatableRow(garanteDatatable, garanteDatatableIndex)">
+                            <i class="fa fa-plus"></i> {{'label.button.add' | translate}} {{garanteDatatable.registeredTableName | translate}}
+                        </button>
+                    </div>
+                    <uib-accordion close-others="true" class="datatable-accordion">
+                        <uib-accordion-group ng-repeat="row in formData.datatables[garanteDatatableIndex].data track by $index" ng-init="rowIndex = $index" is-open="datatableAccordionOpen[garanteDatatableIndex][rowIndex]">
+                            <div uib-accordion-heading class="datatable-accordion-heading" ng-click="toggleDestinoAccordion(garanteDatatableIndex, rowIndex); $event.stopPropagation()">
+                                {{garanteDatatable.registeredTableName | translate}} {{$index + 1}}
+                            </div>
+                            <div class="pull-right margin-bottom-10">
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="removeDatatableRow(garanteDatatableIndex, rowIndex)" ng-disabled="formData.datatables[garanteDatatableIndex].data.length <= 1">
+                                    <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
+                                </button>
+                            </div>
+                            <div class="form-group" ng-repeat="columnHeader in garanteDatatable.columnHeaderData">
+                                <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
+                                    <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                                </label>
+                                <div class="col-sm-3">
+                                    <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text" ng-model="formData.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                    <input ng-if="ensureFormDatDateForMultiple(garanteDatatableIndex, rowIndex, columnHeader.columnName, 'DATE')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text" min="minDate" datepicker-options="unrestrictedDateOptions" datepicker-pop="dd MMMM yyyy" ng-model="formDat.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName]" class="form-control" />
+                                    <div ng-if="ensureFormDatDateForMultiple(garanteDatatableIndex, rowIndex, columnHeader.columnName, 'DATETIME')" ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
+                                        <div class="form-group">
+                                            <input type="text" datepicker-pop="dd MMMM yyyy" min="minDate" datepicker-options="unrestrictedDateOptions" ng-model="formDat.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName].date" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="time" placeholder="HH:MM:SS" ng-model="formDat.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName].time" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="formData.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName]" value="true" /> {{'label.input.true' | translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-model="formData.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName]" value="false" /> {{'label.input.false' | translate}}
+                                        </label>
+                                    </div>
+                                    <span data-ng-switch on="columnHeader.columnDisplayType">
+                                        <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODELOOKUP" ng-model="formData.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName]"
+                                            ng-options="columnValue.id as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control" ng-change="onGuarantorTypeChange(columnHeader, garanteDatatable, rowIndex)">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                        <select ng-show="fieldType(columnHeader.columnDisplayType) == 'SELECT'" data-ng-switch-when="CODEVALUE" ng-model="formData.datatables[garanteDatatableIndex].data[rowIndex][columnHeader.columnName]"
+                                            ng-options="columnValue.value as columnValue.value for columnValue in columnHeader.columnValues" value="{{columnValue.id}}" class="form-control">
+                                            <option value="">{{'label.selectone' | translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                    <hr>
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-warning" type="button" ng-hide="disabled" ng-click="submit(true)">
+                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
+                    </button>
+                    <button class="btn btn-default pull-right" type="button" wz-next>
+                        Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-order="85" wz-disabled="{{product.ownerTypeOption.value === 'PAE'}}">
+            <form name="LoanDocuments" class="form-horizontal" ng-submit="goNext(LoanDocuments)">
+                <fieldset>
+                    <h3>{{'label.heading.uploaddocuments' | translate}}</h3>
+                    <hr>
+                    <api-validate></api-validate>
+                    <form name="loandocs" class="form-horizontal">
+                        <fieldset>
+
+                            <table class="table table-striped" ng-if="loanDocuments && loanDocuments.length>0">
+                                <thead>
+                                <th>No.</th>
+                                <th>{{'label.input.name' | translate}}</th>
+                                <th>{{'label.input.description' | translate}}</th>
+                                <th>{{'label.input.actions' | translate}}</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="loanDoc in loanDocuments">
+                                    <td>{{countIndex($index)}}</td>
+                                    <td>{{loanDoc.name}}</td>
+                                    <td>{{loanDoc.description}}</td>
+                                    <td><i class="fa fa-times-circle-o" title="Remove" ng-click="removeDoc($index)"></i></td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="name">{{'label.input.name' | translate}}<span
+                                        class="required">*</span></label>
+
+                                <div class="col-sm-3">
+                                    <input id="name" type="text" name="name" ng-model="currentLoanDocs.name"
+                                           class="form-control" late-Validate/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <form-validate valattributeform="loandocumentform" valattribute="name"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="name">{{'label.input.document.type' | translate}}<span
+                                        class="required">*</span></label>
+
+                                <div class="col-sm-3">
+                                    <select id="doctype" ng-model="currentLoanDocs.documentType"
+                                            ng-options="documenttype.id as documenttype.name for documenttype in documentTypeOptions"
+                                            value="{{documenttype.id}}"
+                                            class="form-control">
+                                        <option style="display:none" value="">{{'label.menu.selectone' | translate}}
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <form-validate valattributeform="loandocumentform" valattribute="name"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2"
+                                       for="description">{{'label.input.description' | translate}}</label>
+
+                                <div class="col-sm-3">
+                                <textarea rows="2" id="description" ng-model="currentLoanDocs.description"
+                                          class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2"
+                                       for="file">{{'label.input.selectfile' | translate}}<span
+                                        class="required">*</span></label>
+
+                                <div class="col-sm-3">
+                                    <input id="file" type="file" ngf-select="onFileSelect($files)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-offset-3">
+                                <button ng-disabled="!currentLoanDocs.name || !currentLoanDocs.file|| !currentLoanDocs.documentType"
+                                        ng-click="addLoanDocuments()"
+                                        class="btn btn-primary"><i
+                                        class="fa fa-plus-circle"></i> {{'label.button.add' | translate}}
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <button class="btn btn-default pull-left" wz-previous>
+                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
+                    </button>
+                    <button class="btn btn-warning" type="button" ng-hide="disabled"
+                            ng-click="submit(true)">
+                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
+                    </button>
+                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </fieldset>
+            </form>
+        </wz-step>
+
+        <wz-step icon="fa fa-circle-o" wz-order="50" wz-title="{{'label.heading.details' | translate}}">
             <form name="Details" novalidate="" ng-submit="goNext(Details)" class="form-inline">
                 <fieldset>
                     <api-validate></api-validate>
@@ -336,7 +773,7 @@
                 </fieldset>
             </form>
         </wz-step>
-        <wz-step wz-title="{{ 'label.heading.terms' | translate }}" wz-order="30" wz-disabled="{{disabled}}">
+        <wz-step wz-title="{{ 'label.heading.terms' | translate }}" wz-order="60" wz-disabled="{{disabled}}">
             <form name="Terms" ng-submit="goNext(Terms)" class="form-inline">
                 <fieldset>
                     <api-validate></api-validate>
@@ -887,7 +1324,7 @@
                 </fieldset>
             </form>
         </wz-step>
-        <wz-step wz-title="{{ 'label.heading.charges' | translate }}" wz-order="40" wz-disabled="{{disabled}}">
+        <wz-step wz-title="{{ 'label.heading.charges' | translate }}" wz-order="70" wz-disabled="{{disabled}}">
             <form name="Charges" ng-submit="goNext(Charges)" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>
@@ -1101,200 +1538,8 @@
                 </fieldset>
             </form>
         </wz-step>
-<!--WARRANTY DOCUMENTS TAB-->
-        <wz-step wz-title="{{ 'label.heading.guarantyevaluation' | translate }}" wz-order="50" wz-disabled="{{!paeRequiredGuaranteeOptions}}">
-            <form name="WarantyDocuments" ng-submit="goNext(WarantyDocuments)">
-                <fieldset>
-                    <api-validate></api-validate>
-                    <!--<h3>{{'label.heading.charges' | translate}}</h3>-->
-                    <hr>
-                    <table class="table table-bordered table-striped" style="width:50%; table-layout: fixed">
-                        <tbody>
-                        <tr ng-repeat="docOption in paeRequiredGuaranteeOptions">
-                            <td>
-                                <label>
-                                    <input type="checkbox" ng-model="paeRequiredGuaranteeOptions[$index].selected" ng-change="updateRequiredPrequalificationCount($index)" ng-disabled="docOption.locked"/>
-                                    {{docOption.name}}
-                                </label>
-                            </td>
-                            <td>
-                                <input id="count" ng-if="paeRequiredGuaranteeOptions[$index].selected" type="number" name="count"
-                                       ng-model="paeRequiredGuaranteeOptions[$index].quantity"
-                                       class="form-control" late-Validate/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <hr>
-                    <button class="btn btn-default pull-left" wz-previous>
-                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
-                    </button>
-                    <button class="btn btn-warning" type="button" ng-hide="disabled"
-                            ng-click="submit(true)">
-                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
-                    </button>
-                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
-                        <i class="fa fa-arrow-right"></i>
-                    </button>
-                </fieldset>
-            </form>
-        </wz-step>
 
-        <wz-step ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" wz-order="60" wz-title="{{requiredDoc.name}}"
-                 wz-disabled="{{!requiredDoc.selected}}">
-            <form name="GuarantyDocuments" ng-submit="goNext(GuarantyDocuments)" class="form-inline">
-                <fieldset>
-                    <api-validate></api-validate>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-5 m-2 alert alert-info" ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" ng-if="requiredDoc.extraData && requiredDoc.extraData.length>0">
-                            <h3>{{'label.heading.guarantee' | translate}} - {{$index+1}}</h3>
-                            <div class="form-inline alert alert-default" style="margin-bottom: 10px" ng-repeat="docCollections in requiredDoc.extraData" >
-                                <div class="form-group">
-                                    <label class="control-label col-sm-4" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required">*</span></label>
-
-                                    <div class="col-sm-6">
-                                        <div style="margin-top: 10px;">
-                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
-                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)" required="docCollections.required">
-                                                <div
-                                                    ng-if="paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id] && paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][$parent.$index]"
-                                                    class="alert alert-success"
-                                                    style="margin-top:8px">
-
-                                                    <i class="fa fa-check-circle"></i>&nbsp;&nbsp;{{ 'label.input.selected' | translate }}
-
-                                                    <!--<button type="button"
-                                                            class="btn btn-link btn-xs text-danger"
-                                                            ng-click="removeDraftGuaranteeDoc(docCollections.id, $parent.$index)">
-                                                        Eliminar
-                                                    </button>-->
-                                                </div>
-                                            
-                                                <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <button class="btn btn-default pull-left" wz-previous>
-                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
-                    </button>
-                    <button class="btn btn-warning" type="button" ng-hide="disabled"
-                            ng-click="submit(true)">
-                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
-                    </button>
-                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
-                        <i class="fa fa-arrow-right"></i>
-                    </button>
-                </fieldset>
-            </form>
-        </wz-step>
-
-        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-order="100" wz-disabled="{{product.ownerTypeOption.value === 'PAE'}}">
-            <form name="LoanDocuments" class="form-horizontal" ng-submit="goNext(LoanDocuments)">
-                <fieldset>
-                    <h3>{{'label.heading.uploaddocuments' | translate}}</h3>
-                    <hr>
-                    <api-validate></api-validate>
-                    <form name="loandocs" class="form-horizontal">
-                        <fieldset>
-
-                            <table class="table table-striped" ng-if="loanDocuments && loanDocuments.length>0">
-                                <thead>
-                                <th>No.</th>
-                                <th>{{'label.input.name' | translate}}</th>
-                                <th>{{'label.input.description' | translate}}</th>
-                                <th>{{'label.input.actions' | translate}}</th>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="loanDoc in loanDocuments">
-                                    <td>{{countIndex($index)}}</td>
-                                    <td>{{loanDoc.name}}</td>
-                                    <td>{{loanDoc.description}}</td>
-                                    <td><i class="fa fa-times-circle-o" title="Remove" ng-click="removeDoc($index)"></i></td>
-                                </tr>
-                                </tbody>
-
-                            </table>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="name">{{'label.input.name' | translate}}<span
-                                        class="required">*</span></label>
-
-                                <div class="col-sm-3">
-                                    <input id="name" type="text" name="name" ng-model="currentLoanDocs.name"
-                                           class="form-control" late-Validate/>
-                                </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="loandocumentform" valattribute="name"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="name">{{'label.input.document.type' | translate}}<span
-                                        class="required">*</span></label>
-
-                                <div class="col-sm-3">
-                                    <select id="doctype" ng-model="currentLoanDocs.documentType"
-                                            ng-options="documenttype.id as documenttype.name for documenttype in documentTypeOptions"
-                                            value="{{documenttype.id}}"
-                                            class="form-control">
-                                        <option style="display:none" value="">{{'label.menu.selectone' | translate}}
-                                    </select>
-                                </div>
-                                <div class="col-sm-3">
-                                    <form-validate valattributeform="loandocumentform" valattribute="name"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="description">{{'label.input.description' | translate}}</label>
-
-                                <div class="col-sm-3">
-                                <textarea rows="2" id="description" ng-model="currentLoanDocs.description"
-                                          class="form-control"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"
-                                       for="file">{{'label.input.selectfile' | translate}}<span
-                                        class="required">*</span></label>
-
-                                <div class="col-sm-3">
-                                    <input id="file" type="file" ngf-select="onFileSelect($files)">
-                                </div>
-                            </div>
-
-                            <div class="col-md-offset-3">
-                                <button ng-disabled="!currentLoanDocs.name || !currentLoanDocs.file|| !currentLoanDocs.documentType"
-                                        ng-click="addLoanDocuments()"
-                                        class="btn btn-primary"><i
-                                        class="fa fa-plus-circle"></i> {{'label.button.add' | translate}}
-                                </button>
-                            </div>
-                        </fieldset>
-                    </form>
-
-                    <button class="btn btn-default pull-left" wz-previous>
-                        <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
-                    </button>
-                    <button class="btn btn-warning" type="button" ng-hide="disabled"
-                            ng-click="submit(true)">
-                        <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
-                    </button>
-                    <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
-                        <i class="fa fa-arrow-right"></i>
-                    </button>
-                </fieldset>
-            </form>
-        </wz-step>
-
-        <wz-step wz-title="Review" ng-if="!disabled" wz-order="110">
+        <wz-step wz-title="Review" ng-if="!disabled" wz-order="90">
             <form name="review" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>
@@ -1597,26 +1842,45 @@
                         </tr>
                     </table>
                     <br>
-                    <table width="100%" ng-repeat="datatable in datatables">
-                        <tr class="bottomborder toppadding">
-                            <td colspan="7">
-                                <strong>{{datatable.registeredTableName}}</strong>
-                            </td>
-                        </tr>
-                        <tr ng-repeat="columnHeader in datatable.columnHeaderData">
-                            <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
-                            <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
-                                {{formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName]}}
-                            </td>
-                            <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
-                                {{formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].date | DateFormat}}
-                                {{formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName].time
-                                }}
-                            </td>
-                            <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
-                                {{formData.datatables[datatables.indexOf(datatable)].data[columnHeader.columnName] | DateFormat}}
-                            </td>
-                        </tr>
+                    <table width="100%" ng-repeat="datatable in datatables" ng-init="revDtIndex = $index">
+                        <!-- Tabla simple: una sola fila de datos -->
+                        <tbody ng-if="!datatable._isMultiple">
+                            <tr class="bottomborder toppadding">
+                                <td colspan="7"><strong>{{datatable.registeredTableName}}</strong></td>
+                            </tr>
+                            <tr ng-repeat="columnHeader in datatable.columnHeaderData">
+                                <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
+                                <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName]}}
+                                </td>
+                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
+                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName].date | DateFormat}}
+                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName].time}}
+                                </td>
+                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName] | DateFormat}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!-- Tabla múltiple: una sub-tabla por cada registro -->
+                        <tbody ng-if="datatable._isMultiple" ng-repeat="row in formData.datatables[revDtIndex].data track by $index" ng-init="revRowIndex = $index">
+                            <tr class="bottomborder toppadding">
+                                <td colspan="7"><strong>{{datatable.registeredTableName}} {{revRowIndex + 1}}</strong></td>
+                            </tr>
+                            <tr ng-repeat="columnHeader in datatable.columnHeaderData">
+                                <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
+                                <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                    {{formData.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName]}}
+                                </td>
+                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
+                                    {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName].date | DateFormat}}
+                                    {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName].time}}
+                                </td>
+                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                    {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName] | DateFormat}}
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                     <br>
                     <br>
@@ -1643,7 +1907,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-order="110"
+        <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-order="80"
                  wz-disabled="{{prequalificationType !== 'INDIVIDUAL' && prequalificationType !== 'PAE'}}">
             <form name="Additionals" ng-submit="goNext(Additionals)" class="form-horizontal">
                 <fieldset>
