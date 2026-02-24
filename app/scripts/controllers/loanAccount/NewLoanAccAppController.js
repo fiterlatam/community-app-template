@@ -102,44 +102,186 @@
                 }
             }
 
-            scope.onGuarantorTypeChange = function(columnHeader, datatable){
-
-                console.log(columnHeader);
-            
+            scope.onGuarantorTypeChange = function(columnHeader, datatable, rowIndex){
 
                 if(columnHeader.columnName !== 'guarantorType_cd_tipo_fiador_tercero' && columnHeader.columnName !== 'guarantee_cd_tipo_garantia'){
                     return;
                 }
 
-                let dtIndex = scope.datatables.indexOf(datatable);
+                var dtIndex = scope.datatables.indexOf(datatable);
+                var tableData = scope.formData.datatables[dtIndex].data;
+                var selectedId = scope.isDatatableMultiple(datatable) && angular.isNumber(rowIndex)
+                    ? tableData[rowIndex][columnHeader.columnName]
+                    : tableData[columnHeader.columnName];
 
-                let selectedId =
-                    scope.formData.datatables[dtIndex]
-                    .data[columnHeader.columnName];
-
-                let selectedOption = columnHeader.columnValues.find(v => v.id == selectedId);
-
+                var selectedOption = columnHeader.columnValues.find(function(v){ return v.id == selectedId; });
                 if(!selectedOption) return;
 
-                let guarantorName = selectedOption.value.toLowerCase().trim();
+                var guarantorName = selectedOption.value.toLowerCase().trim();
                 scope.paeRequiredGuaranteeOptions.forEach(function(option){
-
-                    let optionName = option.name.toLowerCase().trim();
-
+                    var optionName = option.name.toLowerCase().trim();
                     if(optionName === guarantorName){
                         option.selected = true;
                         option.quantity = 1;
                     }
-
                     if(optionName === 'documentacion deudora'){
                         option.selected = true;
                         option.locked = true;
                         option.quantity = 1;
-                        return;
                     }
-
                 });
+            };
 
+            /**
+             * Sincroniza p_fiador desde Guarantee Evaluation: cuando se marcan/desmarcan
+             * opciones (Fiador asalariado, Fiador empresario, etc.) o se cambia la cantidad,
+             * se crean o quitan registros en p_fiador con el tipo correspondiente.
+             */
+            scope.syncPFiadorFromGuaranteeEvaluation = function () {
+                if (!scope.paeRequiredGuaranteeOptions || !scope.fiadorDatatable || scope.fiadorDatatableIndex == null ||
+                    !scope.formData.datatables || !scope.formData.datatables[scope.fiadorDatatableIndex]) {
+                    return;
+                }
+                var fiadorDt = scope.fiadorDatatable;
+                var fiadorIndex = scope.fiadorDatatableIndex;
+                var colHeader = fiadorDt.columnHeaderData && fiadorDt.columnHeaderData.find(function (c) {
+                    return c.columnName === 'guarantorType_cd_tipo_fiador_tercero' || c.columnName === 'guarantee_cd_tipo_garantia';
+                });
+                if (!colHeader || !colHeader.columnValues || !colHeader.columnValues.length) {
+                    return;
+                }
+                var desired = [];
+                scope.paeRequiredGuaranteeOptions.forEach(function (option) {
+                    if (!option.selected || !option.quantity || option.locked) { return; }
+                    var optionName = (option.name || '').toLowerCase().trim();
+                    if (optionName === 'documentacion deudora') { return; }
+                    var match = colHeader.columnValues.find(function (v) {
+                        return (v.value || '').toLowerCase().trim() === optionName;
+                    });
+                    if (!match) { return; }
+                    var typeId = match.id !== undefined ? match.id : match.value;
+                    for (var q = 0; q < option.quantity; q++) {
+                        desired.push({ guarantorTypeId: typeId });
+                    }
+                });
+                var currentData = scope.formData.datatables[fiadorIndex].data;
+                var currentFormDat = scope.formDat.datatables[fiadorIndex] && scope.formDat.datatables[fiadorIndex].data;
+                if (!Array.isArray(currentData)) { currentData = []; }
+                if (!Array.isArray(currentFormDat)) { currentFormDat = []; }
+                var newData = [];
+                var newFormDat = [];
+                for (var i = 0; i < desired.length; i++) {
+                    var typeId = desired[i].guarantorTypeId;
+                    var existingRow = currentData[i];
+                    var existingFormDatRow = currentFormDat[i];
+                    var existingTypeId = existingRow && (existingRow.guarantorType_cd_tipo_fiador_tercero != null
+                        ? existingRow.guarantorType_cd_tipo_fiador_tercero
+                        : existingRow.guarantee_cd_tipo_garantia);
+                    var newFormDatRow;
+                    if (existingRow && existingTypeId == typeId) {
+                        newData.push(existingRow);
+                        newFormDatRow = existingFormDatRow || {};
+                    } else {
+                        var newRow = { locale: scope.optlang.code };
+                        newFormDatRow = {};
+                        angular.forEach(fiadorDt.columnHeaderData, function (col, idx) {
+                            if (col.columnName === 'guarantorType_cd_tipo_fiador_tercero' || col.columnName === 'guarantee_cd_tipo_garantia') {
+                                newRow[col.columnName] = typeId;
+                            }
+                            if (fiadorDt.columnHeaderData[idx].columnDisplayType === 'DATE') {
+                                var today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                                newFormDatRow[col.columnName] = new Date(today);
+                            } else if (fiadorDt.columnHeaderData[idx].columnDisplayType === 'DATETIME') {
+                                var today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                                newFormDatRow[col.columnName] = { date: new Date(today), time: new Date() };
+                            }
+                        });
+                        newData.push(newRow);
+                    }
+                    newFormDat.push(newFormDatRow);
+                }
+                scope.formData.datatables[fiadorIndex].data = newData;
+                scope.formDat.datatables[fiadorIndex].data = newFormDat;
+                var accordionOpen = {};
+                if (newData.length > 0) { accordionOpen[0] = true; }
+                scope.datatableAccordionOpen[fiadorIndex] = accordionOpen;
+            };
+
+            /**
+             * Sincroniza p_garante desde Guarantee Evaluation: cuando se marcan/desmarcan
+             * opciones que coinciden con tipos de garantía (guaranteeType_cd_tipo_garantia),
+             * se crean o quitan registros en p_garante con el tipo correspondiente.
+             */
+            scope.syncPGaranteFromGuaranteeEvaluation = function () {
+                if (!scope.paeRequiredGuaranteeOptions || !scope.garanteDatatable || scope.garanteDatatableIndex == null ||
+                    !scope.formData.datatables || !scope.formData.datatables[scope.garanteDatatableIndex]) {
+                    return;
+                }
+                var garanteDt = scope.garanteDatatable;
+                var garanteIndex = scope.garanteDatatableIndex;
+                var colHeader = garanteDt.columnHeaderData && garanteDt.columnHeaderData.find(function (c) {
+                    return c.columnName === 'guaranteeType_cd_tipo_garantia';
+                });
+                if (!colHeader || !colHeader.columnValues || !colHeader.columnValues.length) {
+                    return;
+                }
+                var desired = [];
+                scope.paeRequiredGuaranteeOptions.forEach(function (option) {
+                    if (!option.selected || !option.quantity || option.locked) { return; }
+                    var optionName = (option.name || '').toLowerCase().trim();
+                    if (optionName === 'documentacion deudora') { return; }
+                    var match = colHeader.columnValues.find(function (v) {
+                        return (v.value || '').toLowerCase().trim() === optionName;
+                    });
+                    if (!match) { return; }
+                    var typeId = match.id !== undefined ? match.id : match.value;
+                    for (var q = 0; q < option.quantity; q++) {
+                        desired.push({ guaranteeTypeId: typeId });
+                    }
+                });
+                var currentData = scope.formData.datatables[garanteIndex].data;
+                var currentFormDat = scope.formDat.datatables[garanteIndex] && scope.formDat.datatables[garanteIndex].data;
+                if (!Array.isArray(currentData)) { currentData = []; }
+                if (!Array.isArray(currentFormDat)) { currentFormDat = []; }
+                var newData = [];
+                var newFormDat = [];
+                for (var i = 0; i < desired.length; i++) {
+                    var typeId = desired[i].guaranteeTypeId;
+                    var existingRow = currentData[i];
+                    var existingFormDatRow = currentFormDat[i];
+                    var existingTypeId = existingRow && existingRow.guaranteeType_cd_tipo_garantia;
+                    var newFormDatRow;
+                    if (existingRow && existingTypeId == typeId) {
+                        newData.push(existingRow);
+                        newFormDatRow = existingFormDatRow || {};
+                    } else {
+                        var newRow = { locale: scope.optlang.code };
+                        newFormDatRow = {};
+                        angular.forEach(garanteDt.columnHeaderData, function (col, idx) {
+                            if (col.columnName === 'guaranteeType_cd_tipo_garantia') {
+                                newRow[col.columnName] = typeId;
+                            }
+                            if (garanteDt.columnHeaderData[idx].columnDisplayType === 'DATE') {
+                                var today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                                newFormDatRow[col.columnName] = new Date(today);
+                            } else if (garanteDt.columnHeaderData[idx].columnDisplayType === 'DATETIME') {
+                                var today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                                newFormDatRow[col.columnName] = { date: new Date(today), time: new Date() };
+                            }
+                        });
+                        newData.push(newRow);
+                    }
+                    newFormDat.push(newFormDatRow);
+                }
+                scope.formData.datatables[garanteIndex].data = newData;
+                scope.formDat.datatables[garanteIndex].data = newFormDat;
+                var accordionOpen = {};
+                if (newData.length > 0) { accordionOpen[0] = true; }
+                scope.datatableAccordionOpen[garanteIndex] = accordionOpen;
             };
 
 
@@ -151,40 +293,66 @@
 
                 angular.forEach(scope.datatables, function(datatable, dtIndex){
 
-                    let tableData = scope.formData.datatables[dtIndex];
+                    var tableData = scope.formData.datatables[dtIndex];
                     if(!tableData || !tableData.data) return;
 
-                    angular.forEach(datatable.columnHeaderData, function(column){
+                    var isMultiple = scope.isDatatableMultiple(datatable);
+                    var rows = isMultiple ? tableData.data : [tableData.data];
 
-                        // BOOLEAN
-                        if(column.columnDisplayType === 'BOOLEAN'){
-                            tableData.data[column.columnName] = false;
-                        }
+                    angular.forEach(rows, function(row){
+                        angular.forEach(datatable.columnHeaderData, function(column){
 
-                        // SELECT (SI / NO)
-                        if(column.columnValues && column.columnValues.length){
-
-                            let noOption = column.columnValues.find(function(opt){
-
-                                if(!opt.value) return false;
-
-                                let v = opt.value.toString().toLowerCase();
-
-                                return v === 'no'
-                                    || v === 'false'
-                                    || v === 'n';
-                            });
-
-                            if(noOption){
-                                tableData.data[column.columnName] =
-                                    noOption.id !== undefined
-                                        ? noOption.id
-                                        : noOption.value;
+                            if(column.columnDisplayType === 'BOOLEAN'){
+                                row[column.columnName] = false;
                             }
-                        }
 
+                            if(column.columnValues && column.columnValues.length){
+                                var noOption = column.columnValues.find(function(opt){
+                                    if(!opt.value) return false;
+                                    var v = opt.value.toString().toLowerCase();
+                                    return v === 'no' || v === 'false' || v === 'n';
+                                });
+                                if(noOption){
+                                    row[column.columnName] = noOption.id !== undefined ? noOption.id : noOption.value;
+                                }
+                            }
+                        });
                     });
 
+                });
+            };
+
+            /** Solo en p_solicitante: pone NO en estos 11 campos SI/NO (se usa desde el botón "NO a todo" en solicitante). */
+            var SOLICITANTE_NO_COLUMNS = [
+                'YesNo_cd_propiedad_negocio_falsa', 'YesNo_cd_referencias_personales_falsas', 'YesNo_cd_referencias_comerciales_falsas',
+                'YesNo_cd_relacion_laboral_falsa', 'YesNo_cd_denuncias_judiciales_civiles_penales', 'YesNo_cd_es_policia_militar_abogado',
+                'YesNo_cd_solicitante_rechazada_o_morosa_PA', 'YesNo_cd_deuda_vencida_mayor_30_dias', 'YesNo_cd_asesores_credito_supervisor_fiador',
+                'YesNo_cd_lider_agencia_fiador', 'YesNo_cd_solicitante_familiar_colaborador_PDA'
+            ];
+            scope.setSolicitanteNoToSpecific = function () {
+                if (!scope.datatables || !scope.formData.datatables) { return; }
+                var dtIndex = -1;
+                for (var i = 0; i < scope.datatables.length; i++) {
+                    if (scope.datatables[i].registeredTableName === 'p_solicitante' || scope.datatables[i].registeredTableName === 'CP_solicitante') {
+                        dtIndex = i;
+                        break;
+                    }
+                }
+                if (dtIndex === -1) { return; }
+                var datatable = scope.datatables[dtIndex];
+                var row = scope.formData.datatables[dtIndex].data;
+                if (!row || typeof row !== 'object') { return; }
+                angular.forEach(SOLICITANTE_NO_COLUMNS, function (columnName) {
+                    var column = datatable.columnHeaderData && datatable.columnHeaderData.find(function (c) { return c.columnName === columnName; });
+                    if (!column || !column.columnValues) { return; }
+                    var noOption = column.columnValues.find(function (opt) {
+                        if (!opt.value) return false;
+                        var v = opt.value.toString().toLowerCase();
+                        return v === 'no' || v === 'false' || v === 'n';
+                    });
+                    if (noOption) {
+                        row[columnName] = noOption.id !== undefined ? noOption.id : noOption.value;
+                    }
                 });
             };
 
@@ -331,15 +499,14 @@
                     scope.datatables = data.datatables;
                     scope.handleDatatables(scope.datatables);
                     if (scope.draftPayload?.datatables && scope.formData.datatables) {
-                        scope.draftPayload.datatables.forEach(savedDt => {
-
-                            const liveDt = scope.formData.datatables
-                                .find(dt => dt.registeredTableName === savedDt.registeredTableName);
-
+                        scope.draftPayload.datatables.forEach(function (savedDt) {
+                            var liveDt = scope.formData.datatables
+                                .find(function (dt) { return dt.registeredTableName === savedDt.registeredTableName; });
                             if (liveDt) {
                                 liveDt.data = angular.copy(savedDt.data);
                             }
                         });
+                        scope.syncFormDatFromDraftDatatables();
                     }
 
                     scope.disabled = false;
@@ -361,6 +528,10 @@
                             option.quantity = 1;
                         }
                     });
+                    $timeout(function () {
+                        scope.syncPFiadorFromGuaranteeEvaluation();
+                        scope.syncPGaranteFromGuaranteeEvaluation();
+                    }, 0);
 
                 });
 
@@ -468,51 +639,205 @@
                 });
             }
 
+            scope.isDatatableMultiple = function (datatable) {
+                if (!datatable || !datatable.columnHeaderData) return false;
+                if (datatable._isMultiple !== undefined) return datatable._isMultiple;
+                var hasIdPk = datatable.columnHeaderData.some(function (col) {
+                    return col.columnName === 'id' && col.isColumnPrimaryKey === true;
+                });
+                datatable._isMultiple = !!hasIdPk;
+                return datatable._isMultiple;
+            };
+
+            scope.addDatatableRow = function (datatable, dtIndex) {
+                var datatables = scope.datatables;
+                var isMultiple = scope.isDatatableMultiple(datatable);
+                if (!isMultiple) return;
+                if (!scope.datatableAccordionOpen[dtIndex]) scope.datatableAccordionOpen[dtIndex] = {};
+                var newDataRow = { locale: scope.optlang.code };
+                var newFormDatRow = {};
+                angular.forEach(datatable.columnHeaderData, function (colHeader, i) {
+                    if (datatable.columnHeaderData[i].columnDisplayType === 'DATE') {
+                        var today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        newFormDatRow[colHeader.columnName] = new Date(today);
+                    } else if (datatable.columnHeaderData[i].columnDisplayType === 'DATETIME') {
+                        var today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        newFormDatRow[colHeader.columnName] = {
+                            date: new Date(today),
+                            time: new Date()
+                        };
+                    }
+                });
+                scope.formData.datatables[dtIndex].data.push(newDataRow);
+                scope.formDat.datatables[dtIndex].data.push(newFormDatRow);
+            };
+
+            scope.removeDatatableRow = function (dtIndex, rowIndex) {
+                scope.formData.datatables[dtIndex].data.splice(rowIndex, 1);
+                scope.formDat.datatables[dtIndex].data.splice(rowIndex, 1);
+            };
+
+            scope.toggleDestinoAccordion = function (dtIndex, rowIndex) {
+                if (!scope.datatableAccordionOpen[dtIndex]) scope.datatableAccordionOpen[dtIndex] = {};
+                var isCurrentlyOpen = scope.datatableAccordionOpen[dtIndex][rowIndex];
+                angular.forEach(scope.datatableAccordionOpen[dtIndex], function (val, key) {
+                    scope.datatableAccordionOpen[dtIndex][key] = false;
+                });
+                scope.datatableAccordionOpen[dtIndex][rowIndex] = !isCurrentlyOpen;
+            };
+
+            scope.ensureFormDatDateForMultiple = function (dtIndex, rowIndex, colName, displayType) {
+                var formDatRow = scope.formDat.datatables[dtIndex] && scope.formDat.datatables[dtIndex].data && scope.formDat.datatables[dtIndex].data[rowIndex];
+                if (!formDatRow) return false;
+                var val = formDatRow[colName];
+                if (displayType === 'DATE') {
+                    if (!(val instanceof Date)) {
+                        formDatRow[colName] = val ? new Date(val) : (function () { var d = new Date(); d.setHours(0, 0, 0, 0); return d; })();
+                    }
+                    return true;
+                }
+                if (displayType === 'DATETIME') {
+                    if (!val || typeof val !== 'object') {
+                        var today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        formDatRow[colName] = { date: new Date(today), time: new Date() };
+                    } else {
+                        if (!(val.date instanceof Date)) val.date = val.date ? new Date(val.date) : new Date();
+                        if (val.time == null) val.time = new Date();
+                    }
+                    return true;
+                }
+                return false;
+            };
+
+            scope.syncFormDatFromDraftDatatables = function () {
+                if (!scope.datatables || !scope.formData.datatables || !scope.formDat.datatables) return;
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
+                angular.forEach(scope.datatables, function (datatable, index) {
+                    var dtData = scope.formData.datatables[index] && scope.formData.datatables[index].data;
+                    var formDatEntry = scope.formDat.datatables[index];
+                    if (!formDatEntry || !datatable.columnHeaderData) return;
+                    if (datatable._isMultiple && Array.isArray(dtData)) {
+                        while (formDatEntry.data.length < dtData.length) {
+                            var newRow = {};
+                            angular.forEach(datatable.columnHeaderData, function (col, i) {
+                                if (col.columnDisplayType === 'DATE') newRow[col.columnName] = new Date(today);
+                                if (col.columnDisplayType === 'DATETIME') newRow[col.columnName] = { date: new Date(today), time: new Date() };
+                            });
+                            formDatEntry.data.push(newRow);
+                        }
+                        formDatEntry.data.splice(dtData.length);
+                        angular.forEach(dtData, function (row, rowIdx) {
+                            var fdRow = formDatEntry.data[rowIdx] || (formDatEntry.data[rowIdx] = {});
+                            angular.forEach(datatable.columnHeaderData, function (col) {
+                                if (col.columnDisplayType === 'DATE' && row[col.columnName] != null) {
+                                    var d = row[col.columnName];
+                                    fdRow[col.columnName] = d instanceof Date ? d : new Date(d);
+                                }
+                                if (col.columnDisplayType === 'DATETIME' && row[col.columnName] != null) {
+                                    var dt = row[col.columnName];
+                                    if (typeof dt === 'object' && dt.date != null) {
+                                        fdRow[col.columnName] = { date: dt.date instanceof Date ? dt.date : new Date(dt.date), time: dt.time || new Date() };
+                                    }
+                                }
+                            });
+                        });
+                    } else if (!datatable._isMultiple && dtData && typeof dtData === 'object' && !Array.isArray(dtData)) {
+                        angular.forEach(datatable.columnHeaderData, function (col) {
+                            if (col.columnDisplayType === 'DATE') {
+                                var val = dtData[col.columnName];
+                                formDatEntry.data[col.columnName] = val != null ? (val instanceof Date ? val : new Date(val)) : new Date(today);
+                            }
+                            if (col.columnDisplayType === 'DATETIME') {
+                                var val = dtData[col.columnName];
+                                if (val != null && typeof val === 'object' && val.date != null) {
+                                    formDatEntry.data[col.columnName] = { date: val.date instanceof Date ? val.date : new Date(val.date), time: val.time || new Date() };
+                                } else {
+                                    formDatEntry.data[col.columnName] = { date: new Date(today), time: new Date() };
+                                }
+                            }
+                        });
+                    }
+                });
+            };
+
+            scope.datatableAccordionOpen = {};
+
             scope.handleDatatables = function (datatables) {
                 if (!_.isUndefined(datatables) && datatables.length > 0) {
                     scope.formData.datatables = [];
                     scope.formDat.datatables = [];
                     scope.noOfTabs = datatables.length + 1;
                     angular.forEach(datatables, function (datatable, index) {
-                        scope.updateColumnHeaders(datatable.columnHeaderData);
-                        angular.forEach(datatable.columnHeaderData, function (colHeader, i) {
-                            if (_.isEmpty(scope.formDat.datatables[index])) {
-                                scope.formDat.datatables[index] = {data: {}};
-                            }
-
-                            if (_.isEmpty(scope.formData.datatables[index])) {
-                                scope.formData.datatables[index] = {
-                                    registeredTableName: datatable.registeredTableName,
-                                    data: {locale: scope.optlang.code}
-                                };
-                            }
-
-                            if (datatable.columnHeaderData[i].columnDisplayType == 'DATETIME' ||datatable.columnHeaderData[i].columnDisplayType == 'DATE' ) {
-                                let column = datatable.columnHeaderData[i];
-                                let columnName = column.columnName;
-
-                                // FECHA DE HOY SIN HORA
-                                let today = new Date();
-                                today.setHours(0,0,0,0);
-
-
-                                // DATE
-                                if (column.columnDisplayType === 'DATE') {
-
-                                    scope.formDat.datatables[index].data[columnName] = new Date(today);
-                                }
-
-
-                                // DATETIME
-                                if (column.columnDisplayType === 'DATETIME') {
-
-                                    scope.formDat.datatables[index].data[columnName] = {
-                                        date: new Date(today),
-                                        time: new Date()
-                                    };
-                                }
-                            }
+                        var headers = datatable.columnHeaderData;
+                        var hasIdPk = headers && headers.some(function (col) {
+                            return col.columnName === 'id' && col.isColumnPrimaryKey === true;
                         });
+                        datatable._isMultiple = !!hasIdPk;
+                        var isMultiple = datatable._isMultiple;
+                        scope.updateColumnHeaders(datatable.columnHeaderData);
+
+                        if (isMultiple) {
+                            scope.formData.datatables[index] = {
+                                registeredTableName: datatable.registeredTableName,
+                                data: []
+                            };
+                            scope.formDat.datatables[index] = { data: [] };
+                            scope.datatableAccordionOpen[index] = { 0: true };
+                            scope.addDatatableRow(datatable, index);
+                        } else {
+                            scope.formDat.datatables[index] = { data: {} };
+                            scope.formData.datatables[index] = {
+                                registeredTableName: datatable.registeredTableName,
+                                data: { locale: scope.optlang.code }
+                            };
+                        }
+
+                        if (!isMultiple) {
+                            angular.forEach(datatable.columnHeaderData, function (colHeader, i) {
+                                if (datatable.columnHeaderData[i].columnDisplayType === 'DATETIME' || datatable.columnHeaderData[i].columnDisplayType === 'DATE') {
+                                    var column = datatable.columnHeaderData[i];
+                                    var columnName = column.columnName;
+                                    var today = new Date();
+                                    today.setHours(0, 0, 0, 0);
+                                    if (column.columnDisplayType === 'DATE') {
+                                        scope.formDat.datatables[index].data[columnName] = new Date(today);
+                                    } else {
+                                        scope.formDat.datatables[index].data[columnName] = { date: new Date(today), time: new Date() };
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    scope.datatableStepOrder = {};
+                    scope.destinoDatatable = null;
+                    scope.destinoDatatableIndex = null;
+                    scope.fiadorDatatable = null;
+                    scope.fiadorDatatableIndex = null;
+                    scope.garanteDatatable = null;
+                    scope.garanteDatatableIndex = null;
+                    // Orden: P_solicitante/CP_solicitante(10), GuaranteeEvaluation(20), Documentos(30+), p_fiador(40), p_garante(41), Detalles(50), Términos(60), Cargos(70), Adicionales(80), Review(90)
+                    var orderByTableName = { 'p_solicitante': 10, 'CP_solicitante': 10, 'p_fiador': 40, 'p_garante': 41 };
+                    var otherStepOrder = 42;
+                    angular.forEach(datatables, function (d, i) {
+                        if (d.registeredTableName === 'p_destino') {
+                            scope.destinoDatatableIndex = i;
+                            scope.destinoDatatable = d;
+                        } else if (d.registeredTableName === 'p_fiador') {
+                            scope.fiadorDatatableIndex = i;
+                            scope.fiadorDatatable = d;
+                        } else if (d.registeredTableName === 'p_garante') {
+                            scope.garanteDatatableIndex = i;
+                            scope.garanteDatatable = d;
+                        }
+                        if (d.registeredTableName !== 'p_destino') {
+                            scope.datatableStepOrder[i] = orderByTableName[d.registeredTableName] !== undefined
+                                ? orderByTableName[d.registeredTableName]
+                                : otherStepOrder++;
+                        }
                     });
                 }
             };
@@ -649,10 +974,10 @@
             scope.formValue = function (array, model, findattr, retAttr) {
                 findattr = findattr ? findattr : 'id';
                 retAttr = retAttr ? retAttr : 'value';
-                console.log(findattr, retAttr, model);
-                return _.find(array, function (obj) {
+                var found = _.find(array, function (obj) {
                     return obj[findattr] === model;
-                })[retAttr];
+                });
+                return found ? found[retAttr] : undefined;
             };
 
             scope.addCharge = function () {
@@ -892,24 +1217,44 @@
                     this.formData.allowPartialPeriodInterestCalcualtion = false;
                 }
                 if (!_.isUndefined(scope.datatables) && scope.datatables.length > 0) {
+                    scope.dateFormat = scope.df + " " + scope.tf;
                     angular.forEach(scope.datatables, function (datatable, index) {
                         scope.columnHeaders = datatable.columnHeaderData;
-                        angular.forEach(scope.columnHeaders, function (colHeader, i) {
-                            scope.dateFormat = scope.df + " " + scope.tf
-                            if (scope.columnHeaders[i].columnDisplayType == 'DATE') {
-                                if (!_.isUndefined(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName])) {
-                                    scope.formData.datatables[index].data[scope.columnHeaders[i].columnName] = dateFilter(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName],
-                                        scope.dateFormat);
-                                    scope.formData.datatables[index].data.dateFormat = scope.dateFormat;
-                                }
-                            } else if (scope.columnHeaders[i].columnDisplayType == 'DATETIME') {
-                                if (!_.isUndefined(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].date) && !_.isUndefined(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].time)) {
-                                    scope.formData.datatables[index].data[scope.columnHeaders[i].columnName] = dateFilter(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].date, scope.df)
-                                        + " " + dateFilter(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].time, scope.tf);
-                                    scope.formData.datatables[index].data.dateFormat = scope.dateFormat;
-                                }
+                        var isMultiple = datatable._isMultiple === true;
+                        if (isMultiple) {
+                            var dataArray = scope.formData.datatables[index].data;
+                            var formDatArray = scope.formDat.datatables[index].data;
+                            for (var rowIdx = 0; rowIdx < dataArray.length; rowIdx++) {
+                                angular.forEach(scope.columnHeaders, function (colHeader, i) {
+                                    if (scope.columnHeaders[i].columnDisplayType === 'DATE') {
+                                        if (formDatArray[rowIdx] && !_.isUndefined(formDatArray[rowIdx][scope.columnHeaders[i].columnName])) {
+                                            dataArray[rowIdx][scope.columnHeaders[i].columnName] = dateFilter(formDatArray[rowIdx][scope.columnHeaders[i].columnName], scope.dateFormat);
+                                        }
+                                    } else if (scope.columnHeaders[i].columnDisplayType === 'DATETIME') {
+                                        var dt = formDatArray[rowIdx] && formDatArray[rowIdx][scope.columnHeaders[i].columnName];
+                                        if (dt && !_.isUndefined(dt.date) && !_.isUndefined(dt.time)) {
+                                            dataArray[rowIdx][scope.columnHeaders[i].columnName] = dateFilter(dt.date, scope.df) + " " + dateFilter(dt.time, scope.tf);
+                                        }
+                                    }
+                                });
+                                dataArray[rowIdx].dateFormat = scope.dateFormat;
                             }
-                        });
+                        } else {
+                            angular.forEach(scope.columnHeaders, function (colHeader, i) {
+                                if (scope.columnHeaders[i].columnDisplayType == 'DATE') {
+                                    if (!_.isUndefined(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName])) {
+                                        scope.formData.datatables[index].data[scope.columnHeaders[i].columnName] = dateFilter(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName], scope.dateFormat);
+                                        scope.formData.datatables[index].data.dateFormat = scope.dateFormat;
+                                    }
+                                } else if (scope.columnHeaders[i].columnDisplayType == 'DATETIME') {
+                                    if (!_.isUndefined(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].date) && !_.isUndefined(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].time)) {
+                                        scope.formData.datatables[index].data[scope.columnHeaders[i].columnName] = dateFilter(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].date, scope.df)
+                                            + " " + dateFilter(scope.formDat.datatables[index].data[scope.columnHeaders[i].columnName].time, scope.tf);
+                                        scope.formData.datatables[index].data.dateFormat = scope.dateFormat;
+                                    }
+                                }
+                            });
+                        }
                     });
                 } else {
                     delete scope.formData.datatables;
@@ -1270,7 +1615,117 @@
                         break;
                     }
                 }
+                scope.syncPFiadorFromGuaranteeEvaluation();
+                scope.syncPGaranteFromGuaranteeEvaluation();
             }
+
+            scope.updateGuaranteeQuantityAndSyncFiador = function () {
+                scope.syncPFiadorFromGuaranteeEvaluation();
+                scope.syncPGaranteFromGuaranteeEvaluation();
+            };
+
+            /** Muestra el tab p_fiador solo si en Guarantee Evaluation hay al menos una opción seleccionada que coincida con un tipo de fiador. */
+            scope.shouldShowFiadorStep = function () {
+                if (!scope.paeRequiredGuaranteeOptions || !scope.fiadorDatatable || scope.fiadorDatatableIndex == null) { return false; }
+                var col = scope.fiadorDatatable.columnHeaderData && scope.fiadorDatatable.columnHeaderData.find(function (c) {
+                    return c.columnName === 'guarantorType_cd_tipo_fiador_tercero' || c.columnName === 'guarantee_cd_tipo_garantia';
+                });
+                if (!col || !col.columnValues || !col.columnValues.length) { return false; }
+                for (var i = 0; i < scope.paeRequiredGuaranteeOptions.length; i++) {
+                    var opt = scope.paeRequiredGuaranteeOptions[i];
+                    if (!opt.selected || !opt.quantity || opt.locked) { continue; }
+                    var name = (opt.name || '').toLowerCase().trim();
+                    if (name === 'documentacion deudora') { continue; }
+                    var match = col.columnValues.some(function (v) { return (v.value || '').toLowerCase().trim() === name; });
+                    if (match) { return true; }
+                }
+                return false;
+            };
+
+            /** Muestra el tab p_garante solo si en Guarantee Evaluation hay al menos una opción seleccionada que coincida con un tipo de garantía. */
+            scope.shouldShowGaranteStep = function () {
+                if (!scope.paeRequiredGuaranteeOptions || !scope.garanteDatatable || scope.garanteDatatableIndex == null) { return false; }
+                var col = scope.garanteDatatable.columnHeaderData && scope.garanteDatatable.columnHeaderData.find(function (c) {
+                    return c.columnName === 'guaranteeType_cd_tipo_garantia';
+                });
+                if (!col || !col.columnValues || !col.columnValues.length) { return false; }
+                for (var i = 0; i < scope.paeRequiredGuaranteeOptions.length; i++) {
+                    var opt = scope.paeRequiredGuaranteeOptions[i];
+                    if (!opt.selected || !opt.quantity || opt.locked) { continue; }
+                    var name = (opt.name || '').toLowerCase().trim();
+                    if (name === 'documentacion deudora') { continue; }
+                    var match = col.columnValues.some(function (v) { return (v.value || '').toLowerCase().trim() === name; });
+                    if (match) { return true; }
+                }
+                return false;
+            };
+
+            /** Campos de p_destino que solo se muestran cuando loanPurposeOptions_cd_destino es "Consolidación de deudas". */
+            var DESTINO_CONSOLIDACION_ONLY_COLUMNS = [
+                'YesNo_cd_debt_purchased_from_unknown_lender_inst',
+                'YesNo_cd_loan_amount_purchased_less_q250k',
+                'YesNo_cd_debt_purchased_less_than_80',
+                'YesNo_cd_debts_consolidated_shown_credit_bureaus'
+            ];
+            scope.showDestinoColumn = function (columnName, dtIndex, rowIndex) {
+                if (!scope.destinoDatatable || scope.destinoDatatableIndex == null) { return true; }
+                if (DESTINO_CONSOLIDACION_ONLY_COLUMNS.indexOf(columnName) === -1) { return true; }
+                var col = scope.destinoDatatable.columnHeaderData && scope.destinoDatatable.columnHeaderData.find(function (c) {
+                    return c.columnName === 'loanPurposeOptions_cd_destino';
+                });
+                if (!col || !col.columnValues) { return false; }
+                var row = scope.formData.datatables[dtIndex] && scope.formData.datatables[dtIndex].data && scope.formData.datatables[dtIndex].data[rowIndex];
+                if (!row) { return false; }
+                var selectedVal = row[col.columnName];
+                var consolidacionOption = col.columnValues.find(function (v) {
+                    var label = (v.value || '').toLowerCase().trim();
+                    return label === 'consolidación de deudas' || label === 'consolidacion de deudas';
+                });
+                return consolidacionOption && (consolidacionOption.id == selectedVal || consolidacionOption.value == selectedVal);
+            };
+
+            /** Columnas de p_fiador que siempre se muestran (para todos los tipos). */
+            var FIADOR_ALWAYS_SHOW_COLUMNS = [
+                'professionGuarantor_cd_profesion_fiador', 'apellido_casada', 'primer_apellido', 'otros_nombres',
+                'segundo_apellido', 'segundo_nombre', 'primer_nombre', 'DPI_fiador_tercero', 'fecha_vencimiento_DPI',
+                'direccion_notificaciones', 'fecha_nacimiento', 'edad', 'nacionalidad_cd_nacionalidad', 'numero_telefonico'
+            ];
+            /** Campos de p_fiador por tipo (guarantorType_cd_tipo_fiador_tercero). Solo se muestran los listados para el tipo seleccionado. */
+            var FIADOR_TYPE_COLUMNS = {
+                'fiador empresario': [
+                    'classificationOptions_cd_actividad_economica', 'nombre_empresa', 'yearsOperating_cd_years_operando',
+                    'YesNo_cd_dispuesto_firmar_solicitud_titulo', 'YesNo_cd_conoce_ingresos', 'YesNo_cd_conoce_precios_venta_compra',
+                    'YesNo_cd_conoce_frecuencia_compra_inventario', 'YesNo_cd_conoce_proveedores_costos_lugar', 'YesNo_cd_maneja_negocio',
+                    'YesNo_cd_negocio_inscrito_RTU', 'YesNo_cd_patente_comercio_nombre_cliente', 'YesNo_cd_facturas_recibos_de_compra_cliente',
+                    'YesNo_cd_tarjeta_salud_cliente', 'monto_ventas_mensuales', 'costo_ventas_totales', 'total_gastos_negocio',
+                    'total_gastos_familiares', 'cuotas_prestamos_externos', 'diferencia_ingresos_gastos', 'couta_nuevo_credito_pae'
+                ],
+                'fiador asalariado': [
+                    'classificationOptions_cd_actividad_economica', 'nombre_empresa', 'fecha_ingreso_empleo_actual',
+                    'YesNo_cd_dispuesto_firmar_solicitud_titulo', 'cuotas_prestamos', 'disponible_pagar_cuota'
+                ],
+                'fiador moral': ['YesNo_cd_dispuesto_firmar_solicitud_titulo'],
+                'otorgante de la garantía': ['YesNo_cd_dispuesto_firmar_solicitud_titulo']
+            };
+            scope.showFiadorColumn = function (columnName, dtIndex, rowIndex) {
+                if (!scope.fiadorDatatable || scope.fiadorDatatableIndex == null) { return true; }
+                if (FIADOR_ALWAYS_SHOW_COLUMNS.indexOf(columnName) !== -1) { return true; }
+                var typeCol = scope.fiadorDatatable.columnHeaderData && scope.fiadorDatatable.columnHeaderData.find(function (c) {
+                    return c.columnName === 'guarantorType_cd_tipo_fiador_tercero' || c.columnName === 'guarantee_cd_tipo_garantia';
+                });
+                if (!typeCol || !typeCol.columnValues) { return true; }
+                var row = scope.formData.datatables[dtIndex] && scope.formData.datatables[dtIndex].data && scope.formData.datatables[dtIndex].data[rowIndex];
+                if (!row) { return true; }
+                var selectedVal = row[typeCol.columnName];
+                if (selectedVal == null || selectedVal === '') { return columnName === typeCol.columnName; }
+                var selectedOption = typeCol.columnValues.find(function (v) {
+                    return v.id == selectedVal || v.value == selectedVal;
+                });
+                var typeKey = selectedOption ? (selectedOption.value || '').toLowerCase().trim() : '';
+                if (columnName === typeCol.columnName) { return true; }
+                var allowed = FIADOR_TYPE_COLUMNS[typeKey];
+                return allowed && allowed.indexOf(columnName) !== -1;
+            };
 
             scope.onGuarantyFileSelect = function($files, parentIndex, childIndex, currentDoc){
                 // Ensure the array exists
