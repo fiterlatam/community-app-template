@@ -213,6 +213,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'system/EditAccountNumberPreferencesController',
             'system/ManageSurveysController',
             'system/ManagePromissoryNoteTemplatesController',
+            'system/ManageResolutionTemplateController',
             'system/EditSurveyController',
             'system/ViewSurveyController',
             'system/ViewCausesController',
