@@ -4352,6 +4352,7 @@
 	"label.heading.isDocument" : "Doc.",
 	"label.anchor.managemanagecauses" : "Causales",
 	"label.anchor.manageTemplates": "Gestionar Plantillas Pagaré PAE",
+	  "label.anchor.manageResolutionTemplate": "Gestionar Plantilla Resolución PAE",
 	"label.anchor.addcause" : "Nuevo causal",
 	"label.heading.addcause" : "Agregar causal",
 	"label.button.createcause" : "Nuevo causal",

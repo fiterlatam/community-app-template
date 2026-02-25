@@ -1310,7 +1310,9 @@
             templateUrl: 'views/paedocumentation/paedocumentationview.html'
         }).when('/managetemplatespae', {
                 templateUrl: 'views/system/managetemplatespae.html'
-            });
+        }).when('/manageresolutionstemplatespae', {
+                templateUrl: 'views/system/manageresolutionstemplatespae.html'
+        });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);
     };

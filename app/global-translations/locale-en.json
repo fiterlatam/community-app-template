@@ -4787,6 +4787,7 @@
   "label.heading.isDocument" : "Doc.",
   "label.anchor.managemanagecauses" : "Causales",
   "label.anchor.manageTemplates": "Manage PAE promissory note templates",
+  "label.anchor.manageResolutionTemplate": "Manage Resolution templates",
   "label.anchor.addcause" : "Add cause",
   "label.heading.addcause" : "Add cause",
   "label.button.createcause" : "Create cause",
