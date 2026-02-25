@@ -551,7 +551,7 @@
                     <div class="row alert alert-warning m-1 d-flex flex-wrap align-items-center"
                         ng-if="prequalificationType ==='analysis' && groupData.prequalificationType.value!='GROUP' && !groupData.prequalificationType.value=='PAE'">
                         <button
-                            ng-click="processAnalysisRequest('approvecommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
+                            ng-click="processAnalysisRequest('sendtocommitee','label.button.prequalification.sendtoCommitteeWithoutException')"
                             type="button" class="btn btn-primary" has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                             {{'label.button.prequalification.sendtoCommitteeWithoutException' | translate}}
                         </button>
