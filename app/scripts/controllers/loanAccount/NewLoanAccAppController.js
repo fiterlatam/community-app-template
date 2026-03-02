@@ -574,7 +574,8 @@
             scope.fetchAdditinalDataTemplate = function () {
                 resourceFactory.loanResource.get({
                     resourceType: 'template',
-                    templateType: 'groupAdditionals'
+                    templateType: 'groupAdditionals',
+                    productId: scope.formData.productId
                 }, function (data) {
                     scope.loanCycleCompletedOptions = data.loanCycleCompletedOptions || [];
                     scope.loanPurposeOptions = data.loanPurposeOptions || [];
