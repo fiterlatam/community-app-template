@@ -1688,7 +1688,7 @@
             var FIADOR_ALWAYS_SHOW_COLUMNS = [
                 'professionGuarantor_cd_profesion_fiador', 'apellido_casada', 'primer_apellido', 'otros_nombres',
                 'segundo_apellido', 'segundo_nombre', 'primer_nombre', 'DPI_fiador_tercero', 'fecha_vencimiento_DPI',
-                'direccion_notificaciones', 'fecha_nacimiento', 'edad', 'nacionalidad_cd_nacionalidad', 'numero_telefonico'
+                'direccion_notificaciones', 'fecha_nacimiento', 'edad', 'nacionalidad_cd_nacionalidad', 'numero_telefonico', 'readWrite_cd_puede_leer_escribir'
             ];
             /** Campos de p_fiador por tipo (guarantorType_cd_tipo_fiador_tercero). Solo se muestran los listados para el tipo seleccionado. */
             var FIADOR_TYPE_COLUMNS = {
