@@ -821,7 +821,7 @@
                     scope.garanteDatatable = null;
                     scope.garanteDatatableIndex = null;
                     // Orden: P_solicitante/CP_solicitante(10), GuaranteeEvaluation(20), Documentos(30+), p_fiador(40), p_garante(41), Detalles(50), Términos(60), Cargos(70), Adicionales(80), Review(90)
-                    var orderByTableName = { 'p_solicitante': 10, 'CP_solicitante': 10, 'p_fiador': 40, 'p_garante': 41 };
+                    var orderByTableName = { 'p_solicitante': 10, 'CP_solicitante': 10, 'p_fiador': 40, 'p_garantia': 41 };
                     var otherStepOrder = 42;
                     angular.forEach(datatables, function (d, i) {
                         if (d.registeredTableName === 'p_destino') {
@@ -830,7 +830,7 @@
                         } else if (d.registeredTableName === 'p_fiador') {
                             scope.fiadorDatatableIndex = i;
                             scope.fiadorDatatable = d;
-                        } else if (d.registeredTableName === 'p_garante') {
+                        } else if (d.registeredTableName === 'p_garantia') {
                             scope.garanteDatatableIndex = i;
                             scope.garanteDatatable = d;
                         }
