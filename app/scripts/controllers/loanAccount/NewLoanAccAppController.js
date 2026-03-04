@@ -1726,7 +1726,7 @@
                 if (!scope.destinoDatatable || scope.destinoDatatableIndex == null) { return true; }
                 if (DESTINO_CONSOLIDACION_ONLY_COLUMNS.indexOf(columnName) === -1) { return true; }
                 var col = scope.destinoDatatable.columnHeaderData && scope.destinoDatatable.columnHeaderData.find(function (c) {
-                    return c.columnName === 'loanPurposeOptions_cd_destino';
+                    return c.columnName === 'loanPurposeOptionsPAE_cd_destino';
                 });
                 if (!col || !col.columnValues) { return false; }
                 var row = scope.formData.datatables[dtIndex] && scope.formData.datatables[dtIndex].data && scope.formData.datatables[dtIndex].data[rowIndex];
