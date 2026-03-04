@@ -192,6 +192,16 @@
                         }
                     });
                 }
+                if(scope.loandetails.loanAdditionalDataPAE){
+                    scope.loanAdditionalDataPAE = scope.loandetails.loanAdditionalDataPAE;
+                    scope.caseId = scope.loandetails.loanAdditionalDataPAE.caseId;
+                    scope.prequalificationId = scope.loandetails.prequalificationData.id;
+                    resourceFactory.prequalificationResource.get({groupId:  scope.prequalificationId}, function (prequalificationData) {
+                        if (prequalificationData.prequalificationType) {
+                            scope.prequalificationType = prequalificationData.prequalificationType.value;
+                        }
+                    });
+                }
 
                 if (scope.loandetails.charges) {
                     scope.charges = scope.loandetails.charges;
@@ -998,7 +1008,10 @@
             };
 
             scope.isAdditionalDateProperty = function(propertyName){
-                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante", "fecha_visita","fecha_inicio_negocio"];
+                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion",
+                    "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad",
+                    "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante",
+                    "fecha_visita","fecha_inicio_negocio","fechaSupervision"];
                 return dateFields.includes(propertyName);
             }
 
