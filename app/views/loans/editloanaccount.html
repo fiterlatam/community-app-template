@@ -1803,7 +1803,7 @@
         <strong>{{ 'label.heading.additionals' | translate}}</strong>
     </div>
 
-<div ng-show="prequalificationType == 'INDIVIDUAL'">
+<div ng-show="prequalificationType == 'INDIVIDUAL' || prequalificationType == 'PAE'">
     <span><a ng-click="showAdditionalInfo=!showAdditionalInfo"><i class="fa fa-circle-arrow-left">{{'label.button.show.loan.additionals' | translate}}</i></a><br><br></span>
     <div ng-show="showAdditionalInfo">
         <fieldset>
@@ -1832,7 +1832,47 @@
                 </div>
             </div>
             <hr>
-            <table class="table-bordered table view-table table-striped">
+            <div ng-repeat="(categoryName, categoryValue) in formData.loanAdditionalDataPAE" ng-show="formData.loanAdditionalDataPAE">
+                <h4 class="text-center">{{ 'label.description.additional.' + categoryName | translate}}</h4>
+                <table class="table table-responsive table-bordered table view-table table-striped"
+                       ng-hide="previewRepayment">
+                    <thead>
+                    <tr class="graybg">
+                        <th>{{'label.heading.additional.property.name' | translate}}</th>
+                        <th>{{'label.heading.additional.property.value' | translate}}</th>
+                        <th>{{'label.heading.description' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(propertyNamePAE, propertyValue) in categoryValue">
+                        <td class="paddedbottom10">{{propertyNamePAE}}</td>
+                        <td class="paddedbottom10">
+                            <div ng-if="isAdditionalDateProperty(propertyNamePAE)">
+                                <input id="{{propertyNamePAE}}_dp" type="text" datepicker-pop="dd MMMM yyyy"
+                                       class="form-control" min="minDate"
+                                       ng-model="formData.loanAdditionalDataPAE[categoryName][propertyNamePAE]" is-open="opened3"
+                                />
+                            </div>
+                            <div ng-if="isDecimalProperty(propertyNamePAE)">
+                                <input id="{{propertyNamePAE}}_nm" class="form-control" type="text"
+                                       number-format ng-pattern="/^(?!,$)[\d,.]+$/"
+                                       ng-model="formData.loanAdditionalDataPAE[categoryName][propertyNamePAE]" is-open="opened3"/>
+                            </div>
+
+                            <div ng-if="!isAdditionalDateProperty(propertyNamePAE) && !isDecimalProperty(propertyNamePAE)">
+                                <input id="{{propertyNamePAE}}_dt" class="form-control" type="text"
+                                       ng-model="formData.loanAdditionalDataPAE[categoryName][propertyNamePAE]" is-open="opened3"/>
+                            </div>
+                        </td>
+                        <td class="paddedbottom10">
+                            {{ 'label.description.additional.' + propertyNamePAE | translate}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table class="table-bordered table view-table table-striped" ng-show="formData.loanAdditionalData">
                 <thead>
                 <tr class="graybg">
                     <th>{{'label.heading.additional.property.name' | translate}}</th>
@@ -1845,16 +1885,16 @@
                     <td class="paddedbottom10">{{propertyName}}</td>
                     <td class="paddedbottom10">
                         <div ng-if="isAdditionalDateProperty(propertyName)">
-                            <input id="{{propertyName}}" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
+                            <input id="{{propertyName}}dp" type="text" datepicker-pop="dd MMMM yyyy" class="form-control"
                                    ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70" min="minDate"/>
                         </div>
                         <div ng-if="isDecimalProperty(propertyName)">
-                            <input id="{{propertyName}}" class="form-control" type="text" number-format ng-pattern="/^(?!,$)[\d,.]+$/" name="propertyName"
+                            <input id="{{propertyName}}dm" class="form-control" type="text" number-format ng-pattern="/^(?!,$)[\d,.]+$/" name="propertyName"
                                    ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
                         </div>
 
                         <div ng-if="!isAdditionalDateProperty(propertyName) && !isDecimalProperty(propertyName)">
-                            <input id="{{propertyName}}" class="form-control" type="text" name="propertyName"
+                            <input id="{{propertyName}}tx" class="form-control" type="text" name="propertyName"
                                    ng-model="formData.loanAdditionalData[propertyName]" is-open="opened3" size="70"/>
                         </div>
                     </td>
