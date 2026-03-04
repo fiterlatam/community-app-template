@@ -446,7 +446,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-order="85" wz-disabled="{{product.ownerTypeOption.value === 'PAE'}}">
+        <wz-step wz-title="{{ 'label.heading.documents' | translate }}" wz-order="85" wz-disabled="{{product.ownerTypeOption.value === 'PAE' || disabled}}">
             <form name="LoanDocuments" class="form-horizontal" ng-submit="goNext(LoanDocuments)">
                 <fieldset>
                     <h3>{{'label.heading.uploaddocuments' | translate}}</h3>
@@ -1557,7 +1557,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="Review" ng-if="!disabled" wz-order="90">
+        <wz-step wz-title="Review" ng-if="!disabled" wz-order="100">
             <form name="review" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>
@@ -1863,41 +1863,41 @@
                     <table class="table table-responsive" ng-repeat="datatable in datatables" ng-init="revDtIndex = $index">
                         <!-- Tabla simple: una sola fila de datos -->
                         <tbody ng-if="!datatable._isMultiple">
-                            <tr class="bottomborder toppadding">
-                                <td colspan="7"><strong>{{datatable.registeredTableName}}</strong></td>
-                            </tr>
-                            <tr ng-repeat="columnHeader in datatable.columnHeaderData">
-                                <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
-                                <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
-                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName]}}
-                                </td>
-                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
-                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName].date | DateFormat}}
-                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName].time}}
-                                </td>
-                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
-                                    {{formData.datatables[revDtIndex].data[columnHeader.columnName] | DateFormat}}
-                                </td>
-                            </tr>
+                        <tr class="bottomborder toppadding">
+                            <td colspan="7"><strong>{{datatable.registeredTableName}}</strong></td>
+                        </tr>
+                        <tr ng-repeat="columnHeader in datatable.columnHeaderData">
+                            <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
+                            <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                {{formData.datatables[revDtIndex].data[columnHeader.columnName]}}
+                            </td>
+                            <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
+                                {{formData.datatables[revDtIndex].data[columnHeader.columnName].date | DateFormat}}
+                                {{formData.datatables[revDtIndex].data[columnHeader.columnName].time}}
+                            </td>
+                            <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                {{formData.datatables[revDtIndex].data[columnHeader.columnName] | DateFormat}}
+                            </td>
+                        </tr>
                         </tbody>
                         <!-- Tabla múltiple: una sub-tabla por cada registro -->
                         <tbody ng-if="datatable._isMultiple" ng-repeat="row in formData.datatables[revDtIndex].data track by $index" ng-init="revRowIndex = $index">
-                            <tr class="bottomborder toppadding">
-                                <td colspan="7"><strong>{{datatable.registeredTableName}} {{revRowIndex + 1}}</strong></td>
-                            </tr>
-                            <tr ng-repeat="columnHeader in datatable.columnHeaderData">
-                                <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
-                                <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
-                                    {{formData.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName]}}
-                                </td>
-                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
-                                    {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName].date | DateFormat}}
-                                    {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName].time}}
-                                </td>
-                                <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
-                                    {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName] | DateFormat}}
-                                </td>
-                            </tr>
+                        <tr class="bottomborder toppadding">
+                            <td colspan="7"><strong>{{datatable.registeredTableName}} {{revRowIndex + 1}}</strong></td>
+                        </tr>
+                        <tr ng-repeat="columnHeader in datatable.columnHeaderData">
+                            <td colspan="6">{{ columnHeader.columnName | prettifyDataTableColumn }}</td>
+                            <td ng-hide="fieldType(columnHeader.columnDisplayType) == 'DATETIME' || fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                {{formData.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName]}}
+                            </td>
+                            <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'">
+                                {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName].date | DateFormat}}
+                                {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName].time}}
+                            </td>
+                            <td ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'">
+                                {{formDat.datatables[revDtIndex].data[revRowIndex][columnHeader.columnName] | DateFormat}}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <br>
@@ -1907,7 +1907,7 @@
                             {{'label.button.cancel' | translate}}
                         </button>
                         <button id="save" type="submit" has-permission='CREATE_LOAN' class="btn btn-primary"
-                                ng-show="loanaccountinfo" wz-next>{{'label.button.save' | translate}}
+                                ng-show="loanaccountinfo" wz-next>{{'label.button.submit' | translate}}
                         </button>
                     </div>
                     <hr>
@@ -1924,6 +1924,7 @@
                 </fieldset>
             </form>
         </wz-step>
+
 
         <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-order="80"
                  wz-disabled="{{prequalificationType !== 'INDIVIDUAL' && prequalificationType !== 'PAE'}}">
@@ -2051,7 +2052,7 @@
         </wz-step>
 
         <wz-step wz-title="{{ 'label.heading.additionals' | translate }}" wz-disabled="{{disabled}}"
-                 ng-if="product.ownerTypeOption.value ==='Group'" wz-order="120">
+                 ng-if="product.ownerTypeOption.value ==='Group'" wz-order="90">
             <form name="Additionals" ng-submit="goNext(Additionals)" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>
@@ -3167,6 +3168,7 @@
                 </fieldset>
             </form>
         </wz-step>
+
 
     </wizard>
 
