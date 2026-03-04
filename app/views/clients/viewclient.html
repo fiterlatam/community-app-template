@@ -499,7 +499,7 @@
 										</tr>
 									</table>
 								</div>
-								<div data-ng-show="clientAccounts.loanApplicationDrafts">
+								<div ng-if="clientAccounts.loanApplicationDrafts && clientAccounts.loanApplicationDrafts.length > 0">
 
 									<table class="table table-condensed">
 										<span class="span gray-head">
