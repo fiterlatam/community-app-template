@@ -1753,7 +1753,7 @@
                     'YesNo_cd_conoce_frecuencia_compra_inventario', 'YesNo_cd_conoce_proveedores_costos_lugar', 'YesNo_cd_maneja_negocio',
                     'YesNo_cd_negocio_inscrito_RTU', 'YesNo_cd_patente_comercio_nombre_cliente', 'YesNo_cd_facturas_recibos_de_compra_cliente',
                     'YesNo_cd_tarjeta_salud_cliente', 'monto_ventas_mensuales', 'costo_ventas_totales', 'total_gastos_negocio',
-                    'total_gastos_familiares', 'cuotas_prestamos_externos', 'diferencia_ingresos_gastos', 'couta_nuevo_credito_pae','disponible_para_pagar_cuota'
+                    'total_gastos_familiares', 'cuotas_prestamos_externos', 'diferencia_ingresos_gastos', 'couta_nuevo_credito_pae','disponible_pagar_cuota'
                 ],
                 'fiador asalariado': [
                     'classificationOptions_cd_actividad_economica', 'nombre_empresa', 'fecha_ingreso_empleo_actual',
