@@ -13,7 +13,7 @@
         <li class="active">{{'label.anchor.loanapplication' | translate}}</li>
     </ul>
     <wizard current-step="step" on-finish="submit(false)" class="card well">
-        <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" ng-if="datatable.registeredTableName !== 'p_destino' && datatable.registeredTableName !== 'p_fiador' && datatable.registeredTableName !== 'p_garante'" wz-title="{{datatable.registeredTableName | translate}}" id="dynamicSteps"
+        <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" ng-if="datatable.registeredTableName !== 'p_destino' && datatable.registeredTableName !== 'p_fiador' && datatable.registeredTableName !== 'p_garantia'" wz-title="{{datatable.registeredTableName | translate}}" id="dynamicSteps"
             wz-disabled="{{disabled}}" wz-order="{{datatableStepOrder[dtIndex] || (dtIndex + 1)}}" ng-init="dtIndex = $index">
             <form name="Datatables" class="form-horizontal" ng-submit="submit(false)">
                 <fieldset>
