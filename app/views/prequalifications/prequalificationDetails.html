@@ -242,7 +242,10 @@
                     </td>
                 </tr>
                 <tr ng-if="groupData.status.id ==900 && ( groupData.lastPrequalificationStatus.id ==1003 || groupData.lastPrequalificationStatus.id ==1004
-                    || groupData.lastPrequalificationStatus.id ==1005 || groupData.lastPrequalificationStatus.id ==1006|| groupData.lastPrequalificationStatus.id ==1007)">
+                    || groupData.lastPrequalificationStatus.id ==1005 || groupData.lastPrequalificationStatus.id ==1006
+                    || groupData.lastPrequalificationStatus.id ==911 || groupData.lastPrequalificationStatus.id ==912
+                    || groupData.lastPrequalificationStatus.id ==913 || groupData.lastPrequalificationStatus.id ==914||
+                    groupData.lastPrequalificationStatus.id ==1007)">
                     <td colspan="4">
                         <div class="text-right">
                             <button ng-click="downloadCommiteeReport()" type="button" style="background-color: #740808; color: white" class="btn"><i class="fa fa-file-pdf-o"></i> {{'label.button.commitee.approval' | translate}}</button>
