@@ -60,6 +60,7 @@
                         $scope.formData.fiadorDPI = data?.dpi_fiador;
                         $scope.formData.fiadorWitness = data?.lider_agencia;
                         $scope.formData.fiadorWitnessDPI = data?.user_dpi;
+                        $scope.formData.agencyId = data?.agencyId;
                     });
 
                     $scope.showWitnessFields = true;
