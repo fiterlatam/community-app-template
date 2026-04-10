@@ -23,7 +23,7 @@
                     <!-- Tabla simple (objeto único) -->
                     <div ng-if="!datatable._isMultiple">
                         <div ng-repeat="columnHeader in datatable.columnHeaderData">
-                            <div class="form-group row">
+                            <div class="form-group row" ng-if="columnHeader.columnName!='created_at' && columnHeader.columnName!='updated_at'">
                                 <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
                                     <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
                                 </label>
@@ -91,7 +91,8 @@
                                             <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
                                         </button>
                                     </div>
-                                    <div class="form-group" ng-repeat="columnHeader in destinoDatatable.columnHeaderData" ng-if="showDestinoColumn(columnHeader.columnName, destinoDatatableIndex, rowIndex)">
+                                    <div class="form-group" ng-repeat="columnHeader in destinoDatatable.columnHeaderData" ng-if="showDestinoColumn(columnHeader.columnName, destinoDatatableIndex, rowIndex)
+                                     && columnHeader.columnName!='created_at' && columnHeader.columnName!='updated_at'">
                                         <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
                                             <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
                                         </label>
@@ -150,7 +151,7 @@
                                         <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
                                     </button>
                                 </div>
-                                <div class="form-group" ng-repeat="columnHeader in datatable.columnHeaderData">
+                                <div class="form-group" ng-repeat="columnHeader in datatable.columnHeaderData" ng-if="columnHeader.columnName!='created_at' && columnHeader.columnName!='updated_at'">
                                     <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
                                         <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
                                     </label>
@@ -187,11 +188,6 @@
                                 </div>
                             </uib-accordion-group>
                         </uib-accordion>
-                    </div>
-
-                    <div class="col-md-offset-5" ng-if="$last">
-                        <button id="cancel3" type="reset" class="btn btn-default" ng-click="cancel()">{{'label.button.cancel' | translate}}</button>
-                        <button id="save3" type="submit" has-permission='CREATE_LOAN' class="btn btn-primary" ng-show="loanaccountinfo">{{'label.button.save' | translate}}</button>
                     </div>
                     <hr>
                     <button class="btn btn-default pull-left" wz-previous>
@@ -253,14 +249,16 @@
                 <fieldset>
                     <api-validate></api-validate>
                     <br>
-                    <div class="row">
-                        <div class="col-sm-5 m-2 alert alert-info" ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" ng-if="requiredDoc.extraData && requiredDoc.extraData.length>0">
-                            <h3>{{'label.heading.guarantee' | translate}} - {{$index+1}}</h3>
+                    <div class="row text-center">
+                        <div class="col-sm-12 alert alert-info form-inline" ng-repeat="n in [].constructor(requiredDoc.quantity) track by $index" ng-if="requiredDoc.extraData && requiredDoc.extraData.length>0">
+                            <h3>{{requiredDoc.name}}</h3>
                             <div class="form-inline alert alert-default" style="margin-bottom: 10px" ng-repeat="docCollections in requiredDoc.extraData" >
-                                <div class="form-group">
-                                    <label class="control-label col-sm-4" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required">*</span></label>
+                                <div class="row">
+                                    <div class="col-sm-5 text-right">
+                                        <label class="control-label" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required">*</span></label>
+                                    </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 text-right">
                                         <div style="margin-top: 10px;">
                                             <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
                                                    ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)" required="docCollections.required">
@@ -322,7 +320,8 @@
                                     <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
                                 </button>
                             </div>
-                            <div class="form-group" ng-repeat="columnHeader in fiadorDatatable.columnHeaderData" ng-if="showFiadorColumn(columnHeader.columnName, fiadorDatatableIndex, rowIndex)">
+                            <div class="form-group" ng-repeat="columnHeader in fiadorDatatable.columnHeaderData"
+                                 ng-if="showFiadorColumn(columnHeader.columnName, fiadorDatatableIndex, rowIndex)">
                                 <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
                                     <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
                                 </label>

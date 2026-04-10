@@ -5363,7 +5363,7 @@
 	"YesNo_cd_lider_agencia_fiador": "¿Líder de Agencia es su fiador?",
 	"YesNo_cd_asesores_credito_supervisor_fiador": "¿Asesores de crédito CI o Supervisores es su fiador?",
 	"YesNo_cd_deuda_vencida_mayor_30_dias": "¿Presenta deuda vencida mayor a 30 días en las centrales de riesgo?",
-	"loanPurposeOptions_cd_destino": "Destino del crédito",
+	"loanPurposeOptionsPAE_cd_destino": "Destino del crédito",
 	"detalle_del_destino_de_credito": "Detalle del destino",
 	"guarantorType_cd_tipo_fiador_tercero":"Tipo de fiador o tercero",
 	"professionGuarantor_cd_profesion_fiador":"Profesión fiador",
@@ -5384,5 +5384,8 @@
 	"creditRecordPDAOptions_cd_antiguedad_negocio": "Récord creditio en PDA",
 	"fecha_avaluo": "Fecha del avalúo",
 	"YesNo_cd_is_real_estate_owned_by_a_third_party": "¿El inmueble es registrado?",
-	"YesNo_cd_is_registered_real_estate": "¿El inmueble es propiedad de un tercero?"
+	"YesNo_cd_is_registered_real_estate": "¿El inmueble es propiedad de un tercero?",
+	"formalizationDocument_cd_documento_formalizacion": "Documento de Formalización",
+	"detalle_garantia": "Detalle de la Garantía",
+	"registeredMortgage_cd_hipoteca_registrada": "Hipoteca Registrada"
 }
