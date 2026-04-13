@@ -1,10 +1,10 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        LoginFormController: function (scope, authenticationService, resourceFactory, httpService, $timeout) {
+        LoginFormController: function (scope, authenticationService, resourceFactory, httpService, $timeout,$uibModal, localStorageService) {
             scope.loginCredentials = {};
             scope.passwordDetails = {};
             scope.authenticationFailed = false;
-            scope.load = false;
+            scope.showLoading = false;
 
             scope.twoFactorRequired = false;
             scope.twoFactorDeliveryMethods = {};
@@ -16,25 +16,35 @@
 
             scope.login = function () {
                 scope.authenticationFailed = false;
-                scope.load = true;
+                scope.showLoading = true;
                 authenticationService.authenticateWithUsernamePassword(scope.loginCredentials);
                // delete scope.loginCredentials.password;
             };
 
-            scope.$on("UserAuthenticationFailureEvent", function (event, data, status) {
-                delete scope.loginCredentials.password;
+            scope.$on("UserAuthFailureEvent", function (event, data, status) {
+                timer = $timeout(function(){
+                    delete scope.loginCredentials.password;
+                },1000);
                 scope.authenticationFailed = true;
                 if(status != 401) {
-                    scope.authenticationErrorMessage = 'error.connection.failed';
-                    scope.load = false;
+                    scope.authenticationErrorMessage = scope.extractError(data,'error.connection.failed');
+                    scope.showLoading = false;
                 } else {
-                   scope.authenticationErrorMessage = 'error.login.failed';
-                   scope.load = false;
+                    scope.authenticationErrorMessage = scope.extractError(data,'error.login.failed');
+                    scope.showLoading = false;
                 }
             });
 
+            scope.extractError = function (data,defaultmsg) {
+                msg = defaultmsg;
+                if (data.errors && data.errors.length > 0) {
+                    msg=data.errors[0].userMessageGlobalisationCode;
+                }
+                return msg;
+            }
+
             scope.$on("UserAuthenticationSuccessEvent", function (event, data) {
-                scope.load = false;
+                scope.showLoading = false;
                 scope.authenticationFailed = false;
                 scope.twoFactorRequired = false;
                 scope.otpRequested = false;
@@ -48,7 +58,7 @@
              });
 
             scope.$on("UserAuthenticationTwoFactorRequired", function (event, data) {
-                scope.load = false;
+                scope.showLoading = false;
                 scope.twoFactorRequired = true;
                 resourceFactory.twoFactorResource.getDeliveryMethods(function (data) {
                     scope.twoFactorDeliveryMethods = data;
@@ -69,10 +79,11 @@
             });*/
 
             scope.updatePassword = function (){
-                resourceFactory.userListResource.update({'userId': scope.loggedInUserId}, scope.passwordDetails, function (data) {
+                resourceFactory.selfServiceResource.update({'userId': scope.loggedInUserId},scope.passwordDetails, function (data) {
                     //clear the old authorization token
                     httpService.cancelAuthorization();
                     scope.authenticationFailed = false;
+                    scope.resetPassword=  false;
                     scope.loginCredentials.password = scope.passwordDetails.password;
                     authenticationService.authenticateWithUsernamePassword(scope.loginCredentials);
                 });
@@ -81,9 +92,9 @@
             // Move to auth service probably
             scope.requestOTP = function () {
                 if(scope.selectedDeliveryMethodName != null) {
-                    scope.load = true;
+                    scope.showLoading = true;
                     resourceFactory.twoFactorResource.requestOTP({deliveryMethod: scope.selectedDeliveryMethodName, extendedToken: scope.twofactorRememberMe}, function (data) {
-                        scope.load = false;
+                        scope.showLoading = false;
                         if(data.deliveryMethod !== null) {
                             scope.otpRequestData.deliveryMethod = data.deliveryMethod;
                             scope.otpRequestData.expireDate = new Date(data.reqestTime + data.tokenLiveTimeInSec * 1000);
@@ -96,13 +107,13 @@
 
             scope.validateOTP = function () {
                 if(scope.otpToken !== null) {
-                    scope.load = true;
+                    scope.showLoading = true;
                     authenticationService.validateOTP(scope.otpToken, scope.twofactorRememberMe);
                 }
             };
 
             scope.$on("TwoFactorAuthenticationFailureEvent", function (event, data, status) {
-                scope.load = false;
+                scope.showLoading = false;
                 scope.otpToken = null;
                 if(status == 403) {
                     scope.otpErrorMessage = 'error.otp.validate.invalid';
@@ -112,10 +123,56 @@
                 scope.otpTokenError = true;
             });
 
+            scope.promptPasswordReset = function() {
+                $uibModal.open({
+                    templateUrl: 'resetpassword.html',
+                    controller: ModalInstanceCtrl
+                });
+            }
+
+            var ModalInstanceCtrl = function ($scope, $uibModalInstance) {
+                $scope.formData = {};
+                $scope.requested = false;
+                $scope.isLoading = false;
+                $scope.save = function (staffId) {
+                    $scope.isLoading=true;
+                    let command = $scope.requested? 'resetPassword':'requestPasswordReset';
+                    if ($scope.formData.logoutDevices){
+                        removeTwoFactorTokenFromStorage($scope.formData.username)
+                    }
+                    resourceFactory.resetUserAccountResource.update({
+                        'username': $scope.formData.username,'command': command,
+                        'logoutDevices':$scope.formData.logoutDevices,'otp':$scope.formData.otp}, $scope.formData, function (data) {
+                            $scope.isLoading=false;
+                        if ($scope.requested) {
+                            $uibModalInstance.close('activate');
+                            scope.authenticationErrorMessage = 'err.msg.newpassword.sent'
+                        }else{
+                            $scope.requested = true;
+                        }
+                    },function (err){
+                        $scope.isLoading=false;
+                    });
+                };
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+
+                var removeTwoFactorTokenFromStorage = function (username) {
+                    var storageData = localStorageService.getFromLocalStorage("twofactor");
+                    if(!storageData) {
+                        return;
+                    }
+
+                    delete storageData[username]
+                    localStorageService.addToLocalStorage('twofactor', storageData);
+                };
+            };
+
 
         }
     });
-    mifosX.ng.application.controller('LoginFormController', ['$scope', 'AuthenticationService', 'ResourceFactory', 'HttpService','$timeout', mifosX.controllers.LoginFormController]).run(function ($log) {
+    mifosX.ng.application.controller('LoginFormController', ['$scope', 'AuthenticationService', 'ResourceFactory', 'HttpService','$timeout','$uibModal','localStorageService', mifosX.controllers.LoginFormController]).run(function ($log) {
         $log.info("LoginFormController initialized");
     });
 }(mifosX.controllers || {}));
