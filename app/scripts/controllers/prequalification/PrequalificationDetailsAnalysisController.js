@@ -909,6 +909,99 @@
                 });
             };
 
+            scope.downloadAllPaeDocuments = function() {
+                if (!scope.paeLoandocuments || scope.paeLoandocuments.length === 0) {
+                    alert('No documents to download.');
+                    return;
+                }
+                var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('PDF');
+                var excelFolder = zip.folder('EXCEL');
+                var otherFolder = zip.folder('OTROS');
+                var count = 0;
+                var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                scope.paeLoandocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var documentName =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+                    var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+
+
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            var lowerName = fileName.toLowerCase();
+                            var targetFolder;
+                            if (lowerName.endsWith('.pdf')) {
+                                targetFolder = pdfFolder;
+                            }else if(lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')|| lowerName.endsWith('.csv')){
+                                targetFolder=excelFolder
+                            } else {
+                                targetFolder = otherFolder;
+                            }
+                            targetFolder.file(documentName, blob);
+
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(documentName);
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.paeLoandocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
+            };
+
             scope.previewDocument = function (document) {
                 scope.previewUrl = undefined;
                 var url = scope.hostUrl + document.docUrl;
