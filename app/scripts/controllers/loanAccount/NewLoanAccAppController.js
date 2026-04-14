@@ -1789,6 +1789,27 @@
                 }
 
                 var file = $files[0];
+                var maxSize = 5; // 5MB
+                if (file) {
+                    let size = file.size;
+                    if ((size / (1024 * 1024)).toFixed(1) > maxSize) {
+                        alert('File size: ' + (size / (1024 * 1024)).toFixed(1) + 'MB exceeds limit: ' + maxSize + 'MB. Please select a smaller file.');
+                        // Clear the file input element
+                        var inputElement = document.getElementById('grFile_' + parentIndex + '_' + childIndex);
+                        if (inputElement) {
+                            inputElement.value = '';
+                        }
+                        // Clear the ng-model binding
+                        if (scope.guarantyFiles && scope.guarantyFiles[parentIndex]) {
+                            scope.guarantyFiles[parentIndex][childIndex] = null;
+                        }
+                        // Remove any previously stored doc data for this slot
+                        if (scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)]) {
+                            delete scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)][parentIndex];
+                        }
+                        return;
+                    }
+                }
                 var docData = {
                     file: file,
                     name: currentDoc.documentName,
