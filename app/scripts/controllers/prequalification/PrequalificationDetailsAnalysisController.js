@@ -862,7 +862,9 @@
 
                 scope.prequalificationDocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
-                    var filename =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+                    var documentName =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+                    var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+
 
                     fetch(url, { credentials: 'include', headers: authHeader })
                         .then(function(response) {
@@ -870,9 +872,9 @@
                             return response.blob();
                         })
                         .then(function(blob) {
-                            var lowerName = filename.toLowerCase();
+                            var lowerName = fileName.toLowerCase();
                             var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
-                            targetFolder.file(filename, blob);
+                            targetFolder.file(documentName, blob);
 
                             count++;
                             if (count === scope.prequalificationDocuments.length) {
@@ -882,7 +884,7 @@
                             }
                         })
                         .catch(function(err) {
-                            failed.push(filename);
+                            failed.push(documentName);
                             count++;
                             if (count === scope.prequalificationDocuments.length) {
                                 if (failed.length > 0) {
