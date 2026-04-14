@@ -823,6 +823,7 @@
                 }
                 var zip = new JSZipService.getJSZip();
                 var pdfFolder = zip.folder('PDF');
+                var excelFolder = zip.folder('EXCEL');
                 var otherFolder = zip.folder('OTROS');
                 var count = 0;
                 var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
@@ -862,7 +863,9 @@
 
                 scope.prequalificationDocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
-                    var filename =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+                    var documentName =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+                    var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+
 
                     fetch(url, { credentials: 'include', headers: authHeader })
                         .then(function(response) {
@@ -870,9 +873,16 @@
                             return response.blob();
                         })
                         .then(function(blob) {
-                            var lowerName = filename.toLowerCase();
-                            var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
-                            targetFolder.file(filename, blob);
+                            var lowerName = fileName.toLowerCase();
+                            var targetFolder;
+                            if (lowerName.endsWith('.pdf')) {
+                                targetFolder = pdfFolder;
+                            }else if(lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')|| lowerName.endsWith('.csv')){
+                                targetFolder=excelFolder
+                            } else {
+                                targetFolder = otherFolder;
+                            }
+                            targetFolder.file(documentName, blob);
 
                             count++;
                             if (count === scope.prequalificationDocuments.length) {
@@ -882,7 +892,7 @@
                             }
                         })
                         .catch(function(err) {
-                            failed.push(filename);
+                            failed.push(documentName);
                             count++;
                             if (count === scope.prequalificationDocuments.length) {
                                 if (failed.length > 0) {
