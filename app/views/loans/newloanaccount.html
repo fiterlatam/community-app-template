@@ -255,13 +255,18 @@
                             <div class="form-inline alert alert-default" style="margin-bottom: 10px" ng-repeat="docCollections in requiredDoc.extraData" >
                                 <div class="row">
                                     <div class="col-sm-5 text-right">
-                                        <label class="control-label" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required">*</span></label>
+                                        <label class="control-label" for="name">{{docCollections.documentName}}<span class="required" ng-if="docCollections.required"> *</span></label>
                                     </div>
 
                                     <div class="col-sm-6 text-right">
                                         <div style="margin-top: 10px;">
-                                            <input id="grFile{{$parent.$index}}_{{$index}}" type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
-                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)" required="docCollections.required">
+                                            <input id="grFile_{{$parent.$index}}_{{$index}}" name="grFile_{{$parent.$index}}_{{$index}}" ng-if="docCollections.required"
+                                                   type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
+                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)" required>
+
+                                            <input id="grFile_{{$parent.$index}}_{{$index}}" name="grFile_{{$parent.$index}}_{{$index}}" ng-if="!docCollections.required"
+                                                   type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[$parent.$index][$index]"
+                                                   ngf-select="onGuarantyFileSelect($files, $parent.$index,$index, docCollections)">
                                                 <div
                                                     ng-if="paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id] && paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][$parent.$index]"
                                                     class="alert alert-success"
@@ -276,7 +281,7 @@
                                                     </button>-->
                                                 </div>
                                             
-                                                <form-validate valattributeform="GuarantyDocuments" valattribute="grFile{{$parent.$index}}_{{$index}}"/>
+                                                <form-validate valattributeform="GuarantyDocuments" valattribute="grFile_{{$parent.$index}}_{{$index}}"/>
                                         </div>
                                     </div>
                                 </div>
