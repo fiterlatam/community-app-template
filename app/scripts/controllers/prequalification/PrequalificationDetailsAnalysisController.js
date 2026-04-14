@@ -823,6 +823,7 @@
                 }
                 var zip = new JSZipService.getJSZip();
                 var pdfFolder = zip.folder('PDF');
+                var excelFolder = zip.folder('EXCEL');
                 var otherFolder = zip.folder('OTROS');
                 var count = 0;
                 var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
@@ -873,7 +874,14 @@
                         })
                         .then(function(blob) {
                             var lowerName = fileName.toLowerCase();
-                            var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
+                            var targetFolder;
+                            if (lowerName.endsWith('.pdf')) {
+                                targetFolder = pdfFolder;
+                            }else if(lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')|| lowerName.endsWith('.csv')){
+                                targetFolder=excelFolder
+                            } else {
+                                targetFolder = otherFolder;
+                            }
                             targetFolder.file(documentName, blob);
 
                             count++;
