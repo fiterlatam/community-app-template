@@ -911,8 +911,10 @@
             };
 
             scope.downloadAllPaeDocuments = function() {
+                scope.showDownloading=true;
                 if (!scope.paeLoandocuments || scope.paeLoandocuments.length === 0) {
                     alert('No documents to download.');
+                    scope.showDownloading=false
                     return;
                 }
                 var zip = new JSZipService.getJSZip();
@@ -927,7 +929,9 @@
                 var sessionData = null;
                 try {
                     sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
-                } catch (e) {}
+                } catch (e) {
+                    scope.showDownloading=false
+                }
                 var authHeader = {};
                 if (sessionData && sessionData.authenticationKey) {
                     if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
@@ -1002,6 +1006,7 @@
                             }
                         });
                 });
+                scope.showDownloading=false
             };
 
             scope.previewDocument = function (document) {
