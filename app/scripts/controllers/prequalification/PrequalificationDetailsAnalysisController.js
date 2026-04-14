@@ -20,6 +20,7 @@
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
             scope.showAllComments = false;
             scope.showAllExceptionComments = false;
+            scope.showDownloading = false;
             scope.previewUrl;
 
             scope.fetchPrequalificationDetails = function () {
@@ -910,8 +911,10 @@
             };
 
             scope.downloadAllPaeDocuments = function() {
+                scope.showDownloading=true;
                 if (!scope.paeLoandocuments || scope.paeLoandocuments.length === 0) {
                     alert('No documents to download.');
+                    scope.showDownloading=false
                     return;
                 }
                 var zip = new JSZipService.getJSZip();
@@ -926,7 +929,9 @@
                 var sessionData = null;
                 try {
                     sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
-                } catch (e) {}
+                } catch (e) {
+                    scope.showDownloading=false
+                }
                 var authHeader = {};
                 if (sessionData && sessionData.authenticationKey) {
                     if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
@@ -956,8 +961,9 @@
 
                 scope.paeLoandocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
-                    var documentName =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
                     var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+                    var ext = fileName.lastIndexOf('.') !== -1 ? fileName.substring(fileName.lastIndexOf('.')) : '';
+                    var documentName = (doc.name + '_' + doc.id || doc.description || ('document_' + doc.id)) + ext;
 
 
                     fetch(url, { credentials: 'include', headers: authHeader })
@@ -1000,6 +1006,7 @@
                             }
                         });
                 });
+                scope.showDownloading=false
             };
 
             scope.previewDocument = function (document) {
