@@ -64,7 +64,7 @@
 
                         <div class="alert alert-info text-right" ng-if="!groupData.assignedUserName"
                             has-permission="ASSIGN_PREQUALIFICATIONS">
-                            <button class="btn btn-primary" ng-click="assignToSelf()"><i class="fa fa-check-square"></i>
+                            <button class="btn btn-primary" ng-if="groupData && groupData.id && !groupData.assignedUserName" ng-click="assignToSelf()"><i class="fa fa-check-square"></i>
                                 {{'label.button.assigntomyself' | translate}}
                             </button>
                         </div>
