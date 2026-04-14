@@ -5153,6 +5153,7 @@
 	"loanTermFrequency.periodFrequencyType.weeks": "Semanas",
 	"loanTermFrequency.periodFrequencyType.months": "Meses",
 	"loanTermFrequency.periodFrequencyType.years": "Años",
+	"label.downloading": "Descargando, por favor espere.... ",
 	"label.heading.on": "en",
 	"repaymentFrequency.nthDayType.one": "Primero",
 	"repaymentFrequency.nthDayType.two": "Segundo",

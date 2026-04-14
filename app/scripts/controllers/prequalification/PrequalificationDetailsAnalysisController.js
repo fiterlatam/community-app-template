@@ -20,6 +20,7 @@
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
             scope.showAllComments = false;
             scope.showAllExceptionComments = false;
+            scope.showDownloading = false;
             scope.previewUrl;
 
             scope.fetchPrequalificationDetails = function () {
@@ -956,8 +957,9 @@
 
                 scope.paeLoandocuments.forEach(function(doc) {
                     var url = scope.hostUrl + doc.docUrl;
-                    var documentName =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
                     var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+                    var ext = fileName.lastIndexOf('.') !== -1 ? fileName.substring(fileName.lastIndexOf('.')) : '';
+                    var documentName = (doc.name + '_' + doc.id || doc.description || ('document_' + doc.id)) + ext;
 
 
                     fetch(url, { credentials: 'include', headers: authHeader })
