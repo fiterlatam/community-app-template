@@ -340,14 +340,6 @@
                         getAllUsers: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT' }
                     }),
-                    selfServiceResource: defineResource(apiVer + "/authentication/:userId", {userId: '@userId'}, {
-                        getAllUsers: {method: 'GET', params: {}, isArray: true},
-                        update: { method: 'PUT' }
-                    }),
-                    resetUserAccountResource: defineResource(apiVer + "/authentication/resetaccount", {userId: '@userId'}, {
-                        update: { method: 'POST', params:{command:'@command',username:'@username',otp:'@otp',
-                                logoutDevices:'@logoutDevices'} }
-                    }),
                     userTemplateResource: defineResource(apiVer + "/users/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
@@ -912,10 +904,6 @@
                     twoFactorConfigResource: defineResource(apiVer+"/twofactor/configure", {}, {
                         getAllConfigs: {method: 'GET', params: {}},
                         put: {method: 'PUT', params: {}}
-                    }),
-
-                    twoFactorLogoutResource: defineResource(apiVer+"/authentication/logout", {}, {
-                        logout: {method: 'POST', params: {}}
                     }),
                     rateResource: defineResource(apiVer + "/rates/:rateId", {rateId: '@rateId'}, {
                         getAllRates: {method: 'GET', params: {}, isArray: true},

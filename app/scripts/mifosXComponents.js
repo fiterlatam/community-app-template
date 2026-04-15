@@ -14,7 +14,6 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'Paginator',
             'UIConfigService',
             'ValidationService',
-            'FingerprintService',
             'NotificationResponseHeaderProvider'
         ],
 
