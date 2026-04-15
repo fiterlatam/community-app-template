@@ -7,7 +7,7 @@
 
             var onLoginSuccess = function (response) {
                 var data = response.data;
-                if(data.isTwoFactorAuthenticationRequired != null && data.isTwoFactorAuthenticationRequired == true && !data.shouldRenewPassword) {
+                if(data.isTwoFactorAuthenticationRequired != null && data.isTwoFactorAuthenticationRequired == true) {
                     if(hasValidTwoFactorToken(data.username)) {
                         var token = getTokenFromStorage(data.username);
                         onTwoFactorRememberMe(data, token);
@@ -24,7 +24,7 @@
             var onLoginFailure = function (response) {
                 var data = response.data;
                 var status = response.status;
-                scope.$broadcast("UserAuthFailureEvent", data, status);
+                scope.$broadcast("UserAuthenticationFailureEvent", data, status);
             };
 
             var apiVer = '/fineract-provider/api/v1';
@@ -88,7 +88,6 @@
                 var data = response.data;
                 var accessToken = data.token;
                 if(twoFactorIsRememberMeRequest) {
-                    localStorageService.addToLocalStorage('rememberMe', true);
                     saveTwoFactorTokenToStorage(userData.username, data);
                 }
                 twoFactorAccessToken = accessToken;
@@ -133,7 +132,6 @@
 
             var hasValidTwoFactorToken = function (user) {
                 var token = getTokenFromStorage(user);
-                console.log("Checking for valid two-factor token for user"+ user+ " " + JSON.stringify(token));
                 if(token) {
                     return (new Date).getTime() + 7200000 < token.validTo;
                 }
@@ -152,10 +150,9 @@
 
                 // Remove user data and two-factor access token if present
                 localStorageService.removeFromLocalStorage("userData");
-                if (!localStorageService.getFromLocalStorage('rememberMe')) {
-                    removeTwoFactorTokenFromStorage(userDate.username);
-                    httpService.post(apiVer + "/twofactor/invalidate", '{"token": "' + twoFactorAccessToken + '"}');
-                }
+                removeTwoFactorTokenFromStorage(userDate.username);
+
+                httpService.post(apiVer + "/twofactor/invalidate", '{"token": "' + twoFactorAccessToken + '"}');
             });
         }
     });
