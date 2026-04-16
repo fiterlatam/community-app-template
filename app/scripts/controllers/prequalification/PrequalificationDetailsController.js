@@ -393,6 +393,7 @@
             }
             scope.reloadPage = function(){
                 scope.report = !scope.report;
+                scope.preview = !scope.preview;
             }
 
             scope.getPaeLoanDocuments = function () {
