@@ -259,7 +259,9 @@
             }
 
             scope.reloadPage = function(){
-                scope.routeTo("/prequalificationsmenu");
+                // scope.routeTo("/prequalificationsmenu");
+                scope.report = !scope.report;
+                scope.preview = !scope.preview;
             }
 
             var ViewMemberHardPolicyCtrl = function ($scope, $uibModalInstance) {
