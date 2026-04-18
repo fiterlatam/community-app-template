@@ -86,17 +86,17 @@
 
             //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
             scope.downloadDocument = function (doc) {
-                
+
                 const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
                     '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
 
-                
+
                 $http({
                     method: 'GET',
                     url: $rootScope.hostUrl + url,
                     responseType: 'arraybuffer',
                 }).then(function (response) {
-                    
+
                     const blob = new Blob([response.data], { type: response.headers('Content-Type') });
                     const fileName = doc.fileName || 'documento';
                     const link = document.createElement('a');
@@ -338,7 +338,7 @@
                             }
                             if (data.reportToPrint){
                                 scope.printReport(data);
-                               
+
                             }
                             scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
@@ -530,7 +530,7 @@
                     return;
                 }
 
-                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, ""); 
+                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId,
                     data: {
@@ -645,7 +645,7 @@
             var RejectModalCtrl = ['$scope', '$uibModalInstance', 'reasons', function ($scope, $uibModalInstance, reasons) {
                 $scope.reasons = reasons;
                 $scope.selectedReason = null;
-                $scope.optionalComment = ""; 
+                $scope.optionalComment = "";
 
                 $scope.confirm = function () {
                     if (!$scope.selectedReason) {
@@ -667,7 +667,7 @@
 
 
 
-            
+
             // -----------------------------Sección Argumentar caso--------------------------------
 
             // Abrir modal para argumentar caso
@@ -723,7 +723,7 @@
 
             scope.uploadDocument = function (description, file) {
 
-                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, ""); 
+                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId,
                     data: {
@@ -813,7 +813,7 @@
             scope.updateShowAllExceptionComments = function () {
                 scope.showAllExceptionComments = !scope.showAllExceptionComments;
             }
-            
+
             scope.updateShowAllComments = function () {
                 scope.showAllComments = !scope.showAllComments;
             }

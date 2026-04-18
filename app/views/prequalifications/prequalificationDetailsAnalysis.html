@@ -677,17 +677,17 @@
                                 {{'label.button.approve' | translate}}
                             </button>
 
-                             <button 
-                                ng-if="prequalificationType === 'committeeapprovals' 
+                             <button
+                                ng-if="prequalificationType === 'committeeapprovals'
                                 && (
                                     ((groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 20000 )
                                     || ((groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 80000 )
                                     || ((groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 250000 )
 
-                                )" 
+                                )"
                                 ng-click="processAnalysisRequest('recommendCommittee','label.button.recommend')"
                                 type="button"
-                                class="btn btn-primary" 
+                                class="btn btn-primary"
                                 has-permission='PROCESSANALYSIS_PREQUALIFICATIONS'>
                                 {{'label.button.recommend' | translate}}
                             </button>
