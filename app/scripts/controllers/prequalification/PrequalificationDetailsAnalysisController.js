@@ -49,6 +49,35 @@
                 scope.prequalificationDocuments = data;
             });
 
+            //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
+            scope.downloadDocument = function (doc) {
+
+                const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
+                    '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+
+                http({
+                    method: 'GET',
+                    url: $rootScope.hostUrl + url,
+                    responseType: 'arraybuffer',
+                }).then(function (response) {
+
+                    const blob = new Blob([response.data], { type: response.headers('Content-Type') });
+                    const fileName = doc.fileName || 'documento';
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Error al descargar el documento:', error);
+                    alert('No se pudo descargar el documento.');
+                });
+            };
+
+
+
             scope.submit = function () {
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
