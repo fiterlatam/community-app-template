@@ -5305,7 +5305,7 @@
 	"guarantee_cd_garantia": "Garantía",
 	"ubicacion_negocio": "Ubicación del negocio",
 	"YesNo_cd_dispuesta_capacitaciones": "¿Dispuesta a recibir capacitaciones?",
-	"Ldepartamento_cd_departamento": "Municipio",
+	"Ldepartamento_cd_departamento": "Departmento",
 	"direccion_notificaciones": "Dirección para recibir notificaciones",
 	"numero_telefonico": "Numero telefónica",
 	"antiguedadNegocio_cd_antiguedad_negocio": "Antigüedad del negocio",
@@ -5390,5 +5390,6 @@
 	"YesNo_cd_is_registered_real_estate": "¿El inmueble es propiedad de un tercero?",
 	"formalizationDocument_cd_documento_formalizacion": "Documento de Formalización",
 	"detalle_garantia": "Detalle de la Garantía",
-	"registeredMortgage_cd_hipoteca_registrada": "Hipoteca Registrada"
+	"registeredMortgage_cd_hipoteca_registrada": "Hipoteca Registrada",
+	"Monto_de_creditos_retener": "Monto de créditos a retener",
 }
