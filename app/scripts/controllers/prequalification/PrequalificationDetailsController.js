@@ -333,8 +333,6 @@
             scope.routeToClientView = function (clientId) {
                 location.path('/viewclient/' + clientId);
             };
-        }
-    });
 
             //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
             scope.downloadDocument = function (doc) {
@@ -363,6 +361,8 @@
                 });
             };
 
+        }
+    });
 
     mifosX.ng.application.controller('PrequalificationDetailsController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', 'JSZipService', '$sce', '$http','$log', mifosX.controllers.PrequalificationDetailsController]).run(function ($log) {
         $log.info("PrequalificationDetailsController initialized");
