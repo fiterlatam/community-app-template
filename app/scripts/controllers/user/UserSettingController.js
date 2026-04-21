@@ -35,6 +35,6 @@
     });
 
     mifosX.ng.application.controller('UserSettingController', ['$scope', '$translate', 'localStorageService', 'tmhDynamicLocale', mifosX.controllers.UserSettingController]).run(function ($log) {
-        $log.info("UserSettingController initialized");
+        $log.info("UserSettingsController initialized");
     });
 }(mifosX.controllers || {}));
