@@ -21,6 +21,16 @@
                 });
                 return fingerprintPromise;
             };
+
+            this.getFingerprintSimulate = function() {
+                if (fingerprintPromise) {
+                    return fingerprintPromise;
+                }
+                fingerprintPromise = new Promise(function(resolve, reject) {
+                    resolve("bdfcb329bfec8a06892db0e01ae8d8e0");
+                });
+                return fingerprintPromise;
+            };
         }
     });
     mifosX.ng.services.service('FingerprintService', mifosX.services.FingerprintService);

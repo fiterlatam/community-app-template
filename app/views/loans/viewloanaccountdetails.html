@@ -1057,8 +1057,7 @@
                                 <td>{{document.fileName}}</td>
                                 <td>{{document.documentType}}</td>
                                 <td>
-                                    <a target="_blank" href="{{hostUrl}}{{document.docUrl}}"><i
-                                            class="fa fa-cloud-download"></i></a>&nbsp;
+                                    <a ng-click="downloadSingleDoc(document)"><i class="fa fa-cloud-download"></i></a>
                                     <a ng-show="document.fileIsImage"
                                        ng-click="previewDocument(document.docUrl,document.fileName)"><i
                                             class="fa fa-eye"></i></a>

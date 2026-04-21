@@ -15,6 +15,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'UIConfigService',
             'ValidationService',
             'FingerprintService',
+            'JSZipService',
             'NotificationResponseHeaderProvider'
         ],
 
