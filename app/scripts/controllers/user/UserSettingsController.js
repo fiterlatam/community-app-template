@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        UserSettingController: function (scope, translate, localStorageService, tmhDynamicLocale) {
+        UserSettingsController: function (scope, translate, localStorageService, tmhDynamicLocale) {
 
             
             scope.dates = [
@@ -34,7 +34,7 @@
         }
     });
 
-    mifosX.ng.application.controller('UserSettingController', ['$scope', '$translate', 'localStorageService', 'tmhDynamicLocale', mifosX.controllers.UserSettingController]).run(function ($log) {
+    mifosX.ng.application.controller('UserSettingsController', ['$scope', '$translate', 'localStorageService', 'tmhDynamicLocale', mifosX.controllers.UserSettingsController]).run(function ($log) {
         $log.info("UserSettingsController initialized");
     });
 }(mifosX.controllers || {}));
