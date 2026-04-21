@@ -1269,8 +1269,7 @@
 							<td>
 		                  <span ng-repeat="file in document.documents">
 		                    {{file.fileName}}&nbsp;&nbsp;
-		                    <a target="_blank" href="{{hostUrl}}{{file.docUrl}}" has-permission='READ_DOCUMENT'><i
-									class="fa fa-cloud-download"></i></a>
+                            <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
 		                  </span>
 							</td>
 							<td>{{document.status | translate}}</td>
@@ -1317,7 +1316,7 @@
 							<td ng-if="clientdocument.dateCreated">{{clientdocument.dateCreated |DateFormat}}</td>
 							<td ng-if="!clientdocument.dateCreated">---</td>
 							<td>
-								<a target="_blank" href="{{hostUrl}}{{clientdocument.docUrl}}"><i class="fa fa-cloud-download"></i></a>&nbsp;
+								<a ng-click="downloadDocument(clientdocument)"><i class="fa fa-cloud-download"></i></a>
 								<a ng-show="clientdocument.fileIsImage" ng-click="previewDocument(clientdocument.docUrl,clientdocument.fileName)"><i class="fa fa-eye"></i></a>
 								<a ng-click="deleteDocument(clientdocument.id,$index)"><i class="fa fa-times"></i></a>
 							</td>

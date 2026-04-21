@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        PrequalificationDetailsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
+        PrequalificationDetailsController: function (scope, routeParams, route, dateFilter, location, resourceFactory, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload,JSZipService,$sce,$http,$log) {
 
             scope.groupData = {};
             scope.isEdit = false;
@@ -48,6 +48,7 @@
                         scope.hasRedValidations = true;
                     }
                 }
+                scope.getPaeLoanDocuments();
             });
 
             resourceFactory.entityDocumentsResource.getAllDocuments({
@@ -335,7 +336,35 @@
         }
     });
 
-    mifosX.ng.application.controller('PrequalificationDetailsController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrequalificationDetailsController]).run(function ($log) {
+            //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
+            scope.downloadDocument = function (doc) {
+
+                const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
+                    '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+
+                $http({
+                    method: 'GET',
+                    url: $rootScope.hostUrl + url,
+                    responseType: 'arraybuffer',
+                }).then(function (response) {
+
+                    const blob = new Blob([response.data], { type: response.headers('Content-Type') });
+                    const fileName = doc.fileName || 'documento';
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Error al descargar el documento:', error);
+                    alert('No se pudo descargar el documento.');
+                });
+            };
+
+
+    mifosX.ng.application.controller('PrequalificationDetailsController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', 'JSZipService', '$sce', '$http','$log', mifosX.controllers.PrequalificationDetailsController]).run(function ($log) {
         $log.info("PrequalificationDetailsController initialized");
     });
 }(mifosX.controllers || {}));
