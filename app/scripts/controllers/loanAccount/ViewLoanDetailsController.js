@@ -956,7 +956,7 @@
 
 
             scope.closePreview = function (documentId) {
-                scope.preview = !scope.preview;
+                scope.preview = false;
                 scope.previewUrl = undefined;
             };
 

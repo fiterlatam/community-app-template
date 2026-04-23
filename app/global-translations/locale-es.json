@@ -5347,7 +5347,7 @@
 	"YesNo_cd_referencias_comerciales_falsas": "¿Referencias comerciales falsas?",
 	"YesNo_cd_referencias_personales_falsas": "¿Referencias personales falsas?",
 	"YesNo_cd_propiedad_negocio_falsa": "¿Propiedad del negocio falsa?",
-	"YesNo_cd_deuda_comprar_prestamista_inst": "¿La deuda a comprar es de un prestamista o institución desconocida?",
+	"YesNo_cd_deuda_comprar_prestamista_inst": "¿La data a comprar es de un prestamista o institución desconocida?",
 	"YesNo_cd_monto_prestamo_mayor_Q250K": "El monto del préstamo a comprar es de <Q250k",
 	"YesNo_cd_deuda_comprar_mayor_50_prestamo": "La deuda a comprar es <50% del préstamo total",
 	"YesNo_cd_deudas_consolidar_meses_enes_mayusculas": "Las deudas a consolidar, se muestran en los últimos 06 meses con enes mayúsculas?",
