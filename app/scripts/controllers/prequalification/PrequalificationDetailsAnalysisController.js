@@ -1097,7 +1097,7 @@
             scope.deletePaeDocument = function (documentId, index) {
                 let loanId = scope.groupMembers[0].loanId;
 
-                resourceFactory.entityDocumentsResource.delete({entity: loanId, documentId: documentId}, '', function (data) {
+                resourceFactory.entityDocumentsResource.delete({entity: "paeloandocs", entityId: loanId, documentId: documentId}, '', function (data) {
                     scope.loandocuments.splice(index, 1);
                 });
             };
