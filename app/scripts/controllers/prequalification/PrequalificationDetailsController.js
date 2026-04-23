@@ -612,7 +612,7 @@
                 let loanId = scope.groupMembers[0].loanId;
 
                 resourceFactory.entityDocumentsResource.delete({entity: "paeloandocs", entityId: loanId, documentId: documentId}, '', function (data) {
-                    scope.loandocuments.splice(index, 1);
+                    scope.paeLoandocuments.splice(index, 1);
                 });
             };
 
