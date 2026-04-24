@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        ViewLoanDetailsController: function (scope, routeParams, resourceFactory,paginatorService, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope, $locale) {
+        ViewLoanDetailsController: function (scope, routeParams, resourceFactory,paginatorService, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope, $locale, JSZipService,$timeout) {
             scope.loandocuments = [];
             scope.report = false;
             scope.hidePentahoReport = true;
@@ -525,17 +525,68 @@
                         var loandocs = {};
                         loandocs = API_VERSION + '/loans/' + data[i].parentEntityId + '/documents/' + data[i].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
                         data[i].docUrl = loandocs;
+                        data[i].fileIsImage = true;
                         if (data[i].fileName)
-                            if (data[i].fileName.toLowerCase().indexOf('.jpg') != -1 || data[i].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[i].fileName.toLowerCase().indexOf('.png') != -1)
-                                data[i].fileIsImage = true;
+                            data[i].fileIsImage = data[i].fileName.toLowerCase().indexOf('.zip') == -1;
                         if (data[i].type)
-                             if (data[i].type.toLowerCase().indexOf('image') != -1)
-                                data[i].fileIsImage = true;
+                            data[i].fileIsImage = data[i].type.toLowerCase().indexOf('zip') == -1;
                     }
                     scope.loandocuments = data;
                 });
 
             };
+
+            scope.downloadSingleDoc=function(doc) {
+
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+
+                var url = scope.hostUrl + doc.docUrl;
+                var filename =  doc.description || doc.fileName || ('document_' + doc.id);
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        saveAs(blob, doc.fileName);
+                    })
+                    .catch(function(err) {
+                        console.log("Failed to Download file: "+doc.fileName);
+                    });
+            }
 
             resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan'}, function (data) {
                 scope.loandatatables = data;
@@ -688,17 +739,76 @@
                 });
             };
 
-            scope.previewDocument = function (url, fileName) {
+            scope.previewDocument = function (document) {
+
+                console.log("Previewing document ID: ",document);
+                scope.previewUrl = undefined;
+                var url = scope.hostUrl + document.docUrl;
+
                 scope.preview =  true;
-                scope.fileUrl = scope.hostUrl + url;
-                if(fileName.toLowerCase().indexOf('.png') != -1)
-                    scope.fileType = 'image/png';
-                else if((fileName.toLowerCase().indexOf('.jpg') != -1) || (fileName.toLowerCase().indexOf('.jpeg') != -1))
-                    scope.fileType = 'image/jpg';
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        const blobUrl = URL.createObjectURL(blob);
+                        scope.previewUrl = $sce.trustAsResourceUrl(blobUrl);
+
+                    })
+                    .catch(function(err) {
+                        console.log(err)
+                        console.log('Some files could not be downloaded');
+                    });
+
+
+                //timeout 10 seconds and close preview
+                $timeout(function(){
+                    scope.preview =  false;
+                },30000);
             };
+
 
             scope.downloadDocument = function (documentId) {
 
+            };
+
+            scope.closePreview = function (documentId) {
+                scope.preview = !scope.preview;
+                scope.previewUrl = undefined;
             };
 
             scope.transactionSort = {
@@ -786,7 +896,9 @@
             };
         }
     });
-    mifosX.ng.application.controller('ViewLoanDetailsController', ['$scope', '$routeParams', 'ResourceFactory','PaginatorService', '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope', '$locale', mifosX.controllers.ViewLoanDetailsController]).run(function ($log) {
+    mifosX.ng.application.controller('ViewLoanDetailsController', ['$scope', '$routeParams', 'ResourceFactory','PaginatorService',
+        '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope',
+        '$locale', 'JSZipService','$timeout', mifosX.controllers.ViewLoanDetailsController]).run(function ($log) {
         $log.info("ViewLoanDetailsController initialized");
     });
 }(mifosX.controllers || {}));

@@ -9,6 +9,9 @@
     }</style>
     <link href="styles/styles.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
 </head>
 <body class="preview whitebg" id="top" data-spy="scroll" data-target=".subnav" data-offset="80"
       data-ng-controller="MainController">
@@ -101,7 +104,18 @@
                                     </button>
                                 </div>
 
-                                <a ng-click="promptPasswordReset()" class="text-primary">Forgot Password?</a>
+                                <div class="row">
+                                    <div class="col-lg-6 text-left">
+                                        <a ng-click="promptPasswordReset()" class="text-primary">{{'label.input.forgot'|translate}}</a>
+                                    </div>
+                                    <div class="col-lg-6 text-right">
+                                        <a ng-disabled="!loginCredentials.username"
+                                           ng-click="removeTwoFactorTokenFromStorage(loginCredentials.username)">{{'label.input.clear'|translate}}</a>
+                                    </div>
+                                </div>
+                                <div ng-if="isClearing" class="alert" style="background-color: #730db2; margin-top:10px; color: white">
+                                    <img data-ng-src="images/ring.svg" alt=""> <b>Clearing Tokens...</b>
+                                </div>
 
                             </form>
 

@@ -15,6 +15,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'UIConfigService',
             'ValidationService',
             'FingerprintService',
+            'JSZipService',
             'NotificationResponseHeaderProvider'
         ],
 
@@ -113,7 +114,7 @@ define(['Q', 'underscore', 'mifosX'], function (Q) {
             'product/EditCollateralController',
             'user/UserController',
             'user/UserFormController',
-            'user/UserSettingController',
+            'user/UserSettingsController',
             'user/UserListController',
             'user/ViewUserController',
             'organization/RoleController',
