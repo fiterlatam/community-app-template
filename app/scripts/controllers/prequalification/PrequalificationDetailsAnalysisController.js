@@ -260,8 +260,8 @@
 
             scope.reloadPage = function(){
                 // scope.routeTo("/prequalificationsmenu");
-                scope.report = !scope.report;
-                scope.preview = !scope.preview;
+                scope.report = false;
+                scope.preview = false;
             }
 
             var ViewMemberHardPolicyCtrl = function ($scope, $uibModalInstance) {

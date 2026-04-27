@@ -392,8 +392,8 @@
                 });
             }
             scope.reloadPage = function(){
-                scope.report = !scope.report;
-                scope.preview = !scope.preview;
+                scope.report = false;
+                scope.preview = false;
             }
 
             scope.getPaeLoanDocuments = function () {
