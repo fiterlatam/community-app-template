@@ -1013,6 +1013,8 @@
 
             scope.previewDocument = function (document) {
                 scope.previewUrl = undefined;
+                scope.isLoading=  true;
+
                 var url = scope.hostUrl + document.docUrl;
 
                 scope.preview =  true;
@@ -1052,22 +1054,25 @@
                 fetch(url, { credentials: 'include', headers: authHeader })
                     .then(function(response) {
                         if (!response.ok) throw new Error('Network response was not ok');
+                        scope.isLoading=  false;
                         return response.blob();
                     })
                     .then(function(blob) {
                         const blobUrl = URL.createObjectURL(blob);
                         scope.previewUrl = $sce.trustAsResourceUrl(blobUrl);
-
+                        scope.isLoading=  false;
                     })
                     .catch(function(err) {
                         console.log('Some files could not be downloaded');
+                        scope.isLoading=  false;
                     });
 
 
                 //timeout 10 seconds and close preview
                 $timeout(function(){
                     scope.preview =  false;
-                },30000);
+                    scope.isLoading=  false;
+                },80000);
             };
 
 

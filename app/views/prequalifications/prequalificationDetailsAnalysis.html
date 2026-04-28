@@ -18,6 +18,9 @@
                     <iframe id="previewFrameview" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
                             height="800px"></iframe>
                 </div>
+                <button class="btn btn-block btn-primary" type="button" ng-show="isLoading">
+                    <img data-ng-src="images/ring.svg" alt=""> <b>{{'label.downloading'|translate}}...</b>
+                </button>
                 <div class="col-md-13 center">
                     <a id="back2" ng-click="reloadPage()" class="btn btn-default">{{'label.button.back' | translate}}</a>
                 </div>
