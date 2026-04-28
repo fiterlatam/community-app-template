@@ -1015,7 +1015,7 @@
                 scope.previewUrl = undefined;
                 var url = scope.hostUrl + document.docUrl;
 
-                scope.preview =  !scope.preview;
+                scope.preview =  true;
 
                 // Get auth headers from session/local storage
                 var sessionData = null;
