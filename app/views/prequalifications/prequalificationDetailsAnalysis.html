@@ -665,6 +665,7 @@
                                     ((groupData.status.value === 'PRE_COMMITTEE_D_PENDING_APPROVAL') && +groupData.totalRequestedAmount <= 20000 )
                                     || ((groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_C_PENDING_APPROVAL') && +groupData.totalRequestedAmount <= 80000 )
                                     || ((groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_B_PENDING_APPROVAL') && +groupData.totalRequestedAmount <= 250000 )
+                                    || ((groupData.status.value === 'PRE_COMMITTEE_A_PENDING_APPROVAL_WITH_EXCEPTIONS' || groupData.status.value === 'PRE_COMMITTEE_A_PENDING_APPROVAL') && +groupData.totalRequestedAmount > 250000 )
 
                                 ))"
                                 ng-click="processAnalysisRequest('approveCommittee','label.button.approve')"
