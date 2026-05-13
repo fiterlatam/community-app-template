@@ -399,7 +399,7 @@
                                     <i class="fa fa-trash"></i> {{'label.button.delete' | translate}}
                                 </button>
                             </div>
-                            <div class="form-group" ng-repeat="columnHeader in garanteDatatable.columnHeaderData" ng-if="columnHeader.columnName!='created_at' && columnHeader.columnName!='updated_at'">
+                            <div class="form-group" ng-repeat="columnHeader in garanteDatatable.columnHeaderData" ng-if="showGaranteeColumn(columnHeader.columnName, destinoDatatableIndex, rowIndex)">
                                 <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
                                     <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
                                 </label>
