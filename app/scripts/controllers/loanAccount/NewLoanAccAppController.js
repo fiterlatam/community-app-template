@@ -273,8 +273,19 @@
                                 newFormDatRow[col.columnName] = { date: new Date(today), time: new Date() };
                             }
                         });
+
+                        // fecha_avaluo
+                        // guaranteeType_cd_tipo_garantia
+                        // YesNo_cd_is_real_estate_owned_by_a_third_party
+                        // YesNo_cd_is_registered_real_estate
+                        // valor_garantia
+                        // created_at
+                        // updated_at
+                        // registeredMortgage_cd_hipoteca_registrada
+                        // detalle_garantia
                         newData.push(newRow);
                     }
+                    console.log("\n\nAdding Row Data: \n"+ JSON.stringify(scope.datatables));
                     newFormDat.push(newFormDatRow);
                 }
                 scope.formData.datatables[garanteIndex].data = newData;
@@ -1737,6 +1748,47 @@
                     return label === 'consolidación de deudas' || label === 'consolidacion de deudas';
                 });
                 return consolidacionOption && (consolidacionOption.id == selectedVal || consolidacionOption.value == selectedVal);
+            };
+            var GARANTIA_PRENDARIA_AND_VEHICULO_ONLY_COLUMNS = [
+                'guaranteeType_cd_tipo_garantia',
+                'valor_garantia',
+                'fecha_avaluo',
+                'detalle_garantia'
+            ];
+
+            var GARANTIA_DERECHOS_AND_HIPOTECA_ONLY_COLUMNS = [
+                'guaranteeType_cd_tipo_garantia',
+                'valor_garantia',
+                'fecha_avaluo',
+                'YesNo_cd_is_real_estate_owned_by_a_third_party',
+                'YesNo_cd_is_registered_real_estate',
+                'registeredMortgage_cd_hipoteca_registrada',
+                'detalle_garantia',
+            ];
+
+            scope.showGaranteeColumn = function (columnName, dtIndex, rowIndex) {
+                if (!scope.garanteDatatable || scope.garanteDatatableIndex == null) { return true; }
+                if (GARANTIA_PRENDARIA_AND_VEHICULO_ONLY_COLUMNS.indexOf(columnName) !== -1) { return true; }
+                var typeCol = scope.garanteDatatable.columnHeaderData && scope.garanteDatatable.columnHeaderData.find(function (c) {
+                    return c.columnName === 'guaranteeType_cd_tipo_garantia';
+                });
+                if (!typeCol || !typeCol.columnValues) { return true; }
+                var row = scope.formData.datatables[dtIndex] && scope.formData.datatables[dtIndex].data && scope.formData.datatables[dtIndex].data[rowIndex];
+
+                if (!row) { return true; }
+                var selectedVal = row[typeCol.columnName];
+                console.log("\n\n type key: ", row);
+
+                if (selectedVal == null || selectedVal === '') { return columnName === typeCol.columnName; }
+                var selectedOption = typeCol.columnValues.find(function (v) {
+                    return v.id == selectedVal || v.value == selectedVal;
+                });
+                var typeKey = selectedOption ? (selectedOption.value || '').toLowerCase().trim() : '';
+                console.log("\n\n typekey: "+ typeKey)
+
+                if (columnName === typeCol.columnName) { return true; }
+                var allowed = FIADOR_TYPE_COLUMNS[typeKey];
+                return allowed && allowed.indexOf(columnName) !== -1;
             };
 
             /** Columnas de p_fiador que siempre se muestran (para todos los tipos). */

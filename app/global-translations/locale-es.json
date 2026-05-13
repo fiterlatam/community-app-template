@@ -5295,7 +5295,7 @@
 	"codigo_cliente": "Código de cliente",
 	"id_externo": "ID externo",
 	"classificationOptions_cd_actividad_economica_principal": "Actividad económica principal",
-	"cuota": "Cuota",
+	"cuota": "Cuota segun cotizador",
 	"plazo": "Plazo",
 	"fecha_nacimiento": "Fecha de Nacimiento",
 	"edad": "Edad",
