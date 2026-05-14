@@ -85,7 +85,6 @@
 
                 if (scope.clientId) {
                     resourceFactory.loanAgeLimitResource.validateAge({clientId: routeParams.clientId, productId: productId}, function (data) {
-                        console.log("age limit response: "+ data.value)
                         if (data.value === 'WARNING') {
                             $uibModal.open({
                                 templateUrl: 'ageLimitWarning.html',
@@ -285,7 +284,6 @@
                         // detalle_garantia
                         newData.push(newRow);
                     }
-                    console.log("\n\nAdding Row Data: \n"+ JSON.stringify(scope.datatables));
                     newFormDat.push(newFormDatRow);
                 }
                 scope.formData.datatables[garanteIndex].data = newData;
@@ -599,7 +597,6 @@
                     scope.institutionTypeOptions = data.institutionTypeOptions || [];
                     scope.housingTypeOptions = data.housingTypeOptions || [];
                     if (data.housingTypeOptions && scope.clientHousingType){
-                        console.log("going to set housing type: "+ scope.clientHousingType)
                         scope.housingTypeOptions.filter((housingType) => {
                             if (housingType.description === scope.clientHousingType){
                                 scope.formData.housingType = housingType.id;
@@ -1290,13 +1287,13 @@
                 } else {
                     delete scope.formData.datatables;
                 }
-                
+
                 if (!justAssignValues) {
 
                     if (!scope.validatRequiredPaeDocs()){
                         return;
-                    } 
-                    
+                    }
+
                     if (scope.draftId) {
                         this.formData.draftId = scope.draftId;
                     }
@@ -1341,7 +1338,7 @@
                                     for (let k = 0; k < extraData.length; k++) {
                                         let requiredDoc = extraData[k];
                                         let key = "GUARANTEEDOC_" + (requiredDoc.id);
-                                        let guaranteeDocFile; 
+                                        let guaranteeDocFile;
                                         if ( !scope.paeRequiredGuaranteeDocuments[key] || !scope.paeRequiredGuaranteeDocuments[key][j]) {
                                                 continue;
                                         }
@@ -1349,13 +1346,11 @@
 
                                         if (!guaranteeDocFile || !guaranteeDocFile.file) {
                                             if (guaranteeDocFile && guaranteeDocFile.name && !guaranteeDocFile.file) {
-                                                console.log("Do not save document, it is from draft")
                                                 continue;
                                             }
                                             alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
                                             return;
                                         }
-                                        console.log("\n\n\n===>Uploading guarantee document: ", guaranteeDocFile);
 
                                         let metaData = guaranteeDocFile.metaData;
                                         let exifdata = guaranteeDocFile.file.exifdata;
@@ -1392,7 +1387,7 @@
             }
 
             scope.validatRequiredPaeDocs = function (loanId){
-                
+
                 if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0){
                     for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
                         if (scope.paeRequiredGuaranteeOptions[i].selected){
@@ -1406,8 +1401,7 @@
 
                                         if (scope.paeRequiredGuaranteeDocuments[key] && scope.paeRequiredGuaranteeDocuments[key][j]) {
                                             guaranteeDocFile = scope.paeRequiredGuaranteeDocuments[key][j];
-                                        } 
-                                        console.log("guaranteeDocFile: ", guaranteeDocFile)
+                                        }
                                         if (scope.draftId) {
 
                                             if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.name)) {
@@ -1676,7 +1670,6 @@
                 }
                 for (doc in scope.paeRequiredGuaranteeOptions){
                     if (doc.selected){
-                        console.log("updated required docs to true")
                         scope.requiresGuaranteeDocuments=true;
                         break;
                     }
@@ -1777,18 +1770,18 @@
 
                 if (!row) { return true; }
                 var selectedVal = row[typeCol.columnName];
-                console.log("\n\n type key: ", row);
 
                 if (selectedVal == null || selectedVal === '') { return columnName === typeCol.columnName; }
                 var selectedOption = typeCol.columnValues.find(function (v) {
                     return v.id == selectedVal || v.value == selectedVal;
                 });
                 var typeKey = selectedOption ? (selectedOption.value || '').toLowerCase().trim() : '';
-                console.log("\n\n typekey: "+ typeKey)
-
                 if (columnName === typeCol.columnName) { return true; }
-                var allowed = FIADOR_TYPE_COLUMNS[typeKey];
-                return allowed && allowed.indexOf(columnName) !== -1;
+                if (typeKey==='hipoteca'|| typeKey==='derechos posesorios'){
+                    var allowed = GARANTIA_DERECHOS_AND_HIPOTECA_ONLY_COLUMNS;
+                    return allowed && allowed.indexOf(columnName) !== -1;
+                }
+
             };
 
             /** Columnas de p_fiador que siempre se muestran (para todos los tipos). */
@@ -1888,7 +1881,6 @@
 
                             // Add metadata to document data
                             docData.metaData = metaData;
-                            console.log("EXIF metadata extracted:", metaData);
 
                             if (!scope.$$phase) {
                                 scope.$apply();
@@ -1901,7 +1893,6 @@
 
                 // Store the file(s) at the correct index
                 scope.paeRequiredGuaranteeDocuments["GUARANTEEDOC_"+(currentDoc.id)][parentIndex] = docData;
-                console.log("Files selected for guaranty document upload:",scope.paeRequiredGuaranteeDocuments );
 
             }
 
@@ -1978,12 +1969,10 @@
 
             scope.uploadDraftPaeDocuments = function (draftId) {
                 if (!draftId) {
-                    console.log("First save draft without documents")
                     return Promise.resolve();
                 }
 
                 if (!scope.paeRequiredGuaranteeDocuments || Object.keys(scope.paeRequiredGuaranteeDocuments).length === 0) {
-                    console.log("Not draft pae documents to upload");
                     return Promise.resolve();
                 }
 
@@ -1995,7 +1984,7 @@
                         if (scope.paeRequiredGuaranteeOptions[i].selected){
 
                             let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
-                            
+
                             for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
 
                                 if (extraData && extraData.length > 0) {
@@ -2012,7 +2001,7 @@
                                         if (!fileWrapper || !fileWrapper.file) {
                                             continue;
                                         }
-                                        
+
                                         if (!scope.draftPaeDocuments) {
                                             scope.draftPaeDocuments = {};
                                         }
@@ -2034,8 +2023,6 @@
                                         if (alreadySaved) {
                                             continue;
                                         }
-
-                                        console.log("\n\n\n===>Uploading guarantee darft document: ", fileWrapper);
 
                                         let promise = Upload.upload({
                                             url: $rootScope.hostUrl + API_VERSION + '/loanapplicationdraft/' + draftId + '/documents',
@@ -2082,7 +2069,7 @@
 
                 payload.documents = scope.draftDocuments;
                 payload.paeDocuments = scope.draftPaeDocuments;
-                
+
                 if (scope.draftId) {
 
                     resourceFactory.loanApplicationDraftResource.update(
@@ -2106,7 +2093,6 @@
                     resourceFactory.loanApplicationDraftResource.save(
                         requestData,
                         function (response) {
-                            console.log('Saved draft', response);
                             scope.draftId = response.resourceId;
                         },
                         function (error) {
@@ -2199,7 +2185,7 @@
                 if (payload.paeDocuments) {
                     scope.draftPaeDocuments = payload.paeDocuments;
                 }
-                
+
                 Object.keys(payload.paeDocuments).forEach(function(docId) {
 
                     const key = "GUARANTEEDOC_" + docId;
@@ -2233,7 +2219,7 @@
 
         }
 
-        
+
 
     });
     mifosX.ng.application.controller('NewLoanAccAppController', ['$scope', '$routeParams', 'ResourceFactory', '$location','$uibModal', 'dateFilter', 'UIConfigService', 'WizardHandler', '$translate',  'API_VERSION',  'Upload',  '$rootScope', '$timeout', mifosX.controllers.NewLoanAccAppController]).run(function ($log) {
