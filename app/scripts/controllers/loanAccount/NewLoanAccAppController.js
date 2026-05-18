@@ -1749,15 +1749,25 @@
                 'detalle_garantia'
             ];
 
-            var GARANTIA_DERECHOS_AND_HIPOTECA_ONLY_COLUMNS = [
-                'guaranteeType_cd_tipo_garantia',
-                'valor_garantia',
-                'fecha_avaluo',
-                'YesNo_cd_is_real_estate_owned_by_a_third_party',
-                'YesNo_cd_is_registered_real_estate',
-                'registeredMortgage_cd_hipoteca_registrada',
-                'detalle_garantia',
-            ];
+            var GARANTIA_DERECHOS_AND_HIPOTECA_ONLY_COLUMNS = {
+               "hipoteca": [
+                    'guaranteeType_cd_tipo_garantia',
+                    'valor_garantia',
+                    'fecha_avaluo',
+                    'YesNo_cd_is_real_estate_owned_by_a_third_party',
+                    'YesNo_cd_is_registered_real_estate',
+                    'registeredMortgage_cd_hipoteca_registrada',
+                    'detalle_garantia',
+                ],
+                "derechos posesorios": [
+                    'guaranteeType_cd_tipo_garantia',
+                    'valor_garantia',
+                    'fecha_avaluo',
+                    'YesNo_cd_is_real_estate_owned_by_a_third_party',
+                    'YesNo_cd_is_registered_real_estate',
+                    'detalle_garantia',
+                ]
+            };
 
             scope.showGaranteeColumn = function (columnName, dtIndex, rowIndex) {
                 if (!scope.garanteDatatable || scope.garanteDatatableIndex == null) { return true; }
@@ -1777,10 +1787,8 @@
                 });
                 var typeKey = selectedOption ? (selectedOption.value || '').toLowerCase().trim() : '';
                 if (columnName === typeCol.columnName) { return true; }
-                if (typeKey==='hipoteca'|| typeKey==='derechos posesorios'){
-                    var allowed = GARANTIA_DERECHOS_AND_HIPOTECA_ONLY_COLUMNS;
-                    return allowed && allowed.indexOf(columnName) !== -1;
-                }
+                var allowed = GARANTIA_DERECHOS_AND_HIPOTECA_ONLY_COLUMNS[typeKey];
+                return allowed && allowed.indexOf(columnName) !== -1;
 
             };
 
