@@ -1066,8 +1066,8 @@
                     chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
                         get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
                     }),
-                    chequeGuaranteeResource: defineResource(apiVer + "/bankcheques/guarantees", {caseId: "@caseId"}, {
-                        getAllGuarantees: {method: 'GET', params: {caseId: "@caseId"}, isArray: true}
+                    chequeGuaranteeResource: defineResource(apiVer + "/bankcheques/guarantees", {dpi: "@dpi"}, {
+                        getAllGuarantees: {method: 'GET', params: {dpi: "@dpi"}, isArray: true}
                     }),
                    chequeBatchResource: defineResource(apiVer + "/bankcheques/:batchId", {chequeId: "@chequeId", batchId: "@batchId", commandParam: "@commandParam"}, {
                         get: {method: 'GET', params: {}},
