@@ -4732,6 +4732,7 @@
 	"label.anchor.pay.guarantees.by.cheques": "Pago de Garantías mediante cheques",
 	"label.view.pay.guarantees.by.cheques": "Pagar múltiples garantías mediante cheques",
 	"label.heading.pay.guarantees.by.cheques": "Pago de Garantías mediante cheques",
+	"label.input.searchbydpi.payguarantees": "Buscar por DPI",
 	"label.input.searchbycaseid": "Buscar por ID de caso",
 	"label.heading.withdrawalreason": "Motivo de retiro",
 	"label.heading.requestedAmount": "Monto requerido",

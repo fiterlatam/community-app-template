@@ -5101,6 +5101,7 @@
   "label.anchor.pay.guarantees.by.cheques": "Pay Guarantees By cheques",
   "label.view.pay.guarantees.by.cheques": "Pay Multiple Guarantees By cheques",
   "label.heading.pay.guarantees.by.cheques": "Pay Guarantees By cheques",
+  "label.input.searchbydpi.payguarantees": "Search by DPI",
   "label.heading.guarantees": "Guarantees",
   "label.heading.guarantee": "Guarantee",
   "label.input.searchbycaseid": "Search By Case ID",
