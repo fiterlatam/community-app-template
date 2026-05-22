@@ -44,7 +44,7 @@
                                 <div class="col-sm-6">
                                     <div class="input-group" style="width: 400px">
                                         <input data-ng-model="searchText" type="text"
-                                               placeholder="{{'label.input.searchbycaseid' | translate}}"
+                                               placeholder="{{'label.input.searchbydpi.payguarantees' | translate}}"
                                                class="form-control unstyled"/>
                                         <span class="input-group-btn">
                                             <button type="submit"  class="btn btn-primary form-control" ng-disabled="!searchText">
@@ -73,7 +73,7 @@
                                 </div>
                             </th>
                             <th>{{'label.heading.id' | translate}}</th>
-                            <th>{{'label.heading.clientno' | translate}}</th>
+                            <th>{{'label.heading.dpi' | translate}}</th>
                             <th>{{'label.heading.clientname' | translate}}</th>
                             <th>{{'label.heading.withdrawalreason' | translate}}</th>
                             <th>{{'label.heading.requestedAmount' | translate}}</th>
@@ -94,7 +94,7 @@
                                 </div>
                             </td>
                             <td>{{guaranteeData.id}}</td>
-                            <td>{{guaranteeData.clientNo}}</td>
+                            <td>{{guaranteeData.dpi}}</td>
                             <td>{{guaranteeData.clientName}}</td>
                             <td>{{guaranteeData.withdrawalReason}}</td>
                             <td>{{guaranteeData.requestedAmount | FormatByLocale}}</td>
