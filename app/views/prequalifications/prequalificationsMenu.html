@@ -1,3 +1,4 @@
+<div ng-controller="RunReportsController">
 <div class="content-container">
     <div class="card">
         <div class="content">
@@ -14,6 +15,13 @@
                             | translate}}</h5>
                         </a>
                     </div>
+                    <div class="list-group" has-permission='VIEW_GROUP_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationGroups/pae/list" >
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.pae.prequalification'
+                            | translate}}</h5>
+                        </a>
+                    </div>
                     <div class="list-group" has-permission='VIEW_AGENCY_LEAD'>
                         <a class="list-group-item" href="#/prequalificationAnalysis/agency" >
                             <h5 class="list-group-item-heading">
@@ -26,6 +34,14 @@
                         <a class="list-group-item" href="#/prequalificationAnalysis/analysis" >
                             <h5 class="list-group-item-heading">
                                 <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.analysis.unit.pending.approval'
+                            | translate}}</h5>
+                        </a>
+                    </div>
+                    
+                    <div class="list-group" has-permission='VIEW_RENEGOTIATIONS'>
+                        <a class="list-group-item" href="#/prequalificationAnalysis/renegotiations" >
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-cogs"></i>&nbsp;&nbsp;{{'label.heading.RenegotiationsAgencyLeader'
                             | translate}}</h5>
                         </a>
                     </div>
@@ -67,8 +83,26 @@
                             | translate}}</h5>
                         </a>
                     </div>
+
+                    <!--<div class="list-group" has-permission="VIEW_COMMITTEE_APPROVALS">
+                        <a class="list-group-item" ng-click="generateReject()" style="cursor: pointer;">
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-download"></i>&nbsp;&nbsp;
+                                {{ 'label.button.runreportrejects' | translate }}
+                            </h5>
+                        </a>
+                    </div>-->
+
+                    <div class="list-group" has-permission='VIEW_GROUP_PREQUALIFICATIONS'>
+                        <a class="list-group-item" href="#/prequalificationGroups/all/rejected" >
+                            <h5 class="list-group-item-heading">
+                                <i class="fa fa-large fa fa-download"></i>&nbsp;&nbsp;{{'label.heading.groupcredit.rejectedprequalification'
+                            | translate}}</h5>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

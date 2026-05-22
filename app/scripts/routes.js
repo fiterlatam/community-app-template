@@ -133,6 +133,9 @@
             .when('/newclientloanaccount/:clientId', {
                 templateUrl: 'views/loans/newloanaccount.html'
             })
+            .when('/continueloanapplicationdraft/:clientId/:draftId', {
+                templateUrl: 'views/loans/newloanaccount.html'
+            })
             .when('/newgrouploanaccount/:groupId', {
                 templateUrl: 'views/loans/newloanaccount.html'
             })
@@ -200,6 +203,9 @@
                 templateUrl: 'views/loans/assignloanofficer.html'
             })
             .when('/addloandocument/:loanId', {
+                templateUrl: 'views/loans/addloandocument.html'
+            })
+            .when('/addloandocument/:loanId/:docType', {
                 templateUrl: 'views/loans/addloandocument.html'
             })
             .when('/viewloantrxn/:accountId/trxnId/:id', {
@@ -532,6 +538,9 @@
             })
             .when('/editPaymentType/:id', {
                 templateUrl: 'views/organization/editpaymenttype.html'
+            })
+            .when('/reports/promissory', {
+                templateUrl: 'views/reports/promissory_reports.html'
             })
             .when('/reports/:type', {
                 templateUrl: 'views/reports/view_reports.html'
@@ -956,6 +965,9 @@
             .when('/loanforeclosure/:id', {
                 templateUrl: 'views/loans/loanforeclosure.html'
             })
+            .when('/loanforeclosureprojection/:id', {
+                templateUrl: 'views/loans/loanforeclosureprojection.html'
+            })
             .when('/loanfuturepayment/:id', {
                 templateUrl: 'views/loans/loanfuturepayment.html'
             })
@@ -1210,6 +1222,8 @@
             templateUrl: 'views/prequalifications/prequalificationsGroups.html'
         }).when('/prequalificationAnalysis/:type', {
             templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
+        }).when('/prequalificationAnalysis/:type/:groupingType', {
+            templateUrl: 'views/prequalifications/prequalificationsAnalysis.html'
         }).when('/prequalifications/newprequalification/new/:groupingType', {
             templateUrl: 'views/prequalifications/newgroup.html'
         }).when('/prequalifications/newprequalification/existing', {
@@ -1226,6 +1240,8 @@
             templateUrl: 'views/prequalifications/individualPrequalification.html'
         }).when('/loans/restructurecredit/:clientId', {
             templateUrl: 'views/loans/restructurecredits.html'
+        }).when('/loans/restructurecreditextension/:clientId/:isextenstion', {
+            templateUrl: 'views/loans/restructurecreditsextension.html'
         }).when('/banks', {
             templateUrl: 'views/banks/banks.html'
         }).when('/banks/createbank', {
@@ -1288,6 +1304,14 @@
             templateUrl: 'views/organization/viewcommittee.html'
         }).when('/editcommittee/:id', {
             templateUrl: 'views/organization/editcommittee.html'
+        }).when('/paedocumentation', {
+            templateUrl: 'views/paedocumentation/paedocumentation.html'
+        }).when('/paedocumentationview/:id', {
+            templateUrl: 'views/paedocumentation/paedocumentationview.html'
+        }).when('/managetemplatespae', {
+                templateUrl: 'views/system/managetemplatespae.html'
+        }).when('/manageresolutionstemplatespae', {
+                templateUrl: 'views/system/manageresolutionstemplatespae.html'
         });
         $locationProvider.hashPrefix('');
         $locationProvider.html5Mode(false);

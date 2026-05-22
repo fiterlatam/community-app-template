@@ -1,4 +1,4 @@
-<div class="col-md-12" ng-controller="LoanForeclosureController">
+<div class="col-md-12" ng-controller="LoanForeclosureProjectionController">
     <ul class="breadcrumb">
         <li><a href="#/viewloanaccount/{{accountId}}">{{'label.anchor.viewloanaccount' | translate}}</a></li>
         <li class="active">Foreclosure</li>
@@ -13,10 +13,10 @@
                 <div class="col-sm-3">
                     <input id="transactionDate" name="transactionDate" class="form-control" type="text" sort
                            datepicker-pop="dd MMMM yyyy"
-                           ng-model="formData.transactionDate" max="restrictDate" is-open="opened"/>
+                           ng-model="formData.transactionDate" is-open="opened"/>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-if="foreclosuredata">
                 <label class="control-label col-sm-2">Principle<span class="required"></span></label>
                 <div class="col-sm-3">
                     <input type="text" id="outstandingPrincipalPortion" name="outstandingPrincipalPortion"
@@ -25,8 +25,8 @@
                 <div class="col-sm-3">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-sm-2">{{'label.totalinterestearned'|translate}}<span class="required"></span></label>
+            <div class="form-group" ng-if="foreclosuredata">
+                <label class="control-label col-sm-2">Interest<span class="required"></span></label>
                 <div class="col-sm-3">
                     <input type="text" id="outstandingInterestPortion" name="outstandingInterestPortion"
                            ng-model="formData.outstandingInterestPortion" class="form-control" number-format readonly/>
@@ -43,7 +43,7 @@
                 <div class="col-sm-3">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-if="foreclosuredata">
                 <label class="control-label col-sm-2">Fee Amount<span class="required"></span></label>
                 <div class="col-sm-3">
                     <input type="text" id="outstandingFeeChargesPortion" name="outstandingFeeChargesPortion"
@@ -53,7 +53,7 @@
                 <div class="col-sm-3">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-if="foreclosuredata">
                 <label class="control-label col-sm-2">Penalty amount<span class="required"></span></label>
                 <div class="col-sm-3">
                     <input type="text" id="outstandingPenaltyChargesPortion" name="outstandingPenaltyChargesPortion"
@@ -63,7 +63,7 @@
                 <div class="col-sm-3">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-if="foreclosuredata">
                 <label class="control-label col-sm-2">Transaction Amount<span class="required"></span></label>
                 <div class="col-sm-3">
                     <input type="text" id="transactionAmount" name="transactionAmount"
@@ -73,40 +73,10 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2">{{ 'label.input.accnum' | translate}} *</label>
-                <div class="col-sm-3">
-                    <select id="repaymentAccountNumber" chosen="bankAccounts" ng-autofocus="true" class="form-control" required
-                            ng-model="formData.glAccountId"
-                            ng-options="bankAccount.glAccount.id as bankAccount.bank.name + ' (' + bankAccount.accountNumber + ')' for bankAccount in bankAccounts"
-                            value="{{bankAccount.glAccount.id}}">
-                        <option class="displaynone" value="">{{'label.heading.select.bank.account' | translate}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2">{{ 'label.input.billnumber' | translate}}</label>
-                <div class="col-sm-3">
-                        <input id="billNumber" class="form-control" type="text"
-                               ng-model="formData.receiptNumber" required late-Validate>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2">Note</label>
-                <div class="col-sm-3">
-                    <textarea id="note" type="text" rows="2" name="note" ng-model="formData.note"
-                              class="form-control"></textarea>
-                </div>
-            </div>
             <br/>
             <div class="col-md-offset-3">
-                <button id="cancel" type="reset" class="btn btn-default" ng-click="cancel()">{{ 'label.button.cancel' |
+                <button id="cancel" type="reset" class="btn btn-default" ng-click="cancel()">{{ 'label.button.close' |
                     translate }}
-                </button>
-                <button id="save" type="submit" has-permission="FORECLOSURE_LOAN" class="btn btn-primary">Foreclosure
                 </button>
             </div>
         </fieldset>

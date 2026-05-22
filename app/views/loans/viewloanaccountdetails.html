@@ -1044,7 +1044,46 @@
                         </table>
                     </uib-tab>
 
-                    <uib-tab heading="{{'label.heading.loandocuments' | translate}}" select="getLoanDocuments()">
+                    <uib-tab ng-show="prequalificationType === 'PAE'" heading="{{'label.anchor.paedocumentation' | translate}}" select="getPaeLoanDocuments()">
+                        <div class="pull-right" data-ng-show="choice">
+                            <a href="#/addloandocument/{{loandetails.id}}/PAE" class="btn btn-primary"><i
+                                    class="fa fa-plus "></i>{{'label.button.upload'
+                            | translate}}</a>
+                        </div>
+                        <br>
+                        <table class="table table-responsive" ng-show="paeLoandocuments.length > 0" style="table-layout: fixed; overflow: scroll !important; word-break: break-all !important;">
+                            <thead>
+                            <th>{{'label.heading.name' | translate}}</th>
+                            <th>{{'label.heading.description' | translate}}</th>
+                            <th>{{'label.heading.filename' | translate}}</th>
+                            <th>{{'label.heading.type' | translate}}</th>
+                            <th>{{'label.heading.metaData' | translate}}</th>
+                            <th>{{'label.heading.actions' | translate}}</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="document in paeLoandocuments">
+                                <td>{{document.name}}</td>
+                                <td>{{document.description}}</td>
+                                <td>{{document.fileName}}</td>
+                                <td>{{document.documentType}}</td>
+                                <td>{{document.documentMetaData?document.documentMetaData:'N/A'}}</td>
+                                <td>
+                                    <a target="_blank" ng-click="downloadSingleDoc(document)"><i
+                                            class="fa fa-cloud-download"></i></a>&nbsp;
+                                    <a ng-show="document.fileIsImage"
+                                       ng-click="previewDocument(document)"><i
+                                            class="fa fa-eye"></i></a>
+                                    <a ng-click="deletePaeDocument(document.id,$index)"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-right">
+                            <button class="btn btn-primary" ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab ng-show="prequalificationType !== 'PAE'"  heading="{{'label.heading.loandocuments' | translate}}" select="getLoanDocuments()">
                         <div class="pull-right" data-ng-show="choice">
                             <a href="#/addloandocument/{{loandetails.id}}" class="btn btn-primary"><i
                                     class="fa fa-plus "></i>{{'label.button.upload'
@@ -1066,7 +1105,8 @@
                                 <td>{{document.fileName}}</td>
                                 <td>{{document.documentType}}</td>
                                 <td>
-                                    <a ng-click="downloadSingleDoc(document)"><i class="fa fa-cloud-download"></i></a>
+                                    <a ng-click="downloadSingleDoc(document)"><i
+                                            class="fa fa-cloud-download"></i></a>&nbsp;
                                     <a ng-show="document.fileIsImage"
                                        ng-click="previewDocument(document)"><i
                                             class="fa fa-eye"></i></a>
@@ -1075,6 +1115,7 @@
                             </tr>
                             </tbody>
                         </table>
+
                     </uib-tab>
 
                     <uib-tab heading="{{'label.heading.additionals' | translate}}" ng-if="groupLoanAdditionalData">
@@ -1414,6 +1455,44 @@
                             </tr>
                             </tbody>
                         </table>
+                    </uib-tab>
+
+                    <uib-tab ng-show="prequalificationType === 'PAE'"
+                             heading="{{'label.heading.additionals' | translate}}">
+                        <div ng-repeat="(categoryName, categoryValue) in loanAdditionalDataPAE" ng-show="loanAdditionalDataPAE">
+                            <h4 class="text-center">{{ 'label.description.additional.' + categoryName | translate}}</h4>
+                            <table class="table-bordered table view-table table-striped">
+                                <thead>
+                                <tr class="graybg">
+                                    <th>{{'label.heading.additional.property.name' | translate}}</th>
+                                    <th>{{'label.heading.additional.property.value' | translate}}</th>
+                                    <th>{{'label.heading.description' | translate}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="(propertyName, propertyValue) in categoryValue">
+                                    <td class="paddedbottom10">{{propertyName}}</td>
+                                    <td class="paddedbottom10">
+                                        <div ng-show="isAdditionalDateProperty(propertyName)">
+                                            <div ng-if="propertyName==='dateOpened'">
+                                                {{loanAdditionalDataPAE[categoryName][propertyName] | DateTimeFormat}}
+                                            </div>
+                                            <div ng-if="propertyName!='dateOpened'">
+                                                {{loanAdditionalDataPAE[categoryName][propertyName] | DateFormat}}
+                                            </div>
+                                        </div>
+                                        <div ng-hide="isAdditionalDateProperty(propertyName)">
+                                            {{propertyValue}}
+                                        </div>
+                                    </td>
+                                    <td class="paddedbottom10">
+                                        {{ 'label.description.additional.' + propertyName | translate}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </uib-tab>
 
                     <uib-tab heading="{{ 'label.heading.notes' | translate }}" has-permission='READ_LOANNOTE'>

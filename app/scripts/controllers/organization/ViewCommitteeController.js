@@ -4,6 +4,20 @@
 
             resourceFactory.committeeResource.get({committeeId: routeParams.id}, function (data) {
                 scope.committee = data;
+                // Split approval limits
+                scope.belowExceptionLimits = [];
+                scope.aboveExceptionLimits = [];
+                if (data && Array.isArray(data.committeeApprovalLimits)) {
+                    data.committeeApprovalLimits.forEach(function(lim){
+                        if (lim.condition === 'LESS_THAN') {
+                            scope.belowExceptionLimits.push(lim);
+                        } else if (lim.condition === 'GREATER_THAN') {
+                            scope.aboveExceptionLimits.push(lim);
+                        }
+                    });
+                    scope.belowExceptionLimits.sort(function(a,b){return a.fromAmount - b.fromAmount;});
+                    scope.aboveExceptionLimits.sort(function(a,b){return a.fromAmount - b.fromAmount;});
+                }
             });
 
             scope.deletecommittee = function () {

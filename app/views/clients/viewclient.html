@@ -250,8 +250,11 @@
 										<li class="{{button.icon}}">
 											<a href="#/selfservice/createuser/{{client.id}}">{{'label.createselfserviceuser' | translate}}</a>
 										</li>
+<!--										<li class="{{button.icon}}">-->
+<!--											<a href="#/loans/restructurecredit/{{client.id}}">{{'label.heading.creditrestructure' | translate}}</a>-->
+<!--										</li>-->
 										<li class="{{button.icon}}">
-											<a href="#/loans/restructurecredit/{{client.id}}">{{'label.heading.creditrestructure' | translate}}</a>
+											<a href="#/loans/restructurecreditextension/{{client.id}}/{{true}}">{{'label.heading.creditrestructure.extension' | translate}}</a>
 										</li>
 									</ul>
 								</span>
@@ -492,6 +495,40 @@
 											<td class="pointer" data-ng-click="routeToSaving(savingaccount.id, savingaccount.depositType.code)">{{savingaccount.productName}}</td>
 											<td class="pointer" data-ng-click="routeToSaving(savingaccount.id, savingaccount.depositType.code)">
 												<span data-ng-show="savingaccount.timeline.closedOnDate">{{savingaccount.timeline.closedOnDate | DateFormat}}</span>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div ng-if="clientAccounts.loanApplicationDrafts && clientAccounts.loanApplicationDrafts.length > 0">
+
+									<table class="table table-condensed">
+										<span class="span gray-head">
+											<strong>{{ 'label.heading.loanapplicationdrafts' | translate }}</strong>
+										</span>
+
+										<tr class="graybg">
+											<th>{{ 'label.heading.loanproduct' | translate }}</th>		
+											<th>{{ 'label.heading.step' | translate }}</th>
+											<th class="center">{{ 'label.heading.actions' | translate }}</th>
+										</tr>
+
+										<tr class="pointer-main"
+											ng-repeat="draft in clientAccounts.loanApplicationDrafts | orderBy:'id':true">
+
+											<td class="pointer">
+												{{draft.loanProductName}}
+											</td>
+
+											<td class="pointer">
+												{{draft.currentStep}}
+											</td>
+
+											<td class="pointer center">
+												<a class="btn btn-xs btn-primary"
+												uib-tooltip="{{ 'label.button.proceed' | translate }}"
+												ng-href="#/continueloanapplicationdraft/{{client.id}}/{{draft.id}}">
+													<i class="fa fa-play"></i>
+												</a>
 											</td>
 										</tr>
 									</table>
@@ -1269,7 +1306,8 @@
 							<td>
 		                  <span ng-repeat="file in document.documents">
 		                    {{file.fileName}}&nbsp;&nbsp;
-                            <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
+		                    <a ng-click="downloadDocument(document)" has-permission='READ_DOCUMENT'><i
+									class="fa fa-cloud-download"></i></a>
 		                  </span>
 							</td>
 							<td>{{document.status | translate}}</td>
@@ -1316,7 +1354,7 @@
 							<td ng-if="clientdocument.dateCreated">{{clientdocument.dateCreated |DateFormat}}</td>
 							<td ng-if="!clientdocument.dateCreated">---</td>
 							<td>
-								<a ng-click="downloadDocument(clientdocument)"><i class="fa fa-cloud-download"></i></a>
+								<a ng-click="downloadDocument(clientdocument)"><i class="fa fa-cloud-download"></i></a>&nbsp;
 								<a ng-show="clientdocument.fileIsImage" ng-click="previewDocument(clientdocument.docUrl,clientdocument.fileName)"><i class="fa fa-eye"></i></a>
 								<a ng-click="deleteDocument(clientdocument.id,$index)"><i class="fa fa-times"></i></a>
 							</td>

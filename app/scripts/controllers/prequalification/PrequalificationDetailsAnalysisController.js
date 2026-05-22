@@ -14,21 +14,56 @@
                 {label:'D', value:'D'},
             ];
             scope.prequalificationDocuments = [];
+            scope.paeLoandocuments = [];
             scope.showValidatePolicies = routeParams.showValidatePolicies == 'true' ? true : false;
             scope.prequalificationType = routeParams.prequalificationType;
             scope.previousPageUrl = "#/prequalificationAnalysis/"+routeParams.prequalificationType;
+            scope.showAllComments = false;
+            scope.showAllExceptionComments = false;
+            scope.showDownloading = false;
+            scope.previewUrl;
 
-            resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
-                scope.groupData = data;
-                scope.groupMembers = data.groupMembers;
+            scope.fetchPrequalificationDetails = function () {
+                resourceFactory.prequalificationResource.get({groupId: routeParams.groupId}, function (data) {
+                    scope.groupData = data;
+                    scope.showArgueButton = false;
+                    if(scope.groupData.renegotiations && scope.groupData.renegotiations.length){
+                        console.log(scope.groupData.renegotiations)
+                        let lastRenegotiation = scope.groupData.renegotiations.reduce((max, current) => {
+                            return current.id > max.id ? current : max;
+                        });
+                        console.log(lastRenegotiation)
 
-                console.log("group data", JSON.stringify(scope.groupData));
-                console.log("current session data", JSON.stringify(scope.currentSession));
-                scope.formData.isAllMembersSelected = true;
-                for (var i = 0; i < scope.groupMembers.length; i++ ){
-                    scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
-                }
-            });
+                        scope.showArgueButton = lastRenegotiation.status === 'REJECTED';
+                    }
+
+                    scope.groupMembers = data.groupMembers;
+                    scope.formData.listComments = data.listComments || [];
+                    scope.formData.exceptionListComments = data.exceptionListComments || [];
+
+                    scope.yellowValidationCount = scope.groupMembers.reduce((acc, member) => {
+                        return acc + (member.yellowValidationCount || 0);
+                    }, 0);
+
+                    scope.redValidationCount = scope.groupMembers.reduce((acc, member) => {
+                        return acc + (member.redValidationCount || 0);
+                    }, 0);
+
+                    scope.orangeValidationCount = scope.groupMembers.reduce((acc, member) => {
+                        return acc + (member.orangeValidationCount || 0);
+                    }, 0);
+
+                    console.log("group data", JSON.stringify(scope.groupData));
+                    console.log("current session data", JSON.stringify(scope.currentSession));
+                    scope.formData.isAllMembersSelected = true;
+                    for (var i = 0; i < scope.groupMembers.length; i++ ){
+                        scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
+                    }
+                    scope.getPaeLoanDocuments();
+                });
+            }
+
+            scope.fetchPrequalificationDetails();
 
             resourceFactory.entityDocumentsResource.getAllDocuments({
                 entity: 'prequalifications',
@@ -177,6 +212,11 @@
 
             };
 
+            scope.processRenegotiation =  function (renengotiation,action,buttonLabel){
+                scope.renegotiationId=renengotiation.id
+                scope.processAnalysisRequest(action,buttonLabel,'renegociación');
+            }
+
             scope.uploadBuroDocument = function (member){
                 Upload.upload({
                     url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId ,
@@ -220,8 +260,8 @@
 
             scope.reloadPage = function(){
                 // scope.routeTo("/prequalificationsmenu");
-                scope.report = !scope.report;
-                scope.preview = !scope.preview;
+                scope.report = false;
+                scope.preview = false;
             }
 
             var ViewMemberHardPolicyCtrl = function ($scope, $uibModalInstance) {
@@ -276,6 +316,7 @@
 
             var ConfirmationModalCtrl = function ($scope, $uibModalInstance) {
                 $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.partTwoMessage = scope.partTwoMessage;
                 $scope.confirm = function () {
                     var members = [];
                     var atLeastOneMemberSelected = false;
@@ -288,8 +329,17 @@
                     }
                     resourceFactory.prequalificationChecklistResource.processAnalysis(
                         {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
-                        {action: scope.analysisStatus,comments:scope.formData.comments, members: members},
+                        {action: scope.analysisStatus,comments:scope.formData.comments, members: members,renegotiationId:scope.renegotiationId},
                         function (data) {
+                            if (data.resourceIdentifier) {
+                                scope.routeTo("/editloanaccount/" + data.resourceIdentifier);
+                                $uibModalInstance.dismiss('okay');
+                                return;
+                            }
+                            if (data.reportToPrint){
+                                scope.printReport(data);
+
+                            }
                             scope.routeTo("/prequalificationsmenu");
                             $uibModalInstance.dismiss('okay');
                         });
@@ -299,6 +349,35 @@
                 };
             };
 
+            scope.printReport= function(data){
+                console.log("going to print report "+data.reportToPrint)
+                scope.report = true;
+                var reportURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent(data.reportToPrint);
+                reportURL += "?output-type=" + encodeURIComponent('PDF') + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
+                var reportParams = "";
+                reportParams += encodeURIComponent("R_prequalificationId") + "=" + encodeURIComponent(data.resourceId);
+                reportParams += "&" + encodeURIComponent("R_loanId") + "=" + encodeURIComponent(data.loanId);
+                if (reportParams > "") {
+                    reportURL += "&" + reportParams;
+                }
+                reportURL = $sce.trustAsResourceUrl(reportURL);
+                reportURL = $sce.valueOf(reportURL);
+                $http.get(reportURL, {responseType: 'arraybuffer'})
+                    .then(function(response) {
+                        let data = response.data;
+                        let status = response.status;
+                        let headers = response.headers;
+                        let config = response.config;
+                        var contentType = headers('Content-Type');
+                        var file = new Blob([data], {type: contentType});
+                        var fileContent = URL.createObjectURL(file);
+                        scope.reportURL = $sce.trustAsResourceUrl(fileContent);
+                    }).catch(function(error){
+                    console.log(JSON.stringify(error))
+                    $log.error(`Error loading ${scope.reportType} report`);
+                    $log.error(error);
+                });
+            }
 
             scope.routeTo = function (path) {
                 location.path(path);
@@ -337,6 +416,9 @@
                     "name": member.name,
                     "dpi": member.dpi,
                     "locale": scope.optlang.code,
+                    "interestRatePerPeriod": member.interestRatePerPeriod,
+                    "principal": member.requestedAmount,
+                    "loanTermFrequency": member.period
                 };
                 delete data.isEdit;
                 resourceFactory.prequalificationResource.updateMember({
@@ -354,9 +436,10 @@
                scope.processAnalysisRequest('assigntoself','label.button.assigntoself')
             }
 
-            scope.processAnalysisRequest = function (status, inMessage) {
+            scope.processAnalysisRequest = function (status, inMessage, partTwoMessage=undefined) {
                 scope.analysisStatus = status;
                 scope.confirmationMessage = inMessage
+                scope.partTwoMessage = partTwoMessage
                 $uibModal.open({
                     templateUrl: 'confirmationModal.html',
                     controller: ConfirmationModalCtrl
@@ -404,10 +487,636 @@
                      scope.groupMembers[i].isSelected = scope.formData.isAllMembersSelected;
                 }
             }
+
+
+            // -----------------------------Sección nuevo documento--------------------------------
+
+            // Abrir modal para subir documento
+            scope.openUploadDocumentModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'uploadDocumentModal.html',
+                    controller: UploadDocumentModalCtrl
+                });
+
+                modalInstance.result.then(function (document) {
+                    // Al cerrar el modal con éxito, subir el documento
+                    scope.uploadDocument(document.description, document.file);
+                });
+            };
+
+            // Controlador del modal
+            var UploadDocumentModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.document = {
+                    description: '',
+                    file: null
+                };
+
+                $scope.upload = function () {
+                    if (!$scope.document.file || !$scope.document.description) {
+                        alert("Debe proporcionar un archivo y una descripción");
+                        return;
+                    }
+                    $uibModalInstance.close($scope.document);
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            scope.uploadDocument = function (description, file) {
+                if (!file) {
+                    alert("Debe seleccionar un archivo");
+                    return;
+                }
+
+                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId,
+                    data: {
+                        dpi: fileNameWithoutExt,
+                        description: description,
+                        file: file
+                    },
+                }).then(function (data) {
+                    if (!scope.$$phase) scope.$apply();
+                    location.path('/prequalificationsmenu');
+                });
+            };
+
+            //------------------------------- Add comment -------------------------------------------------
+
+            scope.submitComment = function() {
+                if (!scope.formData || !scope.formData.comments || scope.formData.comments.trim() === '') {
+                    alert("Debe ingresar un comentario de excepción antes de enviar.");
+                    return;
+                }
+
+                // Construcción del cuerpo a enviar
+                let dataToSend = {
+                    name: scope.groupData.groupName,
+                    description: 'normal',
+                    comment: scope.formData.comments
+                };
+
+                // Envío del comentario sin archivo
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: dataToSend,
+                }).then(function (response) {
+                    if (!scope.$$phase) scope.$apply();
+                    alert("Comentario añadido exitosamente.");
+                    scope.formData.comments = '';
+                }, function (error) {
+                    alert("Ocurrió un error al intentar guardar el comentario.");
+                });
+            }
+
+            //------------------------------- Sección añadir comentario de exepción ----------------------------------
+
+            scope.submitExceptionComment = function () {
+                // Validar que exista comentario
+                if (!scope.formData || !scope.formData.exceptionComment || scope.formData.exceptionComment.trim() === '') {
+                    alert("Debe ingresar un comentario de excepción antes de enviar.");
+                    return;
+                }
+
+                // Construcción del cuerpo a enviar
+                let dataToSend = {
+                    name: scope.groupData.groupName,
+                    description: 'exception',
+                    comment: scope.formData.exceptionComment
+                };
+
+                // Envío del comentario sin archivo
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/' + routeParams.groupId + '/comment',
+                    data: dataToSend,
+                }).then(function (response) {
+                    if (!scope.$$phase) scope.$apply();
+                    alert("Comentario añadido exitosamente.");
+                    scope.formData.exceptionComment = '';
+
+                }, function (error) {
+                    alert("Ocurrió un error al intentar guardar el comentario de excepción.");
+                });
+            };
+
+
+            // --------------------------------------------- NEW REJECTED VIEW ----------------------------------
+            scope.rejectPrequalification = function () {
+                resourceFactory.codeValueNameResource.getAllCodeValues({ codeName: 'Rejected Prequalification Options' }).$promise
+                    .then(function (data) {
+                        scope.rejectReasons = data;
+
+                        var modalInstance = $uibModal.open({
+                            templateUrl: 'rejectPrequalificationModal.html',
+                            controller: RejectModalCtrl,
+                            resolve: {
+                                reasons: function () { return scope.rejectReasons; }
+                            }
+                        });
+
+                        modalInstance.result.then(function (result) {
+                            resourceFactory.prequalificationChecklistResource.processAnalysis(
+                                {
+                                    prequalificationId: routeParams.groupId,
+                                    command: 'rejectanalysis'
+                                },
+                                {
+                                    action: 'rejectanalysis',
+                                    reasonId: result.reasonId,
+                                    comments: result.comment,
+                                    members: scope.groupMembers.map(m => ({ id: m.id, isSelected: true }))
+                                },
+                                function (response) {
+                                    alert("Solicitud rechazada correctamente");
+                                    scope.routeTo("/prequalificationsmenu");
+                                }
+                            );
+                        });
+                    })
+                    .catch(function (err) {
+                        console.error("Error cargando razones de rechazo:", err);
+                    });
+            };
+
+
+            var RejectModalCtrl = ['$scope', '$uibModalInstance', 'reasons', function ($scope, $uibModalInstance, reasons) {
+                $scope.reasons = reasons;
+                $scope.selectedReason = null;
+                $scope.optionalComment = "";
+
+                $scope.confirm = function () {
+                    if (!$scope.selectedReason) {
+                        alert("Debe seleccionar una razón de rechazo");
+                        return;
+                    }
+
+                    $uibModalInstance.close({
+                        reasonId: $scope.selectedReason,
+                        comment: $scope.optionalComment
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }];
+
+
+
+
+
+            // -----------------------------Sección Argumentar caso--------------------------------
+
+            // Abrir modal para argumentar caso
+            scope.argueACase = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'argueACase.html',
+                    controller: argueACaseModalCtrl
+                });
+
+                modalInstance.result.then(function (document) {
+                    // Al cerrar el modal con éxito, subir el documento
+                    scope.uploadDocument(document.description, document.file);
+                });
+            };
+
+            // Controlador del modal para argumentar caso
+            var argueACaseModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.document = {
+                    description: '',
+                    file: null
+                };
+
+                $scope.upload = function () {
+                    if (!$scope.document.description) {
+                        alert("Debe proporcionar una descripción");
+                        return;
+                    }
+                    $uibModalInstance.close($scope.document);
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+
+            scope.processAnalysisRenegotiation = function (status, inMessage) {
+                scope.analysisStatus = status;
+                scope.confirmationMessage = inMessage
+                $uibModal.open({
+                    templateUrl: 'renegotiationModal.html',
+                    controller: RenegotiationModalCtrl
+                });
+            }
+
+            scope.processRenegotiationAction = function (status, inMessage) {
+                scope.analysisStatus = status;
+                scope.confirmationMessage = inMessage
+                $uibModal.open({
+                    templateUrl: 'renegotiationConfirmationModal.html',
+                    controller: RenegotiationConfirmationModalCtrl
+                });
+            }
+
+            scope.uploadDocument = function (description, file) {
+
+                let fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+                Upload.upload({
+                    url: $rootScope.hostUrl + API_VERSION + '/prequalification/members/' + routeParams.groupId,
+                    data: {
+                        dpi: fileNameWithoutExt,
+                        description: description,
+                        file: file,
+                        sendToCommittee: true,
+                        comment: description
+                    },
+                }).then(function (data) {
+                    if (!scope.$$phase) scope.$apply();
+                    location.path('/prequalificationsmenu');
+                });
+            };
+
+            var RenegotiationModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.groupMember = scope.groupMembers? scope.groupMembers[0]: {};
+                $scope.renegotiationData = {
+                    locale: scope.optlang.code,
+                };
+                $scope.confirm = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: scope.analysisStatus},
+                        {action: scope.analysisStatus,comments:scope.formData.comments, renegotiationData: $scope.renegotiationData},
+                        function (data) {
+                            scope.fetchPrequalificationDetails();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            };
+            var RenegotiationConfirmationModalCtrl = function ($scope, $uibModalInstance) {
+                $scope.isApproval = true;
+                resourceFactory.codeValueNameResource.getAllCodeValues({ codeName: 'Rejected Prequalification Options' }).$promise
+                    .then(function (data) {
+                        $scope.rejectReasons = data;
+                    });
+                $scope.confirmationMessage = scope.confirmationMessage;
+                $scope.groupMember = scope.groupMembers? scope.groupMembers[0]: {};
+                $scope.renegotiationData = {
+                    locale: scope.optlang.code,
+                };
+                $scope.confirm = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: "approverenegotiation"},
+                        {action: "approverenegotiation",comments:scope.formData.comments, renegotiationData: $scope.renegotiationData},
+                        function (data) {
+                            scope.fetchPrequalificationDetails();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                }
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+                $scope.rejectRenegotiation = function () {
+                    $scope.isApproval = !$scope.isApproval;
+                };
+
+                $scope.confirmReject = function () {
+                    resourceFactory.prequalificationChecklistResource.processAnalysis(
+                        {prequalificationId: routeParams.groupId, command: "rejectrenegotiation"},
+                        {action: "rejectrenegotiation",comments:scope.formData.comments, renegotiationData: $scope.renegotiationData},
+                        function (data) {
+                            scope.fetchPrequalificationDetails();
+                            $uibModalInstance.dismiss('okay');
+                        });
+                };
+            };
+            //--------------- COMMENTS VIEW ----------------
+            scope.visibleComments = function () {
+                if (!scope.formData || !scope.formData.listComments) return [];
+                return scope.showAllComments
+                    ? scope.formData.listComments
+                    : scope.formData.listComments.slice(0, 2);
+            };
+
+            scope.visibleExceptionComments = function () {
+                if (!scope.formData || !scope.formData.exceptionListComments) return [];
+                return scope.showAllExceptionComments
+                    ? scope.formData.exceptionListComments
+                    : scope.formData.exceptionListComments.slice(0, 2);
+            };
+
+            scope.updateShowAllExceptionComments = function () {
+                scope.showAllExceptionComments = !scope.showAllExceptionComments;
+            }
+
+            scope.updateShowAllComments = function () {
+                scope.showAllComments = !scope.showAllComments;
+            }
+
+            // Add downloadAllPaeDocuments to scope
+            scope.downloadAllDocuments = function() {
+                if (!scope.prequalificationDocuments || scope.prequalificationDocuments.length === 0) {
+                    alert('No documents to download.');
+                    return;
+                }
+                var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('PDF');
+                var excelFolder = zip.folder('EXCEL');
+                var otherFolder = zip.folder('OTROS');
+                var count = 0;
+                var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                scope.prequalificationDocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var documentName =  doc.name+'_'+doc.id || doc.description || ('document_' + doc.id);
+                    var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+
+
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            var lowerName = fileName.toLowerCase();
+                            var targetFolder;
+                            if (lowerName.endsWith('.pdf')) {
+                                targetFolder = pdfFolder;
+                            }else if(lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')|| lowerName.endsWith('.csv')){
+                                targetFolder=excelFolder
+                            } else {
+                                targetFolder = otherFolder;
+                            }
+                            targetFolder.file(documentName, blob);
+
+                            count++;
+                            if (count === scope.prequalificationDocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(documentName);
+                            count++;
+                            if (count === scope.prequalificationDocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.prequalificationDocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
+            };
+
+            scope.downloadAllPaeDocuments = function() {
+                scope.showDownloading=true;
+                if (!scope.paeLoandocuments || scope.paeLoandocuments.length === 0) {
+                    alert('No documents to download.');
+                    scope.showDownloading=false
+                    return;
+                }
+                var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('PDF');
+                var excelFolder = zip.folder('EXCEL');
+                var otherFolder = zip.folder('OTROS');
+                var count = 0;
+                var zipFilename = (scope.groupData.prequalificationNumber || 'PRECAL_'+routeParams.groupId) + '_documents.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {
+                    scope.showDownloading=false
+                }
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                scope.paeLoandocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var fileName =  doc.fileName || doc.name || ('document_' + doc.id);
+                    var ext = fileName.lastIndexOf('.') !== -1 ? fileName.substring(fileName.lastIndexOf('.')) : '';
+                    var documentName = (doc.name + '_' + doc.id || doc.description || ('document_' + doc.id)) + ext;
+
+
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            var lowerName = fileName.toLowerCase();
+                            var targetFolder;
+                            if (lowerName.endsWith('.pdf')) {
+                                targetFolder = pdfFolder;
+                            }else if(lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')|| lowerName.endsWith('.csv')){
+                                targetFolder=excelFolder
+                            } else {
+                                targetFolder = otherFolder;
+                            }
+                            targetFolder.file(documentName, blob);
+
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(documentName);
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.paeLoandocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
+                scope.showDownloading=false
+            };
+
+            scope.previewDocument = function (document) {
+                scope.previewUrl = undefined;
+                scope.isLoading=  true;
+
+                var url = scope.hostUrl + document.docUrl;
+
+                scope.preview =  true;
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        scope.isLoading=  false;
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        const blobUrl = URL.createObjectURL(blob);
+                        scope.previewUrl = $sce.trustAsResourceUrl(blobUrl);
+                        scope.isLoading=  false;
+                    })
+                    .catch(function(err) {
+                        console.log('Some files could not be downloaded');
+                        scope.isLoading=  false;
+                    });
+
+
+                //timeout 10 seconds and close preview
+                $timeout(function(){
+                    scope.preview =  false;
+                    scope.isLoading=  false;
+                },80000);
+            };
+
+
+            scope.getPaeLoanDocuments = function () {
+                let loanId = scope.groupMembers[0].loanId;
+                if (loanId){
+                    console.log("Fetching PAE Loan Documents");
+                    resourceFactory.entityDocumentsResource.getAllDocuments({
+                        entity: 'paeloandocs',
+                        entityId: loanId
+                    }, function (data) {
+                        for (var l in data) {
+
+                            var bldocs = {};
+                            bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                            data[l].docUrl = bldocs;
+                            data[l].fileIsImage = true;
+                            if (data[l].fileName)
+                                data[l].fileIsImage = data[l].fileName.toLowerCase().indexOf('.zip') == -1;
+                            if (data[l].type)
+                                data[l].fileIsImage = data[l].type.toLowerCase().indexOf('zip') == -1;
+                        }
+                        scope.paeLoandocuments = data;
+                    });
+                }
+            };
+            scope.deletePaeDocument = function (documentId, index) {
+                let loanId = scope.groupMembers[0].loanId;
+
+                resourceFactory.entityDocumentsResource.delete({entity: "paeloandocs", entityId: loanId, documentId: documentId}, '', function (data) {
+                    scope.paeLoandocuments.splice(index, 1);
+                });
+            };
+
+            scope.deletePrequalDocument = function (documentId, index) {
+                resourceFactory.entityDocumentsResource.delete({entity: "prequalifications", entity: scope.groupId, documentId: documentId}, '', function (data) {
+                    scope.prequalificationDocuments.splice(index, 1);
+                });
+            };
+
         }
     });
 
-    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
+    mifosX.ng.application.controller('PrequalificationDetailsAnalysisController', ['$scope', '$routeParams', '$route', 'dateFilter', '$location', 'ResourceFactory', '$http', '$uibModal', 'API_VERSION', '$timeout', '$rootScope', 'Upload','$sce','JSZipService', mifosX.controllers.PrequalificationDetailsAnalysisController]).run(function ($log) {
         $log.info("PrequalificationDetailsAnalysisController initialized");
     });
 }(mifosX.controllers || {}));

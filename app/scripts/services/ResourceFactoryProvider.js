@@ -106,6 +106,13 @@
 
                         updateMember: {method: 'PUT', params: {}},
                     }),
+                    paeDocumentationResource: defineResource(apiVer + "/paedocumentation/:documentId/", {documentId: '@documentId'}, {
+                        getAll: {method: 'GET', params: {categoryId: '@categoryId'},isArray:true},
+                        save: {method: 'POST', params: {}},
+                        update: {method: 'PUT', params: {}},
+                        delete:{method:'DELETE',params:{}},
+                        updateMember: {method: 'PUT', params: {}},
+                    }),
                     individualPrequalificationResource: defineResource(apiVer + "/individual/prequalification/:clientId", {clientId: '@clientId'}, {
                         get: {method: 'GET', params: {}},
                         save: {method: 'POST', params: {}},
@@ -206,6 +213,17 @@
                                             }
                                         }
                     }),
+                    runReportsPromissory: defineResource(apiVer + "/runreports/promissorynote", {}, {
+                        generate: {method: 'POST', params: {}, isArray: false}
+                    }),
+                    promissoryNoteTemplateResource: defineResource(apiVer + "/runreports/promissorynote/:templateId", { templateId: "@templateId" }, {
+                        // GET /promissorynote -> lista de plantillas
+                        getAll: { method: 'GET', params: {}, isArray: true, url: baseUrl + apiVer + "/runreports/promissorynote" },
+                        // GET /promissorynote/{templateId} -> una plantilla
+                        get: { method: 'GET', params: { templateId: '@templateId' } },
+                        // PUT /promissorynote -> actualización (id en el body)
+                        update: { method: 'PUT', params: {}, url: baseUrl + apiVer + "/runreports/promissorynote" }
+                    }),
                     reportsResource: defineResource(apiVer + "/reports/:id/:resourceType", {id: '@id', resourceType: '@resourceType'}, {
                         get: {method: 'GET', params: {id: '@id'}},
                         getReport: {method: 'GET', params: {id: '@id'}, isArray: true},
@@ -283,6 +301,9 @@
                         getAllNotes: {method: 'GET', params: {}, isArray: true},
                         put: {method: 'PUT', params: {}}
                     }),
+                    loanResourceTemplates: defineResource(apiVer + "/loans/promissorytemplate/:loanId", {loanId: '@loanId'}, {
+                        get: {method: 'GET', params: {}}
+                    }),
 
                     loanChargeTemplateResource: defineResource(apiVer + "/loans/:loanId/charges/template", {loanId: '@loanId'}, {
                         get: {method: 'GET', params: {}}
@@ -329,6 +350,12 @@
                         update: {method: 'PUT'}
                     }),
                     LoanDocumentResource: defineResource(apiVer + "/loans/:loanId/documents/:documentId", {loanId: '@loanId', documentId: '@documentId'}, {
+                        getLoanDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    PrequalificationDocumentResource: defineResource(apiVer + "/prequalifications/:groupId/documents/:documentId", {groupId: '@groupId', documentId: '@documentId'}, {
+                        getLoanDocuments: {method: 'GET', params: {}, isArray: true}
+                    }),
+                    PaeLoanDocumentResource: defineResource(apiVer + "/paedocumentation/:loanId/documents/:documentId", {loanId: '@loanId', documentId: '@documentId'}, {
                         getLoanDocuments: {method: 'GET', params: {}, isArray: true}
                     }),
                     currencyConfigResource: defineResource(apiVer + "/currencies", {}, {
@@ -397,7 +424,8 @@
                     }),
                     accountingClosureResource: defineResource(apiVer + "/glclosures/:accId", {accId: "@accId"}, {
                         get: {method: 'GET', params: {}, isArray: true},
-                        getView: {method: 'GET', params: {}}
+                        getView: {method: 'GET', params: {}},
+                        update: { method: 'PUT', params: {} }
                     }),
                     periodicAccrualAccountingResource: defineResource(apiVer + "/runaccruals", {}, {
                         run: {method: 'POST', params: {}}
@@ -416,6 +444,9 @@
                     codeValueNameResource: defineResource(apiVer + "/codes/codevalues/:codeName", {codeName: '@codeName'}, {
                         getAllCodeValues: {method: 'GET', params: {}, isArray: true},
                         update: { method: 'PUT', params: {} }
+                    }),
+                    requiredDocumentsResource: defineResource(apiVer + "/codes/codevalues/:codeValueId/requireddocuments", {codeValueId: '@codeValueId'}, {
+                        get: {method: 'GET', params: {}, isArray: true}
                     }),
 					hookResources: defineResource(apiVer + "/hooks/:hookId", {hookId: "@hookId"}, {
                         getAllHooks: {method: 'GET', params: {}, isArray: true},
@@ -1032,9 +1063,6 @@
                         delete: { method: 'DELETE'},
                         template: {method: 'GET',params:{}},
                     }),
-                    bankAccountTemplateResource: defineResource(apiVer + "/bankaccounts/template", {}, {
-                        get: {method: 'GET', params: {}}
-                    }),
                     chequeBatchTemplateResource: defineResource(apiVer + "/bankcheques/template", {bankAccId: "@bankAccId"}, {
                         get: {method: 'GET', params: {bankAccId: "@bankAccId"}, isArray: false}
                     }),
@@ -1068,6 +1096,17 @@
                     committeeTemplateResource: defineResource(apiVer + "/committees/template", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                    loanApplicationDraftResource: defineResource(apiVer + "/loandraft/:draftId", { draftId: '@draftId' }, {
+
+                        save: {method: 'POST', params: {}},
+
+                        get: {method: 'GET'},
+
+                        update: {method: 'PUT'},
+
+                        delete: {method: 'DELETE'},
+
+                    })
                 };
             }];
         }

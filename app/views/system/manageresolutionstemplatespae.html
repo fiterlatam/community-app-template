@@ -1,0 +1,348 @@
+<div class="content-container" ng-controller="ManageResolutionTemplateController">
+    <ul class="breadcrumb">
+        <li><a href="#/system">{{'label.anchor.system' | translate}}</a></li>
+        <li class="active">{{'label.anchor.manageResolutionTemplate' | translate}}</li>
+    </ul>
+
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Resolución de Crédito Individual</title>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f4f4f4;
+            }
+
+            .container {
+                width: 1100px;
+                margin: 20px auto;
+                background: white;
+                border: 1px solid #ccc;
+                padding: 20px;
+            }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .title-bar {
+                background: #e600e6;
+                color: black;
+                font-weight: bold;
+                text-align: center;
+                padding: 8px;
+                margin: 15px 0;
+                font-size: 18px;
+            }
+
+            .section-bar {
+                background: #e600e6;
+                color: black;
+                font-weight: bold;
+                text-align: center;
+                padding: 6px;
+                margin-top: 20px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: 6px;
+                border: 1px solid #ddd;
+                font-size: 14px;
+            }
+
+            .label {
+                background: #f0f0f0;
+                font-weight: bold;
+                width: 25%;
+            }
+
+            .value {
+                background: #fafafa;
+                width: 25%;
+            }
+
+            .value-fund-ye {
+                background: #fff7cc;
+                width: 25%;
+            }
+
+            .value-fund-gr {
+                background: #e8e8e8;
+                width: 25%;
+            }
+
+            /* Editable labels */
+            .editable {
+                background: #ffffff;
+                cursor: text;
+                color: black;
+                width: 25%;
+            }
+
+            .editable:focus {
+                outline: 2px solid #ff00ff;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div class="header">
+                <table style="width:100%; border:none;">
+                    <tr>
+                        <!-- IZQUIERDA: LOGO -->
+                        <td style="width:30%; border:none; text-align:left; vertical-align:top;">
+                            <img src="images/fb_logo_flat.png" alt="Logo" style="width:200px;">
+                        </td>
+
+                        <!-- CENTRO: FACILITADOR Y CÓDIGO -->
+                        <td style="width:40%; border:none; vertical-align:top;">
+                            <table style="width:100%; border:none;">
+                                <tr>
+                                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.facilitatorName"
+                                        ng-blur="updateLabel('facilitatorName', $event)">
+                                    </td>
+                                    <td class="value-fund-ye">facilitatorName</td>
+                                </tr>
+                                <tr>
+                                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.clientCode"
+                                        ng-blur="updateLabel('clientCode', $event)">
+                                    </td>
+                                    <td class="value-fund-ye">clientCode</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- DERECHA: AGENCIA -->
+                        <td style="width:30%; border:none; text-align:right; vertical-align:top;">
+                            <table style="width:100%; border:none;">
+                                <tr>
+                                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.agencyName"
+                                        ng-blur="updateLabel('agencyName', $event)">
+                                    </td>
+                                    <td class="value-fund-gr">agencyName</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <div class="title-bar" contenteditable="true" ng-bind="columnLabels.title"
+                ng-blur="updateLabel('title', $event)">
+            </div>
+
+            <table>
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.clientName"
+                        ng-blur="updateLabel('clientName', $event)">
+                    </td>
+                    <td class="value-fund-ye">clientName</td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.loanAmount"
+                        ng-blur="updateLabel('loanAmount', $event)">
+                    </td>
+                    <td class="value-fund-gr">loanAmount</td>
+
+                    
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.loanTerm"
+                        ng-blur="updateLabel('loanTerm', $event)">
+                    </td>
+                    <td class="value-fund-gr">loanTerm</td>
+
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.installmentAmount"
+                        ng-blur="updateLabel('installmentAmount', $event)">
+                    </td>
+                    <td class="value-fund-gr">installmentAmount</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.loanPurpose"
+                        ng-blur="updateLabel('loanPurpose', $event)">
+                    </td>
+                    <td class="value-fund-ye">loanPurpose</td>
+
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.frequencyTerm"
+                        ng-blur="updateLabel('frequencyTerm', $event)">
+                    </td>
+                    <td class="value-fund-gr">frequencyTerm</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.interestMethod"
+                        ng-blur="updateLabel('interestMethod', $event)">
+                    </td>
+                    <td class="value-fund-gr">interestMethod</td>
+
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.equivalentAnnualRate"
+                        ng-blur="updateLabel('equivalentAnnualRate', $event)">
+                    </td>
+                    <td class="value-fund-gr">equivalentAnnualRate</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.annualInterest"
+                        ng-blur="updateLabel('annualInterest', $event)">
+                    </td>
+                    <td class="value-fund-gr">annualInterest</td>
+
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.expenseAdmin"
+                        ng-blur="updateLabel('expenseAdmin', $event)">
+                    </td>
+                    <td class="value-fund-gr">expenseAdmin</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.frequencyTermInt"
+                        ng-blur="updateLabel('frequencyTermInt', $event)">
+                    </td>
+                    <td class="value-fund-gr">frequencyTerm</td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.frequencyTermCap"
+                        ng-blur="updateLabel('frequencyTermCap', $event)">
+                    </td>
+                    <td class="value-fund-gr">frequencyTerm</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.collateralType"
+                        ng-blur="updateLabel('collateralType', $event)">
+                    </td>
+                    <td class="value-fund-ye">collateralType</td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.collateral"
+                        ng-blur="updateLabel('collateral', $event)">
+                    </td>
+                    <td class="value-fund-ye">collateral</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.collateralCoverage"
+                        ng-blur="updateLabel('collateralCoverage', $event)">
+                    </td>
+                    <td class="value-fund-ye">collateralCoverage</td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.collateralValue"
+                        ng-blur="updateLabel('collateralValue', $event)">
+                    </td>
+                    <td class="value-fund-gr">collateralValue</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.registeredMortgage"
+                        ng-blur="updateLabel('registeredMortgage', $event)">
+                    </td>
+                    <td class="value-fund-ye">registeredMortgage</td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.program"
+                        ng-blur="updateLabel('program', $event)">
+                    </td>
+                    <td class="value-fund-gr">program</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.sector"
+                        ng-blur="updateLabel('sector', $event)">
+                    </td>
+                    <td class="value-fund-ye">sector</td>
+                </tr>
+
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.formalizationDocument"
+                        ng-blur="updateLabel('formalizationDocument', $event)">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.approvalDate"
+                        ng-blur="updateLabel('approvalDate', $event)">
+                    </td>
+                    <td class="value-fund-ye">approvalDate</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.emitionDate"
+                        ng-blur="updateLabel('emitionDate', $event)">
+                    </td>
+                    <td class="value-fund-ye">emitionDate</td>
+                </tr>
+
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.equivalentMonthlyRate"
+                        ng-blur="updateLabel('equivalentMonthlyRate', $event)">
+                    </td>
+                    <td class="value-fund-gr">equivalentMonthlyRate</td>
+
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.nominalMonthlyRate"
+                        ng-blur="updateLabel('nominalMonthlyRate', $event)">
+                    </td>
+                    <td class="value-fund-gr">nominalMonthlyRate</td>
+                </tr>
+            </table>
+
+            <div class="section-bar" contenteditable="true" ng-bind="columnLabels.observationTitle"
+                ng-blur="updateLabel('observationTitle', $event)">
+            </div>
+
+            <div class="section-bar" contenteditable="true" style="padding:10px; border:1px solid #ddd; background:#fafafa;" ng-bind="columnLabels.analysisInformation"
+                ng-blur="updateLabel('analysisInformation', $event)">
+            </div>
+
+            <br>
+
+            <table>
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.committeeLevel"
+                        ng-blur="updateLabel('committeeLevel', $event)">
+                    </td>
+                    <td class="value">committeeLevel</td>
+                </tr>
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.updatedBy"
+                        ng-blur="updateLabel('updatedBy', $event)">
+                    </td>
+                    <td class="value">updatedBy</td>
+                </tr>
+                <tr>
+                    <td class="label editable" contenteditable="true" ng-bind="columnLabels.logDate"
+                        ng-blur="updateLabel('logDate', $event)">
+                    </td>
+                    <td class="value">logDate</td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="form-group text-right">
+            <button has-permission='UPDATE_PROMISSORY_NOTE' type="button" class="btn btn-primary" ng-click="save()">
+            Guardar
+            </button>
+        </div>
+
+    </body>
+
+
+
+    </html>
+
+</div>

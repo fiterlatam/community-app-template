@@ -2,7 +2,29 @@
     <div class="card">
         <api-validate></api-validate>
 
-        <div class="content">
+        <div ng-show="report" class="col-md-12 alert-block span tab-content">
+            <div id="printcontent">
+                <iframe id="rptLoadingFrame" ng-src="{{reportURL}}" frameborder="0" width="100%"
+                        height="800px"></iframe>
+            </div>
+            <div class="col-md-13 center">
+                <a id="back" ng-click="reloadPage()" class="btn btn-default">{{'label.button.back' | translate}}</a>
+            </div>
+        </div>
+        <div ng-show="preview" class="col-md-12 alert-block span tab-content">
+            <div id="printcontentview">
+                <iframe id="previewFrameview" ng-src="{{previewUrl}}" width="70%" ng-if="previewUrl"
+                        height="800px"></iframe>
+            </div>
+            <button class="btn btn-block btn-primary" type="button" ng-show="isLoading">
+                <img data-ng-src="images/ring.svg" alt=""> <b>{{'label.downloading'|translate}}...</b>
+            </button>
+            <div class="col-md-13 center">
+                <a id="back2" ng-click="reloadPage()" class="btn btn-default">{{'label.button.back' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="content" ng-hide="report||preview">
             <div class="toolbar">
                 <ul class="breadcrumb">
                     <li><a ng-href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
@@ -127,6 +149,46 @@
                 </tr>
             </table>
             <hr/>
+            <div class="alert alert-default" ng-if="groupData.currentTimeline && groupingType=='pae'">
+                <h4>Timeline</h4>
+
+            </div>
+            <div class="timeline-container" ng-if="groupData.expectedTimeline && groupData.expectedTimeline.length > 0 && groupingType=='pae'">
+                <h4>{{'label.heading.expectedTimeline' | translate}}</h4>
+                <ul class="timeline-horizontal">
+                    <li ng-repeat="step in groupData.expectedTimeline" class="timeline-step"
+                        ng-class="{'completed': isStepCompleted(step)}">
+                        <div class="timeline-badge">
+                            <span ng-if="isStepCompleted(step)"><i class="fa fa-check" aria-label="Completed"></i></span>
+                            <span ng-if="!isStepCompleted(step)"><i class="fa fa-circle-thin" aria-label="Pending"></i></span>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <span class="timeline-title">{{step.code | translate}}</span>
+                            </div>
+                            <div class="timeline-body">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="timeline-container" ng-if="groupData.currentTimeline && groupData.currentTimeline.length > 0 && groupingType=='pae'">
+                <h4>{{'label.heading.currentTimeline' | translate}}</h4>
+                <ul class="timeline-horizontal">
+                    <li ng-repeat="step in getFilteredExpectedTimeline()" class="timeline-step completed">
+                        <div class="timeline-badge" uib-tooltip="{{getTimelineTooltip(step)}}" tooltip-append-to-body="true">
+                            <i class="fa fa-check" aria-label="Completed"
+                               ></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <span class="timeline-title">{{step.statusData.code | translate}}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <div>
                 <button ng-if="groupData.status.value==='BURO_CHECKED'" id="validate" class="btn btn-success"
                         ng-click="validateHardPolicy()" type="button" value="validate"
@@ -186,14 +248,62 @@
                     <td>{{document.fileName}}</td>
                     <td>
                         <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
-                        <!--                        <a ng-show="document.fileIsImage" ng-click="previewDocument(document.docUrl,document.fileName)"><i class="fa fa-eye"></i></a>-->
-                        <!--                        <a ng-click="deleteDocument(document.id,$index)"><i class="fa fa-times"></i></a>-->
+                        <a ng-show="document.fileIsImage" ng-click="previewDocument(document)"><i class="fa fa-eye"></i></a>
+                        <a ng-click="deletePrequalDocument(document.id,$index)"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr ng-if="groupData.status.id ==900 && ( groupData.lastPrequalificationStatus.id ==1003 || groupData.lastPrequalificationStatus.id ==1004
+                    || groupData.lastPrequalificationStatus.id ==1005 || groupData.lastPrequalificationStatus.id ==1006
+                    || groupData.lastPrequalificationStatus.id ==911 || groupData.lastPrequalificationStatus.id ==912
+                    || groupData.lastPrequalificationStatus.id ==913 || groupData.lastPrequalificationStatus.id ==914||
+                    groupData.lastPrequalificationStatus.id ==1007)">
+                    <td colspan="4">
+                        <div class="text-right">
+                            <button ng-click="downloadCommiteeReport()" type="button" style="background-color: #740808; color: white" class="btn"><i class="fa fa-file-pdf-o"></i> {{'label.button.commitee.approval' | translate}}</button>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
 
 
+            <hr/>
+            <div ng-if="paeLoandocuments">
+                <h4>{{'label.anchor.pae.documentation'|translate}}</h4>
+                <table class="table" ng-if="paeLoandocuments.length > 0">
+                    <thead>
+                    <tr class="graybg">
+                        <th>{{'label.heading.name' | translate}}</th>
+                        <th>{{'label.heading.description' | translate}}</th>
+                        <th>{{'label.heading.filename' | translate}}</th>
+                        <th>{{'label.heading.actions' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="document in paeLoandocuments">
+                        <td>{{document.name}}</td>
+                        <td>{{document.description}}</td>
+                        <td>{{document.fileName}}</td>
+                        <td>
+                            <a ng-click="downloadDocument(document)"><i class="fa fa-cloud-download"></i></a>
+                            <a ng-show="document.fileIsImage" ng-click="previewDocument(document)"><i class="fa fa-eye"></i></a>
+                            <a ng-click="deletePaeDocument(document.id,$index)"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="text-right">
+                                <button class="btn btn-primary" ng-show="!showDownloading"
+                                        ng-click="downloadAllPaeDocuments()"><i class="fa fa-file-zip-o"></i> {{'label.button.download.all'|translate}}</button>
+                                <button class="btn btn-block btn-primary" type="submit" ng-show="showDownloading">
+                                    <img data-ng-src="images/ring.svg" alt=""> <b>{{'label.downloading'|translate}}...</b>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <form name="prequalForm" novalidate="" class="card form-horizontal well" rc-submit="submit()"
                   ng-if="prequalificationDocuments.length<=0" data-ng-show="showSupportDocumentUploadPage()">
                 <fieldset>
@@ -326,7 +436,7 @@
         </div>
         <div class="modal-body">
             <div class="alert alert-info">
-                {{'confirmation.message.first.part.one' | translate}} <strong>{{confirmationMessage|translate}}</strong> {{'confirmation.message.first.part.two' | translate}}
+                {{'confirmation.message.first.part.one' | translate}} <strong>{{confirmationMessage|translate}}</strong> {{(partTwoMessage?partTwoMessage:'confirmation.message.first.part.two') | translate}}
             </div>
             <br>
             <div class="text-center">
