@@ -19,6 +19,20 @@
                 <fieldset>
                     <api-validate></api-validate>
                     <hr/>
+                    <!--<h3><strong>{{datatable.registeredTableName}}</strong></h3>-->
+                    <div class="text-right" style="margin-bottom:15px;">
+                        <label class="switch">
+                            <input type="checkbox"
+                                   ng-model="allNoSwitch"
+                                   ng-change="toggleAllNo()"
+                                   ng-click="setAllNo()">
+                            <span class="slider"></span>
+                        </label>
+
+                        <span style="margin-left:10px;">
+                        {{ allNoSwitch ? 'Todo en NO' : 'NO a todo' }}
+                    </span>
+                    </div>
 
                     <!-- Tabla simple (objeto único) -->
                     <div ng-if="!datatable._isMultiple">

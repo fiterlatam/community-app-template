@@ -302,30 +302,38 @@
 
                 angular.forEach(scope.datatables, function(datatable, dtIndex){
 
-                    var tableData = scope.formData.datatables[dtIndex];
+                    let tableData = scope.formData.datatables[dtIndex];
                     if(!tableData || !tableData.data) return;
 
-                    var isMultiple = scope.isDatatableMultiple(datatable);
-                    var rows = isMultiple ? tableData.data : [tableData.data];
+                    angular.forEach(datatable.columnHeaderData, function(column){
 
-                    angular.forEach(rows, function(row){
-                        angular.forEach(datatable.columnHeaderData, function(column){
+                        // BOOLEAN
+                        if(column.columnDisplayType === 'BOOLEAN'){
+                            tableData.data[column.columnName] = false;
+                        }
 
-                            if(column.columnDisplayType === 'BOOLEAN'){
-                                row[column.columnName] = false;
+                        // SELECT (SI / NO)
+                        if(column.columnValues && column.columnValues.length){
+
+                            let noOption = column.columnValues.find(function(opt){
+
+                                if(!opt.value) return false;
+
+                                let v = opt.value.toString().toLowerCase();
+
+                                return v === 'no'
+                                    || v === 'false'
+                                    || v === 'n';
+                            });
+
+                            if(noOption){
+                                tableData.data[column.columnName] =
+                                    noOption.id !== undefined
+                                        ? noOption.id
+                                        : noOption.value;
                             }
+                        }
 
-                            if(column.columnValues && column.columnValues.length){
-                                var noOption = column.columnValues.find(function(opt){
-                                    if(!opt.value) return false;
-                                    var v = opt.value.toString().toLowerCase();
-                                    return v === 'no' || v === 'false' || v === 'n';
-                                });
-                                if(noOption){
-                                    row[column.columnName] = noOption.id !== undefined ? noOption.id : noOption.value;
-                                }
-                            }
-                        });
                     });
 
                 });
