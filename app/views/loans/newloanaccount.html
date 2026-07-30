@@ -257,7 +257,7 @@
             </form>
         </wz-step>
 
-        <wz-step ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" wz-order="30 + $index" wz-title="{{requiredDoc.name}}"
+        <wz-step ng-repeat="requiredDoc in paeRequiredGuaranteeOptions" wz-order="{{90 + $index}}" wz-title="{{requiredDoc.name}}"
                  wz-disabled="{{!requiredDoc.selected}}">
             <form name="GuarantyDocuments" ng-submit="goNext(GuarantyDocuments)" class="form-inline">
                 <fieldset>
@@ -1575,7 +1575,7 @@
             </form>
         </wz-step>
 
-        <wz-step wz-title="Review" ng-if="!disabled" wz-order="100">
+        <wz-step wz-title="Review" ng-if="!disabled" wz-order="999">
             <form name="review" class="form-horizontal">
                 <fieldset>
                     <api-validate></api-validate>

@@ -27,6 +27,7 @@
             scope.disabled = true;
             scope.translate = translate;
             scope.rateFlag = false;
+            scope.isFinishedLoading = false;
             scope.collateralAddedDataArray = [];
             scope.currentLoans = [];
             scope.collateralsData = {};
@@ -302,38 +303,24 @@
 
                 angular.forEach(scope.datatables, function(datatable, dtIndex){
 
-                    let tableData = scope.formData.datatables[dtIndex];
+                    var tableData = scope.formData.datatables[dtIndex];
                     if(!tableData || !tableData.data) return;
+                    var datatable = scope.datatables[dtIndex];
+                    var row = scope.formData.datatables[dtIndex].data;
+                    var isMultiple = scope.isDatatableMultiple(datatable);
+                    var rows = isMultiple ? tableData.data : [tableData.data];
 
-                    angular.forEach(datatable.columnHeaderData, function(column){
-
-                        // BOOLEAN
-                        if(column.columnDisplayType === 'BOOLEAN'){
-                            tableData.data[column.columnName] = false;
+                    angular.forEach(SOLICITANTE_NO_TO_ALL_COLUMNS, function (columnName) {
+                        var column = datatable.columnHeaderData && datatable.columnHeaderData.find(function (c) { return c.columnName === columnName; });
+                        if (!column || !column.columnValues) { return; }
+                        var noOption = column.columnValues.find(function (opt) {
+                            if (!opt.value) return false;
+                            var v = opt.value.toString().toLowerCase();
+                            return v === 'no' || v === 'false' || v === 'n';
+                        });
+                        if (noOption) {
+                            row[columnName] = noOption.id !== undefined ? noOption.id : noOption.value;
                         }
-
-                        // SELECT (SI / NO)
-                        if(column.columnValues && column.columnValues.length){
-
-                            let noOption = column.columnValues.find(function(opt){
-
-                                if(!opt.value) return false;
-
-                                let v = opt.value.toString().toLowerCase();
-
-                                return v === 'no'
-                                    || v === 'false'
-                                    || v === 'n';
-                            });
-
-                            if(noOption){
-                                tableData.data[column.columnName] =
-                                    noOption.id !== undefined
-                                        ? noOption.id
-                                        : noOption.value;
-                            }
-                        }
-
                     });
 
                 });
@@ -345,6 +332,10 @@
                 'YesNo_cd_relacion_laboral_falsa', 'YesNo_cd_denuncias_judiciales_civiles_penales', 'YesNo_cd_es_policia_militar_abogado',
                 'YesNo_cd_solicitante_rechazada_o_morosa_PA', 'YesNo_cd_deuda_vencida_mayor_30_dias', 'YesNo_cd_asesores_credito_supervisor_fiador',
                 'YesNo_cd_lider_agencia_fiador', 'YesNo_cd_solicitante_familiar_colaborador_PDA'
+            ];
+            var SOLICITANTE_NO_TO_ALL_COLUMNS = [
+                'YesNo_cd_propiedad_negocio_falsa', 'YesNo_cd_referencias_personales_falsas', 'YesNo_cd_referencias_comerciales_falsas',
+                'YesNo_cd_relacion_laboral_falsa'
             ];
             scope.setSolicitanteNoToSpecific = function () {
                 if (!scope.datatables || !scope.formData.datatables) { return; }
@@ -560,7 +551,7 @@
                 }, function (data) {
                     scope.collateralOptions = data.loanCollateralOptions || [];
                 });
-
+                scope.isFinishedLoading=true;
             }
 
             scope.$watch(
@@ -830,13 +821,14 @@
                         }
                     });
                     scope.datatableStepOrder = {};
+                    scope.requiredDocsOrder = {};
                     scope.destinoDatatable = null;
                     scope.destinoDatatableIndex = null;
                     scope.fiadorDatatable = null;
                     scope.fiadorDatatableIndex = null;
                     scope.garanteDatatable = null;
                     scope.garanteDatatableIndex = null;
-                    // Orden: P_solicitante/CP_solicitante(10), GuaranteeEvaluation(20), Documentos(30+), p_fiador(40), p_garante(41), Detalles(50), Términos(60), Cargos(70), Adicionales(80), Review(90)
+                    // Orden: P_solicitante/CP_solicitante(10), GuaranteeEvaluation(20), Documentos(30+), p_fiador(40), p_garante(41), Detalles(50), Términos(60), Cargos(70), Adicionales(80/90), Review(999)
                     var orderByTableName = { 'p_solicitante': 10, 'CP_solicitante': 10, 'p_fiador': 40, 'p_garantia': 41 };
                     var otherStepOrder = 42;
                     angular.forEach(datatables, function (d, i) {
