@@ -131,8 +131,16 @@
                   actualDisbursementDate: dateFilter(new Date(Date.now()),  scope.df),
                   dateFormat: scope.df
                 }
-                resourceFactory.chequeBatchResource.printCheques({ commandParam: 'printCheques'}, request, function (data) {
-                    scope.printPentahoBankCheques(selectedCheques);
+
+               let commandParam = selectedCheques.length<=1?'printCheques':'printchequebatches';
+
+                 resourceFactory.chequeBatchResource.printCheques({ commandParam: commandParam}, request, function (data) {
+                     if (selectedCheques.length <= 1){
+                         scope.printPentahoBankCheques(selectedCheques);
+                     }else{
+                         //navigate to batch cheques queue page
+                         scope.routeTo("/batchchequerequests")
+                     }
                 });
              };
 
@@ -140,7 +148,11 @@
                 route.reload();
            }
 
-           scope.$watch('formData.bankAccId',function(){
+            scope.routeTo = function (path) {
+                location.path(path);
+            }
+
+            scope.$watch('formData.bankAccId',function(){
             delete scope.formData.agencyName;
             delete  scope.formData.bankName;
             for (var i = 0; i < scope.bankAccountOptions.length; i++ ){

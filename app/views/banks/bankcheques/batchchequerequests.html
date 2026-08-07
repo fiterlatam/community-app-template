@@ -1,0 +1,95 @@
+<div class="content-container" ng-controller="BatchChequeRequestsController">
+    <ul class="breadcrumb">
+        <li><a href="#/organization">{{'label.anchor.organization' | translate}}</a></li>
+        <li><a href="#/printcheques">{{'label.anchor.print.cheques' | translate}}</a></li>
+        <li class="active">{{'label.heading.batchchequerequests' | translate}}</li>
+    </ul>
+    <api-validate></api-validate>
+    <div class="card">
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="toolbar">
+                        <h4 class="pull-left">{{'label.heading.batchchequerequests' | translate}}</h4>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary pull-right" ng-click="refresh()">
+                        <i class="fa fa-repeat"></i>&nbsp;&nbsp;{{'label.button.refresh' | translate}}
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="alert alert-info" ng-show="hasInProgressRequests()">
+                {{'label.batchchequerequests.inprogress.info' | translate}}
+            </div>
+            <div>
+                <form ng-submit="search()" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">{{'label.input.status' | translate}}</label>
+                                <div class="col-sm-6">
+                                    <select id="status" name="status"
+                                            ng-model="formData.status"
+                                            class="form-control"
+                                            ng-options="status.id as status.code | translate for status in statusOptions"
+                                            value="{{status.id}}">
+                                        <option value="">--{{'label.selectstatus' | translate}}--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-md-offset-3 pull-right">
+                                <button id="search" type="submit" class="btn btn-primary">
+                                    <span class="fa fa-search"></span> {{'label.button.searchdata' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                </form>
+            </div>
+            <br/>
+            <table class="table">
+                <thead>
+                <tr class="graybg">
+                    <th>{{'label.heading.id' | translate}}</th>
+                    <th>{{'label.heading.status' | translate}}</th>
+                    <th>{{'label.heading.chequecount' | translate}}</th>
+                    <th>{{'label.heading.requestedby' | translate}}</th>
+                    <th>{{'label.heading.email' | translate}}</th>
+                    <th>{{'label.heading.requesteddate' | translate}}</th>
+                    <th>{{'label.heading.processeddate' | translate}}</th>
+                    <th>{{'label.heading.chequeIds' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="request in batchRequests">
+                    <td>{{request.id}}</td>
+                    <td>
+                        <span ng-class="{
+                            'text-warning': request.status === 'PENDING' || request.status === 'PROCESSING',
+                            'text-success': request.status === 'COMPLETED',
+                            'text-danger': request.status === 'FAILED'
+                        }">{{('label.batchchequerequest.status.' + request.status) | translate}}</span>
+                    </td>
+                    <td>{{chequeCount(request.chequeIds)}}</td>
+                    <td>{{request.requestedByUsername}}</td>
+                    <td>{{request.requestedByEmail}}</td>
+                    <td>{{request.dateRequested | DateTimeFormat}}</td>
+                    <td>{{request.dateProcessed | DateTimeFormat}}</td>
+                    <td style="max-width: 280px; white-space: normal; word-break: break-word; overflow-wrap: anywhere;">{{request.chequeIds}}</td>
+                </tr>
+                <tr ng-show="!batchRequests || batchRequests.length === 0">
+                    <td colspan="8" class="text-center">{{'label.nodatafound' | translate}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="col-md-offset-2 paddedleft">
+                <a id="back" href="#/printcheques" class="btn btn-default">{{'label.button.back' | translate}}</a>
+            </div>
+        </div>
+    </div>
+</div>
