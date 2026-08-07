@@ -1294,6 +1294,8 @@
            templateUrl: 'views/banks/bankcheques/authorizesinglechequeissuance.html'
         }).when('/printcheques', {
            templateUrl: 'views/banks/bankcheques/printcheques.html'
+        }).when('/batchchequerequests', {
+           templateUrl: 'views/banks/bankcheques/batchchequerequests.html'
         }).when('/payguaranteeswithcheques', {
            templateUrl: 'views/banks/bankcheques/payguaranteeswithcheques.html'
          }).when('/committees', {

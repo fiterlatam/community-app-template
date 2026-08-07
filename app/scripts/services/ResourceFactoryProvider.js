@@ -1086,6 +1086,10 @@
                    searchChequeResource: defineResource(apiVer + "/bankcheques/search", {}, {
                         get: {method: 'GET', params: {}}
                     }),
+                   batchChequeRequestResource: defineResource(apiVer + "/bankcheques/batchrequests/:requestId", {requestId: "@requestId"}, {
+                        get: {method: 'GET', params: {}},
+                        getAll: {method: 'GET', params: {}, isArray: true}
+                    }),
                     committeeResource: defineResource(apiVer + "/committees/:committeeId", {committeeId: "@committeeId"}, {
                         get: {method: 'GET', params: {}, isArray: false},
                         getAllCommitteesForCurrentUser: {method: 'GET', params: {}},
