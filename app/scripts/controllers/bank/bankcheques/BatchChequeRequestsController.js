@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        BatchChequeRequestsController: function (scope, resourceFactory, $interval) {
+        BatchChequeRequestsController: function (scope, resourceFactory, $interval,$uibModal) {
 
             scope.batchRequests = [];
             scope.formData = {};
@@ -12,7 +12,7 @@
             ];
 
             var refreshPromise = null;
-
+            scope.processingMessage = '';
             scope.chequeCount = function (chequeIds) {
                 if (!chequeIds) {
                     return 0;
@@ -71,11 +71,26 @@
                 }
             });
 
+            scope.showProcessingError = function (request){
+                scope.processingMessage = request.processErrors?request.processErrors: '---';
+                $uibModal.open({
+                    templateUrl: 'errorlog.html',
+                    controller: ErrorLogCtrl,
+                });
+            }
+
+            var ErrorLogCtrl = function ($scope, $uibModalInstance) {
+                $scope.processingMessage = scope.processingMessage;
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('close');
+                };
+            };
+
             scope.loadBatchRequests();
         }
     });
 
-    mifosX.ng.application.controller('BatchChequeRequestsController', ['$scope', 'ResourceFactory', '$interval', mifosX.controllers.BatchChequeRequestsController]).run(function ($log) {
+    mifosX.ng.application.controller('BatchChequeRequestsController', ['$scope', 'ResourceFactory', '$interval','$uibModal', mifosX.controllers.BatchChequeRequestsController]).run(function ($log) {
         $log.info("BatchChequeRequestsController initialized");
     });
 }(mifosX.controllers || {}));
