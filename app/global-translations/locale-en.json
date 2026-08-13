@@ -612,6 +612,7 @@
   "validation.msg.floatingrate.isDifferentialToBaseLendingRate.no.baselending.rate.defined": "The base lending rate doesn't exists",
   "validation.msg.floatingrate.isDifferentialToBaseLendingRate.cannot.be.true.for.baselendingrate": "isDifferentialToBaseLendingRate cannot be true for floating rate marked as Base Lending Rate",
   "validation.msg.batch.jlg.no.clients.defined": "There is no clients selected for this request",
+  "loan.must.have.both.guarantor.and.mortgage": "The loan must have both guarantor and mortgage",
   "#Tooltips": "..",
   "label.tooltip.incomefromfees": "An Income account which is credited when a fee is paid by account holder on this account",
   "label.tooltip.incomefrompenalties": "An Income account, which is credited when a penalty is paid by account holder on this account",

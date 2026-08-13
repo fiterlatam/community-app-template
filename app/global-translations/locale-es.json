@@ -5294,6 +5294,7 @@
 	"validation.msg.loan.facilitator.cannot.be.blank": "Facilitador es requerido",
 	"validation.msg.loan.clientType.cannot.be.blank": "Tipo de cliente es requerido",
 	"error.msg.loanschedule.schedule.due.date.not.valid": "La fecha de vencimiento del cronograma no es válida",
+	"loan.must.have.both.guarantor.and.mortgage": "El préstamo debe contar con avalista y hipoteca.",
 	"approve": "aprobar",
 	"reject": "rechazar",
 	"error.msg.journal.entry.save.operation.failed": "Se ha producido un error al procesar la solicitud. Inténtalo de nuevo.",
