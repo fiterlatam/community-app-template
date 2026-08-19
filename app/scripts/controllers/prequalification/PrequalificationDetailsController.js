@@ -61,11 +61,11 @@
                     bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
                     data[l].docUrl = bldocs;
                     if (data[l].fileName)
-                        if (data[l].fileName.toLowerCase().indexOf('.jpg') != -1 || data[l].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[l].fileName.toLowerCase().indexOf('.png') != -1)
-                            data[l].fileIsImage = true;
+                        if (data[l].fileName.toLowerCase().indexOf('.zip') != -1) data[l].fileIsImage = false;
+                        else data[l].fileIsImage = true;
                     if (data[l].type)
-                        if (data[l].type.toLowerCase().indexOf('image') != -1)
-                            data[l].fileIsImage = true;
+                        if (data[l].type.toLowerCase().indexOf('zip') != -1) data[l].fileIsImage = false;
+                        else data[l].fileIsImage = true;
                 }
                 scope.prequalificationDocuments = data;
             });
