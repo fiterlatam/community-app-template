@@ -740,29 +740,46 @@
                         formDatEntry.data.splice(dtData.length);
                         angular.forEach(dtData, function (row, rowIdx) {
                             var fdRow = formDatEntry.data[rowIdx] || (formDatEntry.data[rowIdx] = {});
+                            var rowDateFormat = row.dateFormat || (scope.df + ' ' + scope.tf);
+                            var rowLocale = row.locale || (scope.optlang && scope.optlang.code);
                             angular.forEach(datatable.columnHeaderData, function (col) {
                                 if (col.columnDisplayType === 'DATE' && row[col.columnName] != null) {
-                                    var d = row[col.columnName];
-                                    fdRow[col.columnName] = d instanceof Date ? d : new Date(d);
+                                    fdRow[col.columnName] = toDate(row[col.columnName], rowDateFormat, rowLocale) || new Date(today);
                                 }
                                 if (col.columnDisplayType === 'DATETIME' && row[col.columnName] != null) {
                                     var dt = row[col.columnName];
                                     if (typeof dt === 'object' && dt.date != null) {
-                                        fdRow[col.columnName] = { date: dt.date instanceof Date ? dt.date : new Date(dt.date), time: dt.time || new Date() };
+                                        fdRow[col.columnName] = {
+                                            date: toDate(dt.date, rowDateFormat, rowLocale) || new Date(today),
+                                            time: toDate(dt.time, rowDateFormat, rowLocale) || new Date()
+                                        };
+                                    } else if (typeof dt === 'string') {
+                                        var parsedDt = toDate(dt, rowDateFormat, rowLocale) || new Date(today);
+                                        fdRow[col.columnName] = { date: parsedDt, time: new Date(parsedDt.getTime()) };
                                     }
                                 }
                             });
                         });
                     } else if (!datatable._isMultiple && dtData && typeof dtData === 'object' && !Array.isArray(dtData)) {
+                        var dateFormat = dtData.dateFormat || (scope.df + ' ' + scope.tf);
+                        var locale = dtData.locale || (scope.optlang && scope.optlang.code);
                         angular.forEach(datatable.columnHeaderData, function (col) {
                             if (col.columnDisplayType === 'DATE') {
                                 var val = dtData[col.columnName];
-                                formDatEntry.data[col.columnName] = val != null ? (val instanceof Date ? val : new Date(val)) : new Date(today);
+                                formDatEntry.data[col.columnName] = val != null
+                                    ? (toDate(val, dateFormat, locale) || new Date(today))
+                                    : new Date(today);
                             }
                             if (col.columnDisplayType === 'DATETIME') {
                                 var val = dtData[col.columnName];
                                 if (val != null && typeof val === 'object' && val.date != null) {
-                                    formDatEntry.data[col.columnName] = { date: val.date instanceof Date ? val.date : new Date(val.date), time: val.time || new Date() };
+                                    formDatEntry.data[col.columnName] = {
+                                        date: toDate(val.date, dateFormat, locale) || new Date(today),
+                                        time: toDate(val.time, dateFormat, locale) || new Date()
+                                    };
+                                } else if (typeof val === 'string') {
+                                    var parsed = toDate(val, dateFormat, locale) || new Date(today);
+                                    formDatEntry.data[col.columnName] = { date: parsed, time: new Date(parsed.getTime()) };
                                 } else {
                                     formDatEntry.data[col.columnName] = { date: new Date(today), time: new Date() };
                                 }
@@ -2123,18 +2140,77 @@
                 );
             }
 
-            function toDate(value) {
-                if (!value) {
+            // Reverse of Angular dateFilter for drafts saved as e.g. "19 agosto 2026 00:00"
+            // with dateFormat "dd MMMM yyyy HH:mm" and locale "es".
+            var MONTHS_BY_LOCALE = {
+                es: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+                en: ['january', 'february', 'march', 'april', 'may', 'june',
+                    'july', 'august', 'september', 'october', 'november', 'december'],
+                pt: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+            };
+
+            function toDate(value, dateFormat, locale) {
+                if (!value && value !== 0) {
+                    return null;
+                }
+                if (value instanceof Date) {
+                    return isNaN(value.getTime()) ? null : value;
+                }
+                if (typeof value !== 'string') {
                     return null;
                 }
 
-                var parsed = Date.parse(value);
-                if (!isNaN(parsed)) {
-                    return new Date(parsed);
+                var trimmed = value.trim();
+                var nativeParsed = Date.parse(trimmed);
+                if (!isNaN(nativeParsed) && !/[a-záéíóúñ]/i.test(trimmed.replace(/\d/g, ''))) {
+                    // Only trust native parse for numeric / ISO-like strings (not "19 agosto 2026")
+                    return new Date(nativeParsed);
                 }
 
-                console.warn('Not date parsed automatically:', value);
-                return null;
+                // "dd MMMM yyyy" optionally followed by "HH:mm" or "HH:mm:ss"
+                var match = trimmed.match(/^(\d{1,2})\s+([A-Za-zÁÉÍÓÚáéíóúÑñüÜ]+)\s+(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+                if (!match) {
+                    console.warn('Unable to parse draft date:', value, dateFormat, locale);
+                    return null;
+                }
+
+                var day = parseInt(match[1], 10);
+                var monthToken = match[2].toLowerCase();
+                var year = parseInt(match[3], 10);
+                var hour = match[4] != null ? parseInt(match[4], 10) : 0;
+                var minute = match[5] != null ? parseInt(match[5], 10) : 0;
+                var second = match[6] != null ? parseInt(match[6], 10) : 0;
+
+                var localeKey = (locale || (scope.optlang && scope.optlang.code) || 'es').toLowerCase().split(/[-_]/)[0];
+                var months = MONTHS_BY_LOCALE[localeKey] || MONTHS_BY_LOCALE.es;
+                var monthIndex = -1;
+                for (var i = 0; i < months.length; i++) {
+                    if (months[i] === monthToken) {
+                        monthIndex = i;
+                        break;
+                    }
+                }
+                if (monthIndex < 0) {
+                    // Fallback: search all known locales (draft may have been saved under another language)
+                    angular.forEach(MONTHS_BY_LOCALE, function (list) {
+                        if (monthIndex >= 0) return;
+                        for (var j = 0; j < list.length; j++) {
+                            if (list[j] === monthToken) {
+                                monthIndex = j;
+                                break;
+                            }
+                        }
+                    });
+                }
+                if (monthIndex < 0) {
+                    console.warn('Unknown month in draft date:', value);
+                    return null;
+                }
+
+                var result = new Date(year, monthIndex, day, hour, minute, second);
+                return isNaN(result.getTime()) ? null : result;
             }
 
             function hydrateDraft(payload) {
