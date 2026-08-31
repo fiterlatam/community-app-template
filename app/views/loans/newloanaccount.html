@@ -20,23 +20,23 @@
                     <api-validate></api-validate>
                     <hr/>
                     <!--<h3><strong>{{datatable.registeredTableName}}</strong></h3>-->
-                    <div class="text-right" style="margin-bottom:15px;">
-                        <label class="switch">
-                            <input type="checkbox"
-                                   ng-model="allNoSwitch"
-                                   ng-change="toggleAllNo()"
-                                   ng-click="setAllNo()">
-                            <span class="slider"></span>
-                        </label>
-
-                        <span style="margin-left:10px;">
-                        {{ allNoSwitch ? 'Todo en NO' : 'NO a todo' }}
-                    </span>
-                    </div>
 
                     <!-- Tabla simple (objeto único) -->
                     <div ng-if="!datatable._isMultiple">
                         <div ng-repeat="columnHeader in datatable.columnHeaderData">
+                            <div class="text-right" ng-if="columnHeader.columnName === 'YesNo_cd_propiedad_negocio_falsa'" class="text-right" style="margin-bottom:15px;">
+                                <label class="switch">
+                                    <input type="checkbox"
+                                           ng-model="allNoSwitch"
+                                           ng-change="toggleAllNo()"
+                                           ng-click="setAllNo()">
+                                    <span class="slider"></span>
+                                </label>
+
+                                <span style="margin-left:10px;">
+                                {{ allNoSwitch ? 'Todo en NO' : 'NO a todo' }}
+                                </span>
+                            </div>
                             <div class="form-group row" ng-if="columnHeader.columnName!='created_at' && columnHeader.columnName!='updated_at'">
                                 <label class="control-label col-sm-3">{{ columnHeader.columnName | translate }}
                                     <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
@@ -98,6 +98,8 @@
                                 </label>
                                 <span style="margin-left:10px;">{{ solicitanteNoSwitch ? 'Todo en NO' : 'NO a todo' }}</span>
                             </div>
+
+
                             <!-- p_destino embebido: justo después de Actividad económica principal -->
                             <div ng-if="columnHeader.columnName === 'classificationOptions_cd_actividad_economica_principal' && datatable.registeredTableName === 'p_solicitante' && destinoDatatable && destinoDatatableIndex >= 0" class="destino-embedded-section" style="margin-top:24px; margin-bottom:24px;">
                             <hr/>
