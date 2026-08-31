@@ -295,11 +295,12 @@
 
                                     <div class="col-sm-6 text-right">
                                         <div style="margin-top: 10px;">
-                                            <input id="grFile_{{quantityIdx}}_{{docIdx}}" ng-if="docCollections.required"
+                                            <input id="grFile_{{quantityIdx}}_{{docIdx}}_r" ng-if="docCollections.required && !paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][quantityIdx].docUrl"
                                                    type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[quantityIdx][docIdx]"
-                                                   ngf-select="onGuarantyFileSelect($files, quantityIdx, docIdx, docCollections)" required>
+                                                   ngf-select="onGuarantyFileSelect($files, quantityIdx, docIdx, docCollections)"
+                                                   ng-required="docCollections.required && !hasDraftGuaranteeDoc(docCollections, quantityIdx)">
 
-                                            <input id="grFile_{{quantityIdx}}_{{docIdx}}" ng-if="!docCollections.required"
+                                            <input id="grFile_{{quantityIdx}}_{{docIdx}}_nr" ng-if="!docCollections.required || paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][quantityIdx].docUrl"
                                                    type="file" accept="{{processAcceptedType(docCollections.acceptedFormat)}}" ng-model="guarantyFiles[quantityIdx][docIdx]"
                                                    ngf-select="onGuarantyFileSelect($files, quantityIdx, docIdx, docCollections)">
                                                 <div
@@ -308,6 +309,13 @@
                                                     style="margin-top:8px">
 
                                                     <i class="fa fa-check-circle"></i>&nbsp;&nbsp;{{ 'label.input.selected' | translate }}
+
+                                                    <a ng-if="paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][quantityIdx].docUrl"
+                                                       target="_blank"
+                                                       href="{{hostUrl}}{{paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][quantityIdx].docUrl}}">
+                                                        <i class="fa fa-cloud-download"></i>
+                                                        {{ paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][quantityIdx].fileName || paeRequiredGuaranteeDocuments['GUARANTEEDOC_' + docCollections.id][quantityIdx].name }}
+                                                    </a>
 
                                                     <!--<button type="button"
                                                             class="btn btn-link btn-xs text-danger"

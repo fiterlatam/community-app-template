@@ -38,6 +38,7 @@
             scope.draftDocuments = [];
             scope.paeLoandocuments = [];
             scope.draftPaeDocuments = {};
+            scope.hostUrl = $rootScope.hostUrl;
             scope.guarantyFiles = [];
             scope.paeRequiredGuaranteeOptions;
             scope.paeRequiredGuaranteeDocuments=[];
@@ -526,6 +527,9 @@
                             if (scope.draftStep) {
                                 WizardHandler.wizard().goTo(scope.draftStep);
                             }
+                            if (scope.draftId) {
+                                scope.loadDraftPaeDocuments(scope.draftId);
+                            }
                         }, 0);
                     }
 
@@ -740,29 +744,46 @@
                         formDatEntry.data.splice(dtData.length);
                         angular.forEach(dtData, function (row, rowIdx) {
                             var fdRow = formDatEntry.data[rowIdx] || (formDatEntry.data[rowIdx] = {});
+                            var rowDateFormat = row.dateFormat || (scope.df + ' ' + scope.tf);
+                            var rowLocale = row.locale || (scope.optlang && scope.optlang.code);
                             angular.forEach(datatable.columnHeaderData, function (col) {
                                 if (col.columnDisplayType === 'DATE' && row[col.columnName] != null) {
-                                    var d = row[col.columnName];
-                                    fdRow[col.columnName] = d instanceof Date ? d : new Date(d);
+                                    fdRow[col.columnName] = toDate(row[col.columnName], rowDateFormat, rowLocale) || new Date(today);
                                 }
                                 if (col.columnDisplayType === 'DATETIME' && row[col.columnName] != null) {
                                     var dt = row[col.columnName];
                                     if (typeof dt === 'object' && dt.date != null) {
-                                        fdRow[col.columnName] = { date: dt.date instanceof Date ? dt.date : new Date(dt.date), time: dt.time || new Date() };
+                                        fdRow[col.columnName] = {
+                                            date: toDate(dt.date, rowDateFormat, rowLocale) || new Date(today),
+                                            time: toDate(dt.time, rowDateFormat, rowLocale) || new Date()
+                                        };
+                                    } else if (typeof dt === 'string') {
+                                        var parsedDt = toDate(dt, rowDateFormat, rowLocale) || new Date(today);
+                                        fdRow[col.columnName] = { date: parsedDt, time: new Date(parsedDt.getTime()) };
                                     }
                                 }
                             });
                         });
                     } else if (!datatable._isMultiple && dtData && typeof dtData === 'object' && !Array.isArray(dtData)) {
+                        var dateFormat = dtData.dateFormat || (scope.df + ' ' + scope.tf);
+                        var locale = dtData.locale || (scope.optlang && scope.optlang.code);
                         angular.forEach(datatable.columnHeaderData, function (col) {
                             if (col.columnDisplayType === 'DATE') {
                                 var val = dtData[col.columnName];
-                                formDatEntry.data[col.columnName] = val != null ? (val instanceof Date ? val : new Date(val)) : new Date(today);
+                                formDatEntry.data[col.columnName] = val != null
+                                    ? (toDate(val, dateFormat, locale) || new Date(today))
+                                    : new Date(today);
                             }
                             if (col.columnDisplayType === 'DATETIME') {
                                 var val = dtData[col.columnName];
                                 if (val != null && typeof val === 'object' && val.date != null) {
-                                    formDatEntry.data[col.columnName] = { date: val.date instanceof Date ? val.date : new Date(val.date), time: val.time || new Date() };
+                                    formDatEntry.data[col.columnName] = {
+                                        date: toDate(val.date, dateFormat, locale) || new Date(today),
+                                        time: toDate(val.time, dateFormat, locale) || new Date()
+                                    };
+                                } else if (typeof val === 'string') {
+                                    var parsed = toDate(val, dateFormat, locale) || new Date(today);
+                                    formDatEntry.data[col.columnName] = { date: parsed, time: new Date(parsed.getTime()) };
                                 } else {
                                     formDatEntry.data[col.columnName] = { date: new Date(today), time: new Date() };
                                 }
@@ -1306,11 +1327,16 @@
                         location.path('/viewloanaccount/' + data.loanId);
                     });
                 } else {
-                    scope.uploadDraftDocuments(scope.draftId);
-                    scope.uploadDraftPaeDocuments(scope.draftId)
-                    .then(function () {
-                        scope.partialSave();
-                    })
+                    scope.partialSave()
+                        .then(function (draftId) {
+                            return scope.uploadDraftPaeDocuments(draftId)
+                                .then(function () {
+                                    return scope.uploadDraftDocuments(draftId);
+                                });
+                        })
+                        .then(function () {
+                            return scope.partialSave();
+                        });
                 }
             };
 
@@ -1404,7 +1430,7 @@
                                         }
                                         if (scope.draftId) {
 
-                                            if (requiredDoc.required && (!guaranteeDocFile || !guaranteeDocFile.name)) {
+                                            if (requiredDoc.required && !isPaeDraftSlotOnServer(requiredDoc.id, j + 1)) {
                                                 alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
                                                 return false;
                                             }
@@ -1867,8 +1893,11 @@
                     file: file,
                     name: currentDoc.documentName,
                     description: currentDoc.description,
-                    categoryId: currentDoc.categoryId
+                    categoryId: currentDoc.categoryId,
+                    pendingUpload: true
                 };
+
+                clearDraftPaeSlot(currentDoc.id, parentIndex + 1);
 
                 // Check if the file is an image
                 if (file && file.type && file.type.startsWith('image/')) {
@@ -1937,119 +1966,302 @@
                 }
             }
 
-            scope.hasDraftGuaranteeDoc = function (requiredDoc, guaranteeIndex) {
-                if (!scope.draftPaeDocuments || !requiredDoc) return false;
+            function buildPaeDraftDocDescription(requiredDocId, guaranteeNo) {
+                return 'GUARANTEEDOC_' + requiredDocId + '_GUARANTEE_' + guaranteeNo;
+            }
 
-                return (
-                    scope.draftPaeDocuments[requiredDoc.id] &&
-                    scope.draftPaeDocuments[requiredDoc.id]
-                        .some(d => d.guaranteeNo === (guaranteeIndex + 1))
-                );
+            function isPaeDraftDocOnServer(doc) {
+                return doc && doc.uploadedToServer && (doc.documentId || doc.docUrl);
+            }
+
+            function getPaeGuaranteeSlot(requiredDocId, guaranteeIndex) {
+                var key = 'GUARANTEEDOC_' + requiredDocId;
+                return scope.paeRequiredGuaranteeDocuments[key] && scope.paeRequiredGuaranteeDocuments[key][guaranteeIndex];
+            }
+
+            function isPaeDraftSlotOnServer(requiredDocId, guaranteeNo) {
+                var slot = getPaeGuaranteeSlot(requiredDocId, guaranteeNo - 1);
+                if (slot && slot.file) {
+                    return false;
+                }
+                if (slot && slot.uploadedToServer && (slot.documentId || slot.docUrl)) {
+                    return true;
+                }
+
+                var docKey = String(requiredDocId);
+                if (!scope.draftPaeDocuments || !scope.draftPaeDocuments[docKey]) {
+                    return false;
+                }
+
+                return scope.draftPaeDocuments[docKey].some(function (d) {
+                    return d.guaranteeNo === guaranteeNo && isPaeDraftDocOnServer(d);
+                });
+            }
+
+            function clearDraftPaeSlot(requiredDocId, guaranteeNo) {
+                var docKey = String(requiredDocId);
+                if (!scope.draftPaeDocuments || !scope.draftPaeDocuments[docKey]) {
+                    return;
+                }
+
+                var remaining = scope.draftPaeDocuments[docKey].filter(function (d) {
+                    return d.guaranteeNo !== guaranteeNo;
+                });
+
+                if (remaining.length > 0) {
+                    scope.draftPaeDocuments[docKey] = remaining;
+                } else {
+                    delete scope.draftPaeDocuments[docKey];
+                }
+            }
+
+            function upsertDraftPaeDocument(requiredDocId, guaranteeNo, docEntry) {
+                if (!scope.draftPaeDocuments) {
+                    scope.draftPaeDocuments = {};
+                }
+
+                var docKey = String(requiredDocId);
+                if (!scope.draftPaeDocuments[docKey]) {
+                    scope.draftPaeDocuments[docKey] = [];
+                }
+
+                scope.draftPaeDocuments[docKey] = scope.draftPaeDocuments[docKey].filter(function (d) {
+                    return d.guaranteeNo !== guaranteeNo;
+                });
+                scope.draftPaeDocuments[docKey].push(docEntry);
+            }
+
+            function parsePaeDraftDocDescription(description) {
+                if (!description) {
+                    return null;
+                }
+
+                var structured = description.match(/^GUARANTEEDOC_(\d+)_GUARANTEE_(\d+)$/);
+                if (structured) {
+                    return {
+                        docId: parseInt(structured[1], 10),
+                        guaranteeNo: parseInt(structured[2], 10)
+                    };
+                }
+
+                return null;
+            }
+
+            function sanitizeDraftPaeDocuments(paeDocuments) {
+                var sanitized = {};
+
+                if (!paeDocuments) {
+                    return sanitized;
+                }
+
+                angular.forEach(paeDocuments, function (docs, docId) {
+                    var savedDocs = docs.filter(function (d) {
+                        return isPaeDraftDocOnServer(d);
+                    });
+                    if (savedDocs.length > 0) {
+                        sanitized[docId] = savedDocs;
+                    }
+                });
+
+                return sanitized;
+            }
+
+            scope.loadDraftPaeDocuments = function (draftId) {
+                if (!draftId) {
+                    return;
+                }
+
+                resourceFactory.entityDocumentsResource.getAllDocuments({
+                    entity: 'paeloandrafts',
+                    entityId: draftId
+                }, function (data) {
+                    if (!data || !data.length) {
+                        return;
+                    }
+
+                    if (!scope.draftPaeDocuments) {
+                        scope.draftPaeDocuments = {};
+                    }
+
+                    for (var l in data) {
+                        var doc = data[l];
+                        var docUrl = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId + '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                        doc.docUrl = docUrl;
+
+                        var parsed = parsePaeDraftDocDescription(doc.description);
+                        if (!parsed || !parsed.docId) {
+                            continue;
+                        }
+
+                        var key = 'GUARANTEEDOC_' + parsed.docId;
+                        var guaranteeIndex = parsed.guaranteeNo - 1;
+
+                        if (!scope.paeRequiredGuaranteeDocuments[key]) {
+                            scope.paeRequiredGuaranteeDocuments[key] = [];
+                        }
+
+                        var docKey = String(parsed.docId);
+                        var alreadyTracked = scope.draftPaeDocuments[docKey].some(function (d) {
+                            return d.guaranteeNo === parsed.guaranteeNo && isPaeDraftDocOnServer(d);
+                        });
+                        if (!alreadyTracked) {
+                            upsertDraftPaeDocument(parsed.docId, parsed.guaranteeNo, {
+                                documentId: doc.id,
+                                guaranteeNo: parsed.guaranteeNo,
+                                name: doc.fileName || doc.name,
+                                docUrl: docUrl,
+                                uploadedToServer: true
+                            });
+                        }
+
+                        scope.paeRequiredGuaranteeDocuments[key][guaranteeIndex] = {
+                            name: doc.name,
+                            description: doc.description,
+                            documentId: doc.id,
+                            fileName: doc.fileName,
+                            docUrl: docUrl,
+                            uploadedToServer: true
+                        };
+                    }
+                });
+            };
+
+            scope.hasDraftGuaranteeDoc = function (requiredDoc, guaranteeIndex) {
+                if (!requiredDoc) return false;
+
+                return isPaeDraftSlotOnServer(requiredDoc.id, guaranteeIndex + 1);
             };
 
             scope.getDraftGuaranteeDoc = function (requiredDoc, guaranteeIndex) {
-                if (!scope.draftPaeDocuments || !requiredDoc) return null;
+                if (!requiredDoc) return null;
 
-                return scope.draftPaeDocuments[requiredDoc.id]
-                    ?.find(d => d.guaranteeNo === (guaranteeIndex + 1)) || null;
+                var slot = getPaeGuaranteeSlot(requiredDoc.id, guaranteeIndex);
+                if (slot && isPaeDraftSlotOnServer(requiredDoc.id, guaranteeIndex + 1)) {
+                    return slot;
+                }
+
+                var docKey = String(requiredDoc.id);
+                if (!scope.draftPaeDocuments || !scope.draftPaeDocuments[docKey]) {
+                    return null;
+                }
+
+                return scope.draftPaeDocuments[docKey]
+                    .find(function (d) {
+                        return d.guaranteeNo === (guaranteeIndex + 1) && isPaeDraftDocOnServer(d);
+                    }) || null;
             };
 
             scope.uploadDraftDocuments = function (draftId) {
+                if (!draftId) {
+                    return Promise.resolve();
+                }
+
+                var uploadPromises = [];
 
                 for (let i = 0; i < scope.loanDocuments.length; i++) {
-
                     let loanDocument = scope.loanDocuments[i];
 
-                    Upload.upload({
-                        url: $rootScope.hostUrl + API_VERSION + '/loanapplicationdraft/' + draftId + '/documents',
-                        data: { name : loanDocument.name, description : loanDocument.description, documentType : loanDocument.documentType, file: loanDocument.file},
-                    }).then(function (resp) {
+                    if (!loanDocument.file) {
+                        continue;
+                    }
 
+                    let promise = Upload.upload({
+                        url: $rootScope.hostUrl + API_VERSION + '/loanapplicationdraft/' + draftId + '/documents',
+                        data: {
+                            name: loanDocument.name,
+                            description: loanDocument.description,
+                            documentType: loanDocument.documentType,
+                            file: loanDocument.file
+                        },
+                    }).then(function (resp) {
                         scope.draftDocuments.push({
-                            documentId: resp.data.resourceId,
+                            documentId: resp.data.entityId || resp.data.resourceId,
                             name: loanDocument.file.name,
                             description: loanDocument.description,
                             documentType: loanDocument.documentType
                         });
                     });
+
+                    uploadPromises.push(promise);
                 }
-            }
+
+                return Promise.all(uploadPromises);
+            };
 
             scope.uploadDraftPaeDocuments = function (draftId) {
                 if (!draftId) {
                     return Promise.resolve();
                 }
 
-                if (!scope.paeRequiredGuaranteeDocuments || Object.keys(scope.paeRequiredGuaranteeDocuments).length === 0) {
-                    return Promise.resolve();
-                }
+                var uploadPromises = [];
 
-                let uploadPromises = [];
-                if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0){
-
-                    for (let i=0; i<scope.paeRequiredGuaranteeOptions.length; i++){
-
-                        if (scope.paeRequiredGuaranteeOptions[i].selected){
-
+                if (scope.paeRequiredGuaranteeOptions && scope.paeRequiredGuaranteeOptions.length > 0) {
+                    for (let i = 0; i < scope.paeRequiredGuaranteeOptions.length; i++) {
+                        if (scope.paeRequiredGuaranteeOptions[i].selected) {
                             let extraData = scope.paeRequiredGuaranteeOptions[i].extraData;
-
-                            for (let j=0; j<scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
-
+                            for (let j = 0; j < scope.paeRequiredGuaranteeOptions[i].quantity; j++) {
                                 if (extraData && extraData.length > 0) {
-
                                     for (let k = 0; k < extraData.length; k++) {
                                         let requiredDoc = extraData[k];
-                                        let key = "GUARANTEEDOC_" + requiredDoc.id;
+                                        let key = "GUARANTEEDOC_" + (requiredDoc.id);
+                                        let guaranteeDocFile;
+                                        if (!scope.paeRequiredGuaranteeDocuments[key] || !scope.paeRequiredGuaranteeDocuments[key][j]) {
+                                            continue;
+                                        }
+                                        guaranteeDocFile = scope.paeRequiredGuaranteeDocuments[key][j];
 
-                                        if ( !scope.paeRequiredGuaranteeDocuments[key] || !scope.paeRequiredGuaranteeDocuments[key][j]) {
+                                        if (!guaranteeDocFile || !guaranteeDocFile.file) {
+                                            if (isPaeDraftSlotOnServer(requiredDoc.id, j + 1)) {
                                                 continue;
-                                        }
-                                        let fileWrapper = scope.paeRequiredGuaranteeDocuments[key][j];
-
-                                        if (!fileWrapper || !fileWrapper.file) {
+                                            }
                                             continue;
                                         }
 
-                                        if (!scope.draftPaeDocuments) {
-                                            scope.draftPaeDocuments = {};
-                                        }
+                                        let guaranteeNo = j + 1;
+                                        let draftDocDescription = buildPaeDraftDocDescription(requiredDoc.id, guaranteeNo);
 
-                                        if (!scope.draftPaeDocuments[requiredDoc.id]) {
-                                            scope.draftPaeDocuments[requiredDoc.id] = [];
-                                        }
-
-                                        let alreadySaved = false;
-
-                                        if (
-                                            scope.draftPaeDocuments &&
-                                            scope.draftPaeDocuments[requiredDoc.id]
-                                        ) {
-                                            alreadySaved = scope.draftPaeDocuments[requiredDoc.id]
-                                                .some(d => d.guaranteeNo === (j + 1));
-                                        }
-
-                                        if (alreadySaved) {
-                                            continue;
+                                        let metaData = guaranteeDocFile.metaData;
+                                        let exifdata = guaranteeDocFile.file.exifdata;
+                                        if (!metaData && exifdata) {
+                                            metaData = {};
+                                            metaData['DateTime'] = exifdata.DateTime;
+                                            exifdata.GPSLatitudeRef ? metaData['GPSLatitudeRef'] = exifdata.GPSLatitudeRef : "N/A";
+                                            exifdata.GPSLatitude ? metaData['GPSLatitude'] = exifdata.GPSLatitude : "N/A";
+                                            exifdata.GPSLongitudeRef ? metaData['GPSLongitudeRef'] = exifdata.GPSLongitudeRef : "N/A";
+                                            exifdata.GPSLongitude ? metaData['GPSLongitude'] = exifdata.GPSLongitude : "N/A";
                                         }
 
                                         let promise = Upload.upload({
-                                            url: $rootScope.hostUrl + API_VERSION + '/loanapplicationdraft/' + draftId + '/documents',
+                                            url: $rootScope.hostUrl + API_VERSION + '/paedocumentation/' + draftId + '/paedrafts',
                                             data: {
-                                                name: fileWrapper.name,
-                                                description: `${fileWrapper.name}(GUARANTEE_${j + 1})`,
-                                                documentType: fileWrapper.categoryId,
-                                                documentPurpose: j + 1,
-                                                guaranteeNo: j + 1,
-                                                metaData: JSON.stringify(fileWrapper.metaData || {}),
-                                                file: fileWrapper.file
-                                            }
+                                                name: guaranteeDocFile.name,
+                                                description: draftDocDescription,
+                                                categoryId: guaranteeDocFile.categoryId,
+                                                guaranteeNo: guaranteeNo,
+                                                file: guaranteeDocFile.file,
+                                                metaData: JSON.stringify(metaData)
+                                            },
                                         }).then(function (resp) {
-                                            scope.draftPaeDocuments[requiredDoc.id].push({
-                                                documentId: resp.data.resourceId,
-                                                guaranteeNo: j + 1,
-                                                name: fileWrapper.file.name
+                                            var documentId = resp.data.entityId || resp.data.resourceId;
+                                            var docUrl = API_VERSION + '/paeloandrafts/' + draftId + '/documents/' + documentId + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                                            upsertDraftPaeDocument(requiredDoc.id, guaranteeNo, {
+                                                documentId: documentId,
+                                                guaranteeNo: guaranteeNo,
+                                                name: guaranteeDocFile.file.name,
+                                                docUrl: docUrl,
+                                                uploadedToServer: true
                                             });
-
+                                            scope.paeRequiredGuaranteeDocuments[key][j] = {
+                                                name: guaranteeDocFile.name,
+                                                description: draftDocDescription,
+                                                documentId: documentId,
+                                                fileName: guaranteeDocFile.file.name,
+                                                docUrl: docUrl,
+                                                uploadedToServer: true
+                                            };
+                                            if (!scope.$$phase) {
+                                                scope.$apply();
+                                            }
                                         });
 
                                         uploadPromises.push(promise);
@@ -2059,55 +2271,58 @@
                         }
                     }
                 }
-                $timeout(function () {
-                    scope.$applyAsync();
-                });
+
                 return Promise.all(uploadPromises);
             };
 
 
             scope.partialSave = function () {
-
-                //scope.submit(true);
-
                 var payload = angular.copy(scope.formData);
 
                 payload.paeRequiredGuaranteeOptions = angular.copy(scope.paeRequiredGuaranteeOptions);
                 payload.paeRequiredGuaranteeDocuments = angular.copy(scope.paeRequiredGuaranteeDocuments);
 
                 payload.documents = scope.draftDocuments;
-                payload.paeDocuments = scope.draftPaeDocuments;
+                payload.paeDocuments = sanitizeDraftPaeDocuments(scope.draftPaeDocuments);
 
-                if (scope.draftId) {
-
-                    resourceFactory.loanApplicationDraftResource.update(
-                        { draftId: scope.draftId },
-                        {
-                            currentStep: scope.step,
+                return new Promise(function (resolve, reject) {
+                    if (scope.draftId) {
+                        resourceFactory.loanApplicationDraftResource.update(
+                            { draftId: scope.draftId },
+                            {
+                                currentStep: scope.step,
+                                loanProductId: scope.formData.productId,
+                                payloadJson: angular.toJson(payload)
+                            },
+                            function () {
+                                resolve(scope.draftId);
+                            },
+                            function (error) {
+                                console.error('Error saving draft', error);
+                                reject(error);
+                            }
+                        );
+                    } else {
+                        var requestData = {
+                            clientId: scope.clientId,
                             loanProductId: scope.formData.productId,
+                            currentStep: scope.step,
                             payloadJson: angular.toJson(payload)
-                        }
-                    );
+                        };
 
-                } else {
-
-                    var requestData = {
-                        clientId: scope.clientId,
-                        loanProductId: scope.formData.productId,
-                        currentStep: scope.step,
-                        payloadJson: angular.toJson(payload)
-                    };
-
-                    resourceFactory.loanApplicationDraftResource.save(
-                        requestData,
-                        function (response) {
-                            scope.draftId = response.resourceId;
-                        },
-                        function (error) {
-                            console.error('Error saving draft', error);
-                        }
-                    );
-                }
+                        resourceFactory.loanApplicationDraftResource.save(
+                            requestData,
+                            function (response) {
+                                scope.draftId = response.entityId || response.resourceId;
+                                resolve(scope.draftId);
+                            },
+                            function (error) {
+                                console.error('Error saving draft', error);
+                                reject(error);
+                            }
+                        );
+                    }
+                });
             };
 
 
@@ -2123,18 +2338,77 @@
                 );
             }
 
-            function toDate(value) {
-                if (!value) {
+            // Reverse of Angular dateFilter for drafts saved as e.g. "19 agosto 2026 00:00"
+            // with dateFormat "dd MMMM yyyy HH:mm" and locale "es".
+            var MONTHS_BY_LOCALE = {
+                es: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+                en: ['january', 'february', 'march', 'april', 'may', 'june',
+                    'july', 'august', 'september', 'october', 'november', 'december'],
+                pt: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+            };
+
+            function toDate(value, dateFormat, locale) {
+                if (!value && value !== 0) {
+                    return null;
+                }
+                if (value instanceof Date) {
+                    return isNaN(value.getTime()) ? null : value;
+                }
+                if (typeof value !== 'string') {
                     return null;
                 }
 
-                var parsed = Date.parse(value);
-                if (!isNaN(parsed)) {
-                    return new Date(parsed);
+                var trimmed = value.trim();
+                var nativeParsed = Date.parse(trimmed);
+                if (!isNaN(nativeParsed) && !/[a-záéíóúñ]/i.test(trimmed.replace(/\d/g, ''))) {
+                    // Only trust native parse for numeric / ISO-like strings (not "19 agosto 2026")
+                    return new Date(nativeParsed);
                 }
 
-                console.warn('Not date parsed automatically:', value);
-                return null;
+                // "dd MMMM yyyy" optionally followed by "HH:mm" or "HH:mm:ss"
+                var match = trimmed.match(/^(\d{1,2})\s+([A-Za-zÁÉÍÓÚáéíóúÑñüÜ]+)\s+(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+                if (!match) {
+                    console.warn('Unable to parse draft date:', value, dateFormat, locale);
+                    return null;
+                }
+
+                var day = parseInt(match[1], 10);
+                var monthToken = match[2].toLowerCase();
+                var year = parseInt(match[3], 10);
+                var hour = match[4] != null ? parseInt(match[4], 10) : 0;
+                var minute = match[5] != null ? parseInt(match[5], 10) : 0;
+                var second = match[6] != null ? parseInt(match[6], 10) : 0;
+
+                var localeKey = (locale || (scope.optlang && scope.optlang.code) || 'es').toLowerCase().split(/[-_]/)[0];
+                var months = MONTHS_BY_LOCALE[localeKey] || MONTHS_BY_LOCALE.es;
+                var monthIndex = -1;
+                for (var i = 0; i < months.length; i++) {
+                    if (months[i] === monthToken) {
+                        monthIndex = i;
+                        break;
+                    }
+                }
+                if (monthIndex < 0) {
+                    // Fallback: search all known locales (draft may have been saved under another language)
+                    angular.forEach(MONTHS_BY_LOCALE, function (list) {
+                        if (monthIndex >= 0) return;
+                        for (var j = 0; j < list.length; j++) {
+                            if (list[j] === monthToken) {
+                                monthIndex = j;
+                                break;
+                            }
+                        }
+                    });
+                }
+                if (monthIndex < 0) {
+                    console.warn('Unknown month in draft date:', value);
+                    return null;
+                }
+
+                var result = new Date(year, monthIndex, day, hour, minute, second);
+                return isNaN(result.getTime()) ? null : result;
             }
 
             function hydrateDraft(payload) {
@@ -2191,24 +2465,8 @@
 
                 // --- Draft PAE documents ---
                 if (payload.paeDocuments) {
-                    scope.draftPaeDocuments = payload.paeDocuments;
+                    scope.draftPaeDocuments = sanitizeDraftPaeDocuments(payload.paeDocuments);
                 }
-
-                Object.keys(payload.paeDocuments).forEach(function(docId) {
-
-                    const key = "GUARANTEEDOC_" + docId;
-
-                    scope.paeRequiredGuaranteeDocuments[key] = scope.paeRequiredGuaranteeDocuments[key] || [];
-
-                    payload.paeDocuments[docId].forEach(function(doc) {
-
-                        scope.paeRequiredGuaranteeDocuments[key].push({
-                            name: doc.name,
-                            documentId: doc.documentId
-
-                        });
-                    });
-                });
 
                 $timeout(function () {
                     scope.$applyAsync();
