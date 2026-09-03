@@ -26,7 +26,6 @@
                 }, function (data) {
                     scope.foreclosuredata = data;
                     scope.formData.outstandingPrincipalPortion = scope.foreclosuredata.principalPortion;
-                    scope.formData.unrecognizedIncomePortion = scope.foreclosuredata.unrecognizedIncomePortion;
                     scope.formData.outstandingInterestPortion = scope.foreclosuredata.interestPortion;
                     if (scope.foreclosuredata.unrecognizedIncomePortion) {
                         scope.formData.interestAccruedAfterDeath = scope.foreclosuredata.unrecognizedIncomePortion;
@@ -35,7 +34,6 @@
                     scope.formData.outstandingFeeChargesPortion = scope.foreclosuredata.feeChargesPortion;
                     scope.formData.outstandingPenaltyChargesPortion = scope.foreclosuredata.penaltyChargesPortion;
                     scope.formData.foreClosureChargesPortion = scope.foreclosuredata.foreClosureChargesPortion;
-                    scope.bankAccounts = data.bankAccounts;
                     scope.calculateTransactionAmount();
                     scope.paymentTypes = scope.foreclosuredata.paymentTypeOptions;
 
@@ -48,8 +46,7 @@
                 transactionAmount += parseFloat(scope.foreclosuredata.interestPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.feeChargesPortion);
                 transactionAmount += parseFloat(scope.foreclosuredata.penaltyChargesPortion);
-                transactionAmount += parseFloat(scope.foreclosuredata.unrecognizedIncomePortion?scope.foreclosuredata.unrecognizedIncomePortion:0);
-                scope.formData.transactionAmount = Math.round(transactionAmount * 100) / 100;
+                scope.formData.transactionAmount = transactionAmount;
                 //scope.formData.transactionAmount =  scope.formData.transactionAmount.replace(/,/g,"");
             };
 
@@ -58,7 +55,7 @@
                 var transactionAmount = 0;
                 transactionAmount += parseFloat(scope.formData.transactionAmount);
                 transactionAmount -= parseFloat(scope.formData.totalWaivedAmount);
-                scope.formData.transactionAmount = Math.round(transactionAmount * 100) / 100;
+                scope.formData.transactionAmount = transactionAmount;
                 //scope.formData.transactionAmount =  scope.formData.transactionAmount.replace(/,/g,"");
             };
 
@@ -67,8 +64,6 @@
                     transactionDate: dateFilter(this.formData.transactionDate, scope.df),
                     locale:  scope.optlang.code,
                     dateFormat: scope.df,
-                    glAccountId: this.formData.glAccountId,
-                    receiptNumber: this.formData.receiptNumber,
                     note: this.formData.note
                 };
                 resourceFactory.loanTrxnsResource.save({loanId: routeParams.id, command: 'foreclosure'}, scope.foreclosureFormData, function(data) {
