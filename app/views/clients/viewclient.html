@@ -499,7 +499,7 @@
 										</tr>
 									</table>
 								</div>
-								<div ng-if="clientAccounts.loanApplicationDrafts && clientAccounts.loanApplicationDrafts.length > 0">
+								<div ng-if="clientAccounts.loanApplicationDrafts && clientAccounts.loanApplicationDrafts.length > 0" has-permission='VIEW_LOAN_DRAFT' >
 
 									<table class="table table-condensed">
 										<span class="span gray-head">
@@ -524,7 +524,7 @@
 											</td>
 
 											<td class="pointer center">
-												<a class="btn btn-xs btn-primary"
+												<a class="btn btn-xs btn-primary has-permission='UPDATE_LOAN_DRAFT' "
 												uib-tooltip="{{ 'label.button.proceed' | translate }}"
 												ng-href="#/continueloanapplicationdraft/{{client.id}}/{{draft.id}}">
 													<i class="fa fa-play"></i>
