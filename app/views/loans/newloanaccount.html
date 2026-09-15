@@ -1961,7 +1961,7 @@
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
-                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
+                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" has-permission='SAVE_LOAN_DRAFT'
                             ng-click="submit(true)">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
