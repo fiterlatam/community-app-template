@@ -730,7 +730,6 @@
                         dpi: fileNameWithoutExt,
                         description: description,
                         file: file,
-                        sendToCommittee: true,
                         comment: description
                     },
                 }).then(function (data) {
