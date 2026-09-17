@@ -128,17 +128,8 @@
                     case "foreclosure":
                         location.path('loanforeclosure/' + accountId);
                         break;
-                    case "foreclosureprojection":
-                        location.path('loanforeclosureprojection/' + accountId);
-                        break;
                 }
             };
-
-            scope.regenerateSchedule = function (accountId) {
-                resourceFactory.loanResource.save({command: 'regenerateRepaymentSchedule'}, {accountId: accountId}, function (data) {
-                    route.reload();
-                });
-            }
 
             scope.delCharge = function (id) {
                 $uibModal.open({
@@ -360,11 +351,6 @@
                         },
                         {
                             name: "button.foreclosure",
-                            icon: "icon-dollar",
-                            taskPermissionName: 'FORECLOSURE_LOAN'
-                        },
-                            {
-                            name: "button.foreclosureprojection",
                             icon: "icon-dollar",
                             taskPermissionName: 'FORECLOSURE_LOAN'
                         },
