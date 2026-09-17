@@ -12,6 +12,7 @@
             scope.restrictDate = new Date();
             // Transaction UI Related
             scope.isTransaction = false;
+            scope.isRepaymentTransaction = false;
             scope.showPaymentDetails = false;
             scope.paymentTypes = [];
             scope.form = {};
@@ -207,15 +208,27 @@
                         if (data.paymentTypeOptions.length > 0) {
                             scope.formData.paymentTypeId = data.paymentTypeOptions[0].id;
                         }
+                        if(data.bankAccounts && data.bankAccounts.length > 0){
+                            scope.bankAccounts = data.bankAccounts;
+                        }
                         scope.formData.transactionAmount = data.amount;
-                        scope.formData[scope.modelName] = new Date(data.date) || new Date();
+                        scope.formData.collateralAmount = data.collateralAmount;
+                        if (data.collateralAmount && Number(data.collateralAmount)>0){
+                            scope.formData.netAmountReceivable = Number(data.amount) - Number(data.collateralAmount);
+                        }
+                        scope.formData.collateralAmount = data.collateralAmount;
+                        scope.formData[scope.modelName] = new Date();
                         if(data.penaltyChargesPortion>0){
                             scope.showPenaltyPortionDisplay = true;
+                        }
+                        if (data.installmentNumber == data.numberOfRepayments  ){
+                            scope.lastPayment = true;
                         }
                     });
                     scope.title = 'label.heading.loanrepayments';
                     scope.labelName = 'label.input.transactiondate';
                     scope.isTransaction = true;
+                    scope.isRepaymentTransaction = true;
                     scope.showAmountField = true;
                     scope.taskPermissionName = 'REPAYMENT_LOAN';
                     break;
@@ -285,6 +298,20 @@
                     scope.labelName = 'label.input.closedondate';
                     scope.taskPermissionName = 'CLOSE_LOAN';
                     break;
+                 case "editloanfund":
+                    scope.modelName = 'fund';
+                    resourceFactory.loanResource.get({loanId: scope.accountId, template: true, staffInSelectedOfficeOnly:true}, function (data) {
+                        scope.fundOptions = data.fundOptions;
+                        scope.formData.fundId = data.fundId;
+                    });
+                    scope.title = 'label.heading.editloanfund';
+                    scope.labelName = 'label.input.fund';
+                    scope.taskPermissionName = 'UPDATEFUND_LOAN';
+                    scope.editFundField = true;
+                    scope.showNoteField = false;
+                    scope.showDateField = false;
+
+                    break;
                 case "unassignloanofficer":
                     scope.title = 'label.heading.unassignloanofficer';
                     scope.labelName = 'label.input.loanofficerunassigneddate';
@@ -353,7 +380,7 @@
                 case "paycharge":
                     resourceFactory.LoanAccountResource.get({loanId: routeParams.id, resourceType: 'charges', chargeId: routeParams.chargeId, command: 'pay'}, function (data) {
                         if (data.dueDate) {
-                            scope.formData.transactionDate = new Date(data.dueDate);
+                            scope.formData.transactionDate = new Date();
                         }
                         if (data.chargeTimeType.value === "Instalment Fee" && data.installmentChargeData) {
                             scope.installmentCharges = data.installmentChargeData;
@@ -412,10 +439,14 @@
                         }
                         scope.formData.transactionAmount = data.amount;
                         scope.formData[scope.modelName] = new Date();
+                        if(data.bankAccounts && data.bankAccounts.length > 0){
+                            scope.bankAccounts = data.bankAccounts;
+                        }
                     });
                     scope.title = 'label.heading.recoverypayment';
                     scope.labelName = 'label.input.transactiondate';
                     scope.isTransaction = true;
+                    scope.isRecoveryPayment = true;
                     scope.showAmountField = true;
                     scope.taskPermissionName = 'RECOVERYPAYMENT_LOAN';
                     break;
@@ -477,6 +508,11 @@
 
             scope.deleteTranches = function (index) {
                 scope.disbursementDetails.splice(index, 1);
+            };
+
+            scope.calculateReceivableAmount = function () {
+                if (scope.formData.netAmountReceivable && scope.formData.netAmountReceivable>0)
+                    scope.formData.netAmountReceivable = Number(scope.formData.transactionAmount) - Number(scope.formData.collateralAmount);
             };
 
             scope.addTranches = function () {

@@ -79,17 +79,11 @@
                                 </span>
                             </div>
                         </div>
-
-                        <table ng-show="columns.length > 0" class="width100">
-                            <tr class="form-group">
-                                <td class="width11">
-                                    <label class="control-label col-sm-2"><h4>{{ 'label.heading.columns' | translate }}</h4></label>
-                                </td>
-                                <td class="blockquoteresult width86">
-                                    <table ng-show="columns.length > 0" class="table width100">
+                        <h5>{{ 'label.heading.columns' | translate }}</h5>
+                        <table ng-show="columns.length > 0" class="table table-responsive" >
                                         <thead>
                                         <tr class="graybg">
-                                            <th>{{'label.heading.name' | translate}}</th>
+                                            <th style="width: 250px !important;">{{'label.heading.name' | translate}}</th>
                                             <th class="paddedleft0">{{'label.heading.newname' | translate}}</th>
                                             <th class="paddedleft0">{{'label.heading.type' | translate}}</th>
                                             <th class="paddedleft0">{{'label.heading.mandatory' | translate}}</th>
@@ -101,10 +95,8 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="column in columns">
-                                            <td>
-                                                <input ng-model="column.name" class="input-sm form-control" type="text"
-                                                       placeholder="{{'label.input.columnname' | translate}}"
-                                                       ng-readonly="column.originalName"/>
+                                            <td style="word-break: break-word !important;width: 250px !important;">
+                                                {{column.name}}
                                             </td>
                                             <td class="paddedleft0">
                                                 <input ng-model="column.newName" class="input-sm form-control" type="text"
@@ -146,9 +138,6 @@
                                                     class="fa fa-times-circle fa-2x"></i></a></td>
                                         </tr>
                                         </tbody>
-                                    </table>
-                                </td>
-                            </tr>
                         </table>
                         <div class="col-md-offset-3">
                             <a id="cancel" href="#/datatables">

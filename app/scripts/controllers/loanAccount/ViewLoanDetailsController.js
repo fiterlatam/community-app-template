@@ -1,6 +1,6 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
-        ViewLoanDetailsController: function (scope, routeParams, resourceFactory,paginatorService, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope) {
+        ViewLoanDetailsController: function (scope, routeParams, resourceFactory,paginatorService, location, route, http, $uibModal, dateFilter, API_VERSION, $sce, $rootScope, $locale, JSZipService,$timeout) {
             scope.loandocuments = [];
             scope.report = false;
             scope.hidePentahoReport = true;
@@ -10,6 +10,7 @@
             scope.hideAccrualTransactions = false;
             scope.isHideAccrualsCheckboxChecked = true;
             scope.loandetails = [];
+            scope.showNonPrequalificationActionBtn = false;
 
             scope.routeTo = function (loanId, transactionId, transactionTypeId) {
                 if (transactionTypeId == 2 || transactionTypeId == 4 || transactionTypeId == 1) {
@@ -109,6 +110,9 @@
                     case "recoverguarantee":
                         location.path('/loanaccount/' + accountId + '/recoverguarantee');
                         break;
+                    case "editloanfund":
+                        location.path('/loanaccount/' + accountId + '/editloanfund');
+                        break;
                     case "unassignloanofficer":
                         location.path('/loanaccount/' + accountId + '/unassignloanofficer');
                         break;
@@ -163,6 +167,33 @@
                 scope.status = data.status.value;
                 scope.chargeAction = data.status.value == "Submitted and pending approval" ? true : false;
                 scope.decimals = data.currency.decimalPlaces;
+                scope.loandetails = data;
+                scope.groupLoanAdditionalData = data.groupLoanAdditionalData;
+                if (data.prequalificationData){
+                    let prequalificationData = data.prequalificationData;
+                    scope.prequalificationType= prequalificationData.prequalificationType.value;
+                }
+                if(scope.loandetails.loanAdditionalData){
+                    scope.loanAdditionalData = scope.loandetails.loanAdditionalData;
+                    scope.caseId = scope.loandetails.loanAdditionalData.caseId;
+                    scope.prequalificationId = scope.loandetails.prequalificationData.id;
+                    resourceFactory.prequalificationResource.get({groupId:  scope.prequalificationId}, function (prequalificationData) {
+                        if (prequalificationData.prequalificationType) {
+                            scope.prequalificationType = prequalificationData.prequalificationType.value;
+                        }
+                    });
+                }
+                if(scope.loandetails.loanAdditionalDataPAE){
+                    scope.loanAdditionalDataPAE = scope.loandetails.loanAdditionalDataPAE;
+                    scope.caseId = scope.loandetails.loanAdditionalDataPAE.caseId;
+                    scope.prequalificationId = scope.loandetails.prequalificationData.id;
+                    resourceFactory.prequalificationResource.get({groupId:  scope.prequalificationId}, function (prequalificationData) {
+                        if (prequalificationData.prequalificationType) {
+                            scope.prequalificationType = prequalificationData.prequalificationType.value;
+                        }
+                    });
+                }
+
                 if (scope.loandetails.charges) {
                     scope.charges = scope.loandetails.charges;
                     for (var i in scope.charges) {
@@ -180,32 +211,38 @@
                 else {
                     scope.chargeTableShow = false;
                 }
-                if (scope.status == "Submitted and pending approval" || scope.status == "Active" || scope.status == "Approved") {
+                if (scope.status == "Submitted and pending approval" || scope.status == "Active" || scope.status == "Approved" || scope.status == "Pending Disbursement Authorization") {
                     scope.choice = true;
                 }
                 if (data.status.value == "Submitted and pending approval") {
-                    scope.buttons = { singlebuttons: [
+                    var singlebuttons = [
                         {
                             name: "button.addloancharge",
                             icon: "fa fa-plus",
                             taskPermissionName: 'CREATE_LOANCHARGE'
                         },
                         {
-                            name: "button.approve",
-                            icon: "fa fa-check",
-                            taskPermissionName: 'APPROVE_LOAN'
-                        },
-                        {
                             name: "button.modifyapplication",
                             icon: "fa fa-pincel-square-o",
                             taskPermissionName: 'UPDATE_LOAN'
-                        },
-                        {
+                        }
+                    ];
+
+                    if(scope.showNonPrequalificationActionBtn){
+                        singlebuttons.push(
+                            {
+                                name: "button.approve",
+                                icon: "fa fa-check",
+                                taskPermissionName: 'APPROVE_LOAN'
+                            },
+                            {
                             name: "button.reject",
                             icon: "fa fa-times",
                             taskPermissionName: 'REJECT_LOAN'
-                        }
-                    ],
+                        });
+                    }
+
+                    scope.buttons = { singlebuttons: singlebuttons,
                         options: [
                             {
                                 name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
@@ -234,6 +271,10 @@
                             {
                                 name: "button.loanscreenreport",
                                 taskPermissionName: 'READ_LOAN'
+                            },
+                            {
+                                name: "button.editloanfund",
+                                taskPermissionName: 'UPDATEFUND_LOAN'
                             }
                         ]
 
@@ -246,30 +287,36 @@
                     }
                 }
 
-                if (data.status.value == "Approved") {
-                    scope.buttons = { singlebuttons: [
+                if (data.status.value == "Approved" || data.status.value == "Pending Disbursement Authorization") {
+                    var singlebuttonsApproved = [
                         {
-                            name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
-                            icon: "fa fa-user",
-                            taskPermissionName: 'UPDATELOANOFFICER_LOAN'
-                        },
-                        {
-                            name: "button.disburse",
-                            icon: "fa fa-flag",
-                            taskPermissionName: 'DISBURSE_LOAN'
-                        },
-                        {
-                            name: "button.disbursetosavings",
-                            icon: "fa fa-flag",
-                            taskPermissionName: 'DISBURSETOSAVINGS_LOAN'
-                        },
-                        {
-                            name: "button.undoapproval",
-                            icon: "fa fa-undo",
-                            taskPermissionName: 'APPROVALUNDO_LOAN'
+                        name: (scope.loandetails.loanOfficerName?"button.changeloanofficer":"button.assignloanofficer"),
+                        icon: "fa fa-user",
+                        taskPermissionName: 'UPDATELOANOFFICER_LOAN'
                         }
-                    ],
+                    ];
+
+                    if(scope.showNonPrequalificationActionBtn){
+                        singlebuttonsApproved.push({
+                                name: "button.disburse",
+                                icon: "fa fa-flag",
+                                taskPermissionName: 'DISBURSE_LOAN'
+                            },
+                            {
+                                name: "button.disbursetosavings",
+                                icon: "fa fa-flag",
+                                taskPermissionName: 'DISBURSETOSAVINGS_LOAN'
+                            });
+                    }
+
+
+                    scope.buttons = { singlebuttons: singlebuttonsApproved,
                         options: [
+                            {
+                                name: "button.undoapproval",
+                                icon: "fa fa-undo",
+                                taskPermissionName: 'APPROVALUNDO_LOAN'
+                            },
                             {
                                 name: "button.addloancharge",
                                 taskPermissionName: 'CREATE_LOANCHARGE'
@@ -285,6 +332,10 @@
                             {
                                 name: "button.loanscreenreport",
                                 taskPermissionName: 'READ_LOAN'
+                            },
+                            {
+                                name: "button.editloanfund",
+                                taskPermissionName: 'UPDATEFUND_LOAN'
                             }
                         ]
 
@@ -350,6 +401,10 @@
                             {
                                 name: "button.recoverguarantee",
                                 taskPermissionName: 'RECOVERGUARANTEES_LOAN'
+                            },
+                            {
+                                name: "button.editloanfund",
+                                taskPermissionName: 'UPDATEFUND_LOAN'
                             }
                         ]
 
@@ -484,19 +539,176 @@
                         var loandocs = {};
                         loandocs = API_VERSION + '/loans/' + data[i].parentEntityId + '/documents/' + data[i].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
                         data[i].docUrl = loandocs;
+                        data[i].fileIsImage = true;
                         if (data[i].fileName)
-                            if (data[i].fileName.toLowerCase().indexOf('.jpg') != -1 || data[i].fileName.toLowerCase().indexOf('.jpeg') != -1 || data[i].fileName.toLowerCase().indexOf('.png') != -1)
-                                data[i].fileIsImage = true;
+                            data[i].fileIsImage = data[i].fileName.toLowerCase().indexOf('.zip') == -1;
                         if (data[i].type)
-                             if (data[i].type.toLowerCase().indexOf('image') != -1)
-                                data[i].fileIsImage = true;
+                            data[i].fileIsImage = data[i].type.toLowerCase().indexOf('zip') == -1;
                     }
                     scope.loandocuments = data;
                 });
 
             };
 
-            resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan'}, function (data) {
+            scope.getPaeLoanDocuments = function () {
+                console.log("Fetching PAE Loan Documents");
+                resourceFactory.entityDocumentsResource.getAllDocuments({
+                    entity: 'paeloandocs',
+                    entityId: routeParams.id
+                }, function (data) {
+                    for (var l in data) {
+
+                        var bldocs = {};
+                        bldocs = API_VERSION + '/' + data[l].parentEntityType + '/' + data[l].parentEntityId + '/documents/' + data[l].id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+                        data[l].docUrl = bldocs;
+                        data[l].fileIsImage = true;
+                        if (data[l].fileName)
+                            data[l].fileIsImage = data[l].fileName.toLowerCase().indexOf('.zip') == -1;
+                        if (data[l].type)
+                            data[l].fileIsImage = data[l].type.toLowerCase().indexOf('zip') == -1;
+                    }
+                    scope.paeLoandocuments = data;
+                });
+
+            };
+
+            // Add downloadAllPaeDocuments to scope
+            scope.downloadAllPaeDocuments = function() {
+                if (!scope.paeLoandocuments || scope.paeLoandocuments.length === 0) {
+                    alert('No PAE documents to download.');
+                    return;
+                }
+                var zip = new JSZipService.getJSZip();
+                var pdfFolder = zip.folder('PDF');
+                var otherFolder = zip.folder('OTROS');
+                var count = 0;
+                var zipFilename = 'LOAN_' + (scope.loandetails.id || 'loan') + '_GARANTIAS.zip';
+                var failed = [];
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                scope.paeLoandocuments.forEach(function(doc) {
+                    var url = scope.hostUrl + doc.docUrl;
+                    var filename =  doc.description || doc.fileName || ('document_' + doc.id);
+
+                    fetch(url, { credentials: 'include', headers: authHeader })
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            var lowerName = filename.toLowerCase();
+                            var targetFolder = lowerName.endsWith('.pdf') ? pdfFolder : otherFolder;
+                            targetFolder.file(filename, blob);
+
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                    saveAs(content, zipFilename);
+                                });
+                            }
+                        })
+                        .catch(function(err) {
+                            failed.push(filename);
+                            count++;
+                            if (count === scope.paeLoandocuments.length) {
+                                if (failed.length > 0) {
+                                    alert('Some files could not be downloaded: ' + failed.join(', '));
+                                }
+                                if (failed.length < scope.paeLoandocuments.length) {
+                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                        saveAs(content, zipFilename);
+                                    });
+                                }
+
+                            }
+                        });
+                });
+            };
+
+            scope.downloadSingleDoc=function(doc) {
+
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+
+                var url = scope.hostUrl + doc.docUrl;
+                var filename =  doc.description || doc.fileName || ('document_' + doc.id);
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        saveAs(blob, doc.fileName);
+                    })
+                    .catch(function(err) {
+                        console.log("Failed to Download file: "+doc.fileName);
+                    });
+            }
+
+            resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan', loanId: routeParams.id},  function (data) {
                 scope.loandatatables = data;
             });
 
@@ -647,17 +859,93 @@
                 });
             };
 
-            scope.previewDocument = function (url, fileName) {
-                scope.preview =  true;
-                scope.fileUrl = scope.hostUrl + url;
-                if(fileName.toLowerCase().indexOf('.png') != -1)
-                    scope.fileType = 'image/png';
-                else if((fileName.toLowerCase().indexOf('.jpg') != -1) || (fileName.toLowerCase().indexOf('.jpeg') != -1))
-                    scope.fileType = 'image/jpg';
+            scope.deletePaeDocument = function (documentId, index) {
+                scope.preview=false;
+                scope.fileUrl=undefined;
+                resourceFactory.LoanDocumentResource.delete({loanId: scope.loandetails.id, documentId: documentId}, '', function (data) {
+                    scope.paeLoandocuments.splice(index, 1);
+                    // route.reload()
+                });
             };
 
-            scope.downloadDocument = function (documentId) {
+            // scope.previewDocument = function (url, fileName) {
+            //     scope.preview =  true;
+            //     scope.fileUrl = scope.hostUrl + url;
+            //     if(fileName.toLowerCase().indexOf('.png') != -1)
+            //         scope.fileType = 'image/png';
+            //     else if((fileName.toLowerCase().indexOf('.jpg') != -1) || (fileName.toLowerCase().indexOf('.jpeg') != -1))
+            //         scope.fileType = 'image/jpg';
+            // };
 
+            scope.previewDocument = function (document) {
+                scope.isLoading=  true;
+                console.log("Previewing document ID: ",document);
+                scope.previewUrl = undefined;
+                var url = scope.hostUrl + document.docUrl;
+
+                scope.preview =  true;
+
+                // Get auth headers from session/local storage
+                var sessionData = null;
+                try {
+                    sessionData = JSON.parse(localStorage.getItem('sessionData')) || JSON.parse(sessionStorage.getItem('sessionData'));
+                } catch (e) {}
+                var authHeader = {};
+                if (sessionData && sessionData.authenticationKey) {
+                    if (sessionData.authenticationKey.startsWith('Bearer ') || sessionData.authenticationKey.startsWith('bearer ')) {
+                        authHeader['Authorization'] = sessionData.authenticationKey;
+                    } else {
+                        authHeader['Authorization'] = 'Basic ' + sessionData.authenticationKey;
+                    }
+                }
+                // Add tenant header if available
+                authHeader['Fineract-Platform-TenantId'] = "default";
+                var tenant = localStorage.getItem('Fineract-Platform-TenantId') || sessionStorage.getItem('Fineract-Platform-TenantId');
+                if (tenant) {
+                    authHeader['Fineract-Platform-TenantId'] = tenant;
+                }
+
+                // Add 2FA token header if available
+                var tokenData = localStorage.getItem('mifosX.twofactor');
+                if (tokenData) {
+                    let userData = JSON.parse(localStorage.getItem('mifosX.userData'));
+                    let username = userData && userData.username;
+                    let parsed = JSON.parse(tokenData);
+                    let entry = username && parsed[username];
+                    let token = entry && entry.token;
+
+                    if (token) authHeader['fineract-platform-tfa-token'] = token;
+                }
+
+                fetch(url, { credentials: 'include', headers: authHeader })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        scope.isLoading=  false;
+                        return response.blob();
+                    })
+                    .then(function(blob) {
+                        const blobUrl = URL.createObjectURL(blob);
+                        scope.previewUrl = $sce.trustAsResourceUrl(blobUrl);
+                        scope.isLoading=  false;
+                    })
+                    .catch(function(err) {
+                        console.log(err)
+                        console.log('Some files could not be downloaded');
+                        scope.isLoading=  false;
+                    });
+
+
+                //timeout 10 seconds and close preview
+                $timeout(function(){
+                    scope.preview =  false;
+                },50000);
+            };
+
+
+
+            scope.closePreview = function (documentId) {
+                scope.preview = false;
+                scope.previewUrl = undefined;
             };
 
             scope.transactionSort = {
@@ -690,7 +978,7 @@
             };
             scope.showDisbursedAmountBasedOnStatus = function(){
                 if(scope.status == 'Submitted and pending approval' ||scope.status == 'Withdrawn by applicant' || scope.status == 'Rejected' ||
-                    scope.status == 'Approved'){
+                    scope.status == 'Approved' || scope.status == 'Pending Disbursement Authorization'){
                     return false;
                 }
                 return true;
@@ -703,6 +991,14 @@
                 }
                 return false;
             };
+
+            scope.isAdditionalDateProperty = function(propertyName){
+                var dateFields = ["fechaInicio", "cFechaNacimiento", "fechaPrimeraReunion",
+                    "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad",
+                    "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_nacimiento_solicitante",
+                    "fecha_visita","fecha_inicio_negocio","fechaSupervision"];
+                return dateFields.includes(propertyName);
+            }
 
             scope.showAddDeleteTrancheButtons = function(action){
                 scope.return = true;
@@ -730,9 +1026,46 @@
 
                 return true;
             };
+
+            scope.formatNumber = function(value){
+                if (locale.id == 'es') {
+                    return value.toLocaleString('en');
+                } else {
+                    return value.toLocaleString(locale.id);
+                }
+            };
+
+            //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
+            scope.downloadDocument = function (doc) {
+
+                const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
+                    '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+
+                http({
+                    method: 'GET',
+                    url: $rootScope.hostUrl + url,
+                    responseType: 'arraybuffer',
+                }).then(function (response) {
+
+                    const blob = new Blob([response.data], { type: response.headers('Content-Type') });
+                    const fileName = doc.fileName || 'documento';
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Error al descargar el documento:', error);
+                    alert('No se pudo descargar el documento.');
+                });
+            };
         }
     });
-    mifosX.ng.application.controller('ViewLoanDetailsController', ['$scope', '$routeParams', 'ResourceFactory','PaginatorService', '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope', mifosX.controllers.ViewLoanDetailsController]).run(function ($log) {
+    mifosX.ng.application.controller('ViewLoanDetailsController', ['$scope', '$routeParams', 'ResourceFactory','PaginatorService',
+        '$location', '$route', '$http', '$uibModal', 'dateFilter', 'API_VERSION', '$sce', '$rootScope',
+        '$locale', 'JSZipService','$timeout', mifosX.controllers.ViewLoanDetailsController]).run(function ($log) {
         $log.info("ViewLoanDetailsController initialized");
     });
 }(mifosX.controllers || {}));

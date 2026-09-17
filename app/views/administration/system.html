@@ -2,7 +2,7 @@
     <div class="card">
         <div class="content">
             <div class="toolbar">
-                <h4>System</h4>
+                <h4 class="pull-left">{{'label.heading.system' | translate}}</h4>
             </div>
             <br>
             <div class="row">
@@ -99,6 +99,17 @@
                                 | translate}}</h4>
 
                             <p class="list-group-item-text">{{'label.twofactorconfig' | translate}}</p>
+                        </a>
+                        <a class="list-group-item" href="#/managetemplatespae" has-permission='UPDATE_PROMISSORY_NOTE'>
+                            <h4 class="list-group-item-heading"><i class="fa fa-edit fa fa-large"></i>&nbsp;&nbsp;{{'label.anchor.manageTemplates'
+                                | translate}}</h4>
+                            <p class="list-group-item-text">{{'label.anchor.manageTemplates' | translate}}</p>
+                        </a>
+
+                        <a class="list-group-item" href="#/manageresolutionstemplatespae" has-permission='UPDATE_PROMISSORY_NOTE'>
+                            <h4 class="list-group-item-heading"><i class="fa fa-edit fa fa-large"></i>&nbsp;&nbsp;{{'label.anchor.manageResolutionTemplate'
+                                | translate}}</h4>
+                            <p class="list-group-item-text">{{'label.anchor.manageResolutionTemplate' | translate}}</p>
                         </a>
                     </div>
                 </div>

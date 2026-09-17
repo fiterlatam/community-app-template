@@ -10,6 +10,7 @@
             scope.loanDisbursalTemplate = {};
             scope.date = {};
             scope.checkData = [];
+            scope.foreclosureLoans = [];
             scope.isCollapsed = true;
             scope.approveData = {};
             scope.restrictDate = new Date();
@@ -32,6 +33,11 @@
             });
             resourceFactory.checkerInboxResource.search(function (data) {
                 scope.searchData = data;
+                for (var i in data) {
+                    if (data[i].actionName == 'FORECLOSURE') {
+                        scope.foreclosureLoans.push(data[i]);
+                    }
+                }
             });
             scope.viewUser = function (item) {
                 scope.userTypeahead = true;
@@ -42,6 +48,14 @@
                 if(!angular.isUndefined(scope.searchData)) {
                     for (var i = scope.searchData.length - 1; i >= 0; i--) {
                         scope.checkData[scope.searchData[i].id] = newValue;
+                    };
+                }
+            }
+            scope.foreclosureInboxAllCheckBoxesClicked = function() {
+                var newValue = !scope.foreclosureInboxAllCheckBoxesMet();
+                if(!angular.isUndefined(scope.foreclosureLoans)) {
+                    for (var i = scope.foreclosureLoans.length - 1; i >= 0; i--) {
+                        scope.checkData[scope.foreclosureLoans[i].id] = newValue;
                     };
                 }
             }
@@ -56,6 +70,19 @@
                         }
                     });
                     return (checkBoxesMet===scope.searchData.length);
+                }
+            }
+            scope.foreclosureInboxAllCheckBoxesMet = function() {
+                var checkBoxesMet = 0;
+                if(!angular.isUndefined(scope.foreclosureLoans)) {
+                    _.each(scope.foreclosureLoans, function(data) {
+                        if(_.has(scope.checkData, data.id)) {
+                            if(scope.checkData[data.id] == true) {
+                                checkBoxesMet++;
+                            }
+                        }
+                    });
+                    return (checkBoxesMet===scope.foreclosureLoans.length);
                 }
             }
             scope.clientApprovalAllCheckBoxesClicked = function(officeName) {
@@ -372,10 +399,16 @@
                 ;
                 resourceFactory.checkerInboxResource.search(params, function (data) {
                     scope.searchData = data;
+                    scope.foreclosureLoans = [];
                     if (scope.userTypeahead) {
                         scope.formData.user = '';
                         scope.userTypeahead = false;
                         scope.user = '';
+                    }
+                    for (var i in data) {
+                        if (data[i].actionName == 'FORECLOSURE') {
+                            scope.foreclosureLoans.push(data[i]);
+                        }
                     }
                 });
             };

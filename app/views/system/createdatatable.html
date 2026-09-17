@@ -42,7 +42,7 @@
 						<div class="col-sm-5" ng-show="showLegalForm">
 						      <label class="control-label col-sm-2" for="entitySubType">{{ 'label.input.legalForm' | translate }}<span class="required">*</span></label>
 						      <div class="col-sm-7">
-						         <select id="entitySubType" ng-model="formData.entitySubType" name="entitySubType" class="form-control" required>
+						         <select id="entitySubType" ng-model="formData.entitySubType" name="entitySubType" class="form-control" ng-required="showLegalForm">
                                   <option class="width100" value="">{{'label.selectone' | translate}}</option>
 							       <option value="ENTITY">{{'label.entity' | translate}}</option>
                                   <option value="PERSON">{{'label.person' | translate}}</option>
@@ -151,7 +151,7 @@
     		            <a id="cancel" href="#/datatables">
     		                <button type="reset" class="btn btn-default">{{ 'label.button.cancel' | translate }}</button>
     		            </a>
-    		            <button id="save" type="submit" class="btn btn-primary" has-permission='CREATE_DATATABLE'>{{ 'label.button.save' | translate }}</button>
+    		            <button id="save" type="submit" class="btn btn-primary">{{ 'label.button.save' | translate }}</button>
     		        </div>
     		    </fieldset>
     		</form>

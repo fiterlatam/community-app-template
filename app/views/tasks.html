@@ -335,6 +335,86 @@
                                 </div>
                             </div>
                         </uib-tab>
+
+                        <uib-tab heading="{{'label.heading.loan.foreclosure.approval' | translate}}" has-permission='FORECLOSURE_LOAN_CHECKER'>
+                            <div class="head-affix">
+                                <table class="table condensed-table">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <input ng-autofocus="true" ng-model="filterText1" type="text"
+                                                   class="input-sm form-control"
+                                                   placeholder="{{'label.input.filterbyname' | translate}}">
+                                        </th>
+                                        <th>
+                                            <button type="button" class="btn btn-success" has-permission='FORECLOSURE_LOAN_CHECKER'
+                                                    data-ng-click="approveOrRejectChecker('approve')"><i
+                                                    class="fa fa-check"></i>&nbsp;&nbsp;{{'label.button.approve' | translate}}</button>
+                                            <button type="button" class="btn btn-danger" data-ng-click="deleteChecker()" has-permission='FORECLOSURE_LOAN_CHECKER'><i
+                                                    class="fa fa-trash-o"></i>&nbsp;&nbsp;{{'label.button.delete' | translate}}</button>
+                                            <button type="button" class="btn btn-warning" has-permission='FORECLOSURE_LOAN_CHECKER'
+                                                    data-ng-click="approveOrRejectChecker('reject')"><i
+                                                    class="fa fa-times"></i>&nbsp;&nbsp;{{'label.button.reject' | translate}}</button>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <script type="text/ng-template" id="approveloan.html">
+                                <div class="modal-header silver">
+                                    <h3 class="bolder">{{'label.heading.approve' | translate}}</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <api-validate></api-validate>
+                                    <br>
+                                    <button class="btn btn-default" ng-click="cancel()">{{'label.button.cancel' |
+                                        translate}}
+                                    </button>
+                                    <button class="btn btn-primary" ng-click="approve()">{{'label.button.confirm' |
+                                        translate}}
+                                    </button>
+                                </div>
+                            </script>
+                            <div>
+                                <table class="table" style="margin-top: -20px;">
+                                    <thead>
+                                    <tr class="graybg">
+                                        <th><input type="checkbox" ng-click="foreclosureInboxAllCheckBoxesClicked()"
+                                                   ng-checked="foreclosureInboxAllCheckBoxesMet()"/></th>
+                                        <th>{{'label.heading.id' | translate}}</th>
+                                        <th>{{'label.heading.loanId' | translate}}</th>
+                                        <th>{{'label.heading.madeondate' | translate}}</th>
+                                        <th>{{'label.heading.status' | translate}}</th>
+                                        <th>{{'label.heading.user' | translate}}</th>
+                                        <th>{{'label.heading.action' | translate}}</th>
+                                        <th>{{'label.heading.entity' | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="pointer-main"
+                                        dir-paginate="data in foreclosureLoans | itemsPerPage: itemsPerPage"
+                                        pagination-id="inbox">
+                                        <td><input type="checkbox" data-ng-model="checkData[data.id]"/></td>
+                                        <td class="pointer" data-ng-click="routeTo(data.id)">{{data.id}}</td>
+                                        <td class="pointer"> <a href='#/viewloanaccount/{{data.loanId}}'>{{data.loanId}}</a></td>
+                                        <td class="pointer" data-ng-click="routeTo(data.id)">{{data.madeOnDate |
+                                            DateFormat}}
+                                        </td>
+                                        <td class="pointer" data-ng-click="routeTo(data.id)">{{data.processingResult |translate}}
+                                        </td>
+                                        <td class="pointer" data-ng-click="routeTo(data.id)">{{data.maker}}</td>
+                                        <td class="pointer" data-ng-click="routeTo(data.id)">{{data.actionName}}</td>
+                                        <td class="pointer" data-ng-click="routeTo(data.id)">{{data.entityName}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    <dir-pagination-controls pagination-id="'__' + $index"
+                                                             boundary-links="true"
+                                                             template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"/>
+                                </div>
+                            </div>
+                        </uib-tab>
                         <uib-tab heading="{{'label.heading.loandisbursal' | translate}}" has-permission='READ_LOAN'>
                             <div class="head-affix">
                                 <table class="table condensed-table">

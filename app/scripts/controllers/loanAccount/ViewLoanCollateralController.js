@@ -3,9 +3,9 @@
         ViewLoanCollateralController: function (scope, resourceFactory, routeParams, location, $uibModal) {
 
             scope.loanId = routeParams.loanId;
-            scope.collateralId = routeParams.id;
+            scope.collateralId = routeParams.collateralId;
             scope.showEditButtons = routeParams.status == 'Submitted and pending approval' ? true : false;
-            resourceFactory.loanResource.get({ resourceType: 'collaterals', loanId: scope.loanId, resourceId: scope.collateralId}, function (data) {
+            resourceFactory.loanCollateralResource.get({ loanId: scope.loanId, collateralId: scope.collateralId}, function (data) {
                 scope.collateral = data;
             });
             scope.deleteCollateral = function () {
