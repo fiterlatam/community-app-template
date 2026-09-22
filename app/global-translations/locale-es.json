@@ -5330,7 +5330,7 @@
 	"readWrite_cd_puede_leer_escribir": "Usted puede leer y escribir",
 	"dependents_cd_dependientes": "¿Usted tiene niños menores de 7 años que dependen de usted? (Incluyendo niños, sobrinos, nietos)",
 	"record_crediticio_PDA": "Récord crediticio en PDA",
-	"pda_options_pae_cd_record_crediticio_PDA": "Récord crediticio en PDA",
+	"creditRecordPDAOptions_cd_record_crediticio_PDA": "Récord crediticio en PDA",
 	"cantidad_creditos_vigentes_PA": "Cantidad de créditos vigentes en Puente de Amistad",
 	"YesNo_cd_negocio_familiar_participacion_esposo": "¿El negocio es familiar con participación del esposo?",
 	"YesNo_cd_esposo_propietario_garantia": "¿El esposo es propietario de la garantía?",
