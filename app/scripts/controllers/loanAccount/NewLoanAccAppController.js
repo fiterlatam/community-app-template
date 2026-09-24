@@ -332,11 +332,14 @@
                 'YesNo_cd_propiedad_negocio_falsa', 'YesNo_cd_referencias_personales_falsas', 'YesNo_cd_referencias_comerciales_falsas',
                 'YesNo_cd_relacion_laboral_falsa', 'YesNo_cd_denuncias_judiciales_civiles_penales', 'YesNo_cd_es_policia_militar_abogado',
                 'YesNo_cd_solicitante_rechazada_o_morosa_PA', 'YesNo_cd_deuda_vencida_mayor_30_dias', 'YesNo_cd_asesores_credito_supervisor_fiador',
-                'YesNo_cd_lider_agencia_fiador', 'YesNo_cd_solicitante_familiar_colaborador_PDA'
+                'YesNo_cd_lider_agencia_fiador', 'YesNo_cd_solicitante_familiar_colaborador_PDA','YesNo_cd_deuda_vencida_mayor_30_dias',
+                'YesNo_cd_asesores_credito_supervisor_fiador','YesNo_cd_lider_agencia_fiador','YesNo_cd_solicitante_familiar_colaborador_PDA'
             ];
             var SOLICITANTE_NO_TO_ALL_COLUMNS = [
                 'YesNo_cd_propiedad_negocio_falsa', 'YesNo_cd_referencias_personales_falsas', 'YesNo_cd_referencias_comerciales_falsas',
-                'YesNo_cd_relacion_laboral_falsa'
+                'YesNo_cd_relacion_laboral_falsa','YesNo_cd_denuncias_judiciales_civiles_penales',
+                'YesNo_cd_es_policia_militar_abogado','YesNo_cd_solicitante_rechazada_o_morosa_PA', 'YesNo_cd_deuda_vencida_mayor_30_dias',
+                'YesNo_cd_asesores_credito_supervisor_fiador','YesNo_cd_lider_agencia_fiador','YesNo_cd_solicitante_familiar_colaborador_PDA'
             ];
             scope.setSolicitanteNoToSpecific = function () {
                 if (!scope.datatables || !scope.formData.datatables) { return; }
