@@ -50,7 +50,7 @@ module.exports = function(grunt) {
     connect: {
         options: {
             port:  9002,
-            hostname: 'localhost',
+            hostname: '0.0.0.0',
             livereload: 35729,
             open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=https://demo.mifos.io'
         },
@@ -413,7 +413,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-gh-pages')
 
   // Run development server using grunt serve
-  grunt.registerTask('serve', ['clean:server', 'copy:server', 'compass:dev', 'connect:livereload', 'watch']);
+  grunt.registerTask('serve', ['clean:server', 'copy:server', 'connect:livereload', 'watch']);
 
   // Validate JavaScript and HTML files
   grunt.registerTask('validate', ['jshint:all', 'validation']);
