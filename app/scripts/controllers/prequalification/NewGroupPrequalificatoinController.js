@@ -161,6 +161,12 @@
             }
 
             scope.requestPrequalification = function () {
+                if (!scope.formData.agencyId) {
+                    if (scope.groupDetailsForm && scope.groupDetailsForm.agencyId) {
+                        scope.groupDetailsForm.agencyId.$setTouched();
+                    }
+                    return;
+                }
                 console.log("submitting form data");
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
