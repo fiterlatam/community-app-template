@@ -10,9 +10,9 @@
             scope.uiValidationErrors = [];
             scope.bankAccountOptions = [];
 
-            scope.searchByCaseId = function () {
+            scope.searchByDpi = function () {
                    var params = {
-                       caseId: this.searchText,
+                       dpi: this.searchText,
                        locale: scope.optlang.code
                    };
                    resourceFactory.chequeGuaranteeResource.getAllGuarantees(params, function (data) {
@@ -21,7 +21,7 @@
             }
 
             scope.search = function () {
-                 scope.searchByCaseId();
+                 scope.searchByDpi();
                  scope.fetchAvailableCheques();
                  scope.isChequeAssigned = false;
                  scope.isAllGuaranteeSelected = false;

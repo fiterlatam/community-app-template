@@ -22,9 +22,12 @@
     	    	</div>
     	    	<div class="row">
     	    		<div class="col-md-6"></div>
-    	    		<div class="col-md-6">
-    	    			<button class="pull-right btn btn-danger" data-ng-click="deleteAcc()" has-permission='DELETE_GLCLOSURE'><i class="fa fa-trash-o"></i>&nbsp;&nbsp;{{'label.button.delete' | translate }}
+					<div class="col-md-6">
+    	    			<button class="pull-right btn btn-danger ml-1" data-ng-click="deleteAcc()" has-permission='DELETE_GLCLOSURE'><i class="fa fa-trash-o"></i>&nbsp;&nbsp;{{'label.button.delete' | translate }}
     	    			</button>
+						<button class="pull-right btn btn-primary ml-1" data-ng-click="editClosure()"
+								has-permission='UPDATE_GLCLOSURE'><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;{{isEditClosure?'label.button.cancel':'label.button.edit' | translate }}
+						</button>
     	    		</div>
     	    	</div>
     	        <div class="row">
@@ -36,7 +39,11 @@
     		                </tr>
     		                <tr>
     		                    <td><strong>{{ 'label.heading.closuredate' | translate }}:</strong></td>
-    		                    <td>{{accountClosure.closingDate | DateFormat}}</td>
+    		                    <td ng-if="!isEditClosure">{{accountClosure.closingDate | DateFormat}}</td>
+    		                    <td ng-if="isEditClosure">
+									<input class="form-control" id="closingDate" type="text" datepicker-pop="dd MMMM yyyy" ng-model="formData.closingDate"
+										   is-open="opened" min="'2000-01-01'" max="restrictDate" />
+								</td>
     		                </tr>
     		                <tr>
     		                    <td><strong>{{ 'label.heading.closedby' | translate }}:</strong></td>
@@ -56,11 +63,51 @@
     		                </tr>
     		                <tr>
     		                    <td><strong>{{ 'label.heading.comments' | translate }}:</strong></td>
-    		                    <td>{{accountClosure.comments}}</td>
+    		                    <td ng-if="!isEditClosure">{{accountClosure.comments}}</td>
+    		                    <td ng-if="isEditClosure">
+									<textarea rows="2" ng-model="formData.comments" class="form-control"></textarea>
+								</td>
+
     		                </tr>
     		            </table>
+						<div class="col-md-6" ng-if="isEditClosure">
+							<button class="pull-right btn btn-success" data-ng-click="updateClosure()"
+									has-permission='UPDATE_GLCLOSURE'><i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.submit' | translate }}
+							</button>
+						</div>
     		    	</div>
     		    </div>
+				<hr/>
+				<h4>{{'label.heading.closed.branches'|translate}}</h4>
+				<div ng-if="accountClosure.childClosures && accountClosure.childClosures.length>0">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="officeFilter">{{ 'label.input.filterbyname' | translate }}</label>
+								<input type="text" id="officeFilter" class="form-control" ng-model="officeFilter" placeholder="{{ 'label.heading.officeName' | translate }}" />
+							</div>
+						</div>
+					</div>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>{{ 'label.heading.office' | translate }}</th>
+								<th>{{ 'label.heading.closuredate' | translate }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="childClosure in accountClosure.childClosures | filter:officeFilter">
+								<td>
+								  <a href="#/view_close_accounting/{{childClosure.id}}">
+								    {{childClosure.officeName}}
+								  </a>
+								</td>
+								<td>{{childClosure.closingDate | DateFormat}}</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
     		</div>
     </div>
 </div>

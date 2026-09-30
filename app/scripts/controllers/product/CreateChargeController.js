@@ -30,7 +30,7 @@
                 scope.expenseAccountOptions = data.expenseAccountOptions;
                 scope.accountMappingForChargeConfig = data.accountMappingForChargeConfig;
                 scope.accountMappingForCharge = [];
-                
+
                 var accountMappingForChargeConfigVar = scope.accountMappingForChargeConfig.toLowerCase();
 
                 if(accountMappingForChargeConfigVar.indexOf("asset") > -1){
@@ -55,7 +55,7 @@
                         scope.chargeTimeTypeOptions = scope.template.loanChargeTimeTypeOptions;
                         scope.showGLAccount = false;
                         break ;
-                    case 2:
+                    case 2:chargeTimeTypeOptions
                         scope.showChargePaymentByField = false;
                         scope.chargeCalculationTypeOptions = scope.template.savingsChargeCalculationTypeOptions;
                         scope.chargeTimeTypeOptions = scope.template.savingsChargeTimeTypeOptions;

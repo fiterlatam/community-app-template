@@ -108,6 +108,7 @@
                     canDefineInstallmentAmount : scope.product.canDefineInstallmentAmount,
                     isEqualAmortization : scope.product.isEqualAmortization,
                     requireCommitteeApproval : data.requireCommitteeApproval,
+                    waiveInterest : data.waiveInterestEarlyRepayment,
                 };
 
                 if (scope.product.isInterestRecalculationEnabled) {
@@ -129,7 +130,7 @@
                     if(scope.formData.interestRecalculationCompoundingMethod != 0){
                         scope.formData.recalculationCompoundingFrequencyType = scope.product.interestRecalculationData.recalculationCompoundingFrequencyType.id;
                         scope.formData.recalculationCompoundingFrequencyInterval = scope.product.interestRecalculationData.recalculationCompoundingFrequencyInterval;
-                        
+
                         if (scope.product.interestRecalculationData.recalculationCompoundingFrequencyOnDay != null) {
                             scope.formData.recalculationCompoundingFrequencyNthDayType = -2;
                             scope.formData.recalculationCompoundingFrequencyOnDayType = scope.product.interestRecalculationData.recalculationCompoundingFrequencyOnDay;
@@ -517,7 +518,7 @@
                     scope.transactionProcessingStrategy = false;
                 }
 
-                scope.selectedConfigurableAttributes = 
+                scope.selectedConfigurableAttributes =
 		{amortizationType:scope.amortization,
                     interestType:scope.interestMethod,
                     transactionProcessingStrategyId:scope.transactionProcessingStrategy,
