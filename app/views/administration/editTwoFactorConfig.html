@@ -9,9 +9,9 @@
         <fieldset>
             <legend>{{ 'label.anchor.editExternalServicesConfiguration' | translate }}</legend>
             <div class="form-group" ng-repeat="config in configs">
-                <label class="control-label col-sm-3" for="{{config.name}}">{{config.name}}</label>
+                <label class="control-label col-sm-3" for="{{config.label}}">{{config.label}}</label>
                 <div ng-show="config.type == 'TEXT'" class="col-sm-9">
-                    <input type="text" id="{{config.name}}" name="{{config.name}}" ng-model="config.value" class="form-control"/>
+                    <input type="text" id="{{config.label}}" name="{{config.name}}" ng-model="config.value" class="form-control"/>
                 </div>
                 <div ng-show="config.type == 'BOOLEAN'" class="col-sm-9">
                     <label class="radio-inline">

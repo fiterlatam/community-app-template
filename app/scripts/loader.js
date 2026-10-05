@@ -14,6 +14,8 @@
             'chosen': '../bower_components/angular-bootstrap/ui-bootstrap-csp.css',
             'bootstrap-csp': '../bower_components/angular-bootstrap/ui-bootstrap-csp.css',
             'underscore': '../bower_components/underscore/underscore',
+            'JSZip': '../bower_components/jszip/dist/jszip',
+            'filesaver': '../bower_components/file-saver/dist/FileSaver',
             'webstorage': '../bower_components/angular-webstorage/angular-webstorage',
             'angular-animate': '../bower_components/angular-animate/angular-animate',
             'angular-touch': '../bower_components/angular-touch/angular-touch',
@@ -45,7 +47,8 @@
             'ng-scrollbar':'../bower_components/ng-scrollbar/dist/ng-scrollbar',
             'ng-scrollbar-css':'../bower_components/ng-scrollbar/dist/ng-scrollbar.css',
             'styles-css': '../styles/styles.css',
-            'ui-config': '../scripts/config/UIconfig.json'
+            'ui-config': '../scripts/config/UIconfig.json',
+            'exif-js': '../bower_components/exif-js/exif'
         },
         shim: {
             'angular': { deps: ['jquery','chosen.jquery.min'],exports: 'angular' },
@@ -61,6 +64,9 @@
             'bootstrap' : {deps:['jquery']},
             'ngSanitize': {deps: ['angular'], exports: 'ngSanitize'},
             'webstorage': { deps: ['angular'] },
+            'JSZip': { deps: ['angular'] },
+            'filesaver': { deps: ['angular'] },
+            'exif-js': { deps: ['angular'] },
             'd3': {exports: 'd3'},
             'nvd3': { deps: ['d3']},
             'nvd3ChartDirectives': {deps: ['angular', 'nvd3']},
@@ -80,6 +86,7 @@
             'angular-wizard': {deps: ['angular', 'underscore']},
             'angular-utils-pagination': {deps: ['angular']},
             'ng-scrollbar': {deps: ['angular']},
+            'exif-js': {exports: 'EXIF'},
             'mifosX': {
                 deps: [
                     'angular',
@@ -93,6 +100,8 @@
                     'angularui',
                     'angularuitpls',
                     'webstorage',
+                    'JSZip',
+                    'filesaver',
                     'nvd3ChartDirectives',
                     'notificationWidget',
                     'angularFileUpload',
@@ -111,7 +120,8 @@
                     'webcam-directive',
                     'angular-wizard',
                     'angular-utils-pagination',
-                    'ng-scrollbar'
+                    'ng-scrollbar',
+                    'exif-js'
                 ],
                 exports: 'mifosX'
             }

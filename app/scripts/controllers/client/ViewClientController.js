@@ -16,7 +16,9 @@
             scope.showRecurring = false;
             scope.updateDefaultSavings = false;
             scope.charges = [];
+            scope.clientContactInformation = null;
             scope.legalform = 'm_client';
+            scope.showNonPrequalificationActionBtn = false;
 
             scope.collaterals = [];
 
@@ -176,6 +178,8 @@
             scope.haveFile = [];
             resourceFactory.clientResource.get({clientId: routeParams.id}, function (data) {
                 scope.client = data;
+                scope.clientContactInformation = data.clientContactInformation;
+                scope.detailData = data.detailData;
                 scope.collaterals = scope.client.clientCollateralManagements;
                 scope.collateralSize = scope.collaterals.length;
                 scope.isClosedClient = scope.client.status.value == 'Closed';
@@ -997,6 +1001,33 @@
                else{
                    alert("Please Select Respective integrated Credit Bureau");
                }
+            };
+
+            //------------------------- DOWNLOAD DOCUMENTS ----------------------------------
+            scope.downloadDocument = function (doc) {
+
+                const url = API_VERSION + '/' + doc.parentEntityType + '/' + doc.parentEntityId +
+                    '/documents/' + doc.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+
+                http({
+                    method: 'GET',
+                    url: $rootScope.hostUrl + url,
+                    responseType: 'arraybuffer',
+                }).then(function (response) {
+
+                    const blob = new Blob([response.data], { type: response.headers('Content-Type') });
+                    const fileName = doc.fileName || 'documento';
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Error al descargar el documento:', error);
+                    alert('No se pudo descargar el documento.');
+                });
             };
 
             scope.onFileSelect = function (files) {

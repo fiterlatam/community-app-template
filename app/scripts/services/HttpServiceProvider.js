@@ -11,12 +11,22 @@
                 delete requestInterceptors[id];
             };
 
-            this.$get = ['$http', function (http) {
+            this.$get = ['$http', 'FingerprintService', function (http, FingerprintService) {
                 var HttpService = function () {
                     var getConfig = function (config) {
                         return _.reduce(_.values(requestInterceptors), function (c, i) {
                             return i(c);
                         }, config);
+                    };
+
+                    var addFingerprintHeader = function(config) {
+                        // Ensure headers object exists
+                        config.headers = config.headers || {};
+                        // Return a promise that resolves to config with fingerprint
+                        return FingerprintService.getFingerprint().then(function(fingerprint) {
+                            config.headers['X-Client-Fingerprint'] = fingerprint;
+                            return config;
+                        });
                     };
 
                     var self = this;
@@ -26,7 +36,9 @@
                                 method: method.toUpperCase(),
                                 url: url
                             });
-                            return http(config);
+                            return addFingerprintHeader(config).then(function(cfg) {
+                                return http(cfg);
+                            });
                         };
                     });
                     _.each(['post', 'put'], function (method) {
@@ -36,7 +48,9 @@
                                 url: url,
                                 data: data
                             });
-                            return http(config);
+                            return addFingerprintHeader(config).then(function(cfg) {
+                                return http(cfg);
+                            });
                         };
                     });
                     this.setAuthorization = function (key, isOauth) {
