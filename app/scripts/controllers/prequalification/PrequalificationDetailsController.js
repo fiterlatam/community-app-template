@@ -460,7 +460,7 @@
                     if (token) authHeader['fineract-platform-tfa-token'] = token;
                 }
 
-                fetch(url, { credentials: 'include', headers: authHeader })
+                fetch(url, { headers: authHeader })
                     .then(function(response) {
                         if (!response.ok) throw new Error('Network response was not ok');
                         scope.isLoading=  false;
@@ -570,7 +570,7 @@
                     var documentName = (doc.name + '_' + doc.id || doc.description || ('document_' + doc.id)) + ext;
 
 
-                    fetch(url, { credentials: 'include', headers: authHeader })
+                    fetch(url, { headers: authHeader })
                         .then(function(response) {
                             if (!response.ok) throw new Error('Network response was not ok');
                             return response.blob();
