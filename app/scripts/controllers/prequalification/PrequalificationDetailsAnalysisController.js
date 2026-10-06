@@ -1107,7 +1107,7 @@
             };
 
             scope.deletePrequalDocument = function (documentId, index) {
-                resourceFactory.entityDocumentsResource.delete({entity: "prequalifications", entity: scope.groupId, documentId: documentId}, '', function (data) {
+                resourceFactory.entityDocumentsResource.delete({entity: "prequalifications", entityId: scope.groupId, documentId: documentId}, '', function (data) {
                     scope.prequalificationDocuments.splice(index, 1);
                 });
             };
