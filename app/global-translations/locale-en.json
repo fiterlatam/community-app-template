@@ -2231,6 +2231,7 @@
   "prequalification.status.pending": "Pending",
   "prequalification.status.pending.approval": "Pending Approval",
   "prequalification.status.rejected": "Rejected",
+  "prequalification.status.withdrawn": "Withdrawn by client",
   "prequalification.status.blacklist.checked": "Blacklist Checked",
   "prequalification.status.blacklist.rejected": "Blacklist Rejected",
   "prequalification.status.buro.checked": "Buro Checked",
