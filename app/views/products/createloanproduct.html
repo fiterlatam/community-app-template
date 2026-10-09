@@ -115,7 +115,7 @@
 
                         <div class="col-sm-2">
                             <select id="ownerType" class="form-control"
-                                ng-model="formData.ownerType" 
+                                ng-model="formData.ownerType"
                                 ng-options="ownerType.id as ownerType.value for ownerType in product.loanProductOwnerTypes"
                                 ng-change="loanproduct.ownerTypeOption.value = formValue(product.loanProductOwnerTypes,formData.ownerType)"
                                 value="{{ownerType.id}}">

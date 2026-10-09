@@ -176,7 +176,7 @@ span.required {
   padding: 90px 15px 0 65px;
   .content-container {
     width: 100%;
-    max-width: 1124px;
+    max-width: 95%;
     margin: 0 auto;
   }
   background-color: #ebeff1;
@@ -530,4 +530,34 @@ span.required {
 
 .pre-wrap {
   white-space: pre-wrap;
+}
+
+/* Acordeón p_destino: todo el recuadro del encabezado es clicable */
+.datatable-accordion .panel-heading {
+  padding: 0;
+  cursor: pointer;
+}
+.datatable-accordion .panel-heading a,
+.datatable-accordion .panel-heading .accordion-toggle,
+.datatable-accordion .panel-heading > * {
+  display: block !important;
+  width: 100% !important;
+  padding: 10px 15px;
+  min-height: 44px;
+  line-height: 24px;
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
+}
+.datatable-accordion .datatable-accordion-heading {
+  display: block !important;
+  width: 100% !important;
+  padding: 10px 15px;
+  min-height: 44px;
+  line-height: 24px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.datatable-accordion .panel-heading:hover .datatable-accordion-heading {
+  background-color: rgba(0, 0, 0, 0.05);
 }

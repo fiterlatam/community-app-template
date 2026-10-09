@@ -306,6 +306,26 @@
                 }
                 return false;
             };
+
+            scope.generateReject = function () {
+
+                var startDate = '2025-01-01';
+                var endDate = '2026-01-19';
+
+                var baseUrl = $rootScope.hostUrl + '/fineract-provider/api/v1/runreports/';
+                var reportName = encodeURIComponent('Rejected Loans Report');
+
+                var url = baseUrl + reportName
+                    + '?R_startDate=' + startDate
+                    + '&R_endDate=' + endDate
+                    + '&exportCSV=true'
+                    + '&tenantIdentifier=' + $rootScope.tenantIdentifier;
+
+                window.open(url, '_blank');
+            };
+
+
+
             scope.runReport = function () {
                 //clear the previous errors
                 scope.errorDetails = [];

@@ -217,7 +217,7 @@
                             scope.formData.netAmountReceivable = Number(data.amount) - Number(data.collateralAmount);
                         }
                         scope.formData.collateralAmount = data.collateralAmount;
-                        scope.formData[scope.modelName] = new Date(data.date) || new Date();
+                        scope.formData[scope.modelName] = new Date();
                         if(data.penaltyChargesPortion>0){
                             scope.showPenaltyPortionDisplay = true;
                         }
@@ -380,7 +380,7 @@
                 case "paycharge":
                     resourceFactory.LoanAccountResource.get({loanId: routeParams.id, resourceType: 'charges', chargeId: routeParams.chargeId, command: 'pay'}, function (data) {
                         if (data.dueDate) {
-                            scope.formData.transactionDate = new Date(data.dueDate);
+                            scope.formData.transactionDate = new Date();
                         }
                         if (data.chargeTimeType.value === "Instalment Fee" && data.installmentChargeData) {
                             scope.installmentCharges = data.installmentChargeData;

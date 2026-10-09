@@ -27,7 +27,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-4" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL'">
+                            <div class="col-md-4" ng-if="prequalificationType !='AGENCY_LEAD_PENDING_APPROVAL' && prequalificationType !='rejected'">
                                 <div class="control-label col-sm-3 text-white">
                                     <label>{{ 'label.input.status' | translate }}<span
                                             class="required">*</span></label>
@@ -101,10 +101,10 @@
                     <td class="pointer" ng-if="prequalificationType==='analysis' || prequalificationType==='exceptionsqueue'">{{client.processType}}</td>
                     <td class="pointer" ng-if="prequalificationType==='analysis'">{{client.processQuality}}</td>
                     <td class="pointer">
-                        <a href="#/prequalification/{{client.id}}/viewdetails/{{groupingType}}{{client.status.value==='HARD_POLICY_CHECKED'?'?showValidatePolicies=true':''}}"
+                        <a class="hyperlight" href="#/prequalification/{{client.id}}/viewdetails/{{groupingType}}{{client.status.value==='HARD_POLICY_CHECKED'?'?showValidatePolicies=true':''}}"
                            has-permission='VIEW_PREQUALIFICATIONS'>
                             <i class="fa fa-search fa fa-2x" title="View Prequalifications"></i></a>
-                        <a href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='UPDATE_PREQUALIFICATIONS'>
+                        <a ng-if="prequalificationType != 'rejected'"class="hyperlight" href="#/prequalification/{{client.id}}/edit/{{groupingType}}" has-permission='UPDATE_PREQUALIFICATIONS'>
                             <i class="fa fa-edit fa fa-2x" title="Edit Prequalifications"></i></a>
                     </td>
                 </tr>
