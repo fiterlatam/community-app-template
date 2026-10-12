@@ -1,9 +1,10 @@
 (function (module) {
     mifosX.controllers = _.extend(module, {
 
-        ViewTransactionController: function (scope, routeParams, resourceFactory, location, route, $uibModal) {
+        ViewTransactionController: function (scope, routeParams, resourceFactory,localStorageService, location, route, $uibModal) {
             scope.flag = false;
             scope.manualEntry = false;
+            scope.locale =scope.optlang.code;
             scope.productName = routeParams.productName;
             scope.clientName = routeParams.clientName;
             scope.accountNo = routeParams.accountNo;
@@ -27,6 +28,10 @@
                     }
                 }
             });
+            scope.convertMyTimestampDate = function (transaction) {
+                const date = new Date(transaction.createdTimestamp);
+                return date.toLocaleString(scope.optlang.code, { timeZone: transaction.systemTimezone });
+            }
             scope.confirmation = function () {
                 $uibModal.open({
                     templateUrl: 'confirmation.html',
@@ -105,7 +110,7 @@
 
         }
     });
-    mifosX.ng.application.controller('ViewTransactionController', ['$scope', '$routeParams', 'ResourceFactory', '$location', '$route', '$uibModal', mifosX.controllers.ViewTransactionController]).run(function ($log) {
+    mifosX.ng.application.controller('ViewTransactionController', ['$scope', '$routeParams', 'ResourceFactory','localStorageService', '$location', '$route', '$uibModal', mifosX.controllers.ViewTransactionController]).run(function ($log) {
         $log.info("ViewTransactionController initialized");
     });
 }(mifosX.controllers || {}));
