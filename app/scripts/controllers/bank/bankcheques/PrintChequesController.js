@@ -132,15 +132,9 @@
                   dateFormat: scope.df
                 }
 
-               let commandParam = selectedCheques.length<=1?'printCheques':'printchequebatches';
-
-                 resourceFactory.chequeBatchResource.printCheques({ commandParam: commandParam}, request, function (data) {
-                     if (selectedCheques.length <= 1){
-                         scope.printPentahoBankCheques(selectedCheques);
-                     }else{
+                 resourceFactory.chequeBatchResource.printCheques({ commandParam: 'printchequebatches'}, request, function (data) {
                          //navigate to batch cheques queue page
                          scope.routeTo("/batchchequerequests")
-                     }
                 });
              };
 
