@@ -621,7 +621,7 @@
                     var url = scope.hostUrl + doc.docUrl;
                     var filename =  doc.description || doc.fileName || ('document_' + doc.id);
 
-                    fetch(url, { credentials: 'include', headers: authHeader })
+                    fetch(url, { headers: authHeader })
                         .then(function(response) {
                             if (!response.ok) throw new Error('Network response was not ok');
                             return response.blob();
@@ -695,7 +695,7 @@
                 var url = scope.hostUrl + doc.docUrl;
                 var filename =  doc.description || doc.fileName || ('document_' + doc.id);
 
-                fetch(url, { credentials: 'include', headers: authHeader })
+                fetch(url, { headers: authHeader })
                     .then(function(response) {
                         if (!response.ok) throw new Error('Network response was not ok');
                         return response.blob();
@@ -917,7 +917,7 @@
                     if (token) authHeader['fineract-platform-tfa-token'] = token;
                 }
 
-                fetch(url, { credentials: 'include', headers: authHeader })
+                fetch(url, { headers: authHeader })
                     .then(function(response) {
                         if (!response.ok) throw new Error('Network response was not ok');
                         scope.isLoading=  false;
