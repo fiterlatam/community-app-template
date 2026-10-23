@@ -82,6 +82,11 @@
                             route.reload();
                         });
                         break;
+                    case "remediateholddates":
+                        resourceFactory.savingsResource.save({accountId: accountId, command: 'remediateholddates'}, {}, function (data) {
+                            route.reload();
+                        });
+                        break;
                     case "rebalanceaccount":
                         resourceFactory.savingsResource.save({accountId: accountId, command: 'rebalanceaccount'}, {}, function (data) {
                             route.reload();
@@ -243,6 +248,10 @@
                             name: "button.calculateInterest",
                             icon: "fa fa-table",
                             taskPermissionName:"CALCULATEINTEREST_SAVINGSACCOUNT"
+                        }, {
+                            name: "button.remediateholddates",
+                            icon: "fa fa-calendar",
+                            taskPermissionName:"REMEDIATEHOLDDATES_SAVINGSACCOUNT"
                         }, {
                             name: "button.rebalanceaccount",
                             icon: "fa fa-refresh",
