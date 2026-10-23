@@ -2354,7 +2354,7 @@
 	"recurring.deposit.frequency.periodFrequencyType.months": "Meses",
 	"recurring.deposit.frequency.periodFrequencyType.years": "Años",
 	"error.msg.savingsaccount.hold.release.dates.nothing.to.remediate": "La cuenta no tiene reservas con fechas que remediar.",
-	"error.msg.savingsaccount.unknown.data.integrity.issue":"Un problema inesperado ocurrió al crear/actualizar la cuenta de ahorros. Error al iniciar sesión en el servidor.",
+	"error.msg.savingsaccount.unknown.data.integrity.issue": "Un problema inesperado ocurrió al crear/actualizar la cuenta de ahorros. Error al iniciar sesión en el servidor.",
 	"validation.msg.savingsaccount.submittedOnDate.cannot.be.blank": "Presentado en fecha es obligatorio.",
 	"validation.msg.savingsaccount.activationDate.cannot.be.blank": "La fecha de activación es obligatoria cuando se configura la cuenta como 'Activa'.",
 	"validation.msg.savingsaccount.accountNo.cannot.be.blank": "El número de cuenta es obligatorio.",

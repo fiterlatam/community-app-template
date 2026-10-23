@@ -2556,7 +2556,7 @@
   "recurring.deposit.frequency.periodFrequencyType.months": "Months",
   "recurring.deposit.frequency.periodFrequencyType.years": "Years",
   "error.msg.savingsaccount.hold.release.dates.nothing.to.remediate": "The account has no hold dates to remediate.",
-  "error.msg.savingsaccount.unknown.data.integrity.issue":"An unexpected problem occurred when creating/updating the savings account. Error logged on server.",
+  "error.msg.savingsaccount.unknown.data.integrity.issue": "An unexpected problem occurred when creating/updating the savings account. Error logged on server.",
   "validation.msg.savingsaccount.submittedOnDate.cannot.be.blank": "Submitted on date is mandatory.",
   "validation.msg.savingsaccount.activationDate.cannot.be.blank": "Activation date is mandatory when setting account as `Active`.",
   "validation.msg.savingsaccount.accountNo.cannot.be.blank": "Account no. is mandatory.",
