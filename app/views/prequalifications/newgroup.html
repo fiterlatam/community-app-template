@@ -10,25 +10,25 @@
         <fieldset>
             <legend>{{ 'label.heading.newgroup.prequalification' | translate }}</legend>
             <table class="width100">
-                <tr ng-if="groupingType==='group'">
+                <tr>
                     <td class="width14">
                         <label>{{ 'label.input.agency' | translate }}<span class="required">*</span>:&nbsp;</label>
                     </td>
                     <td class="width36 paddedbottom10">
-                        <select id="agency" ng-model="formData.agencyId"
+                        <select id="agency" name="agencyId" ng-model="formData.agencyId"
                                 ng-options="agency.id as agency.name for agency in agenciesList" value="{{agency.id}}"
                                 class="form-control width170px" required late-validate>
                             <option style="display:none" value="">{{'label.input.agency' | translate}}</option>
                         </select>
-                        <form-validate valattributeform="groupDetailsForm" valattribute="productId"/>
+                        <form-validate valattributeform="groupDetailsForm" valattribute="agencyId"/>
                     </td>
 
-                    <td class="width14">
+                    <td class="width14" ng-if="groupingType==='group'">
                         <label>{{ 'label.input.select.center' | translate }}<span
                                 class="required">*</span>:&nbsp;</label>
                     </td>
-                    <td class="width36 paddedbottom10">
-                        <select id="centerId" ng-model="formData.centerId" chosen="centersList" ng-autofocus="true"
+                    <td class="width36 paddedbottom10" ng-if="groupingType==='group'">
+                        <select id="centerId" name="centerId" ng-model="formData.centerId" chosen="centersList" ng-autofocus="true"
                                 ng-options="pcenter.id as pcenter.name for pcenter in centersList"
                                 value="{{pcenter.id}}"
                                 class="form-control width170px" required="true" late-Validate>
@@ -146,7 +146,7 @@
             <div class="text-center">
                 <a id="cancel" ng-href="{{ previousPageUrl }}" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="(formData.members.length<=0 ||
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="(formData.members.length<=0 || !formData.agencyId ||
                  (groupingType!='individual' && !formData.group && !formData.groupName) ||(groupingType!='individual'&& !presidentSelected))"
                         has-permission='CREATE_PREQUALIFICATIONS'>{{'label.button.validate.blacklist' | translate}}</button>
             </div>
