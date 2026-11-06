@@ -1,4 +1,10 @@
 <div ng-controller="IndividualPrequalificatoinFormController">
+    <div class="loading-overlay" ng-show="isSubmitting">
+        <div class="loading-overlay-content">
+            <i class="fa fa-spinner fa-spin fa-3x"></i>
+            <p>{{'label.button.processing' | translate}}...</p>
+        </div>
+    </div>
     <div>
         <ul class="breadcrumb">
             <li><a href="#/prequalificationsmenu">{{'label.anchor.prequalifications' | translate}}</a></li>
@@ -53,7 +59,7 @@
                         </td>
 
                         <td class="text-center">
-                            <button id="save" class="btn btn-primary" type="submit"><i class="fa fa-plus">
+                            <button id="save" class="btn btn-primary" type="submit" ng-disabled="isSubmitting"><i class="fa fa-plus">
                                 {{'label.button.prequalify' | translate}}</i>
                             </button>
                         </td>
