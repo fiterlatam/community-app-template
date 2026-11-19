@@ -2,6 +2,8 @@
     mifosX.controllers = _.extend(module, {
         ExistingGroupPrequalificatoinController: function (scope, routeParams, route, dateFilter, location, resourceFactory, validationService, http, $uibModal, API_VERSION, $timeout, $rootScope, Upload) {
 
+            // Evita el envío duplicado (doble clic) mientras la petición está en curso
+            scope.isSubmitting = false;
             scope.agenciesList = [];
             scope.portfoliosList = [];
             scope.centersList = [];
@@ -172,6 +174,10 @@
             }
 
             scope.requestPrequalification = function () {
+                if (scope.isSubmitting) {
+                    return;
+                }
+                scope.isSubmitting = true;
                 console.log("submitting form data")
                 this.formData.locale = scope.optlang.code;
                 this.formData.dateFormat = scope.df;
@@ -183,6 +189,8 @@
                 // })
                 resourceFactory.prequalificationResource.save(this.formData, function (data) {
                     location.path('#/prequalificationGroups/group/list');
+                }, function () {
+                    scope.isSubmitting = false;
                 });
             }
 

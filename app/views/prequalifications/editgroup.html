@@ -1,4 +1,10 @@
 <div ng-controller="EditGroupPrequalificatoinController">
+    <div class="loading-overlay" ng-show="isSubmitting">
+        <div class="loading-overlay-content">
+            <i class="fa fa-spinner fa-spin fa-3x"></i>
+            <p>{{'label.button.processing' | translate}}...</p>
+        </div>
+    </div>
     <div>
         <ul class="breadcrumb">
             <li><a ng-href="{{ previousPageUrl }}">{{'label.anchor.prequalifications' | translate}}</a></li>
@@ -152,7 +158,7 @@
             <div class="text-center">
                 <a id="cancel" ng-href="{{ previousPageUrl }}" class="btn btn-default">{{'label.button.cancel' |
                 translate}}</a>
-                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="formData.members.length<=0 || !formData.agencyId || ((groupingType!='individual' && !formData.group && !formData.groupName)?true : false)"
+                <button id="submit" type="submit" class="btn btn-primary" ng-disabled="isSubmitting || formData.members.length<=0 || !formData.agencyId || ((groupingType!='individual' && !formData.group && !formData.groupName)?true : false)"
                         has-permission='UPDATE_PREQUALIFICATIONS'>{{'label.button.validate.blacklist' | translate}}</button>
             </div>
         </fieldset>
