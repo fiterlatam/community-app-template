@@ -9,6 +9,10 @@
             scope.prequalificationType=routeParams.type;
             scope.isIndividual=routeParams.individual;
 
+            if (routeParams.type === 'rejected') {
+                scope.formData.status = 'REJECTED';
+            }
+
             scope.getResultsPage = function (pageNumber) {
                 resourceFactory.prequalificationResource.getAllGroups({
                     offset: ((pageNumber - 1) * scope.groupsPerPage),

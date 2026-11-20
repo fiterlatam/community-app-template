@@ -47,24 +47,32 @@
                     </fieldset>
                     <div class="form-group" ng-repeat="columnHeader in columnHeaders">
                         <label class="control-label col-sm-3">{{ columnHeader.columnName | prettifyDataTableColumn}}
-                            <span ng-show="!columnHeader.isColumnNullable" class="required">*</span>
+                            <span ng-show="!columnHeader.isColumnNullable">*</span>
                         </label>
 
                         <div class="col-sm-3">
                             <input ng-show="fieldType(columnHeader.columnDisplayType) == 'TEXT'" type="text"
                                    ng-model="formData[columnHeader.columnName]" class="form-control"/>
-                            <input ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'" type="text"
-                                   min="minDate" datepicker-pop="dd MMMM yyyy" ng-model="formDat[columnHeader.columnName]"
-                                   is-open="opened{{$index}}" class="form-control"/>
+                            <input ng-show="fieldType(columnHeader.columnDisplayType) == 'DATE'"
+                                    type="text"
+                                    datepicker-pop="dd MMMM yyyy"
+                                    ng-model="formDat[columnHeader.columnName]"
+                                    is-open="opened{{$index}}"
+                                    class="form-control"/>
+
                             <div ng-show="fieldType(columnHeader.columnDisplayType) == 'DATETIME'" class="form-inline">
                                 <div class="form-group">
-                                    <input type="text" datepicker-pop="dd MMMM yyyy"
-                                           ng-model="formDat[columnHeader.columnName].date"
-                                           is-open="opened{{$index}}" class="form-control"/>
+                                    <input type="text"
+                                        datepicker-pop="dd MMMM yyyy"
+                                        ng-model="formDat[columnHeader.columnName].date"
+                                        is-open="opened{{$index}}"
+                                        class="form-control"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="time" placeholder="HH:MM:SS"
-                                           ng-model="formDat[columnHeader.columnName].time" class="form-control"/>
+                                    <input type="text"
+                                        placeholder="HH:mm"
+                                        ng-model="formDat[columnHeader.columnName].time"
+                                        class="form-control"/>
                                 </div>
                             </div>
                             <div ng-show="fieldType(columnHeader.columnDisplayType) == 'BOOLEAN'">

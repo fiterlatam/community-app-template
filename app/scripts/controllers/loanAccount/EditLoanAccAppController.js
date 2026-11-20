@@ -641,13 +641,35 @@
                         }
                     }
                 }
+                if(this.formData.loanAdditionalDataPAE){
+                    this.formData.loanAdditionalDataPAE.caseId = this.formData.caseId;
+                    for (var cartegoryName in scope.formData.loanAdditionalDataPAE) {
+                        if (scope.formData.loanAdditionalDataPAE.hasOwnProperty(cartegoryName)) {
+                            let paeAdditionalCategory = scope.formData.loanAdditionalDataPAE[cartegoryName];
+
+                            for (var propertyName in paeAdditionalCategory) {
+                                if (paeAdditionalCategory.hasOwnProperty(propertyName)) {
+                                    if(scope.isAdditionalDateProperty(propertyName)){
+                                        var propertyValue =  paeAdditionalCategory[propertyName];
+                                        paeAdditionalCategory[propertyName] = dateFilter(propertyValue, scope.df);
+                                    }
+                                }
+                            }
+                            scope.formData.loanAdditionalDataPAE[cartegoryName] = paeAdditionalCategory;
+
+                        }
+                    }
+                }
+
                 resourceFactory.loanResource.put({loanId: routeParams.id}, this.formData, function (data) {
                     location.path('/viewloanaccount/' + data.loanId);
                 });
             };
 
             scope.isAdditionalDateProperty = function (propertyName) {
-                var dateFields = ["fechaInicio", "fecha_inicio_negocio", "cFechaNacimiento", "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin", "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_visita"];
+                var dateFields = ["fechaInicio", "fecha_inicio_negocio", "cFechaNacimiento",
+                    "fechaPrimeraReunion", "dateOpened", "fechaSolicitud", "fecha_solicitud", "fechaFin",
+                    "fecha_estacionalidad", "fecha_inico_operaciones", "fecha_integraciones", "fecha_inventario", "fecha_visita","fechaSupervision"];
                 return dateFields.includes(propertyName);
             }
 
@@ -684,16 +706,20 @@
                         caseId: caseId,
                         locale: scope.optlang.code
                     }, function (data) {
-                        scope.formData.loanAdditionalData = data;
-                        scope.formData.caseId = caseId;
-                        if (scope.formData.loanAdditionalData) {
-                            for (var propertyName in scope.formData.loanAdditionalData) {
-                                if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
-                                    if (scope.isAdditionalDateProperty(propertyName)) {
-                                        var propertyValue = scope.formData.loanAdditionalData[propertyName];
-                                        scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
-                                        if (propertyName === 'dateOpened') {
-                                            scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue.slice(0,3));
+                        if (scope.prequalificationType === 'PAE'){
+                            scope.processPaeAdditionalDataTemplate(data, caseId)
+                        }else {
+                            scope.formData.loanAdditionalData = data;
+                            scope.formData.caseId = caseId;
+                            if (scope.formData.loanAdditionalData) {
+                                for (var propertyName in scope.formData.loanAdditionalData) {
+                                    if (scope.formData.loanAdditionalData.hasOwnProperty(propertyName)) {
+                                        if (scope.isAdditionalDateProperty(propertyName)) {
+                                            var propertyValue = scope.formData.loanAdditionalData[propertyName];
+                                            scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue);
+                                            if (propertyName === 'dateOpened') {
+                                                scope.formData.loanAdditionalData[propertyName] = new Date(propertyValue.slice(0, 3));
+                                            }
                                         }
                                     }
                                 }
@@ -702,6 +728,33 @@
                     });
                 }
             }
+
+            scope.processPaeAdditionalDataTemplate = function (data, caseId){
+                scope.formData.loanAdditionalDataPAE = data;
+                scope.formData.caseId = caseId;
+                if(scope.formData.loanAdditionalDataPAE){
+                    for (var cartegoryName in scope.formData.loanAdditionalDataPAE) {
+                        if (scope.formData.loanAdditionalDataPAE.hasOwnProperty(cartegoryName)) {
+                            let paeAdditionalCategory = scope.formData.loanAdditionalDataPAE[cartegoryName];
+
+                            for (var propertyName in paeAdditionalCategory) {
+                                if (paeAdditionalCategory.hasOwnProperty(propertyName)) {
+                                    if(scope.isAdditionalDateProperty(propertyName)){
+                                        var propertyValue =  paeAdditionalCategory[propertyName];
+                                        paeAdditionalCategory[propertyName] = new Date(propertyValue);
+                                        if (propertyName === 'dateOpened') {
+                                            paeAdditionalCategory[propertyName] = new Date(propertyValue.slice(0,3));
+                                        }
+                                    }
+                                }
+                            }
+                            scope.formData.loanAdditionalDataPAE[cartegoryName] = paeAdditionalCategory;
+
+                        }
+                    }
+                }
+            }
+
 
             scope.fetchAdditinalDataTemplate = function () {
                 resourceFactory.loanResource.get({
