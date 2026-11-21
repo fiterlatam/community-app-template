@@ -10,7 +10,9 @@
                 <strong>'{{clientName}}'</strong>
             </a>
         </li>
-        <li class="active">{{'label.anchor.loanapplication' | translate}}</li>
+        <li class="active" ng-hide="editLoanId">{{'label.anchor.loanapplication' | translate}}</li>
+        <li ng-show="editLoanId"><a href="#/viewloanaccount/{{editLoanId}}"><strong>{{editLoanId}}</strong></a></li>
+        <li class="active" ng-show="editLoanId">{{'label.heading.editloanapplication' | translate}}</li>
     </ul>
     <wizard current-step="step" on-finish="submit(false)" class="card well">
         <wz-step icon="fa fa-circle-o" ng-repeat="datatable in datatables" ng-if="datatable.registeredTableName !== 'p_destino' && datatable.registeredTableName !== 'p_fiador' && datatable.registeredTableName !== 'p_garantia'" wz-title="{{datatable.registeredTableName | translate}}" id="dynamicSteps"
@@ -228,7 +230,7 @@
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
-                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" ng-click="submit(true)">
+                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit" wz-next>
@@ -268,7 +270,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
@@ -336,7 +338,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
@@ -410,7 +412,7 @@
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
-                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" ng-click="submit(true)">
+                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="button" wz-next>
@@ -483,7 +485,7 @@
                     <button class="btn btn-default pull-left" wz-previous>
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
-                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" ng-click="submit(true)">
+                    <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="button" wz-next>
@@ -584,7 +586,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
@@ -812,7 +814,7 @@
                             class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit" ng-hide="disabled">Next&nbsp;&nbsp;<i
@@ -1380,7 +1382,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
@@ -1594,7 +1596,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
@@ -1962,7 +1964,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" has-permission='SAVE_LOAN_DRAFT'
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" disabled>Next&nbsp;&nbsp;
@@ -2088,7 +2090,7 @@
                         <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                     </button>
                     <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'"
-                            ng-click="submit(true)">
+                            ng-click="submit(true)" ng-hide="editLoanId">
                         <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                     </button>
                     <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
@@ -3205,7 +3207,7 @@
                             <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Previous
                         </button>
                         <button class="btn btn-warning" type="button" ng-if="product.ownerTypeOption.value === 'PAE'" has-permission="CREATE_LOAN_APPLICATION_DRAFT"
-                                ng-click="submit(true)">
+                                ng-click="submit(true)" ng-hide="editLoanId">
                             <i class="fa fa-save"></i>&nbsp;&nbsp;{{'label.button.partialsave' | translate}}
                         </button>
                         <button class="btn btn-default pull-right" type="submit">Next&nbsp;&nbsp;
