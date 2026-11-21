@@ -136,6 +136,9 @@
             .when('/continueloanapplicationdraft/:clientId/:draftId', {
                 templateUrl: 'views/loans/newloanaccount.html'
             })
+            .when('/editpaeloanaccount/:clientId/:loanId', {
+                templateUrl: 'views/loans/newloanaccount.html'
+            })
             .when('/newgrouploanaccount/:groupId', {
                 templateUrl: 'views/loans/newloanaccount.html'
             })

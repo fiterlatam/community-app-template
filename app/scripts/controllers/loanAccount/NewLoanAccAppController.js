@@ -4,6 +4,9 @@
             scope.previewRepayment = false;
             scope.clientId = routeParams.clientId;
             scope.draftId = routeParams.draftId;
+            scope.editLoanId = routeParams.loanId;      // modo edición PAE (/editpaeloanaccount/:clientId/:loanId)
+            scope.editOriginalRows = {};
+            scope.editLoanDocs = [];
             scope.draftpayload = {};
             scope.groupId = routeParams.groupId;
             scope.restrictDate = new Date();
@@ -85,7 +88,7 @@
 
             scope.validateAgeLimit = function (productId) {
 
-                if (scope.clientId) {
+                if (scope.clientId && !scope.editLoanId) {
                     resourceFactory.loanAgeLimitResource.validateAge({clientId: routeParams.clientId, productId: productId}, function (data) {
                         if (data.value === 'WARNING') {
                             $uibModal.open({
@@ -171,13 +174,21 @@
                 if (!Array.isArray(currentFormDat)) { currentFormDat = []; }
                 var newData = [];
                 var newFormDat = [];
+                var rowTypeOf = function (r) {
+                    return r && (r.guarantorType_cd_tipo_fiador_tercero != null ? r.guarantorType_cd_tipo_fiador_tercero : r.guarantee_cd_tipo_garantia);
+                };
+                var usedRows = {};
                 for (var i = 0; i < desired.length; i++) {
                     var typeId = desired[i].guarantorTypeId;
-                    var existingRow = currentData[i];
-                    var existingFormDatRow = currentFormDat[i];
-                    var existingTypeId = existingRow && (existingRow.guarantorType_cd_tipo_fiador_tercero != null
-                        ? existingRow.guarantorType_cd_tipo_fiador_tercero
-                        : existingRow.guarantee_cd_tipo_garantia);
+                    // Reutiliza la primera fila existente del mismo tipo (conserva datos e id de fila al editar)
+                    var matchIdx = -1;
+                    for (var r = 0; r < currentData.length; r++) {
+                        if (!usedRows[r] && rowTypeOf(currentData[r]) == typeId) { matchIdx = r; break; }
+                    }
+                    if (matchIdx >= 0) { usedRows[matchIdx] = true; }
+                    var existingRow = matchIdx >= 0 ? currentData[matchIdx] : null;
+                    var existingFormDatRow = matchIdx >= 0 ? currentFormDat[matchIdx] : null;
+                    var existingTypeId = existingRow ? typeId : null;
                     var newFormDatRow;
                     if (existingRow && existingTypeId == typeId) {
                         newData.push(existingRow);
@@ -248,11 +259,18 @@
                 if (!Array.isArray(currentFormDat)) { currentFormDat = []; }
                 var newData = [];
                 var newFormDat = [];
+                var usedRows = {};
                 for (var i = 0; i < desired.length; i++) {
                     var typeId = desired[i].guaranteeTypeId;
-                    var existingRow = currentData[i];
-                    var existingFormDatRow = currentFormDat[i];
-                    var existingTypeId = existingRow && existingRow.guaranteeType_cd_tipo_garantia;
+                    // Reutiliza la primera fila existente del mismo tipo (conserva datos e id de fila al editar)
+                    var matchIdx = -1;
+                    for (var r = 0; r < currentData.length; r++) {
+                        if (!usedRows[r] && currentData[r] && currentData[r].guaranteeType_cd_tipo_garantia == typeId) { matchIdx = r; break; }
+                    }
+                    if (matchIdx >= 0) { usedRows[matchIdx] = true; }
+                    var existingRow = matchIdx >= 0 ? currentData[matchIdx] : null;
+                    var existingFormDatRow = matchIdx >= 0 ? currentFormDat[matchIdx] : null;
+                    var existingTypeId = existingRow ? typeId : null;
                     var newFormDatRow;
                     if (existingRow && existingTypeId == typeId) {
                         newData.push(existingRow);
@@ -544,6 +562,9 @@
                         }
                     });
                     $timeout(function () {
+                        if (scope.editLoanId) {
+                            scope.applyEditGuarantees();
+                        }
                         scope.syncPFiadorFromGuaranteeEvaluation();
                         scope.syncPGaranteFromGuaranteeEvaluation();
                     }, 0);
@@ -1318,6 +1339,11 @@
                         return;
                     }
 
+                    if (scope.editLoanId) {
+                        scope.saveEditedLoan();
+                        return;
+                    }
+
                     if (scope.draftId) {
                         this.formData.draftId = scope.draftId;
                     }
@@ -1431,9 +1457,11 @@
                                         if (scope.paeRequiredGuaranteeDocuments[key] && scope.paeRequiredGuaranteeDocuments[key][j]) {
                                             guaranteeDocFile = scope.paeRequiredGuaranteeDocuments[key][j];
                                         }
-                                        if (scope.draftId) {
+                                        if (scope.draftId || scope.editLoanId) {
+                                            // En edición, un archivo nuevo seleccionado también cuenta (se sube al guardar)
+                                            var hasNewFile = !!(scope.editLoanId && guaranteeDocFile && guaranteeDocFile.file);
 
-                                            if (requiredDoc.required && !isPaeDraftSlotOnServer(requiredDoc.id, j + 1)) {
+                                            if (requiredDoc.required && !hasNewFile && !isPaeDraftSlotOnServer(requiredDoc.id, j + 1)) {
                                                 alert('Required guarantee document is not uploaded for guarantee no. ' + (j + 1) + ': ' + requiredDoc.documentName);
                                                 return false;
                                             }
@@ -1537,7 +1565,9 @@
            }
 
             scope.cancel = function () {
-                if (scope.groupId) {
+                if (scope.editLoanId) {
+                    location.path('/viewloanaccount/' + scope.editLoanId);
+                } else if (scope.groupId) {
                     location.path('/viewgroup/' + scope.groupId);
                 } else if (scope.clientId) {
                     location.path('/viewclient/' + scope.clientId);
@@ -2329,6 +2359,255 @@
             };
 
 
+
+            // =====================================================================
+            // Modo edición PAE: reutiliza el wizard (y la hidratación del draft)
+            // para editar una solicitud ya creada. Ruta: /editpaeloanaccount/:clientId/:loanId
+            // Guarda con endpoints existentes: PUT /loans/{id} + /datatables/{tabla}/{loanId}[/{rowId}]
+            // =====================================================================
+
+            function parseApiDate(value) {
+                if (value === null || value === undefined || value === '') { return null; }
+                if (value instanceof Date) { return value; }
+                if (Array.isArray(value)) {
+                    return new Date(value[0], (value[1] || 1) - 1, value[2] || 1, value[3] || 0, value[4] || 0, value[5] || 0);
+                }
+                if (typeof value === 'number') { return new Date(value); }
+                var m = String(value).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/);
+                if (m) {
+                    return new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0));
+                }
+                return toDate(String(value), scope.df, scope.optlang && scope.optlang.code);
+            }
+
+            function loadEditDatatableRows(loanId) {
+                return new Promise(function (resolve) {
+                    resourceFactory.DataTablesResource.getAllDataTables({apptable: 'm_loan'}, function (tables) {
+                        var names = (tables || []).map(function (t) { return t.registeredTableName; });
+                        var pending = names.length;
+                        var result = [];
+                        if (!pending) { resolve(result); return; }
+                        names.forEach(function (name) {
+                            resourceFactory.DataTablesResource.getTableDetails({
+                                datatablename: name, entityId: loanId, genericResultSet: 'true'
+                            }, function (rs) {
+                                var headers = rs.columnHeaders || [];
+                                var isMultiple = headers.some(function (h) { return h.columnName === 'id' && h.isColumnPrimaryKey; });
+                                var rows = (rs.data || []).map(function (r) {
+                                    var row = {locale: scope.optlang.code};
+                                    headers.forEach(function (h, i) {
+                                        var v = r.row[i];
+                                        if (h.columnName === 'loan_id') { return; }
+                                        if (h.columnDisplayType === 'DATE') {
+                                            v = parseApiDate(v);
+                                        } else if (h.columnDisplayType === 'DATETIME') {
+                                            var d = parseApiDate(v);
+                                            v = d ? {date: d, time: new Date(d.getTime())} : null;
+                                        } else if (h.columnDisplayType === 'BOOLEAN' && v !== null && v !== undefined) {
+                                            v = String(v === true || v === 'true' || v === 1 || v === '1');
+                                        }
+                                        row[h.columnName] = v;
+                                    });
+                                    return row;
+                                });
+                                scope.editOriginalRows[name] = isMultiple
+                                    ? {multiple: true, ids: rows.map(function (r) { return r.id; })}
+                                    : {multiple: false, exists: rows.length > 0};
+                                result.push({registeredTableName: name, data: isMultiple ? rows : (rows[0] || {locale: scope.optlang.code})});
+                                if (--pending === 0) { resolve(result); }
+                            }, function () {
+                                if (--pending === 0) { resolve(result); }
+                            });
+                        });
+                    }, function () { resolve([]); });
+                });
+            }
+
+            scope.loadLoanForEdit = function (loanId) {
+                resourceFactory.loanResource.get({loanId: loanId, associations: 'charges,collateral'}, function (loan) {
+                    var tl = loan.timeline || {};
+                    var payload = {
+                        clientId: scope.clientId,
+                        prequalificationId: loan.prequalificationId,
+                        productId: loan.loanProductId,
+                        principal: loan.principal,
+                        loanTermFrequency: loan.termFrequency,
+                        loanTermFrequencyType: loan.termPeriodFrequencyType && loan.termPeriodFrequencyType.id,
+                        numberOfRepayments: loan.numberOfRepayments,
+                        repaymentEvery: loan.repaymentEvery,
+                        repaymentFrequencyType: loan.repaymentFrequencyType && loan.repaymentFrequencyType.id,
+                        interestRatePerPeriod: loan.interestRatePerPeriod,
+                        amortizationType: loan.amortizationType && loan.amortizationType.id,
+                        isEqualAmortization: loan.isEqualAmortization,
+                        interestType: loan.interestType && loan.interestType.id,
+                        interestCalculationPeriodType: loan.interestCalculationPeriodType && loan.interestCalculationPeriodType.id,
+                        allowPartialPeriodInterestCalcualtion: loan.allowPartialPeriodInterestCalcualtion,
+                        transactionProcessingStrategyId: loan.transactionProcessingStrategyId,
+                        loanPurposeId: loan.loanPurposeId,
+                        fundId: loan.fundId,
+                        loanOfficerId: loan.loanOfficerId,
+                        externalId: loan.externalId,
+                        graceOnPrincipalPayment: loan.graceOnPrincipalPayment,
+                        graceOnInterestPayment: loan.graceOnInterestPayment,
+                        graceOnArrearsAgeing: loan.graceOnArrearsAgeing,
+                        submittedOnDate: parseApiDate(tl.submittedOnDate),
+                        expectedDisbursementDate: parseApiDate(tl.expectedDisbursementDate),
+                        repaymentsStartingFromDate: parseApiDate(loan.expectedFirstRepaymentOnDate),
+                        interestChargedFromDate: parseApiDate(loan.interestChargedFromDate),
+                        dateRequested: parseApiDate(tl.submittedOnDate),
+                        charges: (loan.charges || []).map(function (c) {
+                            return {chargeId: c.chargeId, amount: c.amount, dueDate: parseApiDate(c.dueDate)};
+                        })
+                    };
+                    if (loan.loanAdditionalDataPAE) {
+                        payload.loanAdditionalDataPAE = loan.loanAdditionalDataPAE;
+                        payload.caseId = loan.loanAdditionalDataPAE.caseId;
+                    }
+                    resourceFactory.entityDocumentsResource.getAllDocuments({entity: 'paeloandocs', entityId: loanId}, function (docs) {
+                        scope.editLoanDocs = docs || [];
+                    });
+                    loadEditDatatableRows(loanId).then(function (datatables) {
+                        payload.datatables = datatables;
+                        scope.draftPayload = payload;
+                        scope.formData.productId = payload.productId;
+                        scope.formData.prequalificationId = payload.prequalificationId;
+                        scope.prequalificationChange(payload.prequalificationId);
+                    });
+                });
+            };
+
+            /** Reconstruye "Guarantee evaluation" (tipos y cantidades) y liga los documentos ya cargados a su casilla. */
+            scope.applyEditGuarantees = function () {
+                if (!scope.paeRequiredGuaranteeOptions) { return; }
+                var norm = function (s) { return (s || '').toString().toLowerCase().trim(); };
+                var labelsOf = function (datatable, dtIndex, columnName) {
+                    if (!datatable || dtIndex == null || !scope.formData.datatables[dtIndex]) { return []; }
+                    var col = (datatable.columnHeaderData || []).find(function (c) { return c.columnName === columnName; });
+                    var rows = scope.formData.datatables[dtIndex].data || [];
+                    return rows.map(function (r) {
+                        var opt = col && (col.columnValues || []).find(function (v) { return v.id == r[columnName]; });
+                        return opt ? norm(opt.value) : null;
+                    });
+                };
+                var fiadorTypes = labelsOf(scope.fiadorDatatable, scope.fiadorDatatableIndex, 'guarantorType_cd_tipo_fiador_tercero');
+                var garantiaTypes = labelsOf(scope.garanteDatatable, scope.garanteDatatableIndex, 'guaranteeType_cd_tipo_garantia');
+                var docs = scope.editLoanDocs || [];
+
+                scope.paeRequiredGuaranteeOptions.forEach(function (option) {
+                    var name = norm(option.name);
+                    var rowsCount = fiadorTypes.filter(function (t) { return t === name; }).length
+                        + garantiaTypes.filter(function (t) { return t === name; }).length;
+                    var docMax = 0;
+                    docs.forEach(function (d) {
+                        if (String(d.documentType) === String(option.id)) {
+                            docMax = Math.max(docMax, parseInt(d.documentPurpose, 10) || 1);
+                        }
+                    });
+                    var qty = Math.max(rowsCount, docMax);
+                    if (option.locked) { qty = Math.max(qty, 1); }
+                    if (qty > 0) {
+                        option.selected = true;
+                        option.quantity = qty;
+                    }
+                });
+
+                docs.forEach(function (d) {
+                    var option = scope.paeRequiredGuaranteeOptions.find(function (o) { return String(o.id) === String(d.documentType); });
+                    if (!option || !option.extraData) { return; }
+                    var requiredDoc = option.extraData.find(function (r) { return norm(r.documentName) === norm(d.name); });
+                    if (!requiredDoc) { return; }
+                    var key = 'GUARANTEEDOC_' + requiredDoc.id;
+                    var idx = (parseInt(d.documentPurpose, 10) || 1) - 1;
+                    if (!scope.paeRequiredGuaranteeDocuments[key]) { scope.paeRequiredGuaranteeDocuments[key] = []; }
+                    scope.paeRequiredGuaranteeDocuments[key][idx] = {
+                        name: d.name,
+                        description: d.description,
+                        documentId: d.id,
+                        fileName: d.fileName,
+                        categoryId: option.id,
+                        docUrl: API_VERSION + '/paeloandocs/' + scope.editLoanId + '/documents/' + d.id + '/attachment?tenantIdentifier=' + $rootScope.tenantIdentifier,
+                        uploadedToServer: true
+                    };
+                });
+                scope.requiresGuaranteeDocs();
+            };
+
+            function cleanDatatableRow(row) {
+                var copy = angular.copy(row);
+                delete copy.id;
+                delete copy.loan_id;
+                delete copy.$$hashKey;
+                copy.locale = copy.locale || scope.optlang.code;
+                copy.dateFormat = copy.dateFormat || (scope.df + ' ' + scope.tf);
+                return copy;
+            }
+
+            function dtCall(method, params, body) {
+                return new Promise(function (resolve, reject) {
+                    var res = resourceFactory.DataTablesResource;
+                    var ok = function (r) { resolve(r); }, ko = function (e) { reject(e); };
+                    if (method === 'PUT') { res.update(params, body, ok, ko); }
+                    else if (method === 'POST') { res.save(params, body, ok, ko); }
+                    else { res.delete(params, ok, ko); }
+                });
+            }
+
+            scope.saveEditedDatatables = function () {
+                var loanId = scope.editLoanId;
+                var calls = [];
+                angular.forEach(scope.datatables, function (datatable, index) {
+                    var name = datatable.registeredTableName;
+                    var entry = scope.formData.datatables[index];
+                    if (!entry) { return; }
+                    var original = scope.editOriginalRows[name] || {multiple: datatable._isMultiple, ids: [], exists: false};
+                    if (datatable._isMultiple) {
+                        var rows = Array.isArray(entry.data) ? entry.data : [];
+                        var keptIds = [];
+                        rows.forEach(function (row) {
+                            if (row.id) {
+                                keptIds.push(row.id);
+                                calls.push(dtCall('PUT', {datatablename: name, entityId: loanId, resourceId: row.id}, cleanDatatableRow(row)));
+                            } else {
+                                calls.push(dtCall('POST', {datatablename: name, entityId: loanId}, cleanDatatableRow(row)));
+                            }
+                        });
+                        (original.ids || []).forEach(function (id) {
+                            if (keptIds.indexOf(id) < 0) {
+                                calls.push(dtCall('DELETE', {datatablename: name, entityId: loanId, resourceId: id}));
+                            }
+                        });
+                    } else if (entry.data && typeof entry.data === 'object') {
+                        calls.push(dtCall(original.exists ? 'PUT' : 'POST', {datatablename: name, entityId: loanId}, cleanDatatableRow(entry.data)));
+                    }
+                });
+                return Promise.all(calls);
+            };
+
+            scope.saveEditedLoan = function () {
+                var loanId = scope.editLoanId;
+                var payload = angular.copy(scope.formData);
+                delete payload.datatables;
+                delete payload.draftId;
+                delete payload.loanDocuments;
+                delete payload.paeRequiredGuaranteeOptions;
+                delete payload.paeRequiredGuaranteeDocuments;
+                delete payload.documents;
+                delete payload.paeDocuments;
+                resourceFactory.loanResource.put({loanId: loanId}, payload, function () {
+                    scope.saveEditedDatatables().then(function () {
+                        scope.uploadDocuments(loanId);
+                        scope.uploadPaeDocuments(loanId);
+                        $timeout(function () { location.path('/viewloanaccount/' + loanId); });
+                    }, function (error) {
+                        console.error('Error al guardar los datatables del crédito PAE', error);
+                    });
+                });
+            };
+
+            if (scope.editLoanId) {
+                scope.loadLoanForEdit(scope.editLoanId);
+            }
+
             if (scope.draftId) {
                 resourceFactory.loanApplicationDraftResource.get(
                     { draftId: routeParams.draftId },
@@ -2417,7 +2696,12 @@
             function hydrateDraft(payload) {
                 if (!payload) return;
 
-                angular.merge(scope.formData, payload);
+                var mergeSource = payload;
+                if (scope.editLoanId) {
+                    mergeSource = angular.copy(payload);
+                    delete mergeSource.datatables;   // ya se fusionaron por nombre en loanProductChange
+                }
+                angular.merge(scope.formData, mergeSource);
 
                 delete scope.formData.loanDocuments;
                 delete scope.formData.paeRequiredGuaranteeOptions;

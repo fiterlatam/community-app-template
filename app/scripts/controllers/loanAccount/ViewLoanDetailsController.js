@@ -45,7 +45,12 @@
                         location.path('/assignloanofficer/' + accountId);
                         break;
                     case "modifyapplication":
-                        location.path('/editloanaccount/' + accountId);
+                        if (scope.prequalificationType === 'PAE' && scope.loandetails.clientId) {
+                            // Solicitudes PAE: se editan con el mismo wizard del alta
+                            location.path('/editpaeloanaccount/' + scope.loandetails.clientId + '/' + accountId);
+                        } else {
+                            location.path('/editloanaccount/' + accountId);
+                        }
                         break;
                     case "approve":
                         location.path('/loanaccount/' + accountId + '/approve');
